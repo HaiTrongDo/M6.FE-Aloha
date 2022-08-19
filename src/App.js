@@ -1,11 +1,18 @@
 import './App.css';
+import {store} from './store';
+import {Provider} from 'react-redux';
+import {Routes, Route} from 'react-router-dom';
 
 function App() {
-  return (
-    <div className="App">
-<h1>it is working</h1>
-    </div>
-  );
+    return (
+        <Provider store={store}>
+            <div className="App">
+                <Routes>
+                    <Route/>
+                </Routes>
+            </div>
+        </Provider>
+    );
 }
 
 export default App;
