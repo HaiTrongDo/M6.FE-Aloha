@@ -1,25 +1,19 @@
 import Toolbar from "@mui/material/Toolbar";
 import IconButton from "@mui/material/IconButton";
 import Typography from "@mui/material/Typography";
-import Badge from "@mui/material/Badge";
-import NotificationsIcon from "@mui/icons-material/Notifications";
 import * as React from "react";
 import MuiAppBar from "@mui/material/AppBar";
 import {styled, alpha} from '@mui/material/styles';
 import Button from '@mui/material/Button';
 import Menu from '@mui/material/Menu';
 import MenuItem from '@mui/material/MenuItem';
-import EditIcon from '@mui/icons-material/Edit';
 import Divider from '@mui/material/Divider';
-import ArchiveIcon from '@mui/icons-material/Archive';
-import FileCopyIcon from '@mui/icons-material/FileCopy';
-import MoreHorizIcon from '@mui/icons-material/MoreHoriz';
 import KeyboardArrowDownIcon from '@mui/icons-material/KeyboardArrowDown';
 import LanguageIcon from '@mui/icons-material/Language';
 import AccountBalanceWalletIcon from '@mui/icons-material/AccountBalanceWallet';
 import MenuTwoToneIcon from '@mui/icons-material/MenuTwoTone';
 import {useDispatch, useSelector} from "react-redux";
-import {addClick} from "../../Features/SidebarOpenSlice/clickSlice";
+import {addClick} from "../Features/SidebarOpenSlice/clickSlice";
 
 const drawerWidth = 240;
 const AppBar = styled(MuiAppBar, {
@@ -85,15 +79,6 @@ const StyledMenu = styled((props) => (
 function NavBar({children}) {
     const dispatch = useDispatch()
     const open = useSelector((state) => state.Layout.value)
-    // const [open, setOpen] = React.useState(false);
-    const toggleDrawer = () => {
-        dispatch(
-            addClick(
-                !open
-            )
-        )
-        // setOpen(!open);
-    };
 
     // thanh dropDow
     const [anchorEl, setAnchorEl] = React.useState(null);
@@ -117,7 +102,7 @@ function NavBar({children}) {
                     edge="start"
                     color="inherit"
                     aria-label="open drawer"
-                    onClick={toggleDrawer}
+                    onClick={() => {dispatch(addClick(!open))}}
                     sx={{
                         marginRight: '100px',
                         ...(open && {display: 'none'}),

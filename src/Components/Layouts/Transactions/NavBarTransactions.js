@@ -1,4 +1,4 @@
-import NavBar from "../NavBar";
+import NavBar from "../../NavBar";
 import CalendarMonthIcon from '@mui/icons-material/CalendarMonth';
 import IconButton from "@mui/material/IconButton";
 import RemoveRedEyeIcon from '@mui/icons-material/RemoveRedEye';

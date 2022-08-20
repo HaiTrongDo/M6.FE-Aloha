@@ -4,7 +4,7 @@ import {Provider} from 'react-redux';
 import {Routes, Route} from 'react-router-dom';
 import UserHomePage from "./Pages/UserHomePage/UserHomePage";
 import UserReportPage from "./Pages/UserReportPage/UserReportPage";
-import BudgetLayout from "./Components/Layouts/Budget/BudgetLayout";
+import UserBudgetPage from "./Pages/UserBudgetPage/UserBudgetPage";
 
 function App() {
     return (
@@ -13,7 +13,7 @@ function App() {
                 <Routes>
                     <Route path={`${process.env.PUBLIC_URL}/`} element={<UserHomePage />} />
                     <Route path={`${process.env.PUBLIC_URL}/report`} element={<UserReportPage />} />
-                    <Route path={`${process.env.PUBLIC_URL}/budget`} element={<BudgetLayout />} />
+                    <Route path={`${process.env.PUBLIC_URL}/budget`} element={<UserBudgetPage />} />
                     <Route path={`${process.env.PUBLIC_URL}/my-wallets`} element={<UserHomePage />} />
                     <Route path={`${process.env.PUBLIC_URL}/my-account`} element={<UserHomePage />} />
                     <Route path={`${process.env.PUBLIC_URL}/categories`} element={<UserHomePage />} />

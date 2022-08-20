@@ -1,12 +1,13 @@
-import TransactionsLayout from "../../Components/Layouts/Transactions/TransactionsLayout";
+
 import './UserReportPage.css'
+import ReportLayout from "../../Components/Layouts/Report/ReportLayout";
 
 const UserReportPage = () => {
     return (
         <div>
-            <TransactionsLayout>
+            <ReportLayout>
 
-            </TransactionsLayout>
+            </ReportLayout>
         </div>
     );
 };
