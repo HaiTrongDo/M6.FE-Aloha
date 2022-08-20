@@ -20,7 +20,7 @@ import NotificationsIcon from '@mui/icons-material/Notifications';
 import MainListItems from '../listItems';
 
 import {useDispatch, useSelector} from 'react-redux'
-import {addClick} from "../clickSlice";
+import {addClick} from "../../../Features/SidebarOpenSlice/clickSlice";
 import NavBarBudget from "./NavBarBudget";
 
 

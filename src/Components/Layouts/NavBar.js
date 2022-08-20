@@ -5,7 +5,7 @@ import Badge from "@mui/material/Badge";
 import NotificationsIcon from "@mui/icons-material/Notifications";
 import * as React from "react";
 import MuiAppBar from "@mui/material/AppBar";
-import { styled, alpha } from '@mui/material/styles';
+import {styled, alpha} from '@mui/material/styles';
 import Button from '@mui/material/Button';
 import Menu from '@mui/material/Menu';
 import MenuItem from '@mui/material/MenuItem';
@@ -19,7 +19,7 @@ import LanguageIcon from '@mui/icons-material/Language';
 import AccountBalanceWalletIcon from '@mui/icons-material/AccountBalanceWallet';
 import MenuTwoToneIcon from '@mui/icons-material/MenuTwoTone';
 import {useDispatch, useSelector} from "react-redux";
-import {addClick} from "./clickSlice";
+import {addClick} from "../../Features/SidebarOpenSlice/clickSlice";
 
 const drawerWidth = 240;
 const AppBar = styled(MuiAppBar, {
@@ -54,7 +54,7 @@ const StyledMenu = styled((props) => (
         }}
         {...props}
     />
-))(({ theme }) => ({
+))(({theme}) => ({
     '& .MuiPaper-root': {
         borderRadius: 6,
         marginTop: theme.spacing(1),
@@ -84,7 +84,7 @@ const StyledMenu = styled((props) => (
 
 function NavBar({children}) {
     const dispatch = useDispatch()
-    const open = useSelector((state)=>state.Layout.value)
+    const open = useSelector((state) => state.Layout.value)
     // const [open, setOpen] = React.useState(false);
     const toggleDrawer = () => {
         dispatch(
@@ -108,7 +108,8 @@ function NavBar({children}) {
     return (
         <AppBar position="absolute" open={open}>
             <Toolbar
-                sx={{ bgcolor: 'white',
+                sx={{
+                    bgcolor: 'white',
                     pr: '24px', // keep right padding when drawer closed
                 }}
             >
@@ -134,7 +135,7 @@ function NavBar({children}) {
                         variant="contained"
                         disableElevation
                         onClick={handleClick}
-                        endIcon={<KeyboardArrowDownIcon />}
+                        endIcon={<KeyboardArrowDownIcon/>}
                     >
                         Total
                     </Button>
@@ -148,11 +149,11 @@ function NavBar({children}) {
                         onClose={handleClose}
                     >
                         <MenuItem onClick={handleClose} disableRipple>
-                            <LanguageIcon />
+                            <LanguageIcon/>
                             Total
                         </MenuItem>
 
-                        <Divider sx={{ my: 0.5 }} />
+                        <Divider sx={{my: 0.5}}/>
                         <MenuItem onClick={handleClose} disableRipple>
                             <AccountBalanceWalletIcon/>
                             Thangbui
@@ -160,8 +161,6 @@ function NavBar({children}) {
 
                     </StyledMenu>
                 </IconButton>
-
-
                 <Typography
                     component="h1"
                     variant="h6"
