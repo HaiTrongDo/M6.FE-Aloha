@@ -20,7 +20,6 @@ const NavBarTransactions = () => {
                 <IconButton>
                     <SearchIcon/>
                 </IconButton>
-
                 <Button color="success" variant="contained">ADD TRANSACTION</Button>
             </NavBar>
         </div>

@@ -17,11 +17,12 @@ import Link from '@mui/material/Link';
 import MenuIcon from '@mui/icons-material/Menu';
 import ChevronLeftIcon from '@mui/icons-material/ChevronLeft';
 import NotificationsIcon from '@mui/icons-material/Notifications';
-import {mainListItems, secondaryListItems} from '../listItems';
+
 
 import {useDispatch, useSelector} from 'react-redux'
 import {addClick} from "../clickSlice";
 import NavBarTransactions from "./NavBarTransactions";
+import MainListItems from '../listItems';
 
 
 const drawerWidth = 240;
@@ -89,9 +90,8 @@ function TransactionsLayout({children}) {
                     </Toolbar>
                     <Divider/>
                     <List component="nav">
-                        {mainListItems}
-                        <Divider sx={{my: 1}}/>
-                        {secondaryListItems}
+                    <MainListItems/>
+                   
                     </List>
                 </Drawer>
                 <Box
@@ -107,7 +107,7 @@ function TransactionsLayout({children}) {
                     }}
                 >
                     <Toolbar/>
-                    <Container maxWidth="lg" sx={{mt: 4, mb: 4}}>
+                    <Container maxWidth="lg" sx={{mt: 4, mb: 4}}  className="justify-center container">
                         {children}
                     </Container>
                 </Box>
