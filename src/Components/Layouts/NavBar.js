@@ -126,7 +126,7 @@ function NavBar({children}) {
                     <MenuTwoToneIcon sx={{bgcolor: '#757575'}}/>
                 </IconButton>
 
-                <IconButton>
+                {/*<IconButton>*/}
                     <Button
                         id="demo-customized-button"
                         aria-controls={opens ? 'demo-customized-menu' : undefined}
@@ -160,7 +160,7 @@ function NavBar({children}) {
                         </MenuItem>
 
                     </StyledMenu>
-                </IconButton>
+                {/*</IconButton>*/}
                 <Typography
                     component="h1"
                     variant="h6"
