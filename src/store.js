@@ -1,5 +1,5 @@
 import {configureStore} from '@reduxjs/toolkit'
-import clickSlide from './components/layout/clickSlice'
+import clickSlide from './Features/SidebarOpenSlice/clickSlice'
 
 const store = configureStore({
     reducer:{

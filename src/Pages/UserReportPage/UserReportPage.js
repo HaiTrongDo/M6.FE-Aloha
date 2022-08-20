@@ -1,4 +1,4 @@
-import TransactionsLayout from "../../components/layout/Transactions/TransactionsLayout";
+import TransactionsLayout from "../../Components/Layouts/Transactions/TransactionsLayout";
 import './UserReportPage.css'
 
 const UserReportPage = () => {

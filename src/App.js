@@ -2,9 +2,9 @@ import './App.css';
 import store from './store';
 import {Provider} from 'react-redux';
 import {Routes, Route} from 'react-router-dom';
-import UserHomePage from "./pages/UserHomePage/UserHomePage";
-import UserReportPage from "./pages/UserReportPage/UserReportPage";
-import BudgetLayout from "./components/layout/Budget/BudgetLayout";
+import UserHomePage from "./Pages/UserHomePage/UserHomePage";
+import UserReportPage from "./Pages/UserReportPage/UserReportPage";
+import BudgetLayout from "./Components/Layouts/Budget/BudgetLayout";
 
 function App() {
     return (
