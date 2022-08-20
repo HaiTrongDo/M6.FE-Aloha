@@ -10,72 +10,88 @@ import LocalGroceryStoreIcon from '@mui/icons-material/LocalGroceryStore';
 import HelpIcon from '@mui/icons-material/Help';
 import PersonIcon from '@mui/icons-material/Person';
 import CategoryIcon from '@mui/icons-material/Category';
+import { useNavigate } from "react-router-dom";
 
-
-export const mainListItems = (
+const MainListItems = ()=>{ 
+    let navigate = useNavigate();
+    return (<>
     <React.Fragment>
-        <ListItemButton href='/'>
+        <ListItemButton 
+        onClick={()=>navigate('/')}>
             <ListItemIcon>
                 <AccountBalanceWalletIcon />
             </ListItemIcon>
             <ListItemText primary="Transactions" />
         </ListItemButton>
 
-        <ListItemButton href='/add'>
+        <ListItemButton 
+        onClick={()=>navigate('/report')}
+        >
             <ListItemIcon>
                 <CollectionsBookmarkIcon  />
             </ListItemIcon>
             <ListItemText primary="Report"/>
         </ListItemButton>
 
-        <ListItemButton>
+        <ListItemButton 
+        onClick={()=>navigate('/budget')}>
             <ListItemIcon>
                 <PeopleIcon />
             </ListItemIcon>
             <ListItemText primary="Budget" />
         </ListItemButton>
 
-        <ListItemButton>
+        <ListItemButton
+        onClick={()=>navigate('/store')}
+        >
             <ListItemIcon>
                 <LocalGroceryStoreIcon />
             </ListItemIcon>
             <ListItemText primary="Store" />
         </ListItemButton>
 
-        <ListItemButton>
+        <ListItemButton
+        onClick={()=>navigate('/help')}
+        >
             <ListItemIcon>
                 <HelpIcon />
             </ListItemIcon>
             <ListItemText primary="Help" />
         </ListItemButton>
-
     </React.Fragment>
-);
-
-export const secondaryListItems = (
+    <hr/>
     <React.Fragment>
         <ListSubheader component="div" inset>
-            Saved reports
+            Account
         </ListSubheader>
-        <ListItemButton>
+        <ListItemButton
+        onClick={()=>navigate("/my-account")}
+        >
             <ListItemIcon>
                 <PersonIcon  />
             </ListItemIcon>
             <ListItemText primary="My Account" />
         </ListItemButton>
 
-        <ListItemButton>
+        <ListItemButton
+                onClick={()=>navigate("/my-wallets")}
+        >
             <ListItemIcon>
                 <AccountBalanceWalletIcon />
             </ListItemIcon>
             <ListItemText primary="My Wallets" />
         </ListItemButton>
 
-        <ListItemButton>
+        <ListItemButton
+        onClick={()=>navigate("/categories")}
+        >
             <ListItemIcon>
                 <CategoryIcon />
             </ListItemIcon>
             <ListItemText primary="Categories" />
         </ListItemButton>
     </React.Fragment>
-);
+    </>
+)};
+
+export default MainListItems;

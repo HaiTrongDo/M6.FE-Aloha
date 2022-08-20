@@ -8,31 +8,16 @@ import List from '@mui/material/List';
 import Typography from '@mui/material/Typography';
 import Divider from '@mui/material/Divider';
 import IconButton from '@mui/material/IconButton';
-import Container from '@mui/material/Container';
 import Link from '@mui/material/Link';
 import ChevronLeftIcon from '@mui/icons-material/ChevronLeft';
-import {mainListItems, secondaryListItems} from './listItems';
+import MainListItems from '../listItems';
 import NavBar from "./NavBar";
 import {useDispatch, useSelector} from 'react-redux'
 import {addClick} from "./clickSlice";
+import Container from "@mui/material/Container";
 
-
-function Copyright(props) {
-    return (
-        <Typography variant="body2" color="text.secondary" align="center" {...props}>
-            {'Copyright © '}
-            <Link color="inherit" href="https://mui.com/">
-                Your Website
-            </Link>{' '}
-            {new Date().getFullYear()}
-            {'.'}
-        </Typography>
-    );
-}
 
 const drawerWidth = 240;
-
-
 
 const Drawer = styled(MuiDrawer, {shouldForwardProp: (prop) => prop !== 'open'})(
     ({theme, open}) => ({
@@ -95,12 +80,11 @@ function DashboardContent({children}) {
                     </Toolbar>
                     <Divider/>
                     <List component="nav">
-                        {mainListItems}
-                        <Divider sx={{my: 1}}/>
-                        {secondaryListItems}
+                    <MainListItems/>
+              
                     </List>
                 </Drawer>
-                <Box
+                 <Box
                     component="main"
                     sx={{
                         backgroundColor: (theme) =>
