@@ -39,7 +39,7 @@ const Drawer = styled(MuiDrawer, {shouldForwardProp: (prop) => prop !== 'open'})
 
 function SideBar() {
     const dispatch = useDispatch()
-    const open = useSelector((state)=>state.Layout.value)
+    const open = useSelector((state) => state.Layout.value)
     return <Drawer variant="permanent" open={open}>
         <Toolbar
             sx={{
@@ -49,7 +49,9 @@ function SideBar() {
                 px: [1],
             }}
         >
-            <IconButton onClick={()=>{dispatch(addClick(!open))}}>
+            <IconButton onClick={() => {
+                dispatch(addClick(!open))
+            }}>
                 <ChevronLeftIcon/>
             </IconButton>
         </Toolbar>

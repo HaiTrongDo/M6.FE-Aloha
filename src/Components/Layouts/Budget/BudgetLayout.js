@@ -1,9 +1,8 @@
 import * as React from 'react';
-import { createTheme, ThemeProvider} from '@mui/material/styles';
+import {createTheme, ThemeProvider} from '@mui/material/styles';
 import CssBaseline from '@mui/material/CssBaseline';
 import Box from '@mui/material/Box';
 import Toolbar from '@mui/material/Toolbar';
-import Container from '@mui/material/Container';
 import NavBarBudget from "./NavBarBudget";
 import SideBar from "../../SideBar";
 
@@ -30,9 +29,9 @@ function BudgetLayout({children}) {
                     }}
                 >
                     <Toolbar/>
-                    <Container maxWidth="lg" sx={{mt: 4, mb: 4}}>
+                    <div className=" flex container justify-center ">
                         {children}
-                    </Container>
+                    </div>
                 </Box>
             </Box>
         </ThemeProvider>
