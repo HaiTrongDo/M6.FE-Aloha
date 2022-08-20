@@ -104,12 +104,12 @@ function TransactionsLayout({children}) {
                         flexGrow: 1,
                         height: '100vh',
                         overflow: 'auto',
-                    }}
+                    }}s
                 >
                     <Toolbar/>
-                    <Container maxWidth="lg" sx={{mt: 4, mb: 4}}  className="justify-center container">
+                    <div className=" flex container justify-center ">
                         {children}
-                    </Container>
+                    </div>
                 </Box>
             </Box>
         </ThemeProvider>

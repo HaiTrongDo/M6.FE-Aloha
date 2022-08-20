@@ -11,16 +11,16 @@ function App() {
         <Provider store={store}>
             <div className="App">
                 <Routes>
-                    <Route path="/" element={<UserHomePage />} />
-                    <Route path="/report" element={<UserReportPage />} />
-                    <Route path="/budget" element={<BudgetLayout />} />
-                    <Route path="/my-wallets" element={<UserHomePage />} />
-                    <Route path="/my-account" element={<UserHomePage />} />
-                    <Route path="/categories" element={<UserHomePage />} />
-                    <Route path="/category" element={<UserHomePage />} />
-                    <Route path="/search" element={<UserHomePage />} />
-                    <Route path="/store" element={<UserHomePage />} />
-                    <Route path="/help" element={<UserHomePage />} />
+                    <Route path={`${process.env.PUBLIC_URL}/`} element={<UserHomePage />} />
+                    <Route path={`${process.env.PUBLIC_URL}/report`} element={<UserReportPage />} />
+                    <Route path={`${process.env.PUBLIC_URL}/budget`} element={<BudgetLayout />} />
+                    <Route path={`${process.env.PUBLIC_URL}/my-wallets`} element={<UserHomePage />} />
+                    <Route path={`${process.env.PUBLIC_URL}/my-account`} element={<UserHomePage />} />
+                    <Route path={`${process.env.PUBLIC_URL}/categories`} element={<UserHomePage />} />
+                    <Route path={`${process.env.PUBLIC_URL}/category`} element={<UserHomePage />} />
+                    <Route path={`${process.env.PUBLIC_URL}/search`} element={<UserHomePage />} />
+                    <Route path={`${process.env.PUBLIC_URL}/store`} element={<UserHomePage />} />
+                    <Route path={`${process.env.PUBLIC_URL}/help`} element={<UserHomePage />} />
                 </Routes>
             </div>
         </Provider>
