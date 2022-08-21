@@ -17,7 +17,7 @@ const MainListItems = ()=>{
     return (<>
     <React.Fragment>
         <ListItemButton 
-        onClick={()=>navigate('/')}>
+        onClick={()=>navigate('/Transactions')}>
             <ListItemIcon>
                 <AccountBalanceWalletIcon />
             </ListItemIcon>
