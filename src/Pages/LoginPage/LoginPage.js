@@ -1,35 +1,64 @@
-import React, {useState} from 'react';
+import React, {useState/*,useEffect*/} from 'react';
 import './LoginPage.css';
 import {Link} from 'react-router-dom';
+import axios from 'axios';
 
 
 const LoginPage = () => {
-    const [active,setActive]=useState('container');
+    const [active, setActive] = useState('container');
+    const [user, setUser] = useState({
+        name:'',
+        email: '',
+        password: ''
+    })
 
-    const handleClickSignIn=()=>{
+    // useEffect(()=>{
+    //     axios.post('http://localhost:8080/auth/signin',user)
+    //         .then()
+    // },[user])
+
+    const handleClickSignIn = () => {
         setActive('container')
     }
 
-    const handleClickSignUp=()=>{
+    const handleClickSignUp = () => {
         setActive('container right-panel-active')
+    }
+
+    const handleChange = (e) => {
+        setUser({...user, [e.target.name]: e.target.value})
+    }
+
+    const handleSignIn = (e) => {
+        e.preventDefault()
+        axios.post('http://localhost:8080/auth/signin', user)
+            .then(() => console.log('login success'))
+            .catch(() => console.log('login false'))
+    }
+
+    const handleSignUp = (e) => {
+        e.preventDefault()
+        axios.post('http://localhost:8080/auth/signup', user)
+            .then(()=>console.log('register success'))
+            .catch(() => console.log('register false'))
     }
 
     return (
         <div>
             <div className={active}>
                 <div className="form-container sign-up-container">
-                    <form action="">
+                    <form action="" method='post'>
                         <h1>Create Account</h1>
                         <div className="social-container">
                             <Link to="" className="social"><i className="fab fa-facebook-f"></i></Link>
                             <Link to="" className="social"><i className="fab fa-google-plus-g"></i></Link>
                             <Link to="" className="social"><i className="fab fa-linkedin-in"></i></Link>
                         </div>
-                        <span style={{margin:'10px'}}>or use your email for registration</span>
-                        <input type="text" placeholder="Name"/>
-                        <input type="email" placeholder="Email"/>
-                        <input type="password" placeholder="Password"/>
-                        <button style={{marginTop:'10px'}}>Sign Up</button>
+                        <span style={{margin: '10px'}}>or use your email for registration</span>
+                        <input type="text" name='name' placeholder="Name" onChange={handleChange}/>
+                        <input type="email" name='email' placeholder="Email" onChange={handleChange}/>
+                        <input type="password" name='password' placeholder="Password" onChange={handleChange}/>
+                        <button style={{marginTop: '10px'}} onClick={handleSignUp}>Sign Up</button>
                     </form>
                 </div>
                 <div className="form-container sign-in-container">
@@ -40,11 +69,11 @@ const LoginPage = () => {
                             <Link to="" className="social"><i className="fab fa-google-plus-g"></i></Link>
                             <Link to="" className="social"><i className="fab fa-github"></i></Link>
                         </div>
-                        <span style={{margin:'10px'}}>or use your account</span>
-                        <input type="email" placeholder="Email"/>
-                        <input type="password" placeholder="Password"/>
-                        <Link to="" style={{color:'darkcyan',margin: '20px'}}>Forgot your password?</Link>
-                        <button>Sign In</button>
+                        <span style={{margin: '10px'}}>or use your account</span>
+                        <input type="email" name='email' placeholder="Email" onChange={handleChange}/>
+                        <input type="password" name='password' placeholder="Password" onChange={handleChange}/>
+                        <Link to="" style={{color: 'darkcyan', margin: '20px'}}>Forgot your password?</Link>
+                        <button onClick={handleSignIn}>Sign In</button>
                     </form>
                 </div>
                 <div className="overlay-container">
