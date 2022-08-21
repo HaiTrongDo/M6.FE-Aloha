@@ -2,27 +2,14 @@ import './App.css';
 import store from './store';
 import {Provider} from 'react-redux';
 import {Routes, Route} from 'react-router-dom';
-import UserHomePage from "./Pages/UserHomePage/UserHomePage";
-import UserReportPage from "./Pages/UserReportPage/UserReportPage";
-import UserBudgetPage from "./Pages/UserBudgetPage/UserBudgetPage";
-import UserTransactionsPage from "./Pages/UserTransactionsPage/UserTransactionsPage";
+import LoginPage from "./Pages/LoginPage/LoginPage";
 
 function App() {
     return (
         <Provider store={store}>
             <div className="App">
                 <Routes>
-                    <Route path={`${process.env.PUBLIC_URL}/`} element={<UserHomePage />} />
-                    <Route path={`${process.env.PUBLIC_URL}/transactions`} element={<UserTransactionsPage />} />
-                    <Route path={`${process.env.PUBLIC_URL}/report`} element={<UserReportPage />} />
-                    <Route path={`${process.env.PUBLIC_URL}/budget`} element={<UserBudgetPage />} />
-                    <Route path={`${process.env.PUBLIC_URL}/my-wallets`} element={<UserTransactionsPage />} />
-                    <Route path={`${process.env.PUBLIC_URL}/my-account`} element={<UserTransactionsPage />} />
-                    <Route path={`${process.env.PUBLIC_URL}/categories`} element={<UserTransactionsPage />} />
-                    <Route path={`${process.env.PUBLIC_URL}/category`} element={<UserTransactionsPage />} />
-                    <Route path={`${process.env.PUBLIC_URL}/search`} element={<UserTransactionsPage />} />
-                    <Route path={`${process.env.PUBLIC_URL}/store`} element={<UserTransactionsPage />} />
-                    <Route path={`${process.env.PUBLIC_URL}/help`} element={<UserTransactionsPage />} />
+                    <Route path='/login' element={<LoginPage/>}/>
                 </Routes>
             </div>
         </Provider>
