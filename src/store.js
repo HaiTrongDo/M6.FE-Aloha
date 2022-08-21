@@ -1,5 +1,10 @@
-import { configureStore } from '@reduxjs/toolkit'
+import {configureStore} from '@reduxjs/toolkit'
+import clickSlide from './Features/SidebarOpenSlice/clickSlice'
 
-export const store = configureStore({
-    reducer: {},
+const store = configureStore({
+    reducer:{
+        Layout: clickSlide.reducer
+    }
 })
+
+export default store
