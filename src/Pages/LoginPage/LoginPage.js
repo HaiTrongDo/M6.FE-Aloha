@@ -12,11 +12,6 @@ const LoginPage = () => {
         password: ''
     })
 
-    // useEffect(()=>{
-    //     axios.post('http://localhost:8080/auth/signin',user)
-    //         .then()
-    // },[user])
-
     const handleClickSignIn = () => {
         setActive('container')
     }
