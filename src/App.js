@@ -5,6 +5,7 @@ import {Routes, Route} from 'react-router-dom';
 import UserHomePage from "./Pages/UserHomePage/UserHomePage";
 import UserReportPage from "./Pages/UserReportPage/UserReportPage";
 import UserBudgetPage from "./Pages/UserBudgetPage/UserBudgetPage";
+import UserTransactionsPage from "./Pages/UserTransactionsPage/UserTransactionsPage";
 
 function App() {
     return (
@@ -12,15 +13,16 @@ function App() {
             <div className="App">
                 <Routes>
                     <Route path={`${process.env.PUBLIC_URL}/`} element={<UserHomePage />} />
+                    <Route path={`${process.env.PUBLIC_URL}/transactions`} element={<UserTransactionsPage />} />
                     <Route path={`${process.env.PUBLIC_URL}/report`} element={<UserReportPage />} />
                     <Route path={`${process.env.PUBLIC_URL}/budget`} element={<UserBudgetPage />} />
-                    <Route path={`${process.env.PUBLIC_URL}/my-wallets`} element={<UserHomePage />} />
-                    <Route path={`${process.env.PUBLIC_URL}/my-account`} element={<UserHomePage />} />
-                    <Route path={`${process.env.PUBLIC_URL}/categories`} element={<UserHomePage />} />
-                    <Route path={`${process.env.PUBLIC_URL}/category`} element={<UserHomePage />} />
-                    <Route path={`${process.env.PUBLIC_URL}/search`} element={<UserHomePage />} />
-                    <Route path={`${process.env.PUBLIC_URL}/store`} element={<UserHomePage />} />
-                    <Route path={`${process.env.PUBLIC_URL}/help`} element={<UserHomePage />} />
+                    <Route path={`${process.env.PUBLIC_URL}/my-wallets`} element={<UserTransactionsPage />} />
+                    <Route path={`${process.env.PUBLIC_URL}/my-account`} element={<UserTransactionsPage />} />
+                    <Route path={`${process.env.PUBLIC_URL}/categories`} element={<UserTransactionsPage />} />
+                    <Route path={`${process.env.PUBLIC_URL}/category`} element={<UserTransactionsPage />} />
+                    <Route path={`${process.env.PUBLIC_URL}/search`} element={<UserTransactionsPage />} />
+                    <Route path={`${process.env.PUBLIC_URL}/store`} element={<UserTransactionsPage />} />
+                    <Route path={`${process.env.PUBLIC_URL}/help`} element={<UserTransactionsPage />} />
                 </Routes>
             </div>
         </Provider>
