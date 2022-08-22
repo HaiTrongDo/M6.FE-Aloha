@@ -5,10 +5,12 @@ import axios from '../../axios/index';
 import {auth, provider} from "../../Config/firebase"
 import {signInWithPopup} from "firebase/auth"
 import isEmpty from "validator/es/lib/isEmpty";
-
+import {useDispatch} from 'react-redux'
+import {UserLoginWithGoogle} from '../../Features/CurrentUser/UserSlice'
 
 const LoginPage = () => {
     let navigate = useNavigate()
+    const dispatch = useDispatch()
     const [active, setActive] = useState('container');
     const [userSignIn, setUserSignIn] = useState({
         email: '',
@@ -48,7 +50,7 @@ const LoginPage = () => {
                 })
                 .catch((err) => {
                     const {msg} = err.response.data;
-                    setValidateSignInMsg({password:msg})
+                    setValidateSignInMsg({password: msg})
                 })
         }
     }
@@ -98,15 +100,21 @@ const LoginPage = () => {
 
     const signInWithGoogle = async () => {
         signInWithPopup(auth, provider)
-            .then((result) => {
+            .then((resultFromGoogle) => {
                 axios.post(`auth/google`, {
-                    username: result.user.displayName,
-                    email: result.user.email,
-                    avatarUrl: result.user.photoURL
-                }).then(result => {
-                    const [key,value] = result.data.token.split(' ')
-                    console.log({key}, {value})
+                    username: resultFromGoogle.user.displayName,
+                    email: resultFromGoogle.user.email,
+                    avatarUrl: resultFromGoogle.user.photoURL
+                }).then(resultFromBEAloha => {
+                    const [key, value] = resultFromBEAloha.data.token.split(' ')
                     localStorage.setItem(key, JSON.stringify(value));
+                    dispatch(UserLoginWithGoogle({
+                        email: resultFromGoogle.user.email,
+                        avatar: resultFromGoogle.user.photoURL,
+                        displayName: resultFromGoogle.user.displayName
+                    }))
+
+
                 })
             })
             .catch((error) => {
