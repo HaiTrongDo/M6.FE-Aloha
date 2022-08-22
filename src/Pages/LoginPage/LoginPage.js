@@ -1,7 +1,9 @@
 import React, {useState} from 'react';
 import './LoginPage.css'
 import {Link, useNavigate} from 'react-router-dom';
-import axios from 'axios';
+import axios from '../../axios/index';
+import {auth, provider} from "../../Config/firebase"
+import {signInWithPopup} from "firebase/auth"
 import isEmpty from "validator/es/lib/isEmpty";
 
 
@@ -94,6 +96,24 @@ const LoginPage = () => {
         return Object.keys(msg).length <= 0;
     }
 
+    const signInWithGoogle = async () => {
+        signInWithPopup(auth, provider)
+            .then((result) => {
+                axios.post(`auth/google`, {
+                    username: result.user.displayName,
+                    email: result.user.email,
+                    avatarUrl: result.user.photoURL
+                }).then(result => {
+                    const [key,value] = result.data.token.split(' ')
+                    console.log({key}, {value})
+                    localStorage.setItem(key, JSON.stringify(value));
+                })
+            })
+            .catch((error) => {
+                console.log(error.message)
+            })
+    }
+
     return (
         <div className='login'>
             <div className={active}>
@@ -102,7 +122,8 @@ const LoginPage = () => {
                         <h1>Create Account</h1>
                         <div className="social-container">
                             <Link to="" className="social"><i className="fab fa-facebook-f"></i></Link>
-                            <Link to="" className="social"><i className="fab fa-google-plus-g"></i></Link>
+                            <Link to="" onClick={signInWithGoogle} className="social"><i
+                                className="fab fa-google-plus-g"></i></Link>
                             <Link to="" className="social"><i className="fab fa-linkedin-in"></i></Link>
                         </div>
                         <span style={{margin: '10px'}}>or use your email for registration</span>
@@ -123,7 +144,8 @@ const LoginPage = () => {
                         <h1>Sign in</h1>
                         <div className="social-container">
                             <Link to="" className="social"><i className="fab fa-facebook-f"></i></Link>
-                            <Link to="" className="social"><i className="fab fa-google-plus-g"></i></Link>
+                            <Link to="" onClick={signInWithGoogle} className="social"><i
+                                className="fab fa-google-plus-g"></i></Link>
                             <Link to="" className="social"><i className="fab fa-github"></i></Link>
                         </div>
                         <span style={{margin: '10px'}}>or use your account</span>
