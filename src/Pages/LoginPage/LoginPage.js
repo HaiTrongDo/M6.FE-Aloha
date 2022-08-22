@@ -2,7 +2,7 @@ import React, {useState} from 'react';
 import './LoginPage.css'
 import {Link, useNavigate} from 'react-router-dom';
 import axios from '../../axios/index';
-import {auth, provider} from "../../Config/firebase"
+import {auth, googleAuthProvider, faceBookAuthProvider,githubAuthProvider} from "../../Config/firebase"
 import {signInWithPopup} from "firebase/auth"
 import isEmpty from "validator/es/lib/isEmpty";
 import {useDispatch} from 'react-redux'
@@ -106,22 +106,65 @@ const LoginPage = () => {
     }
 
     const signInWithGoogle = async () => {
-        signInWithPopup(auth, provider)
+        signInWithPopup(auth, googleAuthProvider)
             .then((resultFromGoogle) => {
-                axios.post(`auth/google`, {
+                console.log(resultFromGoogle);
+                axios.post(`auth/firebase`, {
                     username: resultFromGoogle.user.displayName,
-                    email: resultFromGoogle.user.email,
+                    email: resultFromGoogle.user.email || resultFromGoogle.user.providerData[0].email,
                     avatarUrl: resultFromGoogle.user.photoURL
                 }).then(resultFromBEAloha => {
                     const [key, value] = resultFromBEAloha.data.token.split(' ')
                     localStorage.setItem(key, JSON.stringify(value));
                     dispatch(UserLoginWithGoogle({
-                        email: resultFromGoogle.user.email,
+                        email: resultFromGoogle.user.email || resultFromGoogle.user.providerData[0].email,
                         avatar: resultFromGoogle.user.photoURL,
                         displayName: resultFromGoogle.user.displayName
                     }))
+                })
+            })
+            .catch((error) => {
+                console.log(error.message)
+            })
+    }
 
-
+    const signInWithFaceBook = async ()=>{
+        signInWithPopup(auth, faceBookAuthProvider)
+            .then((resultFromFacebook) => {
+                axios.post(`auth/firebase`, {
+                    username: resultFromFacebook.user.displayName ,
+                    email: resultFromFacebook.user.email || resultFromFacebook.user.providerData[0].email,
+                    avatarUrl: resultFromFacebook.user.photoURL
+                }).then(resultFromBEAloha => {
+                    const [key, value] = resultFromBEAloha.data.token.split(' ')
+                    localStorage.setItem(key, JSON.stringify(value));
+                    dispatch(UserLoginWithGoogle({
+                        email: resultFromFacebook.user.email || resultFromFacebook.user.providerData[0].email,
+                        avatar: resultFromFacebook.user.photoURL,
+                        displayName: resultFromFacebook.user.displayName
+                    }))
+                })
+            })
+            .catch((error) => {
+                console.log(error.message)
+            })
+    }
+    const signInWithGitHub = async ()=>{
+        signInWithPopup(auth, githubAuthProvider)
+            .then((resultFromGitHub) => {
+                console.log(resultFromGitHub);
+                axios.post(`auth/firebase`, {
+                    username: resultFromGitHub.user.displayName || "Git Hub User",
+                    email: resultFromGitHub.user.email || resultFromGitHub.user.providerData[0].email,
+                    avatarUrl: resultFromGitHub.user.photoURL
+                }).then(resultFromBEAloha => {
+                    const [key, value] = resultFromBEAloha.data.token.split(' ')
+                    localStorage.setItem(key, JSON.stringify(value));
+                    dispatch(UserLoginWithGoogle({
+                        email: resultFromGitHub.user.email || resultFromGitHub.user.providerData[0].email,
+                        avatar: resultFromGitHub.user.photoURL,
+                        displayName: resultFromGitHub.user.displayName || "Git Hub User"
+                    }))
                 })
             })
             .catch((error) => {
@@ -136,10 +179,10 @@ const LoginPage = () => {
                     <form>
                         <h1>Create Account</h1>
                         <div className="social-container">
-                            <Link to="" className="social"><i className="fab fa-facebook-f"></i></Link>
+                            <Link to="" onClick={signInWithFaceBook} className="social"><i className="fab fa-facebook-f"></i></Link>
                             <Link to="" onClick={signInWithGoogle} className="social"><i
                                 className="fab fa-google-plus-g"></i></Link>
-                            <Link to="" className="social"><i className="fab fa-linkedin-in"></i></Link>
+                            <Link to="" onClick={signInWithGitHub} className="social"><i className="fab fa-linkedin-in"></i></Link>
                         </div>
                         <span style={{margin: '10px'}}>or use your email for registration</span>
                         <input type="text" name='username' placeholder="Name" onChange={handleChangeSignUp}/>
@@ -158,10 +201,10 @@ const LoginPage = () => {
                     <form>
                         <h1>Sign in</h1>
                         <div className="social-container">
-                            <Link to="" className="social"><i className="fab fa-facebook-f"></i></Link>
+                            <Link to="" onClick={signInWithFaceBook} className="social"><i className="fab fa-facebook-f"></i></Link>
                             <Link to="" onClick={signInWithGoogle} className="social"><i
                                 className="fab fa-google-plus-g"></i></Link>
-                            <Link to="" className="social"><i className="fab fa-github"></i></Link>
+                            <Link to="" onClick={signInWithGitHub} className="social"><i className="fab fa-github"></i></Link>
                         </div>
                         <span style={{margin: '10px'}}>or use your account</span>
                         <input type="email" name='email' placeholder="Email" onChange={handleChangeSignIn}
