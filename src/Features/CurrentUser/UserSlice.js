@@ -11,11 +11,14 @@ const UserSlice = createSlice({
         value: initialState
     },
     reducers: {
-        UserLogin: (state,action)=>{
-            state = action.payload
+        UserLoginWithGoogle: (state,action)=>{
+            state.email = action.payload.email
+            state.avatar = action.payload.avatar
+            state.displayName = action.payload.displayName
         }
     }
 })
 
-export default UserSlice
-export const {addClick} = UserSlice.actions //de goi trong dispatch
+export const {UserLoginWithGoogle} = UserSlice.actions
+
+export default UserSlice.reducer
