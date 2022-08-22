@@ -1,15 +1,20 @@
 import React, {useState/*,useEffect*/} from 'react';
-import './LoginPage.css';
-import {Link} from 'react-router-dom';
+import './LoginPage.css'
+import {Link, useNavigate} from 'react-router-dom';
 import axios from 'axios';
 
 
 const LoginPage = () => {
+    let navigate=useNavigate()
     const [active, setActive] = useState('container');
-    const [user, setUser] = useState({
-        name:'',
+    const [userSignIn, setUserSignIn] = useState({
         email: '',
         password: ''
+    })
+    const [userSignUp,setUserSignUp]=useState({
+        username:'',
+        email:'',
+        password:''
     })
 
     const handleClickSignIn = () => {
@@ -20,29 +25,36 @@ const LoginPage = () => {
         setActive('container right-panel-active')
     }
 
-    const handleChange = (e) => {
-        setUser({...user, [e.target.name]: e.target.value})
+    const handleChangeSignIn = (e) => {
+        setUserSignIn({...userSignIn, [e.target.name]: e.target.value})
+    }
+
+    const handleChangeSignUp=(e)=>{
+        setUserSignUp({...userSignUp,[e.target.name]:e.target.value})
     }
 
     const handleSignIn = (e) => {
         e.preventDefault()
-        axios.post('http://localhost:8080/auth/signin', user)
-            .then(() => console.log('login success'))
+        axios.post('http://localhost:8080/auth/signin', userSignIn)
+            .then(() => {
+                console.log('login success');
+                navigate('/')
+            })
             .catch(() => console.log('login false'))
     }
 
     const handleSignUp = (e) => {
         e.preventDefault()
-        axios.post('http://localhost:8080/auth/signup', user)
+        axios.post('http://localhost:8080/auth/signup', userSignUp)
             .then(()=>console.log('register success'))
             .catch(() => console.log('register false'))
     }
 
     return (
-        <div>
+        <div className='login'>
             <div className={active}>
                 <div className="form-container sign-up-container">
-                    <form action="" method='post'>
+                    <form>
                         <h1>Create Account</h1>
                         <div className="social-container">
                             <Link to="" className="social"><i className="fab fa-facebook-f"></i></Link>
@@ -50,14 +62,14 @@ const LoginPage = () => {
                             <Link to="" className="social"><i className="fab fa-linkedin-in"></i></Link>
                         </div>
                         <span style={{margin: '10px'}}>or use your email for registration</span>
-                        <input type="text" name='name' placeholder="Name" onChange={handleChange}/>
-                        <input type="email" name='email' placeholder="Email" onChange={handleChange}/>
-                        <input type="password" name='password' placeholder="Password" onChange={handleChange}/>
+                        <input type="text" name='username' placeholder="Name" onChange={handleChangeSignUp}/>
+                        <input type="email" name='email' placeholder="Email" onChange={handleChangeSignUp}/>
+                        <input type="password" name='password' placeholder="Password" onChange={handleChangeSignUp}/>
                         <button style={{marginTop: '10px'}} onClick={handleSignUp}>Sign Up</button>
                     </form>
                 </div>
                 <div className="form-container sign-in-container">
-                    <form action="">
+                    <form>
                         <h1>Sign in</h1>
                         <div className="social-container">
                             <Link to="" className="social"><i className="fab fa-facebook-f"></i></Link>
@@ -65,8 +77,8 @@ const LoginPage = () => {
                             <Link to="" className="social"><i className="fab fa-github"></i></Link>
                         </div>
                         <span style={{margin: '10px'}}>or use your account</span>
-                        <input type="email" name='email' placeholder="Email" onChange={handleChange}/>
-                        <input type="password" name='password' placeholder="Password" onChange={handleChange}/>
+                        <input type="email" name='email' placeholder="Email" onChange={handleChangeSignIn}/>
+                        <input type="password" name='password' placeholder="Password" onChange={handleChangeSignIn}/>
                         <Link to="" style={{color: 'darkcyan', margin: '20px'}}>Forgot your password?</Link>
                         <button onClick={handleSignIn}>Sign In</button>
                     </form>
