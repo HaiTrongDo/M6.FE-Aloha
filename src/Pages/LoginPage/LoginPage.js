@@ -40,11 +40,11 @@ const LoginPage = () => {
         setUserSignUp({...userSignUp, [e.target.name]: e.target.value})
     }
 
-    const handleSignIn = (e) => {
+    const handleSignIn = async (e) => {
         e.preventDefault()
         const isValid = validateSignIn()
         if (isValid) {
-            axios.post('auth/signin', userSignIn)
+            await axios.post('auth/signin', userSignIn)
                 .then((result) => {
                     navigate('/')
                 })
@@ -54,13 +54,12 @@ const LoginPage = () => {
         }
     }
 
-    const handleSignUp = (e) => {
+    const handleSignUp = async (e) => {
         e.preventDefault();
         const isValid = validateSignUp();
         if (isValid) {
             axios.post('auth/signup', userSignUp)
                 .then(() => {
-                    console.log('register success');
                     setUserSignUp({
                         username: '',
                         email: '',
@@ -97,13 +96,6 @@ const LoginPage = () => {
         }
         if (isEmpty(userSignUp.password)) {
             msg.password = '* Please input your password *'
-        }
-        if (!isEmpty(userSignUp.email) && !isEmpty(userSignUp.password)) {
-            await axios.post('auth/signup', userSignUp)
-                .catch(err => {
-                    msg.password=err.response.data.msg
-                    console.log(err.response.data);
-                })
         }
         setValidateSignUpMsg(msg)
         return Object.keys(msg).length <= 0;
