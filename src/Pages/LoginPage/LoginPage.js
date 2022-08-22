@@ -44,7 +44,7 @@ const LoginPage = () => {
         e.preventDefault()
         const isValid = validateSignIn()
         if (isValid) {
-            axios.post('http://localhost:8080/auth/signin', userSignIn)
+            axios.post('auth/signin', userSignIn)
                 .then((result) => {
                     navigate('/')
                 })
@@ -58,7 +58,7 @@ const LoginPage = () => {
         e.preventDefault();
         const isValid = validateSignUp();
         if (isValid) {
-            axios.post('http://localhost:8080/auth/signup', userSignUp)
+            axios.post('auth/signup', userSignUp)
                 .then(() => {
                     console.log('register success');
                     setUserSignUp({
@@ -99,7 +99,7 @@ const LoginPage = () => {
             msg.password = '* Please input your password *'
         }
         if (!isEmpty(userSignUp.email) && !isEmpty(userSignUp.password)) {
-            await axios.post('http://localhost:8080/auth/signup', userSignUp)
+            await axios.post('auth/signup', userSignUp)
                 .catch(err => {
                     msg.password=err.response.data.msg
                     console.log(err.response.data);
