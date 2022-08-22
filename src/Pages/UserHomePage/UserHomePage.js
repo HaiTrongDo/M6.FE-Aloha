@@ -1,8 +1,15 @@
-
+import {useEffect} from 'react';
+import {useNavigate} from 'react-router-dom';
 import './UserHomePage.css'
 
 
 const UserHomePage = () => {
+    const navigate=useNavigate();
+
+    // useEffect(()=>{
+    //     console.log(window.header)
+    // },[])
+
     return (
         <div id="__docusaurus">
             <div id="docusaurus-base-url-issue-banner-container"/>
@@ -10,7 +17,7 @@ const UserHomePage = () => {
                 className="fixed top-0 inset-x-0 z-50 h-20 bg-transparent border-none header_GVHt headerHidden_kyDz">
                 <div className="absolute top-0 left-0 z-40 w-full bg-monochrome-white">
                     <nav className="flex items-center justify-between h-20 container"><a href="/"><img className="w-48"
-                                                                                                       src="http://moneylover.me/img/logo.svg"
+                                                                                                       src="https://moneylover.me/img/logo.svg"
                                                                                                        alt="Money Lover"/></a>
                         <div className="md:flex items-center">
                             <ul className="invisible md:visible fixed md:static flex flex-row gap-6 lg:gap-x-8 items-center mt-1">
