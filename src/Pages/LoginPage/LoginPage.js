@@ -44,13 +44,12 @@ const LoginPage = () => {
         e.preventDefault()
         const isValid = validateSignIn()
         if (isValid) {
-            axios.post('http://localhost:8080/auth/signin', userSignIn)
+            axios.post('auth/signin', userSignIn)
                 .then((result) => {
                     navigate('/')
                 })
                 .catch((err) => {
-                    const {msg} = err.response.data;
-                    setValidateSignInMsg({password: msg})
+                    console.log(err.response.data);
                 })
         }
     }
@@ -59,7 +58,7 @@ const LoginPage = () => {
         e.preventDefault();
         const isValid = validateSignUp();
         if (isValid) {
-            axios.post('http://localhost:8080/auth/signup', userSignUp)
+            axios.post('auth/signup', userSignUp)
                 .then(() => {
                     console.log('register success');
                     setUserSignUp({
@@ -70,7 +69,9 @@ const LoginPage = () => {
                     setActive('container')
                     setUserSignIn({email: userSignUp.email, password: userSignUp.password})
                 })
-                .catch(() => console.log('register false'))
+                .catch(() => {
+                    setActive('container right-panel-active')
+                })
         }
     }
 
@@ -82,17 +83,27 @@ const LoginPage = () => {
         if (isEmpty(userSignIn.password)) {
             msg.password = '* Please input your password *'
         }
+        if (!isEmpty(userSignIn.email) && !isEmpty(userSignIn.password)) {
+            msg.password = '* Wrong email or password *'
+        }
         setValidateSignInMsg(msg)
         return Object.keys(msg).length <= 0;
     }
 
-    const validateSignUp = () => {
+    const validateSignUp = async () => {
         const msg = {};
         if (isEmpty(userSignUp.email)) {
             msg.email = '* Please input your email *'
         }
         if (isEmpty(userSignUp.password)) {
             msg.password = '* Please input your password *'
+        }
+        if (!isEmpty(userSignUp.email) && !isEmpty(userSignUp.password)) {
+            await axios.post('auth/signup', userSignUp)
+                .catch(err => {
+                    msg.password=err.response.data.msg
+                    console.log(err.response.data);
+                })
         }
         setValidateSignUpMsg(msg)
         return Object.keys(msg).length <= 0;
