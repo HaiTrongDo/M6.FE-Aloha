@@ -83,7 +83,11 @@ const LoginPage = () => {
             msg.password = '* Please input your password *'
         }
         if (!isEmpty(userSignIn.email) && !isEmpty(userSignIn.password)) {
-            msg.password = '* Wrong email or password *'
+            axios.post('auth/signin', userSignIn)
+                .then()
+                .catch(() => {
+                    msg.password = '* Wrong email or password *'
+                })
         }
         setValidateSignInMsg(msg)
         return Object.keys(msg).length <= 0;
