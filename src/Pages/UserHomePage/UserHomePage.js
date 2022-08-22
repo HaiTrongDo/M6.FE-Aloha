@@ -1,14 +1,9 @@
-import {useEffect} from 'react';
-import {useNavigate} from 'react-router-dom';
+// import {useEffect} from 'react';
+// import {useNavigate} from 'react-router-dom';
 import './UserHomePage.css'
 
 
 const UserHomePage = () => {
-    const navigate=useNavigate();
-
-    // useEffect(()=>{
-    //     console.log(window.header)
-    // },[])
 
     return (
         <div id="__docusaurus">
