@@ -17,4 +17,4 @@ const openDialogChangePassSlide = createSlice({
 })
 
 export default openDialogChangePassSlide
-export const { closeDialogChangePass, openDialogChangePass} = openDialogChangePassSlide .actions //de goi trong dispatch
+export const { closeDialogChangePass, openDialogChangePass} = openDialogChangePassSlide.actions //de goi trong dispatch
