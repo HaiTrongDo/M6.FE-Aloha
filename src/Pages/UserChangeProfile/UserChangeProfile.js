@@ -4,11 +4,15 @@ import {useEffect,useState} from "react";
 import {storage } from "../../Config/firebase"
 import {ref,getDownloadURL, uploadBytesResumable } from "firebase/storage"
 import {v4} from 'uuid'
+import axios from '../../axios/index'
+import { useSelector, useDispatch } from 'react-redux'
+
 const UserChangeProfile = () => {
+    const currentUser = useSelector((store) => store.currentUser)
     const [progress, setProgress] = useState(0);
     const [imageUrls, setImageUrls] = useState();
     const [formData, setFormData] = useState({
-        name:'',
+        username:'',
         company:'',
         phone:'',
         birthday:'',
@@ -19,9 +23,8 @@ const UserChangeProfile = () => {
     const setImageUploaded = (e)=> {
         e.preventDefault()
         if (formData.imageUpload == null) return;
-        const userImage = ref(storage, `images/${formData.name + v4()}`)
+        const userImage = ref(storage, `images/${formData.username + v4()}`)
         const uploadTask = uploadBytesResumable(userImage, formData.imageUpload)
-
         uploadTask.on(
             "state_changed",
             (snapshot) => {
@@ -32,21 +35,35 @@ const UserChangeProfile = () => {
             },
             (error) => console.log(error),
             () => {
-                getDownloadURL(uploadTask.snapshot.ref).then((downloadURL) => {
+                getDownloadURL(uploadTask.snapshot.ref)
+                    .then((downloadURL) => {
                     setImageUrls(downloadURL);
-
-
+                    axios.put('/my-account/change-profile',{
+                        ...formData, avatarUrl:downloadURL, userId:currentUser.userId
+                    }).catch(err => console.log(err))
                 });
             }
         );
     }
+
+    useEffect(()=>{
+      axios.post('/my-account/change-profile',{userId:currentUser.userId})
+          .then(result=>{
+              let returnData = JSON.parse(result.request.response)
+              setFormData({...returnData})
+          })
+          .catch(err => console.log(err))
+    },[])
+
+
+
+
+
+
+
     const handleChange =(e)=>{
         setFormData({...formData,[e.target.name]:e.target.value})
     }
-
-    useEffect(()=>{
-        console.log(imageUrls);
-    },[imageUrls])
 
     return (
         <div>
@@ -59,7 +76,7 @@ const UserChangeProfile = () => {
                                        className="block mb-2 text-sm font-medium text-gray-900 ">
                                     Full Name
                                 </label>
-                                <input type="text" id="name" name='name' value={formData.name}
+                                <input type="text" id="name" name='username' value={formData.username}
                                        onChange={(e)=>handleChange(e)}
                                        className="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 "
                                        placeholder="John" required=""/>
