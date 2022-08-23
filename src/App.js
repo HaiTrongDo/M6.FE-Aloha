@@ -7,6 +7,7 @@ import UserReportPage from "./Pages/UserReportPage/UserReportPage";
 import UserBudgetPage from "./Pages/UserBudgetPage/UserBudgetPage";
 import UserTransactionsPage from "./Pages/UserTransactionsPage/UserTransactionsPage";
 import UserMyAccountPage from "./Pages/UserMyAccountPage/UserMyAccountPage";
+import MyWalletPage from "./Pages/MyWallet/MyWallet";
 
 function App() {
     return (
@@ -18,7 +19,7 @@ function App() {
                     <Route path={`/transactions`} element={<UserTransactionsPage />} />
                     <Route path={`/report`} element={<UserReportPage />} />
                     <Route path={`/budget`} element={<UserBudgetPage />} />
-                    <Route path={`/my-wallets`} element={<UserTransactionsPage />} />
+                    <Route path={`/my-wallets`} element={<MyWalletPage />} />
                     <Route path={`/my-account`} element={<UserMyAccountPage />} />
                     <Route path={`/categories`} element={<UserTransactionsPage />} />
                     <Route path={`/category`} element={<UserTransactionsPage />} />

@@ -45,11 +45,11 @@ const LoginPage = () => {
         const isValid = validateSignIn()
         if (isValid) {
             await axios.post('auth/signin', userSignIn)
-                .then((result) => {
-                    navigate('/')
+                .then(() => {
+                    navigate('/transactions')
                 })
-                .catch((err) => {
-                    console.log(err.response.data);
+                .catch(() => {
+                    // setValidateSignInMsg({password: '* Wrong email or password *'})
                 })
         }
     }
@@ -68,8 +68,10 @@ const LoginPage = () => {
                     setActive('container')
                     setUserSignIn({email: userSignUp.email, password: userSignUp.password})
                 })
-                .catch(() => {
+                .catch((err) => {
                     setActive('container right-panel-active')
+                    const {msg} = err.response.data;
+                    setValidateSignUpMsg({password: msg})
                 })
         }
     }
@@ -84,7 +86,6 @@ const LoginPage = () => {
         }
         if (!isEmpty(userSignIn.email) && !isEmpty(userSignIn.password)) {
             axios.post('auth/signin', userSignIn)
-                .then()
                 .catch(() => {
                     msg.password = '* Wrong email or password *'
                 })
@@ -101,7 +102,7 @@ const LoginPage = () => {
         if (isEmpty(userSignUp.password)) {
             msg.password = '* Please input your password *'
         }
-        setValidateSignUpMsg(msg)
+        // setValidateSignUpMsg(msg)
         return Object.keys(msg).length <= 0;
     }
 
