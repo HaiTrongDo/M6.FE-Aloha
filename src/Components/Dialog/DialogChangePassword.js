@@ -11,7 +11,7 @@ import {closeDialog} from "../../Features/DiaLogSlice/openDialogAccountSlide";
 import {closeDialogChangePass} from "../../Features/DiaLogSlice/openDialogChangePassSlice";
 import Box from "@mui/material/Box";
 import {useState} from "react";
-import axios from "axios";
+import axios from "../../axios/index";
 
 export default function DialogChangePassword() {
     const [data, setData] = useState({
@@ -42,7 +42,7 @@ export default function DialogChangePassword() {
         console.log(body)
         let token = JSON.parse(localStorage.getItem('token'))
         console.log(token)
-        await axios.post('http://localhost:8080/auth/change-password',
+        await axios.post('auth/change-password',
             body, {
                 headers: {
                     Authorization: `Bearer ${token}`
