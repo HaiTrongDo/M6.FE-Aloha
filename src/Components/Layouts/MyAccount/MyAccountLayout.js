@@ -8,7 +8,7 @@ import SideBar from "../../SideBar";
 
 const mdTheme = createTheme();
 
-function MyAccount({children}) {
+function MyAccountLayout({children}) {
 
     return (
         <ThemeProvider theme={mdTheme}>
@@ -38,4 +38,4 @@ function MyAccount({children}) {
     );
 }
 
-export default MyAccount
+export default MyAccountLayout

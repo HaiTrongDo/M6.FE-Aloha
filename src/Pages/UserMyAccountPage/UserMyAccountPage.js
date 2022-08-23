@@ -1,16 +1,12 @@
-import MyAccount from "../../Components/Layouts/MyAccount/MyAccount";
-import {Routes, Route} from "react-router-dom";
+import MyAccountLayout from "../../Components/Layouts/MyAccount/MyAccountLayout";
 
 
 const UserMyAccountPage = () => {
     return (
         <div>
-            <MyAccount>
+            <MyAccountLayout>
                 <h1> this is the My Account page</h1>
-                <Routes>
-                <Route path={'/change-profile'} element={<h1>testing</h1>} />
-                </Routes>
-            </MyAccount>
+            </MyAccountLayout>
         </div>
     );
 };
