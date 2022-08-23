@@ -40,7 +40,7 @@ export default function DialogChangePassword() {
             confirmPassword: data.confirmPassword
         }
         console.log(body)
-        let token = JSON.parse(localStorage.getItem('token'))
+        let token = JSON.parse(localStorage.getItem('JWT'))
         console.log(token)
         await axios.post('auth/change-password',
             body, {

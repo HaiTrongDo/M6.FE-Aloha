@@ -2,7 +2,7 @@ import React, {useState} from 'react';
 import './LoginPage.css'
 import {Link, useNavigate} from 'react-router-dom';
 import axios from '../../axios/index';
-import {auth, googleAuthProvider, faceBookAuthProvider,githubAuthProvider} from "../../Config/firebase"
+import {auth, googleAuthProvider, faceBookAuthProvider, githubAuthProvider} from "../../Config/firebase"
 import {signInWithPopup} from "firebase/auth"
 import isEmpty from "validator/es/lib/isEmpty";
 import {useDispatch} from 'react-redux'
@@ -45,7 +45,9 @@ const LoginPage = () => {
         const isValid = validateSignIn()
         if (isValid) {
             await axios.post('auth/signin', userSignIn)
-                .then(() => {
+                .then((resultFromBEAloha) => {
+                    const [key, value] = resultFromBEAloha.data.token.split(' ')
+                    localStorage.setItem(key, JSON.stringify(value));
                     navigate('/transactions')
                 })
                 .catch(() => {
@@ -106,11 +108,11 @@ const LoginPage = () => {
         return Object.keys(msg).length <= 0;
     }
 
-    const signInWithFireBase = async (auth, provider)=>{
+    const signInWithFireBase = async (auth, provider) => {
         signInWithPopup(auth, provider)
             .then((resultFromAuthProvider) => {
                 axios.post(`auth/firebase`, {
-                    username: resultFromAuthProvider.user.displayName || "Name Not Stated" ,
+                    username: resultFromAuthProvider.user.displayName || "Name Not Stated",
                     email: resultFromAuthProvider.user.email || resultFromAuthProvider.user.providerData[0].email || resultFromAuthProvider.user.uid,
                     avatarUrl: resultFromAuthProvider.user.photoURL
                 }).then(resultFromBEAloha => {
@@ -120,10 +122,10 @@ const LoginPage = () => {
                         email: resultFromAuthProvider.user.email || resultFromAuthProvider.user.providerData[0].email,
                         avatar: resultFromAuthProvider.user.photoURL,
                         displayName: resultFromAuthProvider.user.displayName,
-                        userId:resultFromBEAloha.data.userId
+                        userId: resultFromBEAloha.data.userId
                     }))
-                    navigate("/transactions")
                 })
+                navigate("/transactions")
             })
             .catch((error) => {
                 console.log(error.message)
@@ -137,10 +139,12 @@ const LoginPage = () => {
                     <form>
                         <h1>Create Account</h1>
                         <div className="social-container">
-                            <Link to="" onClick={()=>signInWithFireBase(auth, faceBookAuthProvider)} className="social"><i className="fab fa-facebook-f"></i></Link>
-                            <Link to="" onClick={()=>signInWithFireBase(auth, googleAuthProvider)} className="social"><i
+                            <Link to="" onClick={() => signInWithFireBase(auth, faceBookAuthProvider)}
+                                  className="social"><i className="fab fa-facebook-f"></i></Link>
+                            <Link to="" onClick={() => signInWithFireBase(auth, googleAuthProvider)} className="social"><i
                                 className="fab fa-google-plus-g"></i></Link>
-                            <Link to="" onClick={()=>signInWithFireBase(auth, githubAuthProvider)} className="social"><i className="fab fa-linkedin-in"></i></Link>
+                            <Link to="" onClick={() => signInWithFireBase(auth, githubAuthProvider)} className="social"><i
+                                className="fab fa-linkedin-in"></i></Link>
                         </div>
                         <span style={{margin: '10px'}}>or use your email for registration</span>
                         <input type="text" name='username' placeholder="Name" onChange={handleChangeSignUp}/>
@@ -159,10 +163,12 @@ const LoginPage = () => {
                     <form>
                         <h1>Sign in</h1>
                         <div className="social-container">
-                            <Link to="" onClick={()=>signInWithFireBase(auth, faceBookAuthProvider)} className="social"><i className="fab fa-facebook-f"></i></Link>
-                            <Link to="" onClick={()=>signInWithFireBase(auth, googleAuthProvider)} className="social"><i
+                            <Link to="" onClick={() => signInWithFireBase(auth, faceBookAuthProvider)}
+                                  className="social"><i className="fab fa-facebook-f"></i></Link>
+                            <Link to="" onClick={() => signInWithFireBase(auth, googleAuthProvider)} className="social"><i
                                 className="fab fa-google-plus-g"></i></Link>
-                            <Link to="" onClick={()=>signInWithFireBase(auth, githubAuthProvider)} className="social"><i className="fab fa-github"></i></Link>
+                            <Link to="" onClick={() => signInWithFireBase(auth, githubAuthProvider)} className="social"><i
+                                className="fab fa-github"></i></Link>
                         </div>
                         <span style={{margin: '10px'}}>or use your account</span>
                         <input type="email" name='email' placeholder="Email" onChange={handleChangeSignIn}

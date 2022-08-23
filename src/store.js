@@ -4,6 +4,7 @@ import openDialogAccountSlide from "./Features/DiaLogSlice/openDialogAccountSlid
 import openDialogChangePassSlide from "./Features/DiaLogSlice/openDialogChangePassSlice";
 import openDialogMyWalletSlice from "./Features/DiaLogSlice/openDialogMyWalletSlice";
 import UserSlice from "./Features/CurrentUser/UserSlice";
+import transactionSlice from "./Features/DiaLogSlice/openDialogTransactionSlice";
 
 
 const store = configureStore({
@@ -12,6 +13,7 @@ const store = configureStore({
         Dialog: openDialogAccountSlide.reducer,
         DialogPass: openDialogChangePassSlide.reducer,
         currentUser: UserSlice,
+        dialogTransaction: transactionSlice.reducer,
         DialogWallet:openDialogMyWalletSlice.reducer
     }
 })

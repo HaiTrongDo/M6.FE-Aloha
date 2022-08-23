@@ -14,7 +14,7 @@ function TransactionsLayout({children}) {
         <ThemeProvider theme={mdTheme}>
             <Box sx={{display: 'flex'}}>
                 <CssBaseline/>
-                <NavBarTransactions></NavBarTransactions>
+                <NavBarTransactions/>
                 <SideBar/>
                 <Box
                     component="main"
