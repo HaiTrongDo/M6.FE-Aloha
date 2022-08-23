@@ -6,6 +6,7 @@ import UserHomePage from "./Pages/UserHomePage/UserHomePage";
 import UserReportPage from "./Pages/UserReportPage/UserReportPage";
 import UserBudgetPage from "./Pages/UserBudgetPage/UserBudgetPage";
 import UserTransactionsPage from "./Pages/UserTransactionsPage/UserTransactionsPage";
+import MyWalletPage from "./Pages/MyWallet/MyWallet";
 
 function App() {
     return (
@@ -17,7 +18,7 @@ function App() {
                     <Route path={`${process.env.PUBLIC_URL}/transactions`} element={<UserTransactionsPage />} />
                     <Route path={`${process.env.PUBLIC_URL}/report`} element={<UserReportPage />} />
                     <Route path={`${process.env.PUBLIC_URL}/budget`} element={<UserBudgetPage />} />
-                    <Route path={`${process.env.PUBLIC_URL}/my-wallets`} element={<UserTransactionsPage />} />
+                    <Route path={`${process.env.PUBLIC_URL}/my-wallets`} element={<MyWalletPage />} />
                     <Route path={`${process.env.PUBLIC_URL}/my-account`} element={<UserTransactionsPage />} />
                     <Route path={`${process.env.PUBLIC_URL}/categories`} element={<UserTransactionsPage />} />
                     <Route path={`${process.env.PUBLIC_URL}/category`} element={<UserTransactionsPage />} />
