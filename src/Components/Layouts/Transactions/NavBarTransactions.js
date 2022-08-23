@@ -4,8 +4,11 @@ import IconButton from "@mui/material/IconButton";
 import RemoveRedEyeIcon from '@mui/icons-material/RemoveRedEye';
 import SearchIcon from '@mui/icons-material/Search';
 import Button from '@mui/material/Button';
+import {useDispatch} from "react-redux";
+import {openDialogTransaction} from "../../../Features/DiaLogSlice/openDialogTransactionSlice";
 
 const NavBarTransactions = () => {
+    const dispatch=useDispatch()
     return (
         <div>
             <NavBar>
@@ -20,7 +23,9 @@ const NavBarTransactions = () => {
                 <IconButton>
                     <SearchIcon/>
                 </IconButton>
-                <Button color="success" variant="contained">ADD TRANSACTION</Button>
+                <Button color="success" variant="contained"
+                onClick={()=>dispatch(openDialogTransaction(true))}
+                >ADD TRANSACTION</Button>
             </NavBar>
         </div>
     );

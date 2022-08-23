@@ -1,10 +1,15 @@
 import TransactionsLayout from "../../Components/Layouts/Transactions/TransactionsLayout";
+import {useSelector} from "react-redux";
+import DialogTransaction from "../../Components/Dialog/DialogTransaction";
+
 
 const UserTransactionsPage = () => {
+    const transactionState=useSelector(state => state.dialogTransaction.value)
+
     return (
         <div>
             <TransactionsLayout>
-                <h1> this is the Transactions Home page</h1>
+                {transactionState && <DialogTransaction/>}
             </TransactionsLayout>
         </div>
     );
