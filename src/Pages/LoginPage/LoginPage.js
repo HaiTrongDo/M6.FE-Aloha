@@ -1,12 +1,16 @@
 import React, {useState} from 'react';
 import './LoginPage.css'
 import {Link, useNavigate} from 'react-router-dom';
-import axios from 'axios';
+import axios from '../../axios/index';
+import {auth, faceBookAuthProvider, githubAuthProvider, googleAuthProvider} from "../../Config/firebase"
+import {signInWithPopup} from "firebase/auth"
 import isEmpty from "validator/es/lib/isEmpty";
-
+import {useDispatch} from 'react-redux'
+import {UserLoginWithGoogle} from '../../Features/CurrentUser/UserSlice'
 
 const LoginPage = () => {
     let navigate = useNavigate()
+    const dispatch = useDispatch()
     const [active, setActive] = useState('container');
     const [userSignIn, setUserSignIn] = useState({
         email: '',
@@ -36,28 +40,26 @@ const LoginPage = () => {
         setUserSignUp({...userSignUp, [e.target.name]: e.target.value})
     }
 
-    const handleSignIn = (e) => {
+    const handleSignIn = async (e) => {
         e.preventDefault()
         const isValid = validateSignIn()
         if (isValid) {
-            axios.post('http://localhost:8080/auth/signin', userSignIn)
-                .then((result) => {
-                    navigate('/')
+            await axios.post('auth/signin', userSignIn)
+                .then(() => {
+                    navigate('/transactions')
                 })
-                .catch((err) => {
-                    const {msg} = err.response.data;
-                    setValidateSignInMsg({password:msg})
+                .catch(() => {
+                    // setValidateSignInMsg({password: '* Wrong email or password *'})
                 })
         }
     }
 
-    const handleSignUp = (e) => {
+    const handleSignUp = async (e) => {
         e.preventDefault();
         const isValid = validateSignUp();
         if (isValid) {
-            axios.post('http://localhost:8080/auth/signup', userSignUp)
+            axios.post('auth/signup', userSignUp)
                 .then(() => {
-                    console.log('register success');
                     setUserSignUp({
                         username: '',
                         email: '',
@@ -66,7 +68,11 @@ const LoginPage = () => {
                     setActive('container')
                     setUserSignIn({email: userSignUp.email, password: userSignUp.password})
                 })
-                .catch(() => console.log('register false'))
+                .catch((err) => {
+                    setActive('container right-panel-active')
+                    const {msg} = err.response.data;
+                    setValidateSignUpMsg({password: msg})
+                })
         }
     }
 
@@ -78,11 +84,17 @@ const LoginPage = () => {
         if (isEmpty(userSignIn.password)) {
             msg.password = '* Please input your password *'
         }
+        if (!isEmpty(userSignIn.email) && !isEmpty(userSignIn.password)) {
+            axios.post('auth/signin', userSignIn)
+                .catch(() => {
+                    msg.password = '* Wrong email or password *'
+                })
+        }
         setValidateSignInMsg(msg)
         return Object.keys(msg).length <= 0;
     }
 
-    const validateSignUp = () => {
+    const validateSignUp = async () => {
         const msg = {};
         if (isEmpty(userSignUp.email)) {
             msg.email = '* Please input your email *'
@@ -90,8 +102,78 @@ const LoginPage = () => {
         if (isEmpty(userSignUp.password)) {
             msg.password = '* Please input your password *'
         }
-        setValidateSignUpMsg(msg)
+        // setValidateSignUpMsg(msg)
         return Object.keys(msg).length <= 0;
+    }
+
+    const signInWithGoogle = async () => {
+        signInWithPopup(auth, googleAuthProvider)
+            .then((resultFromGoogle) => {
+                console.log(resultFromGoogle);
+                axios.post(`auth/firebase`, {
+                    username: resultFromGoogle.user.displayName,
+                    email: resultFromGoogle.user.email || resultFromGoogle.user.providerData[0].email,
+                    avatarUrl: resultFromGoogle.user.photoURL
+                }).then(resultFromBEAloha => {
+                    const [key, value] = resultFromBEAloha.data.token.split(' ')
+                    localStorage.setItem(key, JSON.stringify(value));
+                    dispatch(UserLoginWithGoogle({
+                        email: resultFromGoogle.user.email || resultFromGoogle.user.providerData[0].email,
+                        avatar: resultFromGoogle.user.photoURL,
+                        displayName: resultFromGoogle.user.displayName
+                    }))
+                })
+                navigate('/transactions')
+            })
+            .catch((error) => {
+                console.log(error.message)
+            })
+    }
+
+    const signInWithFaceBook = async () => {
+        signInWithPopup(auth, faceBookAuthProvider)
+            .then((resultFromFacebook) => {
+                axios.post(`auth/firebase`, {
+                    username: resultFromFacebook.user.displayName,
+                    email: resultFromFacebook.user.email || resultFromFacebook.user.providerData[0].email,
+                    avatarUrl: resultFromFacebook.user.photoURL
+                }).then(resultFromBEAloha => {
+                    const [key, value] = resultFromBEAloha.data.token.split(' ')
+                    localStorage.setItem(key, JSON.stringify(value));
+                    dispatch(UserLoginWithGoogle({
+                        email: resultFromFacebook.user.email || resultFromFacebook.user.providerData[0].email,
+                        avatar: resultFromFacebook.user.photoURL,
+                        displayName: resultFromFacebook.user.displayName
+                    }))
+                })
+                navigate('/transactions')
+            })
+            .catch((error) => {
+                console.log(error.message)
+            })
+    }
+    const signInWithGitHub = async () => {
+        signInWithPopup(auth, githubAuthProvider)
+            .then((resultFromGitHub) => {
+                console.log(resultFromGitHub);
+                axios.post(`auth/firebase`, {
+                    username: resultFromGitHub.user.displayName || "Git Hub User",
+                    email: resultFromGitHub.user.email || resultFromGitHub.user.providerData[0].email,
+                    avatarUrl: resultFromGitHub.user.photoURL
+                }).then(resultFromBEAloha => {
+                    const [key, value] = resultFromBEAloha.data.token.split(' ')
+                    localStorage.setItem(key, JSON.stringify(value));
+                    dispatch(UserLoginWithGoogle({
+                        email: resultFromGitHub.user.email || resultFromGitHub.user.providerData[0].email,
+                        avatar: resultFromGitHub.user.photoURL,
+                        displayName: resultFromGitHub.user.displayName || "Git Hub User"
+                    }))
+                })
+                navigate('/transactions')
+            })
+            .catch((error) => {
+                console.log(error.message)
+            })
     }
 
     return (
@@ -101,18 +183,24 @@ const LoginPage = () => {
                     <form>
                         <h1>Create Account</h1>
                         <div className="social-container">
-                            <Link to="" className="social"><i className="fab fa-facebook-f"></i></Link>
-                            <Link to="" className="social"><i className="fab fa-google-plus-g"></i></Link>
-                            <Link to="" className="social"><i className="fab fa-linkedin-in"></i></Link>
+                            <Link to="" onClick={signInWithFaceBook} className="social"><i
+                                className="fab fa-facebook-f"></i></Link>
+                            <Link to="" onClick={signInWithGoogle} className="social"><i
+                                className="fab fa-google-plus-g"></i></Link>
+                            <Link to="" onClick={signInWithGitHub} className="social"><i
+                                className="fab fa-linkedin-in"></i></Link>
                         </div>
                         <span style={{margin: '10px'}}>or use your email for registration</span>
-                        <input type="text" name='username' placeholder="Name" onChange={handleChangeSignUp}/>
+                        <input type="text" name='username' placeholder="Name" value={userSignUp.username}
+                               onChange={handleChangeSignUp}/>
                         {validateSignUpMsg.username &&
                             <p className='text-red-500 text-xs italic'>{validateSignUpMsg.username}</p>}
-                        <input type="email" name='email' placeholder="Email" onChange={handleChangeSignUp}/>
+                        <input type="email" name='email' placeholder="Email" value={userSignUp.email}
+                               onChange={handleChangeSignUp}/>
                         {validateSignUpMsg.email &&
                             <p className='text-red-500 text-xs italic'>{validateSignUpMsg.email}</p>}
-                        <input type="password" name='password' placeholder="Password" onChange={handleChangeSignUp}/>
+                        <input type="password" name='password' placeholder="Password" value={userSignUp.password}
+                               onChange={handleChangeSignUp}/>
                         {validateSignUpMsg.password &&
                             <p className='text-red-500 text-xs italic'>{validateSignUpMsg.password}</p>}
                         <button style={{marginTop: '10px'}} onClick={handleSignUp}>Sign Up</button>
@@ -122,9 +210,11 @@ const LoginPage = () => {
                     <form>
                         <h1>Sign in</h1>
                         <div className="social-container">
-                            <Link to="" className="social"><i className="fab fa-facebook-f"></i></Link>
-                            <Link to="" className="social"><i className="fab fa-google-plus-g"></i></Link>
-                            <Link to="" className="social"><i className="fab fa-github"></i></Link>
+                            <Link to="" onClick={signInWithFaceBook} className="social"><i
+                                className="fab fa-facebook-f"></i></Link>
+                            <Link to="" onClick={signInWithGoogle} className="social"><i
+                                className="fab fa-google-plus-g"></i></Link>
+                            <Link to="" onClick={signInWithGitHub} className="social"><i className="fab fa-github"></i></Link>
                         </div>
                         <span style={{margin: '10px'}}>or use your account</span>
                         <input type="email" name='email' placeholder="Email" onChange={handleChangeSignIn}
