@@ -3,6 +3,7 @@ import {useEffect, useState} from "react";
 import axios from 'axios'
 import {useDispatch, useSelector} from "react-redux";
 import {openDialogWallet} from "../../Features/DiaLogSlice/openDialogMyWalletSlice";
+import Loading from "../../Components/Loading/Loading";
 
 export default function MyWallet() {
     const [wallets, setWallets] = useState([])
@@ -16,13 +17,11 @@ export default function MyWallet() {
         axios.get('http://localhost:8080/wallet/render').then(r => {
             setWallets(r.data.data)
         })
-
     }, [])
 
     const handleOpenDialogWallet = () => {
             dispatch( openDialogWallet(true))
     }
-
 
     return (
 
@@ -69,7 +68,7 @@ export default function MyWallet() {
                         return (
                             <div key={index}
                                  className="text-left hover:bg-[#E6EFE7] flex px-6 py-2 round-[10px]  w-[664px] h-[72px] bg-[#FFFFFF] text-black cursor-pointer">
-                                <img src={wallet.icon.url} className="w-10 h-10 rounded-full my-2" alt=""/>
+                                <img src={wallet.name ?wallet.icon.url : ""} className="w-10 h-10 rounded-full my-2" alt=""/>
                                 <div className="px-3">
                                     <h3 className="font-sans my-1 text-[14px]">{wallet.name}</h3>
                                     <span className="text-[#949494]">+{wallet.initial} {wallet.currency.code}</span>
