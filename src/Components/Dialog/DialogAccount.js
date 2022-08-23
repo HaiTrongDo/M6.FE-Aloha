@@ -1,7 +1,7 @@
 import * as React from 'react';
 import PropTypes from 'prop-types';
 import Button from '@mui/material/Button';
-import { styled } from '@mui/material/styles';
+import {styled} from '@mui/material/styles';
 import Dialog from '@mui/material/Dialog';
 import DialogTitle from '@mui/material/DialogTitle';
 import DialogContent from '@mui/material/DialogContent';
@@ -13,8 +13,8 @@ import {useEffect, useState} from "react";
 import {useDispatch, useSelector} from "react-redux";
 import {closeDialog} from "../../Features/DiaLogSlice/openDialogAccountSlide";
 import {openDialogChangePass} from "../../Features/DiaLogSlice/openDialogChangePassSlice";
-
-const BootstrapDialog = styled(Dialog)(({ theme }) => ({
+import {Navigate, useNavigate} from "react-router-dom";
+const BootstrapDialog = styled(Dialog)(({theme}) => ({
     '& .MuiDialogContent-root': {
         padding: theme.spacing(2),
     },
@@ -24,10 +24,10 @@ const BootstrapDialog = styled(Dialog)(({ theme }) => ({
 }));
 
 const BootstrapDialogTitle = (props) => {
-    const { children, onClose, ...other } = props;
+    const {children, onClose, ...other} = props;
 
     return (
-        <DialogTitle sx={{ m: 0, p: 2 }} {...other}>
+        <DialogTitle sx={{m: 0, p: 2}} {...other}>
             {children}
             {onClose ? (
                 <IconButton
@@ -40,7 +40,7 @@ const BootstrapDialogTitle = (props) => {
                         color: (theme) => theme.palette.grey[500],
                     }}
                 >
-                    <CloseIcon />
+                    <CloseIcon/>
                 </IconButton>
             ) : null}
         </DialogTitle>
@@ -53,24 +53,21 @@ BootstrapDialogTitle.propTypes = {
 };
 
 export default function DialogAccount() {
-
+    const navigate = useNavigate()
     const dispatch = useDispatch()
-    const openDialogAccount = useSelector((state)=>state.Dialog.value)
+    const openDialogAccount = useSelector((state) => state.Dialog.value)
 
     const handleClose = () => {
         dispatch(closeDialog(false))
     };
 
-    const handleChangePass = ()=>{
+    const handleChangePass = () => {
         dispatch(openDialogChangePass(true))
         dispatch(closeDialog(false))
     }
 
     return (
-        <div>
-            {/*<Button variant="outlined" onClick={handleClickOpen}>*/}
-            {/*    Open dialog*/}
-            {/*</Button>*/}
+        <div className="w-8/12">
             <BootstrapDialog
                 onClose={handleClose}
                 aria-labelledby="customized-dialog-title"
@@ -80,17 +77,19 @@ export default function DialogAccount() {
                     My Account
                 </BootstrapDialogTitle>
                 <DialogContent dividers>
-                    <Typography gutterBottom>
-                        Cras mattis consectetur purus sit amet fermentum. Cras justo odio,
-                        dapibus ac facilisis in, egestas eget quam. Morbi leo risus, porta ac
-                        consectetur ac, vestibulum at eros.
+                    <Typography>
+                        Doi thong tin nguoi dung
+                        <Typography>
+                            <Button variant="outlined" color="success" align='right' size="small"
+                                    onClick={()=>navigate('/my-account/change-profile')}>Change Profile</Button>
+                        </Typography>
                     </Typography>
 
                     <Typography>
                         Doi mat khau
                         <Typography>
-                            <Button variant="outlined" color="success" align='right' size="small" onClick={handleChangePass}>Change Password</Button>
-
+                            <Button variant="outlined" color="success" align='right' size="small"
+                                    onClick={handleChangePass}>Change Password</Button>
                         </Typography>
                     </Typography>
                 </DialogContent>
