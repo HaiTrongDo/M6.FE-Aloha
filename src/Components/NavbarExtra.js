@@ -8,7 +8,7 @@ import ArrowBackIosIcon from '@mui/icons-material/ArrowBackIos';
 import Container from "@mui/material/Container";
 
 
-export default function NavbarExtra() {
+export default function NavbarExtra({onLog,idModal}) {
     return (
             <div>
                 <nav
@@ -27,6 +27,14 @@ export default function NavbarExtra() {
                         </div>
                         <div className="hidden justify-between items-center w-full md:flex md:w-auto md:order-1"
                              id="navbar-sticky">
+                            <button onClick={onLog} className="flex" data-modal-toggle={idModal}>
+                                <svg xmlns="http://www.w3.org/2000/svg" className="h-6 w-6" fill="none"
+                                     viewBox="0 0 24 24" stroke="currentColor" strokeWidth="2">
+                                    <path strokeLinecap="round" strokeLinejoin="round"
+                                          d="M12 6v6m0 0v6m0-6h6m-6 0H6"/>
+                                </svg>Create Wallet
+                            </button>
+                            {/*<label htmlFor="#navbar-sticky" ></label>*/}
                         </div>
                     </div>
                 </nav>
