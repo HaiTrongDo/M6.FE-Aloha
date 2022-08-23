@@ -256,3 +256,11 @@
     color: #3c97bf;
     text-decoration: none;
 }
+
+.login .form-container.sign-in-container p{
+    margin: 0;
+}
+
+.login .form-container.sign-up-container p{
+    margin: 0;
+}
