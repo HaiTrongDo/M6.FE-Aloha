@@ -1,103 +1,133 @@
 import MyAccountLayout from "../../Components/Layouts/MyAccount/MyAccountLayout";
 import "./UserChangeProfile.css"
-
+import {useEffect,useState} from "react";
+import {storage } from "../../Config/firebase"
+import {ref,getDownloadURL, uploadBytesResumable } from "firebase/storage"
+import {v4} from 'uuid'
 const UserChangeProfile = () => {
+    const [progress, setProgress] = useState(0);
+    const [imageUrls, setImageUrls] = useState();
+    const [formData, setFormData] = useState({
+        name:'',
+        company:'',
+        phone:'',
+        birthday:'',
+        email:'',
+        imageUpload:null
+    })
+
+    const setImageUploaded = (e)=> {
+        e.preventDefault()
+        if (formData.imageUpload == null) return;
+        const userImage = ref(storage, `images/${formData.name + v4()}`)
+        const uploadTask = uploadBytesResumable(userImage, formData.imageUpload)
+
+        uploadTask.on(
+            "state_changed",
+            (snapshot) => {
+                const prog = Math.round(
+                    (snapshot.bytesTransferred / snapshot.totalBytes) * 100
+                );
+                setProgress(prog);
+            },
+            (error) => console.log(error),
+            () => {
+                getDownloadURL(uploadTask.snapshot.ref).then((downloadURL) => {
+                    setImageUrls(downloadURL);
+
+
+                });
+            }
+        );
+    }
+    const handleChange =(e)=>{
+        setFormData({...formData,[e.target.name]:e.target.value})
+    }
+
+    useEffect(()=>{
+        console.log(imageUrls);
+    },[imageUrls])
+
     return (
         <div>
             <MyAccountLayout>
-                <div className=" master-container block p-6 rounded-lg shadow-lg bg-white max-w-md">
-
-                    <form>
+                <div className=" master-container block p-6 rounded-lg shadow-lg  bg-white max-w-7xl ">
+                    <form onSubmit={(e)=>setImageUploaded(e)}>
                         <div className="grid gap-6 mb-6 md:grid-cols-2">
                             <div>
-                                <label htmlFor="first_name"
-                                       className="block mb-2 text-sm font-medium text-gray-900 dark:text-gray-300">First
-                                    name</label>
-                                <input type="text" id="first_name"
-                                       className="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
+                                <label htmlFor="name"
+                                       className="block mb-2 text-sm font-medium text-gray-900 ">
+                                    Full Name
+                                </label>
+                                <input type="text" id="name" name='name' value={formData.name}
+                                       onChange={(e)=>handleChange(e)}
+                                       className="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 "
                                        placeholder="John" required=""/>
                             </div>
-                            <div>
-                                <label htmlFor="last_name"
-                                       className="block mb-2 text-sm font-medium text-gray-900 dark:text-gray-300">Last
-                                    name</label>
-                                <input type="text" id="last_name"
-                                       className="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
-                                       placeholder="Doe" required=""/>
-                            </div>
+
                             <div>
                                 <label htmlFor="company"
-                                       className="block mb-2 text-sm font-medium text-gray-900 dark:text-gray-300">Company</label>
-                                <input type="text" id="company"
-                                       className="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
-                                       placeholder="Flowbite" required=""/>
+
+                                       className="block mb-2 text-sm font-medium text-gray-900 ">Company</label>
+                                <input type="text" id="company" name="company"
+                                       value={formData.company}
+                                       onChange={(e)=>handleChange(e)}
+                                       className="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 "
+                                       placeholder="CodeGym" required=""/>
                             </div>
                             <div>
                                 <label htmlFor="phone"
-                                       className="block mb-2 text-sm font-medium text-gray-900 dark:text-gray-300">Phone
+
+                                       className="block mb-2 text-sm font-medium text-gray-900 ">Phone
                                     number</label>
-                                <input type="tel" id="phone"
-                                       className="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
-                                       placeholder="123-45-678" pattern="[0-9]{3}-[0-9]{2}-[0-9]{3}" required=""/>
+                                <input type="tel" id="phone" name='phone'
+                                       value={formData.phone}
+                                       onChange={(e)=>handleChange(e)}
+                                       className="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 "
+                                       placeholder="123-45-678" /*pattern="[0-9]{3}-[0-9]{2}-[0-9]{3}"*/ required=""/>
                             </div>
+
                             <div>
-                                <label htmlFor="website"
-                                       className="block mb-2 text-sm font-medium text-gray-900 dark:text-gray-300">Website
-                                    URL</label>
-                                <input type="url" id="website"
-                                       className="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
-                                       placeholder="flowbite.com" required=""/>
-                            </div>
-                            <div>
-                                <label htmlFor="visitors"
-                                       className="block mb-2 text-sm font-medium text-gray-900 dark:text-gray-300">Unique
-                                    visitors (per month)</label>
-                                <input type="number" id="visitors"
-                                       className="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
+                                <label htmlFor="DOB"
+                                       className="block mb-2 text-sm font-medium text-gray-900 ">Date Of Birth</label>
+                                <input type="date" id="DOB" name='birthday'
+                                       value={formData.birthday}
+                                       onChange={(e)=>handleChange(e)}
+                                       className="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 "
                                        placeholder="" required=""/>
                             </div>
                         </div>
                         <div className="mb-6">
                             <label htmlFor="email"
-                                   className="block mb-2 text-sm font-medium text-gray-900 dark:text-gray-300">Email
+                                   className="block mb-2 text-sm font-medium text-gray-900 ">Email
                                 address</label>
-                            <input type="email" id="email"
-                                   className="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
-                                   placeholder="john.doe@company.com" required=""/>
+                            <input type="email" id="email" name='email'
+                                   value={formData.email}
+                                   onChange={(e)=>handleChange(e)}
+                                   className="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 "
+                                   placeholder="john.doe@codegym.com.vn" required=""/>
                         </div>
                         <div className="mb-6">
-                            <label htmlFor="password"
-                                   className="block mb-2 text-sm font-medium text-gray-900 dark:text-gray-300">Password</label>
-                            <input type="password" id="password"
-                                   className="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
-                                   placeholder="•••••••••" required=""/>
-                        </div>
-                        <div className="mb-6">
-                            <label htmlFor="confirm_password"
-                                   className="block mb-2 text-sm font-medium text-gray-900 dark:text-gray-300">Confirm
-                                password</label>
-                            <input type="password" id="confirm_password"
-                                   className="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
-                                   placeholder="•••••••••" required=""/>
-                        </div>
-                        <div className="flex items-start mb-6">
-                            <div className="flex items-center h-5">
-                                <input id="remember" type="checkbox" value=""
-                                       className="w-4 h-4 bg-gray-50 rounded border border-gray-300 focus:ring-3 focus:ring-blue-300 dark:bg-gray-700 dark:border-gray-600 dark:focus:ring-blue-600 dark:ring-offset-gray-800"
-                                       required=""/>
+                            <div className="mb-3 w-full">
+                                <label htmlFor="formFile" className="form-label inline-block mb-2 text-gray-700">
+                                    Avatar Image
+                                </label>
+                                <input onChange={(e)=>{setFormData((prev)=>({...prev, imageUpload: e.target.files[0]}))}}
+                                    className="form-control block w-full px-3 py-1.5 text-base font-normal text-gray-900 bg-white bg-clip-padding border border-solid border rounded-lg border-gray-300  transition ease-in-out m-0 focus:text-gray-700 focus:bg-white focus:border-blue-600 focus:outline-none"
+                                    type="file" id="formFile"/>
                             </div>
-                            <label htmlFor="remember"
-                                   className="ml-2 text-sm font-medium text-gray-900 dark:text-gray-400">I agree with
-                                the <a href="#" className="text-blue-600 hover:underline dark:text-blue-500">terms and
-                                    conditions</a>.</label>
                         </div>
-                        <button type="submit"
-                                className="text-white bg-blue-700 hover:bg-blue-800 focus:ring-4 focus:outline-none focus:ring-blue-300 font-medium rounded-lg text-sm w-full sm:w-auto px-5 py-2.5 text-center dark:bg-blue-600 dark:hover:bg-blue-700 dark:focus:ring-blue-800">Submit
-                        </button>
+                        <div className=" text-center ">
+                            {progress ? <h2>Uploading done {progress}%</h2>  : ""}
+                            <button type="submit"
+                                    className="text-white bg-blue-700 hover:bg-blue-800 focus:ring-4 focus:outline-none focus:ring-blue-300 font-medium rounded-lg text-sm w-full sm:w-auto px-5 mt-2.5 py-2.5 text-center dark:bg-blue-600 ">Submit
+                            </button>
+                        </div>
                     </form>
 
                 </div>
             </MyAccountLayout>
+
         </div>
     );
 };
