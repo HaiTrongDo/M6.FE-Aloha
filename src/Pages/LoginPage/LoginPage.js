@@ -2,7 +2,7 @@ import React, {useState} from 'react';
 import './LoginPage.css'
 import {Link, useNavigate} from 'react-router-dom';
 import axios from '../../axios/index';
-import {auth, googleAuthProvider, faceBookAuthProvider,githubAuthProvider} from "../../Config/firebase"
+import {auth, faceBookAuthProvider, githubAuthProvider, googleAuthProvider} from "../../Config/firebase"
 import {signInWithPopup} from "firebase/auth"
 import isEmpty from "validator/es/lib/isEmpty";
 import {useDispatch} from 'react-redux'
@@ -45,11 +45,11 @@ const LoginPage = () => {
         const isValid = validateSignIn()
         if (isValid) {
             await axios.post('auth/signin', userSignIn)
-                .then((result) => {
-                    navigate('/')
+                .then(() => {
+                    navigate('/transaction')
                 })
-                .catch((err) => {
-                    console.log(err.response.data);
+                .catch(() => {
+                    // setValidateSignInMsg({password: '* Wrong email or password *'})
                 })
         }
     }
@@ -68,9 +68,14 @@ const LoginPage = () => {
                     setActive('container')
                     setUserSignIn({email: userSignUp.email, password: userSignUp.password})
                 })
-                .catch(() => {
+                .catch((err) => {
                     setActive('container right-panel-active')
+                    const {msg} = err.response.data;
+                    setValidateSignUpMsg({password: msg})
                 })
+        }
+        if (!isValid) {
+
         }
     }
 
@@ -84,7 +89,6 @@ const LoginPage = () => {
         }
         if (!isEmpty(userSignIn.email) && !isEmpty(userSignIn.password)) {
             axios.post('auth/signin', userSignIn)
-                .then()
                 .catch(() => {
                     msg.password = '* Wrong email or password *'
                 })
@@ -101,7 +105,7 @@ const LoginPage = () => {
         if (isEmpty(userSignUp.password)) {
             msg.password = '* Please input your password *'
         }
-        setValidateSignUpMsg(msg)
+        // setValidateSignUpMsg(msg)
         return Object.keys(msg).length <= 0;
     }
 
@@ -121,6 +125,7 @@ const LoginPage = () => {
                         avatar: resultFromGoogle.user.photoURL,
                         displayName: resultFromGoogle.user.displayName
                     }))
+                    navigate('/transactions')
                 })
             })
             .catch((error) => {
@@ -128,11 +133,11 @@ const LoginPage = () => {
             })
     }
 
-    const signInWithFaceBook = async ()=>{
+    const signInWithFaceBook = async () => {
         signInWithPopup(auth, faceBookAuthProvider)
             .then((resultFromFacebook) => {
                 axios.post(`auth/firebase`, {
-                    username: resultFromFacebook.user.displayName ,
+                    username: resultFromFacebook.user.displayName,
                     email: resultFromFacebook.user.email || resultFromFacebook.user.providerData[0].email,
                     avatarUrl: resultFromFacebook.user.photoURL
                 }).then(resultFromBEAloha => {
@@ -143,13 +148,14 @@ const LoginPage = () => {
                         avatar: resultFromFacebook.user.photoURL,
                         displayName: resultFromFacebook.user.displayName
                     }))
+                    navigate('/transactions')
                 })
             })
             .catch((error) => {
                 console.log(error.message)
             })
     }
-    const signInWithGitHub = async ()=>{
+    const signInWithGitHub = async () => {
         signInWithPopup(auth, githubAuthProvider)
             .then((resultFromGitHub) => {
                 console.log(resultFromGitHub);
@@ -165,6 +171,7 @@ const LoginPage = () => {
                         avatar: resultFromGitHub.user.photoURL,
                         displayName: resultFromGitHub.user.displayName || "Git Hub User"
                     }))
+                    navigate('/transactions')
                 })
             })
             .catch((error) => {
@@ -179,19 +186,24 @@ const LoginPage = () => {
                     <form>
                         <h1>Create Account</h1>
                         <div className="social-container">
-                            <Link to="" onClick={signInWithFaceBook} className="social"><i className="fab fa-facebook-f"></i></Link>
+                            <Link to="" onClick={signInWithFaceBook} className="social"><i
+                                className="fab fa-facebook-f"></i></Link>
                             <Link to="" onClick={signInWithGoogle} className="social"><i
                                 className="fab fa-google-plus-g"></i></Link>
-                            <Link to="" onClick={signInWithGitHub} className="social"><i className="fab fa-linkedin-in"></i></Link>
+                            <Link to="" onClick={signInWithGitHub} className="social"><i
+                                className="fab fa-linkedin-in"></i></Link>
                         </div>
                         <span style={{margin: '10px'}}>or use your email for registration</span>
-                        <input type="text" name='username' placeholder="Name" onChange={handleChangeSignUp}/>
+                        <input type="text" name='username' placeholder="Name" value={userSignUp.username}
+                               onChange={handleChangeSignUp}/>
                         {validateSignUpMsg.username &&
                             <p className='text-red-500 text-xs italic'>{validateSignUpMsg.username}</p>}
-                        <input type="email" name='email' placeholder="Email" onChange={handleChangeSignUp}/>
+                        <input type="email" name='email' placeholder="Email" value={userSignUp.email}
+                               onChange={handleChangeSignUp}/>
                         {validateSignUpMsg.email &&
                             <p className='text-red-500 text-xs italic'>{validateSignUpMsg.email}</p>}
-                        <input type="password" name='password' placeholder="Password" onChange={handleChangeSignUp}/>
+                        <input type="password" name='password' placeholder="Password" value={userSignUp.password}
+                               onChange={handleChangeSignUp}/>
                         {validateSignUpMsg.password &&
                             <p className='text-red-500 text-xs italic'>{validateSignUpMsg.password}</p>}
                         <button style={{marginTop: '10px'}} onClick={handleSignUp}>Sign Up</button>
@@ -201,7 +213,8 @@ const LoginPage = () => {
                     <form>
                         <h1>Sign in</h1>
                         <div className="social-container">
-                            <Link to="" onClick={signInWithFaceBook} className="social"><i className="fab fa-facebook-f"></i></Link>
+                            <Link to="" onClick={signInWithFaceBook} className="social"><i
+                                className="fab fa-facebook-f"></i></Link>
                             <Link to="" onClick={signInWithGoogle} className="social"><i
                                 className="fab fa-google-plus-g"></i></Link>
                             <Link to="" onClick={signInWithGitHub} className="social"><i className="fab fa-github"></i></Link>
