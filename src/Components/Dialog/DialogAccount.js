@@ -13,7 +13,7 @@ import {useEffect, useState} from "react";
 import {useDispatch, useSelector} from "react-redux";
 import {closeDialog} from "../../Features/DiaLogSlice/openDialogAccountSlide";
 import {openDialogChangePass} from "../../Features/DiaLogSlice/openDialogChangePassSlice";
-import {Navigate, useNavigate} from "react-router-dom";
+import {useNavigate} from "react-router-dom";
 const BootstrapDialog = styled(Dialog)(({theme}) => ({
     '& .MuiDialogContent-root': {
         padding: theme.spacing(2),
@@ -67,7 +67,7 @@ export default function DialogAccount() {
     }
 
     return (
-        <div className="w-8/12">
+        <div>
             <BootstrapDialog
                 onClose={handleClose}
                 aria-labelledby="customized-dialog-title"
@@ -81,7 +81,10 @@ export default function DialogAccount() {
                         Doi thong tin nguoi dung
                         <Typography>
                             <Button variant="outlined" color="success" align='right' size="small"
-                                    onClick={()=>navigate('/my-account/change-profile')}>Change Profile</Button>
+                                    onClick={()=> {
+                                        dispatch(closeDialog(false))
+                                        navigate('/my-account/change-profile')
+                                    }}>Change Profile</Button>
                         </Typography>
                     </Typography>
 

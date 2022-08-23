@@ -1,11 +1,12 @@
-import TransactionsLayout from "../../Components/Layouts/Transactions/TransactionsLayout";
+import MyAccountLayout from "../../Components/Layouts/MyAccount/MyAccountLayout";
+
 
 const UserTransactionsPage = () => {
     return (
         <div>
-            <TransactionsLayout>
-                <h1> this is the Transactions Home page</h1>
-            </TransactionsLayout>
+            <MyAccountLayout>
+                <span> this is the Transactions Home page</span>
+            </MyAccountLayout>
         </div>
     );
 };
