@@ -46,7 +46,7 @@ const LoginPage = () => {
         if (isValid) {
             await axios.post('auth/signin', userSignIn)
                 .then(() => {
-                    navigate('/transaction')
+                    navigate('/transactions')
                 })
                 .catch(() => {
                     // setValidateSignInMsg({password: '* Wrong email or password *'})
@@ -73,9 +73,6 @@ const LoginPage = () => {
                     const {msg} = err.response.data;
                     setValidateSignUpMsg({password: msg})
                 })
-        }
-        if (!isValid) {
-
         }
     }
 
@@ -125,8 +122,8 @@ const LoginPage = () => {
                         avatar: resultFromGoogle.user.photoURL,
                         displayName: resultFromGoogle.user.displayName
                     }))
-                    navigate('/transactions')
                 })
+                navigate('/transactions')
             })
             .catch((error) => {
                 console.log(error.message)
@@ -148,8 +145,8 @@ const LoginPage = () => {
                         avatar: resultFromFacebook.user.photoURL,
                         displayName: resultFromFacebook.user.displayName
                     }))
-                    navigate('/transactions')
                 })
+                navigate('/transactions')
             })
             .catch((error) => {
                 console.log(error.message)
@@ -171,8 +168,8 @@ const LoginPage = () => {
                         avatar: resultFromGitHub.user.photoURL,
                         displayName: resultFromGitHub.user.displayName || "Git Hub User"
                     }))
-                    navigate('/transactions')
                 })
+                navigate('/transactions')
             })
             .catch((error) => {
                 console.log(error.message)
