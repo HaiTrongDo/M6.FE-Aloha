@@ -131,6 +131,7 @@ const LoginPage = () => {
     const signInWithFaceBook = async ()=>{
         signInWithPopup(auth, faceBookAuthProvider)
             .then((resultFromFacebook) => {
+                console.log(resultFromFacebook);
                 axios.post(`auth/firebase`, {
                     username: resultFromFacebook.user.displayName ,
                     email: resultFromFacebook.user.email || resultFromFacebook.user.providerData[0].email,
