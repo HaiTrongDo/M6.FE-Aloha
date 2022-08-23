@@ -3,18 +3,19 @@ import {createSlice} from "@reduxjs/toolkit";
 const initialState = {
     email: "",
     avatar: "",
-    displayName:''
+    displayName:'',
+    userId:''
 };
 const UserSlice = createSlice({
     name: 'UserInfo',
-    initialState: {
-        value: initialState
-    },
+    initialState: initialState
+    ,
     reducers: {
         UserLoginWithGoogle: (state,action)=>{
             state.email = action.payload.email
             state.avatar = action.payload.avatar
             state.displayName = action.payload.displayName
+            state.userId = action.payload.userId
         }
     }
 })
