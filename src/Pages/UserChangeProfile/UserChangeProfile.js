@@ -13,6 +13,7 @@ import {useDispatch} from 'react-redux'
 const UserChangeProfile = () => {
     const dispatch = useDispatch()
     const currentUser = useSelector((store) => store.currentUser.currentUser)
+    // console.log(currentUser);
     const [progress, setProgress] = useState(0);
     const [imageUrls, setImageUrls] = useState();
     const [formData, setFormData] = useState({
@@ -29,15 +30,14 @@ const UserChangeProfile = () => {
         if (formData.imageUpload == null) {
             return axios
                 .put('/my-account/change-profile', {
-                ...formData, userId: currentUser.userId
+                ...formData, userId: currentUser._id
             }).catch(err => console.log(err))
         } else {
             return axios
                 .put('/my-account/change-profile', {
-                    ...formData, avatarUrl: imageUrls, userId: currentUser.userId
+                    ...formData, avatarUrl: imageUrls, userId: currentUser._id
                 }).then((resultFromBEAloha) => {
-                    console.log(JSON.parse(resultFromBEAloha.config.data));
-                    dispatch(updateUserInfo(JSON.parse(resultFromBEAloha.config.data)))
+                    dispatch(updateUserInfo(resultFromBEAloha.data))
                     alert("update profile success")
                 }).catch(err => console.log(err))
         }
