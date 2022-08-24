@@ -6,10 +6,10 @@ import {auth, googleAuthProvider, faceBookAuthProvider, githubAuthProvider} from
 import {signInWithPopup} from "firebase/auth"
 import isEmpty from "validator/es/lib/isEmpty";
 import {useDispatch} from 'react-redux'
-import {UserLoginWithGoogle} from '../../Features/CurrentUser/UserSlice'
+import {UserLoginWithFireBase} from '../../Features/CurrentUser/UserSlice'
 
 const LoginPage = () => {
-    let navigate = useNavigate()
+    const navigate = useNavigate()
     const dispatch = useDispatch()
     const [active, setActive] = useState('container');
     const [userSignIn, setUserSignIn] = useState({
@@ -119,12 +119,7 @@ const LoginPage = () => {
                 }).then(resultFromBEAloha => {
                     const [key, value] = resultFromBEAloha.data.token.split(' ')
                     localStorage.setItem(key, JSON.stringify(value));
-                    dispatch(UserLoginWithGoogle({
-                        email: resultFromAuthProvider.user.email || resultFromAuthProvider.user.providerData[0].email,
-                        avatar: resultFromAuthProvider.user.photoURL,
-                        displayName: resultFromAuthProvider.user.displayName,
-                        userId: resultFromBEAloha.data.userId
-                    }))
+                    dispatch(UserLoginWithFireBase(resultFromBEAloha.data.currentUser))
                 })
                 navigate("/transactions")
             })
