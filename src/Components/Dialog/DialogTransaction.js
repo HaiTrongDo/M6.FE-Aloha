@@ -8,11 +8,11 @@ const DialogTransaction = () => {
         <div>
             <div id="large-modal" tabIndex="-1"
                  className=" overflow-y-auto overflow-x-hidden fixed top-0 right-0 left-0 z-50 w-full md:inset-0 h-modal md:h-full">
-                <div className="relative p-[200px] w-full max-w-4xl h-full md:h-auto">
+                <div className="relative p-[50px] w-full max-w-4xl h-full md:h-auto">
                     <div className="relative bg-white rounded-lg shadow dark:bg-gray-700">
                         <div className="flex justify-between items-center p-5 rounded-t border-b dark:border-gray-600">
                             <h3 className="text-xl font-medium text-gray-900 dark:text-white">
-                                Large modal
+                                Add transaction
                             </h3>
                             <button type="button" onClick={()=>dispatch(closeDialogTransaction(false))}
                                     className="text-gray-400 bg-transparent hover:bg-gray-200 hover:text-gray-900 rounded-lg text-sm p-1.5 ml-auto inline-flex items-center dark:hover:bg-gray-600 dark:hover:text-white"
@@ -27,17 +27,7 @@ const DialogTransaction = () => {
                             </button>
                         </div>
                         <div className="p-6 space-y-6">
-                            <p className="text-base leading-relaxed text-gray-500 dark:text-gray-400">
-                                With less than a month to go before the European Union enacts new consumer privacy laws
-                                for its citizens, companies around the world are updating their terms of service
-                                agreements to comply.
-                            </p>
-                            <p className="text-base leading-relaxed text-gray-500 dark:text-gray-400">
-                                The European Union’s General Data Protection Regulation (G.D.P.R.) goes into effect on
-                                May 25 and is meant to ensure a common set of data rights in the European Union. It
-                                requires organizations to notify users as soon as possible of high-risk data breaches
-                                that could personally affect them.
-                            </p>
+
                         </div>
                         <div
                             className="flex items-center p-6 space-x-2 rounded-b border-t border-gray-200 dark:border-gray-600">
