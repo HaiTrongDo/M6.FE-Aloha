@@ -47,6 +47,7 @@ const LoginPage = () => {
             await axios.post('auth/signin', userSignIn)
                 .then((resultFromBEAloha) => {
                     const [key, value] = resultFromBEAloha.data.token.split(' ')
+                    console.log(value)
                     localStorage.setItem(key, JSON.stringify(value));
                     navigate('/transactions')
                 })

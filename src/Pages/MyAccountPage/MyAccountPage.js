@@ -4,7 +4,9 @@ const MyAccountPage = () => {
     return (
         <div>
             <TransactionsLayout>
-                <h1> this is the Transactions Home page</h1>
+                <div className='flex text-3xl underline p-2'>
+                <h1 >this is the Account  </h1>
+                </div>
             </TransactionsLayout>
         </div>
     );

@@ -5,13 +5,12 @@ import Dialog from '@mui/material/Dialog';
 import DialogActions from '@mui/material/DialogActions';
 import DialogContent from '@mui/material/DialogContent';
 import {useDispatch, useSelector} from "react-redux";
-import DialogContentText from '@mui/material/DialogContentText';
 import DialogTitle from '@mui/material/DialogTitle';
-import {closeDialog} from "../../Features/DiaLogSlice/openDialogAccountSlide";
 import {closeDialogChangePass} from "../../Features/DiaLogSlice/openDialogChangePassSlice";
 import Box from "@mui/material/Box";
 import {useState} from "react";
-import axios from "../../axios/index";
+import axios from "axios";
+;
 
 export default function DialogChangePassword() {
     const [data, setData] = useState({
@@ -42,7 +41,7 @@ export default function DialogChangePassword() {
         console.log(body)
         let token = JSON.parse(localStorage.getItem('JWT'))
         console.log(token)
-        await axios.post('auth/change-password',
+        await axios.put('http://localhost:8080/auth/change-password',
             body, {
                 headers: {
                     Authorization: `Bearer ${token}`
