@@ -2,14 +2,36 @@ import {useDispatch, useSelector} from "react-redux";
 import {closeDialogWallet, openDialogWallet} from "../../Features/DiaLogSlice/openDialogMyWalletSlice";
 import {useEffect, useState} from "react";
 import axios from "axios";
-import '../../Pages/MyWallet/MyWallet.css'
+import '../../Pages/MyWallet/MyWallet.css';
+import DialogIcons from "../Dialog/DialogIcons";
+import DialogCurrency from "../Dialog/DialogCurrency";
+import {openDialogIcons} from "../../Features/DiaLogSlice/openDialogIconsSlice";
+import {openDialogCurrency} from "../../Features/DiaLogSlice/openDialogCurrencySlice";
 
 export default function DialogWallet({className}) {
     const [wallets, setWallets] = useState([])
     const dispatch = useDispatch();
+
     const handleCloseDialogWallet = () => {
         dispatch(closeDialogWallet(false))
     }
+
+    const iconsState = useSelector((state) =>
+        state.DialogIcons.value
+    )
+
+    const currencyState = useSelector((state) =>
+        state.DialogCurrency.value
+    )
+
+    const handleOpenDialogIcons = () => {
+        dispatch( openDialogIcons(true))
+    }
+
+    const handleOpenDialogCurrency = () => {
+        dispatch( openDialogCurrency(true))
+    }
+
 
     useEffect(() => {
         axios.get('http://localhost:8080/wallet/render').then(r => {
@@ -46,6 +68,7 @@ export default function DialogWallet({className}) {
                         <div className="relative p-6 flex-auto">
                             <div className="grid grid-cols-3 gap-3">
                                 <button
+                                    onClick={handleOpenDialogIcons}
                                     className=" flex  justify-center border border-gray-300 p-2 h-[60px] rounded-[10px] hover:border-black">
                                     <img className="w-10 h-10 rounded-full my-0.5" src={wallets[0]?.icon?.url}
                                          alt="..."/>
@@ -54,7 +77,7 @@ export default function DialogWallet({className}) {
                                          viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2}>
                                         <path strokeLinecap="round" strokeLinejoin="round" d="M19 9l-7 7-7-7"/>
                                     </svg>
-                                </button>
+                                </button >
                                 <div className="relative col-span-2">
                                     <input type="text" id="floating_filled"
                                            className="block rounded-[10px] p-2 pt-5 w-[296px] h-[60px] text-sm text-gray-900 bg-gray-50  border border-gray-300  appearance-none dark:text-black  focus:outline-none focus:ring-0 hover:border-black peer"
@@ -65,6 +88,7 @@ export default function DialogWallet({className}) {
                                     </label>
                                 </div>
                                 <button
+                                    onClick={handleOpenDialogCurrency}
                                     id="button"
                                     className="col-span-2 flex relative  border border-gray-300 p-2 h-[60px]  rounded-[10px] hover:border-black">
                                     <img className="w-[24px] h-[24px] rounded-full my-3" src={wallets[0]?.currency?.url}
@@ -87,6 +111,8 @@ export default function DialogWallet({className}) {
                                 </div>
                             </div>
                         </div>
+                        {iconsState && <DialogIcons/>}
+                        {currencyState && <DialogCurrency/>}
                         {/*footer*/}
                         <div
                             className="flex items-center justify-end p-6 border-t border-solid border-slate-200 rounded-b">
