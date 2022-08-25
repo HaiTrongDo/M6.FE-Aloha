@@ -10,6 +10,7 @@ import MyWalletPage from "./Pages/MyWallet/MyWallet";
 import PrivateRoute from './utils/PrivateRoute'
 import UserChangeProfile from "./Pages/UserChangeProfile/UserChangeProfile";
 import MyAccountPage from "./Pages/MyAccountPage/MyAccountPage";
+import Category from "./Pages/Category/Category";
 
 function App() {
     return (
@@ -27,11 +28,11 @@ function App() {
                     <Route path="/my-wallets" element={<MyWalletPage/>}/>
                     <Route path="/my-account" element={<MyAccountPage />} />
                         <Route path="/my-account/change-profile" element={<UserChangeProfile />} />
-                    <Route path="/categories" element={<UserTransactionsPage/>}/>
-                    <Route path="/category" element={<UserTransactionsPage/>}/>
+                    <Route path="/categories" element={<Category/>}/>
                     <Route path="/search" element={<UserTransactionsPage/>}/>
                     <Route path="/store" element={<UserTransactionsPage/>}/>
                     <Route path="/help" element={<UserTransactionsPage/>}/>
+
                 </Routes>
             </div>
         </Provider>
