@@ -3,7 +3,6 @@
     font-size: 14px;
     text-rendering: optimizeLegibility;
     -webkit-text-size-adjust: 100%;
-    line-height: 1.5;
     color: rgba(0,0,0,.87);
     -webkit-box-direction: normal;
 
@@ -13,5 +12,4 @@
     box-shadow: 0 3px 24px 0 rgba(0,0,0,.12);
     margin-top: 30px;
     margin-left: 15px;
-
 }
