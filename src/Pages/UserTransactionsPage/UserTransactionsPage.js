@@ -1,8 +1,8 @@
 import TransactionsLayout from "../../Components/Layouts/Transactions/TransactionsLayout";
-import { useSelector } from "react-redux";
+import { useSelector} from "react-redux";
 import DialogTransaction from "../../Components/Dialog/DialogTransaction";
-// import DialogCategory from "../../Components/Dialog/DialogCategory";
-
+import DialogTransactionCategory from "../../Components/Dialog/DialogTransactionCategory";
+import DialogSelectWallet from "../../Components/Dialog/DialogSelectWallet";
 
 
 const UserTransactionsPage = () => {
@@ -11,9 +11,11 @@ const UserTransactionsPage = () => {
 
     return (
         <div>
-            <TransactionsLayout>
-                {transactionState && <DialogTransaction/>}
-                {/*{transactionState && dialogCategoryState && <DialogCategory/>}*/}
+            <TransactionsLayout >
+                {transactionState && <DialogTransaction />}
+                {dialogCategoryState && <DialogTransactionCategory />}
+                {dialogWalletState && <DialogSelectWallet/>}
+
                 <div className="flex justify-center gap-2">
                     <div className="master-container flex-cols w-1/3 h-1/3 rounded">
                         <div className="flex flex-auto w-full ">
