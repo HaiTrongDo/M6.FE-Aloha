@@ -1,6 +1,6 @@
 import {createSlice} from "@reduxjs/toolkit";
 
-const initialState = true;
+const initialState = false;
 const clickSlice = createSlice({
     name: 'layout',
     initialState: {
