@@ -12,10 +12,10 @@ const DialogSelectWallet = () => {
     const selectWalletState=useSelector(state => state.value)
     const [listWallet, setListWallet] = useState([]);
     const user=JSON.parse(localStorage.getItem('alohaUser'));
-    console.log(user)
+
 
     useEffect(() => {
-        axios.post('wallet/render')
+        axios.post('wallet/render',user._id)
             .then(res => {
                 setListWallet(res.data.data)
             })
