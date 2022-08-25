@@ -24,7 +24,8 @@ export default function DialogIcons() {
 
         <div>
             <div
-                className="justify-center  items-center flex overflow-x-hidden overflow-y-auto fixed inset-0 z-50 outline-none focus:outline-none"
+                className="justify-center  items-center flex overflow-x-hidden overflow-y-auto modal-dialog modal-dialog-scrollable fixed inset-0 z-50 outline-none focus:outline-none"
+                tabIndex="-1" aria-labelledby="exampleModalScrollableLabel" aria-hidden="true"
             >
                 <div className="relative w-auto my-6 mx-auto max-w-3xl">
                     {/*content*/}
@@ -33,7 +34,7 @@ export default function DialogIcons() {
                         {/*header*/}
                         <div
                             className="flex items-start p-5 border-b border-solid border-slate-200 rounded-t">
-                            <button className="pt-1 text-[#757575]">
+                            <button className="pt-1 text-[#757575]" onClick={handleCloseDialogIcons}>
                             <svg xmlns="http://www.w3.org/2000/svg" className="h-6 w-6" fill="none" viewBox="0 0 24 24"
                                  stroke="currentColor" strokeWidth="2">
                                 <path strokeLinecap="round" strokeLinejoin="round" d="M6 18L18 6M6 6l12 12"/>
@@ -44,11 +45,14 @@ export default function DialogIcons() {
                             </span>
                         </div>
                         {/*body*/}
-                        <div className="relative p-6 flex-auto w-[496px] h-[600px] bg-black">
-                           <div className="">
-
-
-                           </div>
+                        <div className="modal-body relative w-[496px] h-[600px] flex-auto p-4">
+                            <ul className="grid grid-cols-8 grid-rows-4 gap-2 grid-flow-row">
+                                {icons.map((icon,index)=>{
+                                    return(
+                                        <li className="" key={index}><button className=" hover:bg-[#F0F9F1]"><img src={icon?.url} alt="thinh"/></button></li>
+                                    )
+                                })}
+                            </ul>
                         </div>
                         {/*footer*/}
                     </div>
