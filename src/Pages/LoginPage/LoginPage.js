@@ -6,7 +6,7 @@ import {auth, googleAuthProvider, faceBookAuthProvider, githubAuthProvider} from
 import {signInWithPopup} from "firebase/auth"
 import isEmpty from "validator/es/lib/isEmpty";
 import {useDispatch} from 'react-redux'
-import {UserLoginWithFireBase} from '../../Features/CurrentUser/UserSlice'
+import {UserLoginWithFireBase, UserLoginWithPassword} from '../../Features/CurrentUser/UserSlice'
 
 const LoginPage = () => {
     const navigate = useNavigate()
@@ -44,15 +44,17 @@ const LoginPage = () => {
         e.preventDefault()
         const isValid = validateSignIn()
         if (isValid) {
-            await axios.post('auth/signin', userSignIn)
+            await axios
+                .post('auth/signin', userSignIn)
                 .then((resultFromBEAloha) => {
+                    console.log(resultFromBEAloha.data.currentUser);
                     const [key, value] = resultFromBEAloha.data.token.split(' ')
-                    console.log(value)
                     localStorage.setItem(key, JSON.stringify(value));
+                    dispatch(UserLoginWithPassword(resultFromBEAloha.data.currentUser))
                     navigate('/transactions')
                 })
                 .catch(() => {
-                    // setValidateSignInMsg({password: '* Wrong email or password *'})
+                    setValidateSignInMsg({password: '* Wrong email or password *'})
                 })
         }
     }

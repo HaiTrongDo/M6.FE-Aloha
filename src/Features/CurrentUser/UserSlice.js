@@ -12,12 +12,15 @@ const UserSlice = createSlice({
         UserLoginWithFireBase: (state,action)=>{
             state.currentUser = action.payload
         },
+        UserLoginWithPassword: (state,action)=>{
+            state.currentUser = action.payload
+        },
         updateUserInfo: (state,action)=>{
             state.currentUser = action.payload
         }
     }
 })
 
-export const {UserLoginWithFireBase, updateUserInfo} = UserSlice.actions
+export const {UserLoginWithFireBase, updateUserInfo,UserLoginWithPassword} = UserSlice.actions
 
 export default UserSlice.reducer
