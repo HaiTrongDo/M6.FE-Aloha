@@ -4,11 +4,14 @@ import {useEffect, useState} from "react";
 import axios from "axios";
 import '../../Pages/MyWallet/MyWallet.css';
 import DialogIcons from "../Dialog/DialogIcons";
+import DialogCurrency from "../Dialog/DialogCurrency";
 import {openDialogIcons} from "../../Features/DiaLogSlice/openDialogIconsSlice";
+import {openDialogCurrency} from "../../Features/DiaLogSlice/openDialogCurrencySlice";
 
 export default function DialogWallet({className}) {
     const [wallets, setWallets] = useState([])
     const dispatch = useDispatch();
+
     const handleCloseDialogWallet = () => {
         dispatch(closeDialogWallet(false))
     }
@@ -17,8 +20,16 @@ export default function DialogWallet({className}) {
         state.DialogIcons.value
     )
 
+    const currencyState = useSelector((state) =>
+        state.DialogCurrency.value
+    )
+
     const handleOpenDialogIcons = () => {
         dispatch( openDialogIcons(true))
+    }
+
+    const handleOpenDialogCurrency = () => {
+        dispatch( openDialogCurrency(true))
     }
 
 
@@ -77,7 +88,7 @@ export default function DialogWallet({className}) {
                                     </label>
                                 </div>
                                 <button
-
+                                    onClick={handleOpenDialogCurrency}
                                     id="button"
                                     className="col-span-2 flex relative  border border-gray-300 p-2 h-[60px]  rounded-[10px] hover:border-black">
                                     <img className="w-[24px] h-[24px] rounded-full my-3" src={wallets[0]?.currency?.url}
@@ -101,6 +112,7 @@ export default function DialogWallet({className}) {
                             </div>
                         </div>
                         {iconsState && <DialogIcons/>}
+                        {currencyState && <DialogCurrency/>}
                         {/*footer*/}
                         <div
                             className="flex items-center justify-end p-6 border-t border-solid border-slate-200 rounded-b">
