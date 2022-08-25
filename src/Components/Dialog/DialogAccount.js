@@ -72,6 +72,7 @@ export default function DialogAccount() {
                 onClose={handleClose}
                 aria-labelledby="customized-dialog-title"
                 open={openDialogAccount}
+                fullWidth="500px"
             >
                 <BootstrapDialogTitle id="customized-dialog-title" onClose={handleClose}>
                     My Account

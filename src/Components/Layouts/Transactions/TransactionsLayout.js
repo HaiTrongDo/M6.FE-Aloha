@@ -30,9 +30,9 @@ function TransactionsLayout({children}) {
                     }}
                 >
                     <Toolbar/>
-                    <div className=" flex container justify-center underline ">
+                    <>
                         {children}
-                    </div>
+                    </>
                 </Box>
             </Box>
         </ThemeProvider>
