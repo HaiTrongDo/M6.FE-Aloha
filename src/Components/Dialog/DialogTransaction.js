@@ -1,57 +1,208 @@
-import React from 'react';
-import {useDispatch} from "react-redux";
+import React, {useEffect, useState} from 'react';
+import {useDispatch, useSelector} from "react-redux";
 import {closeDialogTransaction} from "../../Features/DiaLogSlice/openDialogTransactionSlice";
+import axios from '../../axios/index';
+import {openDialogCategory, closeDialogCategory} from "../../Features/DiaLogSlice/openDialogCategorySlice";
+
 
 const DialogTransaction = () => {
-    const dispatch=useDispatch()
+    const dispatch = useDispatch();
+    const [listCategory, setListCategory] = useState([]);
+    const [category, setCategory] = useState('');
+    const [listWallet, setListWallet] = useState([]);
+    const [wallet, setWallet] = useState('');
+    const [amount, setAmount] = useState();
+    const [note, setNote] = useState('');
+    const [date, setDate] = useState(new Date().toLocaleDateString());
+
+
+
+    useEffect(() => {
+        axios.get('transaction/category')
+            .then(res => {
+                setListCategory(res.data.data)
+            })
+    }, [])
+
+    useEffect(() => {
+        axios.get('wallet/render')
+            .then(res => {
+                setListWallet(res.data.data)
+            })
+    }, [])
+
+    const handleSelectCategory = (e) => {
+        setCategory(e.target.value)
+    }
+
+    const handleSelectWallet = (e) => {
+        setWallet(e.target.value)
+    }
+
+    const handleChangeAmount = (e) => {
+        setAmount(e.target.value)
+    }
+
+    const handleChangeNote = (e) => {
+        setNote(e.target.value)
+    }
+
+    const handleChangeDate = (e) => {
+        setDate(e.target.value)
+    }
+
+    const handleSaveTransaction = () => {
+        const transaction = {
+            wallet: wallet,
+            amount: amount,
+            category: category,
+            date: date,
+            note: note
+        }
+        axios.post('transaction/add', transaction)
+            .then(() => {
+                console.log('add thanh cong')
+                dispatch(closeDialogTransaction())
+            })
+            .catch(() => {
+                console.log('add that bai')
+            })
+    }
+
     return (
         <div>
-            <div id="large-modal" tabIndex="-1"
-                 className=" overflow-y-auto overflow-x-hidden fixed top-0 right-0 left-0 z-50 w-full md:inset-0 h-modal md:h-full">
-                <div className="relative p-[200px] w-full max-w-4xl h-full md:h-auto">
-                    <div className="relative bg-white rounded-lg shadow dark:bg-gray-700">
-                        <div className="flex justify-between items-center p-5 rounded-t border-b dark:border-gray-600">
-                            <h3 className="text-xl font-medium text-gray-900 dark:text-white">
-                                Large modal
-                            </h3>
-                            <button type="button" onClick={()=>dispatch(closeDialogTransaction(false))}
-                                    className="text-gray-400 bg-transparent hover:bg-gray-200 hover:text-gray-900 rounded-lg text-sm p-1.5 ml-auto inline-flex items-center dark:hover:bg-gray-600 dark:hover:text-white"
-                                    data-modal-toggle="large-modal">
-                                <svg aria-hidden="true" className="w-5 h-5" fill="currentColor" viewBox="0 0 20 20"
-                                     xmlns="http://www.w3.org/2000/svg">
-                                    <path fillRule="evenodd"
-                                          d="M4.293 4.293a1 1 0 011.414 0L10 8.586l4.293-4.293a1 1 0 111.414 1.414L11.414 10l4.293 4.293a1 1 0 01-1.414 1.414L10 11.414l-4.293 4.293a1 1 0 01-1.414-1.414L8.586 10 4.293 5.707a1 1 0 010-1.414z"
-                                          clipRule="evenodd"></path>
-                                </svg>
-                                <span className="sr-only">Close modal</span>
-                            </button>
-                        </div>
-                        <div className="p-6 space-y-6">
-                            <p className="text-base leading-relaxed text-gray-500 dark:text-gray-400">
-                                With less than a month to go before the European Union enacts new consumer privacy laws
-                                for its citizens, companies around the world are updating their terms of service
-                                agreements to comply.
-                            </p>
-                            <p className="text-base leading-relaxed text-gray-500 dark:text-gray-400">
-                                The European Union’s General Data Protection Regulation (G.D.P.R.) goes into effect on
-                                May 25 and is meant to ensure a common set of data rights in the European Union. It
-                                requires organizations to notify users as soon as possible of high-risk data breaches
-                                that could personally affect them.
-                            </p>
-                        </div>
+            <div
+                className="justify-center  items-center flex overflow-x-hidden overflow-y-auto fixed inset-0 z-50 outline-none focus:outline-none"
+            >
+                <div className="relative w-auto my-6 mx-auto max-w-3xl">
+                    {/*content*/}
+                    <div
+                        className="border-0 rounded-[5px] shadow-lg relative flex flex-col w-full bg-white outline-none focus:outline-none">
+                        {/*header*/}
                         <div
-                            className="flex items-center p-6 space-x-2 rounded-b border-t border-gray-200 dark:border-gray-600">
-                            <button data-modal-toggle="large-modal" type="button" onClick={()=>dispatch(closeDialogTransaction(false))}
-                                    className="text-white bg-blue-700 hover:bg-blue-800 focus:ring-4 focus:outline-none focus:ring-blue-300 font-medium rounded-lg text-sm px-5 py-2.5 text-center dark:bg-blue-600 dark:hover:bg-blue-700 dark:focus:ring-blue-800">I
-                                accept
+                            className="flex items-start justify-between p-5 border-b border-solid border-slate-200 rounded-t">
+                            <h4 className="text-2xl font-semibold">
+                                Add transaction
+                            </h4>
+                            <button
+                                className="p-1 ml-auto bg-transparent border-0 text-black opacity-5 float-right text-3xl leading-none font-semibold outline-none focus:outline-none"
+                                onClick={() => dispatch(closeDialogTransaction())}
+                            >
+                    <span
+                        className="bg-transparent text-black opacity-5 h-6 w-6 text-2xl block outline-none focus:outline-none">
+                      ×
+                    </span>
                             </button>
-                            <button data-modal-toggle="large-modal" type="button" onClick={()=>dispatch(closeDialogTransaction(false))}
-                                    className="text-gray-500 bg-white hover:bg-gray-100 focus:ring-4 focus:outline-none focus:ring-gray-200 rounded-lg border border-gray-200 text-sm font-medium px-5 py-2.5 hover:text-gray-900 focus:z-10 dark:bg-gray-700 dark:text-gray-300 dark:border-gray-500 dark:hover:text-white dark:hover:bg-gray-600 dark:focus:ring-gray-600">Decline
+                        </div>
+                        {/*body*/}
+                        <div className="grid grid-cols-3 gap-1 p-2">
+
+                            <div className=" w-full ">
+                                <button id="button" onClick={() => dispatch(openDialogCategory())}
+                                        className="w-full col-span-2 flex relative  border border-gray-300 p-2 h-[60px]  rounded-[10px] hover:border-black">
+                                    <img data-v-6bc9d4d3=""
+                                         src="https://static.moneylover.me/img/icon/icon.png" alt=""
+                                         name="2" className="transaction-icon w-[24px] m-auto"/>
+                                    <span
+                                        className="my-3 mx-4">Wallet</span>
+                                    <label htmlFor="button"
+                                           className="absolute text-sm text-gray-500 dark:text-gray-400 duration-300 transform -translate-y-4 scale-75 top-4 z-10 origin-[0] left-2.5   peer-placeholder-shown:scale-100 peer-placeholder-shown:translate-y-0 peer-focus:scale-75 peer-focus:-translate-y-4"
+                                    >Select Wallet
+                                    </label>
+                                    <svg xmlns="http://www.w3.org/2000/svg"
+                                         className="h-6 w-6 mx-[48px] my-3 text-[#757575] hover:text-black "
+                                         fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth="2">
+                                        <path strokeLinecap="round" strokeLinejoin="round"
+                                              d="M9 5l7 7-7 7"></path>
+                                    </svg>
+                                </button>
+                                {/*<select id="category" onChange={handleSelectWallet}*/}
+                                {/*        className="block p-4 h-full w-full bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500">*/}
+                                {/*    <option value="">Select Wallet</option>*/}
+                                {/*    {listWallet.map((value, index) => {*/}
+                                {/*        return <option key={index}>{value.name}</option>*/}
+                                {/*    })}*/}
+                                {/*</select>*/}
+                            </div>
+
+                            <div className=" w-full">
+                                <button id="button" onClick={() => dispatch(openDialogCategory())}
+                                        className="w-full col-span-2 flex relative  border border-gray-300 p-2 h-[60px]  rounded-[10px] hover:border-black">
+                                    <img data-v-6bc9d4d3=""
+                                         src="https://static.moneylover.me/img/icon/icon_not_selected.png" alt=""
+                                         name="2" className="transaction-icon w-[24px] m-auto"/>
+                                    <span
+                                        className="my-3 mx-4">Category</span>
+                                    <label htmlFor="button"
+                                           className="absolute text-sm text-gray-500 dark:text-gray-400 duration-300 transform -translate-y-4 scale-75 top-4 z-10 origin-[0] left-2.5   peer-placeholder-shown:scale-100 peer-placeholder-shown:translate-y-0 peer-focus:scale-75 peer-focus:-translate-y-4"
+                                    >Select Category
+                                    </label>
+                                    <svg xmlns="http://www.w3.org/2000/svg"
+                                         className="h-6 w-6 mx-[48px] my-3 text-[#757575] hover:text-black "
+                                         fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth="2">
+                                        <path strokeLinecap="round" strokeLinejoin="round"
+                                              d="M9 5l7 7-7 7"></path>
+                                    </svg>
+                                </button>
+                                {/*<select id="category" onChange={handleSelectCategory}*/}
+                                {/*        className="h-full w-full bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500">*/}
+                                {/*    <option value="">Select Category</option>*/}
+                                {/*    {listCategory.map((value, index) => {*/}
+                                {/*        return <option key={index}>{value.name}</option>*/}
+                                {/*    })}*/}
+                                {/*</select>*/}
+                            </div>
+
+                            <div className="relative w-full ">
+                                <input type="number" id="floating_filled" onChange={handleChangeAmount} value={amount}
+                                       className="block rounded-[10px] p-2 pt-5 w-full h-full text-sm text-gray-900 bg-gray-50  border border-gray-300  appearance-none dark:text-black  focus:outline-none focus:ring-0 hover:border-black peer"
+                                       placeholder=" "/>
+                                <label htmlFor="floating_filled"
+                                       className="absolute text-sm text-gray-500 dark:text-gray-400 duration-300 transform -translate-y-4 scale-75 top-4 z-10 origin-[0] left-2.5   peer-placeholder-shown:scale-100 peer-placeholder-shown:translate-y-0 peer-focus:scale-75 peer-focus:-translate-y-4"
+                                >Amount
+                                </label>
+                            </div>
+
+                        </div>
+                        <div className="grid grid-cols-3 gap-1 p-3 pt-0">
+                            <div className="w-full">
+                                <input type="datetime-local" value={date} onChange={handleChangeDate}
+                                       className="block p-4 pl-10 h-full w-full text-sm text-gray-900 bg-gray-50 rounded-lg border border-gray-300 focus:ring-blue-500 focus:border-blue-500 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
+                                       placeholder="Note"/>
+                            </div>
+                            <div className="relative w-full col-span-2">
+                                <input type="text" id="floating_filled" onChange={handleChangeNote} value={note}
+                                       className="block rounded-[10px] p-2 pt-5 w-full h-full text-sm text-gray-900 bg-gray-50  border border-gray-300  appearance-none dark:text-black  focus:outline-none focus:ring-0 hover:border-black peer"
+                                       placeholder=" "/>
+                                <label htmlFor="floating_filled"
+                                       className="absolute text-sm text-gray-500 dark:text-gray-400 duration-300 transform -translate-y-4 scale-75 top-4 z-10 origin-[0] left-2.5   peer-placeholder-shown:scale-100 peer-placeholder-shown:translate-y-0 peer-focus:scale-75 peer-focus:-translate-y-4"
+                                >Note
+                                </label>
+                            </div>
+                        </div>
+                        {/*{iconsState && <DialogIcons/>}*/}
+                        {/*footer*/}
+                        <div
+                            className="flex items-center justify-end p-6 border-t border-solid border-slate-200 rounded-b">
+                            <button
+                                className="text-red-500 background-transparent font-bold uppercase px-6 py-2 text-sm outline-none focus:outline-none mr-1 mb-1 ease-linear transition-all duration-150"
+                                type="button"
+                                onClick={() => dispatch(closeDialogTransaction())}
+                            >
+                                Close
+                            </button>
+                            <button
+                                className="bg-emerald-500 text-white active:bg-emerald-600 font-bold uppercase text-sm px-6 py-3 rounded shadow hover:shadow-lg outline-none focus:outline-none mr-1 mb-1 ease-linear transition-all duration-150"
+                                type="button"
+                                onClick={handleSaveTransaction}
+                            >
+                                Save Changes
                             </button>
                         </div>
                     </div>
                 </div>
             </div>
+            <div className="opacity-50 fixed inset-0 z-40 bg-black"/>
         </div>
     );
 };
