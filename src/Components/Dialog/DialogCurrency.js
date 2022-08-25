@@ -2,6 +2,7 @@ import {useEffect, useState} from "react";
 import axios from "axios";
 import {useDispatch} from "react-redux";
 import {closeDialogCurrency} from "../../Features/DiaLogSlice/openDialogCurrencySlice";
+import {setCurrencyObj} from "../../Features/SelectWallet/selectWallet";
 
 export default function DialogIcons() {
     const [currencies, setCurrencies] = useState([])
@@ -12,7 +13,6 @@ export default function DialogIcons() {
             setCurrencies(result.data.data);
         })
     }, [])
-    console.log(currencies)
 
     const handleCloseDialogCurrencies = () => {
         dispatch(closeDialogCurrency(false))
@@ -67,7 +67,12 @@ export default function DialogIcons() {
                                 {currencies.map((currency, index) => {
                                     return (
                                         <li className="px-3 py-2 hover:bg-[#F0F9F1]" key={index}>
-                                            <button className="  ">
+                                            <button onClick={(e)=>{
+                                                e.preventDefault();
+                                                dispatch(setCurrencyObj(currency))
+                                                handleCloseDialogCurrencies()
+                                            }}
+                                            >
                                                 <div className={"flex"}>
                                                     <img className={"w-[32px] rounded-[2px] h-[32px]"} src={currency?.url}
                                                          alt="thinh"/>

@@ -47,5 +47,8 @@
       "last 1 safari version"
     ]
   },
-  "proxy": "http://localhost:8080/"
+  "proxy": "http://localhost:8080/",
+  "devDependencies": {
+    "qs": "^6.11.0"
+  }
 }
