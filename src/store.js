@@ -19,8 +19,7 @@ const store = configureStore({
         dialogTransaction: transactionSlice.reducer,
         DialogWallet:openDialogMyWalletSlice.reducer,
         DialogIcons:openDialogIconsSlice.reducer,
-        DialogCurrency:openDialogCurrencySlice.reducer
-        DialogIcons:openDialogIconsSlice.reducer,
+        DialogCurrency:openDialogCurrencySlice.reducer,
         DialogCategory:openDialogCategorySlice.reducer
     }
 })
