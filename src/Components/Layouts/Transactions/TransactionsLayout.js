@@ -11,6 +11,7 @@ const mdTheme = createTheme();
 function TransactionsLayout({children}) {
 
     return (
+        <div>
         <ThemeProvider theme={mdTheme}>
             <Box sx={{display: 'flex'}}>
                 <CssBaseline/>
@@ -35,6 +36,7 @@ function TransactionsLayout({children}) {
                 </Box>
             </Box>
         </ThemeProvider>
+        </div>
     );
 }
 

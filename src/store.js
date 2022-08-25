@@ -7,6 +7,9 @@ import UserSlice from "./Features/CurrentUser/UserSlice";
 import transactionSlice from "./Features/DiaLogSlice/openDialogTransactionSlice";
 import openDialogIconsSlice from "./Features/DiaLogSlice/openDialogIconsSlice";
 import openDialogCategorySlice from "./Features/DiaLogSlice/openDialogCategorySlice";
+import selectCategorySlice from "./Features/DiaLogSlice/categorySlice";
+import walletSlice from "./Features/DiaLogSlice/openDialogWallet";
+import selectWalletSlice from "./Features/DiaLogSlice/walletSlice";
 
 
 const store = configureStore({
@@ -18,7 +21,10 @@ const store = configureStore({
         dialogTransaction: transactionSlice.reducer,
         DialogWallet:openDialogMyWalletSlice.reducer,
         DialogIcons:openDialogIconsSlice.reducer,
-        DialogCategory:openDialogCategorySlice.reducer
+        DialogCategory:openDialogCategorySlice.reducer,
+        selectCategory:selectCategorySlice.reducer,
+        dialogWallet:walletSlice.reducer,
+        selectWallet:selectWalletSlice.reducer
     }
 })
 

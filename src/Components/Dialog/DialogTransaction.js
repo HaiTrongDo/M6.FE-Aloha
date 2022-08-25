@@ -3,6 +3,8 @@ import {useDispatch, useSelector} from "react-redux";
 import {closeDialogTransaction} from "../../Features/DiaLogSlice/openDialogTransactionSlice";
 import axios from '../../axios/index';
 import {openDialogCategory, closeDialogCategory} from "../../Features/DiaLogSlice/openDialogCategorySlice";
+import {selectCategory} from "../../Features/DiaLogSlice/categorySlice";
+import {openDialogSelectWallet} from "../../Features/DiaLogSlice/openDialogWallet";
 
 
 const DialogTransaction = () => {
@@ -14,8 +16,7 @@ const DialogTransaction = () => {
     const [amount, setAmount] = useState();
     const [note, setNote] = useState('');
     const [date, setDate] = useState(new Date().toLocaleDateString());
-
-
+    const selectCategoryState=useSelector(state=>state.selectCategory)
 
     useEffect(() => {
         axios.get('transaction/category')
@@ -55,7 +56,7 @@ const DialogTransaction = () => {
         const transaction = {
             wallet: wallet,
             amount: amount,
-            category: category,
+            category: selectCategoryState,
             date: date,
             note: note
         }
@@ -98,7 +99,7 @@ const DialogTransaction = () => {
                         <div className="grid grid-cols-3 gap-1 p-2">
 
                             <div className=" w-full ">
-                                <button id="button" onClick={() => dispatch(openDialogCategory())}
+                                <button id="button" onClick={() => dispatch(openDialogSelectWallet())}
                                         className="w-full col-span-2 flex relative  border border-gray-300 p-2 h-[60px]  rounded-[10px] hover:border-black">
                                     <img data-v-6bc9d4d3=""
                                          src="https://static.moneylover.me/img/icon/icon.png" alt=""
@@ -116,13 +117,7 @@ const DialogTransaction = () => {
                                               d="M9 5l7 7-7 7"></path>
                                     </svg>
                                 </button>
-                                {/*<select id="category" onChange={handleSelectWallet}*/}
-                                {/*        className="block p-4 h-full w-full bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500">*/}
-                                {/*    <option value="">Select Wallet</option>*/}
-                                {/*    {listWallet.map((value, index) => {*/}
-                                {/*        return <option key={index}>{value.name}</option>*/}
-                                {/*    })}*/}
-                                {/*</select>*/}
+
                             </div>
 
                             <div className=" w-full">
@@ -132,7 +127,7 @@ const DialogTransaction = () => {
                                          src="https://static.moneylover.me/img/icon/icon_not_selected.png" alt=""
                                          name="2" className="transaction-icon w-[24px] m-auto"/>
                                     <span
-                                        className="my-3 mx-4">Category</span>
+                                        className="my-3 mx-4">{selectCategoryState.value ? selectCategoryState.value : 'Category'}</span>
                                     <label htmlFor="button"
                                            className="absolute text-sm text-gray-500 dark:text-gray-400 duration-300 transform -translate-y-4 scale-75 top-4 z-10 origin-[0] left-2.5   peer-placeholder-shown:scale-100 peer-placeholder-shown:translate-y-0 peer-focus:scale-75 peer-focus:-translate-y-4"
                                     >Select Category
@@ -144,13 +139,6 @@ const DialogTransaction = () => {
                                               d="M9 5l7 7-7 7"></path>
                                     </svg>
                                 </button>
-                                {/*<select id="category" onChange={handleSelectCategory}*/}
-                                {/*        className="h-full w-full bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500">*/}
-                                {/*    <option value="">Select Category</option>*/}
-                                {/*    {listCategory.map((value, index) => {*/}
-                                {/*        return <option key={index}>{value.name}</option>*/}
-                                {/*    })}*/}
-                                {/*</select>*/}
                             </div>
 
                             <div className="relative w-full ">
@@ -168,7 +156,7 @@ const DialogTransaction = () => {
                             <div className="w-full">
                                 <input type="datetime-local" value={date} onChange={handleChangeDate}
                                        className="block p-4 pl-10 h-full w-full text-sm text-gray-900 bg-gray-50 rounded-lg border border-gray-300 focus:ring-blue-500 focus:border-blue-500 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
-                                       placeholder="Note"/>
+                                       placeholder=""/>
                             </div>
                             <div className="relative w-full col-span-2">
                                 <input type="text" id="floating_filled" onChange={handleChangeNote} value={note}
