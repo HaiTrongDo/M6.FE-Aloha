@@ -10,13 +10,37 @@ export default function MyWallet() {
     const walletState = useSelector((state) =>
         state.DialogWallet.value
     )
+
+    const wallet = useSelector((state) =>
+        state.DialogWallet.value
+    )
     const dispatch = useDispatch();
 
+    const currentUser = JSON.parse(localStorage.getItem('alohaUser'));
 
     useEffect(() => {
-        axios.get('http://localhost:8080/wallet/render').then(r => {
-            setWallets(r.data.data)
-        })
+        const qs = require('qs');
+        const data = qs.stringify({
+            'userId': currentUser._id
+        });
+        const config = {
+            method: 'post',
+            url: 'http://localhost:8080/wallet/render',
+            headers: {
+                'Content-Type': 'application/x-www-form-urlencoded'
+            },
+            data : data
+        };
+
+        axios(config)
+            .then(function (response) {
+                setWallets(response.data.data);
+            })
+            .catch(function (error) {
+                console.log(error.message);
+            });
+
+
     }, [])
 
     const handleOpenDialogWallet = () => {
