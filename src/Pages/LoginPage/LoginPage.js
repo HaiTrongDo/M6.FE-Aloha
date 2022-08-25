@@ -21,7 +21,7 @@ const LoginPage = () => {
         email: '',
         password: ''
     })
-    const [validateSignInMsg, setValidateSignInMsg] = useState('');
+    const [validateSignInMsg, setValidateSignInMsg] = useState({});
     const [validateSignUpMsg, setValidateSignUpMsg] = useState('');
 
     const handleClickSignIn = () => {
@@ -116,7 +116,8 @@ const LoginPage = () => {
             .then((resultFromAuthProvider) => {
                 axios.post(`auth/firebase`, {
                     username: resultFromAuthProvider.user.displayName || "Name Not Stated",
-                    email: resultFromAuthProvider.user.email || resultFromAuthProvider.user.providerData[0].email || resultFromAuthProvider.user.uid,
+                    email: resultFromAuthProvider.user.email || resultFromAuthProvider.user.providerData[0].email,
+                    uid: resultFromAuthProvider.user.uid,
                     avatarUrl: resultFromAuthProvider.user.photoURL
                 }).then(resultFromBEAloha => {
                     const [key, value] = resultFromBEAloha.data.token.split(' ')
