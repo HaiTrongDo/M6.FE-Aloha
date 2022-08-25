@@ -2,7 +2,8 @@ import {useEffect, useState} from "react";
 import axios from "axios";
 import {useDispatch} from "react-redux";
 import {closeDialogWallet} from "../../Features/DiaLogSlice/openDialogMyWalletSlice";
-import {closeDialogIcons} from "../../Features/DiaLogSlice/openDialogIconsSlice";
+import {closeDialogIcons, openDialogIcons} from "../../Features/DiaLogSlice/openDialogIconsSlice";
+import {setIconObj} from "../../Features/SelectWallet/selectWallet";
 
 export default function DialogIcons() {
     const [icons, setIcons] = useState([])
@@ -13,12 +14,14 @@ export default function DialogIcons() {
             setIcons(result.data.data);
         })
     },[])
-    console.log(icons)
+
+    const handleOpenDialogIcons = () => {
+        dispatch(openDialogIcons(true))
+    }
 
     const handleCloseDialogIcons = () => {
         dispatch(closeDialogIcons(false))
     }
-
 
     return (
 
@@ -49,7 +52,13 @@ export default function DialogIcons() {
                             <ul className="grid grid-cols-8 grid-rows-4 gap-2 grid-flow-row">
                                 {icons.map((icon,index)=>{
                                     return(
-                                        <li className="" key={index}><button className=" hover:bg-[#F0F9F1]"><img src={icon?.url} alt="thinh"/></button></li>
+                                        <li
+                                            onClick={(e)=>{
+                                                e.preventDefault()
+                                                dispatch(setIconObj(icon))
+                                                handleCloseDialogIcons()
+                                            }}
+                                            className="" key={index}><button className=" hover:bg-[#F0F9F1]"><img src={icon?.url} alt="thinh"/></button></li>
                                     )
                                 })}
                             </ul>
