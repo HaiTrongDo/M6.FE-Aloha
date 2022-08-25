@@ -1,25 +1,23 @@
 import {createSlice} from "@reduxjs/toolkit";
 
 const initialState = {
-    email: "",
-    avatar: "",
-    displayName:'',
-    userId:''
 };
 const UserSlice = createSlice({
     name: 'UserInfo',
-    initialState: initialState
+    initialState: {
+        currentUser:initialState
+    }
     ,
     reducers: {
-        UserLoginWithGoogle: (state,action)=>{
-            state.email = action.payload.email
-            state.avatar = action.payload.avatar
-            state.displayName = action.payload.displayName
-            state.userId = action.payload.userId
+        UserLoginWithFireBase: (state,action)=>{
+            state.currentUser = action.payload
+        },
+        updateUserInfo: (state,action)=>{
+            state.currentUser = action.payload
         }
     }
 })
 
-export const {UserLoginWithGoogle} = UserSlice.actions
+export const {UserLoginWithFireBase, updateUserInfo} = UserSlice.actions
 
 export default UserSlice.reducer
