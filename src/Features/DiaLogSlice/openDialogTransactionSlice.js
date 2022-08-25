@@ -9,10 +9,10 @@ export const transactionSlice = createSlice({
     initialState,
     reducers: {
         openDialogTransaction: (state,action) => {
-            state.value = action.payload
+            state.value = true
         },
         closeDialogTransaction: (state,action) => {
-            state.value = action.payload
+            state.value = false
         }
     },
 })
