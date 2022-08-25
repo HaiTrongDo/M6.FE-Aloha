@@ -78,7 +78,7 @@ export default function DialogWallet({className}) {
                                     <button
                                         onClick={handleOpenDialogIcons}
                                         className=" flex  justify-center border border-gray-300 p-2 h-[60px] rounded-[10px] hover:border-black">
-                                        <img className="w-10 h-10 rounded-full my-0.5" src={wallet.iconObj.url}
+                                        <img className="w-10 h-10 rounded-full my-0.5" src={wallet?.iconObj?.url}
                                              alt="..."/>
                                         <svg xmlns="http://www.w3.org/2000/svg"
                                              className="h-6 w-6 my-2 mx-2 text-[#757575] hover:text-black" fill="none"
@@ -101,9 +101,9 @@ export default function DialogWallet({className}) {
                                         id="button"
                                         className="col-span-2 flex relative  border border-gray-300 p-2 h-[60px]  rounded-[10px] hover:border-black">
                                         <img className="w-[24px] h-[24px] rounded-full my-3"
-                                             src={wallet.currency.url}
+                                             src={wallet?.currency?.url}
                                              alt="..."/>
-                                        <span className="my-3 mx-4">{wallet.currency.name}</span>
+                                        <span className="my-3 mx-4">{wallet?.currency?.name}</span>
                                         <label htmlFor="button"
                                                className="absolute text-sm text-gray-500 dark:text-gray-400 duration-300 transform -translate-y-4 scale-75 top-4 z-10 origin-[0] left-2.5   peer-placeholder-shown:scale-100 peer-placeholder-shown:translate-y-0 peer-focus:scale-75 peer-focus:-translate-y-4">Currency</label>
                                         <svg xmlns="http://www.w3.org/2000/svg"
