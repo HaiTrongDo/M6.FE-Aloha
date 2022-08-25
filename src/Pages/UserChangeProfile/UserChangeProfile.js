@@ -123,12 +123,12 @@ const UserChangeProfile = () => {
                                 <input type="text" id="name" name='username' value={formData.username}
                                        onChange={(e) => handleChange(e)}
                                        className="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 "
-                                       placeholder="John" required=""/>
+                                       placeholder="John" required="true"/>
+                                <span className="nameErrorMessage">It cannot be empty</span>
                             </div>
 
                             <div>
                                 <label htmlFor="company"
-
                                        className="block mb-2 text-sm font-medium text-gray-900 ">Company</label>
                                 <input type="text" id="company" name="company"
                                        value={formData.company}
@@ -139,24 +139,23 @@ const UserChangeProfile = () => {
                             <div>
                                 <label htmlFor="phone"
 
-                                       className="block mb-2 text-sm font-medium text-gray-900 ">Phone
-                                    number</label>
+                                       className="block mb-2 text-sm font-medium text-gray-900 ">
+                                    Phone number
+                                </label>
                                 <input type="telNo" id="phone" name='phone'
                                        value={formData.phone}
                                        onChange={(e) => handleChange(e)}
                                        className=" userPhoneInput bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 "
-                                       placeholder="123-45-678" pattern="^\+1 \([0-9]{3}\) [0-9]{3}-[0-9]{4}" required=""
-
+                                       placeholder="123-45-6789" pattern="\d{10,}" required=""
                                 />
-                                <p className="mt-2 text-sm text-green-600 dark:text-green-500"><span
-                                    className="font-medium">Well done!</span> Some success messsage.</p>
+                                <span
+                                    className="userPhoneInputMessage font-medium">It has to be 10 digits number</span>
                             </div>
                             <div>
                                 <label htmlFor="DOB"
                                        className="block mb-2 text-sm font-medium text-gray-900 ">Date Of Birth</label>
                                 <input type="date" id="DOB" name='birthday'
                                        value={formData.birthday}
-                                       // max="2018-12-31"
                                        max={new Date().toISOString().split("T")[0]}
                                        onChange={(e) => handleChange(e)}
                                        className="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 "
@@ -168,7 +167,6 @@ const UserChangeProfile = () => {
                                    className="block mb-2 text-sm font-medium text-gray-900 ">Email
                                 address</label>
                             <input type="email" id="email" name='email'
-                                   readOnly
                                    value={formData.email}
                                    onChange={(e) => handleChange(e)}
                                    className="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 "

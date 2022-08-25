@@ -26,7 +26,7 @@ const store = configureStore({
         DialogTransactionCategory:openDialogCategorySlice.reducer,
         selectCategory:selectCategorySlice.reducer,
         dialogWallet:walletTransactionSlice.reducer,
-        selectWallet:selectWalletSlice.reducer
+        selectWallet:selectWalletSlice.reducer,
         DialogCurrency:openDialogCurrencySlice.reducer,
         DialogCategory:openDialogCategorySlice.reducer,
         wallet: WalletSlice,
