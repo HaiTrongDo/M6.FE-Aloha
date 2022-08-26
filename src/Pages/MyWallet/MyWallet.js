@@ -64,7 +64,7 @@ export default function MyWallet() {
 
     return (
 
-        <div className="relative">
+        <div className="relative bg-[#E4E4E4] h-[100vh]">
             <div className="navbar">
                 <div>
                     <nav
