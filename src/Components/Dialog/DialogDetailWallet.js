@@ -20,8 +20,6 @@ export default function DialogDetailWallet({walletId}) {
         axios.post('http://localhost:8080/wallet/detail', {walletId}).then(r=>{
            setWalletObj(r.data.data)
         })
-        console.log(walletId)
-        console.log(userObj)
     },[walletId])
 
     return (
@@ -64,8 +62,8 @@ export default function DialogDetailWallet({walletId}) {
                                  src={userObj.avatarUrl} alt=""/>
                             <div className={"ml-2"}>
                                 <span className={"font-bold"}>{userObj.username}</span>
-                                <span
-                                    className={"mx-3 w-[34px] p-1 h-[14px] bg-[#FEB74D] text-white rounded-[5px]"}>Owner</span>
+                                {userObj.username && <span
+                                    className={"mx-3 w-[34px] p-1 h-[14px] bg-[#FEB74D] text-white rounded-[5px]"}>Owner</span>}
 
 
                                 <h3 className={"text-[#757575]"}>{userObj.email}</h3>

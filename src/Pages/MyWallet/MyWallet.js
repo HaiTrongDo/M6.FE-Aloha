@@ -31,6 +31,10 @@ export default function MyWallet() {
     const currentUser = JSON.parse(localStorage.getItem('alohaUser'));
 
     useEffect(() => {
+        dispatch(openDialogDetail(false))
+    },[])
+
+    useEffect(() => {
         const qs = require('qs');
         const data = qs.stringify({
             'userId': currentUser._id
@@ -59,7 +63,7 @@ export default function MyWallet() {
         dispatch(openDialogWallet(true))
     }
 
-    const handleOpenDialogDetail = (e,wallet) => {
+    const handleOpenDialogDetail = (e, wallet) => {
         dispatch(openDialogDetail(true))
         setWalletId(wallet._id)
 
@@ -103,8 +107,9 @@ export default function MyWallet() {
                 </div>
             </div>
             <div className={"flex justify-center gap-6"}>
-                <div className={detailState ? "flex justify-center w-1/2 top-0 left-20 transition-transform " : "flex justify-center w-1/2"}
-                     id={"wallet"}>
+                <div
+                    className={detailState ? "flex justify-center w-1/2 top-0 left-20 transition-transform " : "flex justify-center w-1/2"}
+                    id={"wallet"}>
                     <div className=" border mt-[100px] w-[80%]  text-xs text-gray-900 drop-shadow-2xl">
                         <div
                             className={"text-left text-[#707070] px-6 py-2 border-b border-r border-gray-200 w-full h-[40px] bg-[#F4F4F4]  cursor-pointer"}>
@@ -112,15 +117,17 @@ export default function MyWallet() {
                         </div>
                         {wallets.map((wallet, index) => {
                             return (
-                                <div onClick={(e)=>{handleOpenDialogDetail(e,wallet)}} key={wallet._id}
+                                <div onClick={(e) => {
+                                    handleOpenDialogDetail(e, wallet)
+                                }} key={index}
                                      className="text-left border-r hover:bg-[#E6EFE7] flex px-6 py-2 round-[10px]  w-full h-[72px] bg-[#FFFFFF] text-black cursor-pointer">
-                                    <img src={wallet.name ? wallet.icon.url : ""}
+                                    <img src={wallet.name ? wallet?.icon?.url : ""}
                                          className="w-10 h-10 rounded-full my-2"
                                          alt=""/>
-                                    <div id={"hidden"} hidden>{wallet._id}</div>
                                     <div className="px-3">
-                                        <h3 className="font-sans my-1 text-[14px]">{wallet.name}</h3>
-                                        <span className="text-[#949494]">+{wallet.initial} {wallet.currency.code}</span>
+                                        <h3 className="font-sans my-1 text-[14px]">{wallet?.name}</h3>
+                                        <span
+                                            className="text-[#949494]">+ {wallet?.initial} {wallet?.currency?.code}</span>
                                     </div>
                                 </div>
                             )
@@ -131,14 +138,14 @@ export default function MyWallet() {
 
                 {detailState ? (
                     <>
-                        <DialogDetailWallet walletId = {walletId}/>
+                        <DialogDetailWallet walletId={walletId}/>
                     </>
                 ) : null
                 }
             </div>
             {walletState ? (
                 <>
-                    <DialogWallet />
+                    <DialogWallet/>
                 </>
             ) : null}
         </div>

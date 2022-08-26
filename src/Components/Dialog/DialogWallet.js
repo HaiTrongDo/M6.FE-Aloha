@@ -59,7 +59,7 @@ export default function DialogWallet({className}) {
         name:walletObj?.nameWallet,
         initial:+walletObj?.initial,
         icon:wallet?.iconObj?._id,
-        currency:wallet?.currency?._id,
+        currency:wallet?.currencyObj?._id,
         user:currentUser?._id
     }
 
