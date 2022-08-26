@@ -29,6 +29,7 @@ const UserChangeProfile = () => {
 
     const setImageUploaded = (e) => {
         e.preventDefault()
+        console.log(formData);
         if (formData.imageUpload == null) {
             return axios
                 .put('/my-account/change-profile', {
