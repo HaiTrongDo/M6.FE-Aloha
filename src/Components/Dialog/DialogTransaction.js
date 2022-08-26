@@ -5,6 +5,7 @@ import axios from '../../axios/index';
 import {openDialogCategory, closeDialogCategory} from "../../Features/DiaLogSlice/openDialogCategorySlice";
 import {selectCategory} from "../../Features/DiaLogSlice/categorySlice";
 import {openDialogSelectWallet} from "../../Features/DiaLogSlice/openDialogWallet";
+import {selectWallet} from "../../Features/DiaLogSlice/walletSlice";
 
 
 const DialogTransaction = () => {
@@ -17,6 +18,7 @@ const DialogTransaction = () => {
     const [note, setNote] = useState('');
     const [date, setDate] = useState(new Date().toLocaleDateString());
     const selectCategoryState=useSelector(state=>state.selectCategory)
+    const selectWalletState=useSelector(state=>state.selectWallet)
 
     useEffect(() => {
         axios.get('transaction/category')
@@ -54,14 +56,16 @@ const DialogTransaction = () => {
 
     const handleSaveTransaction = () => {
         const transaction = {
-            wallet: wallet,
-            amount: amount,
-            category: selectCategoryState,
+            wallet: selectWalletState.value,
+            amount: amount*1,
+            category: selectCategoryState.value.name,
             date: date,
             note: note
         }
+        console.log('req',transaction)
         axios.post('transaction/add', transaction)
-            .then(() => {
+            .then((res) => {
+                console.log(res.data.data)
                 console.log('add thanh cong')
                 dispatch(closeDialogTransaction())
             })
@@ -71,9 +75,9 @@ const DialogTransaction = () => {
     }
 
     return (
-        <div>
+        <div className="">
             <div
-                className="justify-center  items-center flex overflow-x-hidden overflow-y-auto fixed inset-0 z-50 outline-none focus:outline-none"
+                className="justify-center items-center flex overflow-x-hidden overflow-y-auto fixed inset-0 z-50 outline-none focus:outline-none"
             >
                 <div className="relative w-auto my-6 mx-auto max-w-3xl">
                     {/*content*/}
@@ -101,21 +105,26 @@ const DialogTransaction = () => {
                             <div className=" w-full ">
                                 <button id="button" onClick={() => dispatch(openDialogSelectWallet())}
                                         className="w-full col-span-2 flex relative  border border-gray-300 p-2 h-[60px]  rounded-[10px] hover:border-black">
+                                    <div className="">
+
                                     <img data-v-6bc9d4d3=""
                                          src="https://static.moneylover.me/img/icon/icon.png" alt=""
-                                         name="2" className="transaction-icon w-[24px] m-auto"/>
+                                         name="2" className="transaction-icon w-[24px] my-3 mx-4"/>
+                                    </div>
                                     <span
-                                        className="my-3 mx-4">Wallet</span>
+                                        className="my-3 mx-4 absolute pl-12"
+                                    >{selectWalletState.value}
+                                    </span>
                                     <label htmlFor="button"
                                            className="absolute text-sm text-gray-500 dark:text-gray-400 duration-300 transform -translate-y-4 scale-75 top-4 z-10 origin-[0] left-2.5   peer-placeholder-shown:scale-100 peer-placeholder-shown:translate-y-0 peer-focus:scale-75 peer-focus:-translate-y-4"
                                     >Select Wallet
                                     </label>
-                                    <svg xmlns="http://www.w3.org/2000/svg"
-                                         className="h-6 w-6 mx-[48px] my-3 text-[#757575] hover:text-black "
-                                         fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth="2">
-                                        <path strokeLinecap="round" strokeLinejoin="round"
-                                              d="M9 5l7 7-7 7"></path>
-                                    </svg>
+                                    {/*<svg xmlns="http://www.w3.org/2000/svg"*/}
+                                    {/*     className="h-6 w-6 mx-[48px] my-3 pl-12 text-[#757575] hover:text-black "*/}
+                                    {/*     fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth="2">*/}
+                                    {/*    <path strokeLinecap="round" strokeLinejoin="round"*/}
+                                    {/*          d="M9 5l7 7-7 7"></path>*/}
+                                    {/*</svg>*/}
                                 </button>
 
                             </div>
@@ -124,10 +133,12 @@ const DialogTransaction = () => {
                                 <button id="button" onClick={() => dispatch(openDialogCategory())}
                                         className="w-full col-span-2 flex relative  border border-gray-300 p-2 h-[60px]  rounded-[10px] hover:border-black">
                                     <img data-v-6bc9d4d3=""
-                                         src="https://static.moneylover.me/img/icon/icon_not_selected.png" alt=""
-                                         name="2" className="transaction-icon w-[24px] m-auto"/>
+                                         src={selectCategoryState.value.icon} alt=""
+                                         name="2" className="transaction-icon w-[24px] my-3 mx-4"/>
                                     <span
-                                        className="my-3 mx-4">{selectCategoryState.value ? selectCategoryState.value : 'Category'}</span>
+                                        className="my-3 text-s pl-14 absolute"
+                                    >{selectCategoryState.value.name ? selectCategoryState.value.name : 'Category'}
+                                    </span>
                                     <label htmlFor="button"
                                            className="absolute text-sm text-gray-500 dark:text-gray-400 duration-300 transform -translate-y-4 scale-75 top-4 z-10 origin-[0] left-2.5   peer-placeholder-shown:scale-100 peer-placeholder-shown:translate-y-0 peer-focus:scale-75 peer-focus:-translate-y-4"
                                     >Select Category
@@ -135,8 +146,7 @@ const DialogTransaction = () => {
                                     <svg xmlns="http://www.w3.org/2000/svg"
                                          className="h-6 w-6 mx-[48px] my-3 text-[#757575] hover:text-black "
                                          fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth="2">
-                                        <path strokeLinecap="round" strokeLinejoin="round"
-                                              d="M9 5l7 7-7 7"></path>
+
                                     </svg>
                                 </button>
                             </div>
