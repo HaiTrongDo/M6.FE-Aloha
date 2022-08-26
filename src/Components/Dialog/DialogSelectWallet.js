@@ -24,7 +24,7 @@ const DialogSelectWallet = () => {
     return (
         <div className="bg-white border-2">
             <div
-                className="justify-center items-center flex overflow-x-hidden modal-dialog modal-dialog-scrollable fixed inset-0 z-100 outline-none focus:outline-none"
+                className="justify-center items-center flex overflow-x-hidden modal-dialog modal-dialog-scrollable fixed inset-0 z-[100] outline-none focus:outline-none"
                 tabIndex="-1" aria-labelledby="exampleModalScrollableLabel" aria-hidden="true"
             >
                 <div className="relative w-auto my-6 mx-auto max-w-3xl">
