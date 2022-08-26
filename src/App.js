@@ -19,7 +19,7 @@ function App() {
                 <Routes>
                     <Route element={<PrivateRoute/>}>
                         <Route path="/" element={<UserHomePage/>}/>
-                        <Route path="/login" element={<LoginPage/>}/>
+
                         <Route path="/transactions" element={<UserTransactionsPage/>}/>
                         <Route path="/report" element={<UserReportPage/>}/>
                         <Route path="/budget" element={<UserBudgetPage/>}/>
@@ -31,7 +31,7 @@ function App() {
                         <Route path="/store" element={<UserTransactionsPage/>}/>
                         <Route path="/help" element={<UserTransactionsPage/>}/>
                     </Route>
-
+                    <Route path="/login" element={<LoginPage/>}/>
                 </Routes>
             </div>
         </Provider>

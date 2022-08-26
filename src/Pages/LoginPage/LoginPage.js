@@ -47,7 +47,6 @@ const LoginPage = () => {
             await axios
                 .post('auth/signin', userSignIn)
                 .then((resultFromBEAloha) => {
-                    console.log(resultFromBEAloha.data.currentUser);
                     const [key, value] = resultFromBEAloha.data.token.split(' ')
                     localStorage.setItem(key, JSON.stringify(value));
                     dispatch(UserLoginWithPassword(resultFromBEAloha.data.currentUser))
@@ -123,8 +122,8 @@ const LoginPage = () => {
                     const [key, value] = resultFromBEAloha.data.token.split(' ')
                     localStorage.setItem(key, JSON.stringify(value));
                     dispatch(UserLoginWithFireBase(resultFromBEAloha.data.currentUser))
+                    navigate("/transactions")
                 })
-                navigate("/transactions")
             })
             .catch((error) => {
                 console.log(error.message)
