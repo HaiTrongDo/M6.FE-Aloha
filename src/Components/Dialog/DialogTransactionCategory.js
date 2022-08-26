@@ -88,10 +88,17 @@ const DialogTransactionCategory = (props) => {
                         <div className="grid grid-cols-5 flex flex-col justify-center items-center border-0">
                             <div></div>
 
-                            <input
-                                className="rounded-t col-span-3  appearance-none block w-full bg-gray-200 text-gray-700 border border-gray-200 rounded py-3 px-4 leading-tight focus:outline-none "
-                                id="grid-last-name" type="text" placeholder="Search"
-                                onChange={handleChangeSearch}/>
+                            <div className="relative bg-gray-200 rounded-full col-span-3">
+                                <div className="absolute left-0 my-2.5 pl-5">
+                                    <SearchIcon/>
+                                </div>
+                                <div>
+                                    <input
+                                        className="rounded-t pl-14 border-none col-span-3  appearance-none block w-full bg-transparent text-gray-700 border border-gray-200 rounded py-3 px-4 leading-tight focus:outline-none "
+                                        id="grid-last-name" type="text" placeholder="Search"
+                                        onChange={handleChangeSearch}/>
+                                </div>
+                            </div>
                         </div>
                         <div
                             className="grid grid-cols-4 flex flex-col justify-center items-center border-gray-300 pt-2">
@@ -110,14 +117,16 @@ const DialogTransactionCategory = (props) => {
                                         return (
                                             <div key={index}
                                                  className="relative pl-8 pr-8 border-b-2 hover:cursor-pointer">
-                                                <li className='m-auto grid grid-cols-2' onClick={() => {
+                                                <li className='m-auto grid grid-cols-3 ' onClick={() => {
                                                     dispatch(selectCategory(value))
                                                     dispatch(closeDialogCategory())
                                                 }}>
                                                     <img data-v-61e80534=""
                                                          src={value.icon} alt=""
                                                          name="2" className="category-icon w-[50px]"/>
-                                                    {value.name}
+                                                    <div className="col-span-2">
+                                                        {value.name}
+                                                    </div>
                                                 </li>
                                             </div>
                                         )
