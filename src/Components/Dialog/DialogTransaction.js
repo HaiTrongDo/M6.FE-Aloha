@@ -18,7 +18,8 @@ const DialogTransaction = () => {
     const [note, setNote] = useState('');
     const [date, setDate] = useState(new Date().toLocaleDateString());
     const selectCategoryState=useSelector(state=>state.selectCategory)
-    const selectWalletState=useSelector(state=>state.selectWallet)
+    const selectWalletState=useSelector(state=>state.selectWallet);
+    let user=JSON.parse(localStorage.getItem('alohaUser'))
 
     useEffect(() => {
         axios.get('transaction/category')
@@ -28,7 +29,7 @@ const DialogTransaction = () => {
     }, [])
 
     useEffect(() => {
-        axios.get('wallet/render')
+        axios.post('wallet/render',user._id)
             .then(res => {
                 setListWallet(res.data.data)
             })

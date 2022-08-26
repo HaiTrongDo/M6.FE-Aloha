@@ -55,7 +55,6 @@ export default function DialogAccount() {
     const dispatch = useDispatch()
     const openDialogAccount = useSelector((state) => state.Dialog.value)
     const currentUser = useSelector((state) => state.currentUser.currentUser)
-    console.log(currentUser);
     const handleClose = () => {
         dispatch(closeDialog(false))
     };
