@@ -18,20 +18,19 @@ function App() {
             <div className="App">
                 <Routes>
                     <Route element={<PrivateRoute/>}>
-
                         <Route path="/" element={<UserHomePage/>}/>
+                        <Route path="/login" element={<LoginPage/>}/>
+                        <Route path="/transactions" element={<UserTransactionsPage/>}/>
+                        <Route path="/report" element={<UserReportPage/>}/>
+                        <Route path="/budget" element={<UserBudgetPage/>}/>
+                        <Route path="/my-wallets" element={<MyWalletPage/>}/>
+                        <Route path="/my-account" element={<MyAccountPage/>}/>
+                        <Route path="/my-account/change-profile" element={<UserChangeProfile/>}/>
+                        <Route path="/categories" element={<Category/>}/>
+                        <Route path="/search" element={<UserTransactionsPage/>}/>
+                        <Route path="/store" element={<UserTransactionsPage/>}/>
+                        <Route path="/help" element={<UserTransactionsPage/>}/>
                     </Route>
-                    <Route path="/login" element={<LoginPage/>}/>
-                    <Route path="/transactions" element={<UserTransactionsPage/>}/>
-                    <Route path="/report" element={<UserReportPage/>}/>
-                    <Route path="/budget" element={<UserBudgetPage/>}/>
-                    <Route path="/my-wallets" element={<MyWalletPage/>}/>
-                    <Route path="/my-account" element={<MyAccountPage />} />
-                        <Route path="/my-account/change-profile" element={<UserChangeProfile />} />
-                    <Route path="/categories" element={<Category/>}/>
-                    <Route path="/search" element={<UserTransactionsPage/>}/>
-                    <Route path="/store" element={<UserTransactionsPage/>}/>
-                    <Route path="/help" element={<UserTransactionsPage/>}/>
 
                 </Routes>
             </div>

@@ -12,20 +12,19 @@ const DialogSelectWallet = () => {
     const selectWalletState=useSelector(state => state.value)
     const [listWallet, setListWallet] = useState([]);
     const user=JSON.parse(localStorage.getItem('alohaUser'));
-    console.log(user)
+
 
     useEffect(() => {
-        axios.post('wallet/render')
+        axios.post('wallet/render',user._id)
             .then(res => {
                 setListWallet(res.data.data)
             })
     },[])
 
-
     return (
-        <div className="bg-white border-gray-800">
+        <div className="bg-white border-2">
             <div
-                className="justify-center  items-center flex overflow-x-hidden modal-dialog modal-dialog-scrollable fixed inset-0 z-100 outline-none focus:outline-none"
+                className="justify-center items-center flex overflow-x-hidden modal-dialog modal-dialog-scrollable fixed inset-0 z-[100] outline-none focus:outline-none"
                 tabIndex="-1" aria-labelledby="exampleModalScrollableLabel" aria-hidden="true"
             >
                 <div className="relative w-auto my-6 mx-auto max-w-3xl">
@@ -43,7 +42,7 @@ const DialogSelectWallet = () => {
                                 </svg>
                             </button>
                             <span className="pl-[15px] text-[20px] font-sans">
-                                Select Category
+                                Select Wallet
                             </span>
                         </div>
 
@@ -54,6 +53,7 @@ const DialogSelectWallet = () => {
                                         <div key={index} className="relative pl-8 pr-8 border-b-2 hover:cursor-pointer">
                                             <li className='m-auto grid grid-cols-2' onClick={()=>{
                                                 dispatch(selectWallet(value.name))
+                                                dispatch(closeDialogSelectWallet())
                                             }}>
                                                 {value.name}
                                             </li>
