@@ -12,6 +12,7 @@ import openDialogCurrencySlice from "./Features/DiaLogSlice/openDialogCurrencySl
 import selectCategorySlice from "./Features/DiaLogSlice/categorySlice";
 import walletTransactionSlice from "./Features/DiaLogSlice/openDialogWallet";
 import selectWalletSlice from "./Features/DiaLogSlice/walletSlice";
+import openDialogDetailSlice from "./Features/DiaLogSlice/openDialogDetailSlice";
 
 
 const store = configureStore({
@@ -29,6 +30,7 @@ const store = configureStore({
         selectWallet:selectWalletSlice.reducer,
         DialogCurrency:openDialogCurrencySlice.reducer,
         DialogCategory:openDialogCategorySlice.reducer,
+        DialogDetail:openDialogDetailSlice.reducer,
         wallet: WalletSlice,
 
     }
