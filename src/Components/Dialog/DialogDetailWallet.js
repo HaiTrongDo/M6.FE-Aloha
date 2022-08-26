@@ -1,14 +1,28 @@
 import {setIconObj} from "../../Features/SelectWallet/selectWallet";
-import {useDispatch} from "react-redux";
+import {useDispatch, useSelector} from "react-redux";
 import {closeDialogIcons} from "../../Features/DiaLogSlice/openDialogIconsSlice";
 import {closeDialogDetail} from "../../Features/DiaLogSlice/openDialogDetailSlice";
+import {useEffect, useState} from "react";
+import axios from "axios"
 
-export default function DialogDetailWallet() {
+export default function DialogDetailWallet({walletId}) {
     const dispatch = useDispatch();
+    const [walletObj,setWalletObj] = useState({})
+    const [userObj,setUserObj] = useState(JSON.parse(localStorage.getItem('alohaUser')))
+
+
 
     const handleCloseDialogDetailWallet = () => {
         dispatch(closeDialogDetail(false))
     }
+
+    useEffect(() => {
+        axios.post('http://localhost:8080/wallet/detail', {walletId}).then(r=>{
+           setWalletObj(r.data.data)
+        })
+        console.log(walletId)
+        console.log(userObj)
+    },[walletId])
 
     return (
         <div className={" w-1/2 "}>
@@ -35,8 +49,8 @@ export default function DialogDetailWallet() {
                         <img className={"w-[56px] h-[56px] rounded-full"}
                              src="https://static.moneylover.me/img/icon/icon_1.png" alt=""/>
                         <div className={"mx-[34px] font-sans"}>
-                            <h2 className={"text-[24px] w-[123px] h-[32px] "}>name</h2>
-                            <p className={"text-[14px]  font-normal"}>United States Dollar</p>
+                            <h2 className={"text-[24px] w-full h-[32px] "}>{walletObj?.name}</h2>
+                            <p className={"text-[14px]  font-normal"}>{walletObj?.currency?.name}</p>
                         </div>
                     </div>
                 </div>
@@ -50,7 +64,8 @@ export default function DialogDetailWallet() {
                                  src="https://static.moneylover.me/img/icon/icon_1.png" alt=""/>
                             <div className={"ml-2"}>
                                 <span className={"font-bold"}>username</span>
-                                <span className={"mx-3 w-[34px] p-1 h-[14px] bg-[#FEB74D] text-white rounded-[5px]"}>Owner</span>
+                                <span
+                                    className={"mx-3 w-[34px] p-1 h-[14px] bg-[#FEB74D] text-white rounded-[5px]"}>Owner</span>
 
 
                                 <h3 className={"text-[#757575]"}>gmail</h3>
@@ -61,11 +76,13 @@ export default function DialogDetailWallet() {
                 <div className={" pl-[45px] "}>
                     <div>
                         <div className={"py-[15px] px-[44px] h-[74px] flex"}>
-                            <input  id="checkbox1" type="checkbox" value=""
-                                    className="h-[18px] bg-[black] text-white w-[18px]"/>
+                            <input id="checkbox1" type="checkbox" value=""
+                                   className="h-[18px] bg-[black] text-white w-[18px]"/>
                             <label htmlFor="checkbox1" className={"px-6 "}>
                                 <div>Excluded from Total</div>
-                                <div className={"text-[#757575]"}>Ignore this wallet and its balance in the "Total" mode.</div>
+                                <div className={"text-[#757575]"}>Ignore this wallet and its balance in the "Total"
+                                    mode.
+                                </div>
                             </label>
                         </div>
                     </div>
@@ -76,7 +93,9 @@ export default function DialogDetailWallet() {
                                    className={"h-[18px] bg-[black] text-white w-[18px] border-[20px] border-[#757575]"}/>
                             <label htmlFor="checkbox2" className={"px-6"}>
                                 <div>Archived</div>
-                                <div className={"text-[#757575]"}>Freeze this wallet and stop generating bills & recurring transactions.</div>
+                                <div className={"text-[#757575]"}>Freeze this wallet and stop generating bills &
+                                    recurring transactions.
+                                </div>
 
                             </label>
                         </div>
