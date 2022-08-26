@@ -7,7 +7,8 @@ import DialogSelectWallet from "../../Components/Dialog/DialogSelectWallet";
 
 const UserTransactionsPage = () => {
     const transactionState=useSelector(state => state.dialogTransaction.value);
-    const dialogCategoryState=useSelector(state => state.DialogCategory)
+    const dialogCategoryState=useSelector(state => state.DialogCategory.value)
+    const dialogWalletState=useSelector(state=>state.dialogWallet.value)
 
     return (
         <div>
@@ -26,7 +27,7 @@ const UserTransactionsPage = () => {
 
                     </div>
                     <div className=" master-container flex w-2/3 ">
-                        <div>
+                        <div className="bg-white w-full h-[300px]">
 
                         </div>
                     </div>
