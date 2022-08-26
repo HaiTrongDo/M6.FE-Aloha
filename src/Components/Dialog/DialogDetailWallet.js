@@ -61,14 +61,14 @@ export default function DialogDetailWallet({walletId}) {
                         </div>
                         <div className={"flex py-[16px] pl-[4px]"}>
                             <img className={"w-[40px] h-[40px] rounded-full"}
-                                 src="https://static.moneylover.me/img/icon/icon_1.png" alt=""/>
+                                 src={userObj.avatarUrl} alt=""/>
                             <div className={"ml-2"}>
-                                <span className={"font-bold"}>username</span>
+                                <span className={"font-bold"}>{userObj.username}</span>
                                 <span
                                     className={"mx-3 w-[34px] p-1 h-[14px] bg-[#FEB74D] text-white rounded-[5px]"}>Owner</span>
 
 
-                                <h3 className={"text-[#757575]"}>gmail</h3>
+                                <h3 className={"text-[#757575]"}>{userObj.email}</h3>
                             </div>
                         </div>
                     </div>

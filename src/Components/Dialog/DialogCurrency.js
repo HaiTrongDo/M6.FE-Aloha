@@ -69,6 +69,7 @@ export default function DialogIcons() {
                                         <li className="px-3 py-2 hover:bg-[#F0F9F1]" key={index}>
                                             <button onClick={(e)=>{
                                                 e.preventDefault();
+                                                console.log(currency)
                                                 dispatch(setCurrencyObj(currency))
                                                 handleCloseDialogCurrencies()
                                             }}
