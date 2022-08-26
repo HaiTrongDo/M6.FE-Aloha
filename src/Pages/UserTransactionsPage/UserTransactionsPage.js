@@ -1,11 +1,15 @@
+import React from 'react'
 import TransactionsLayout from "../../Components/Layouts/Transactions/TransactionsLayout";
-import {useSelector} from "react-redux";
+import {useDispatch, useSelector} from "react-redux";
 import DialogTransaction from "../../Components/Dialog/DialogTransaction";
 import DialogTransactionCategory from "../../Components/Dialog/DialogTransactionCategory";
 import DialogSelectWallet from "../../Components/Dialog/DialogSelectWallet";
+import {closeDialogTransaction} from "../../Features/DiaLogSlice/openDialogTransactionSlice";
+import {closeDialogSelectWallet} from "../../Features/DiaLogSlice/openDialogWallet";
 
 
 const UserTransactionsPage = () => {
+    const dispatch = useDispatch()
     const transactionState = useSelector(state => state.dialogTransaction.value);
     const dialogCategoryState = useSelector(state => state.DialogCategory.value)
     const dialogWalletState = useSelector(state => state.dialogWallet.value)
@@ -26,8 +30,15 @@ const UserTransactionsPage = () => {
                         </div>
 
                     </div>
-                    <div className=" master-container flex w-2/3 ">
-                        <div className="bg-white w-full h-[300px]">
+                    <div className=" master-container flex w-[60%] rounded-5 ">
+                        <div className="bg-white w-full h-[296px]">
+                            <div>
+
+                            </div>
+
+                            <div>
+
+                            </div>
 
                         </div>
                     </div>

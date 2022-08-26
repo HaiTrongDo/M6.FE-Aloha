@@ -25,16 +25,10 @@ const DialogTransactionCategory = (props) => {
             .then(res => {
                 setListCategory(res.data.data)
             })
-    }, [])
-
-    useEffect(() => {
         axios.get('transaction/category/expense')
             .then(res => {
                 setListExpense(res.data.data)
             })
-    }, [])
-
-    useEffect(() => {
         axios.get('transaction/category/income')
             .then(res => {
                 setListIncome(res.data.data)
@@ -101,30 +95,30 @@ const DialogTransactionCategory = (props) => {
                             </div>
                         </div>
                         <div
-                            className="grid grid-cols-4 flex flex-col justify-center items-center border-gray-300 pt-2">
+                            className="grid grid-cols-4 flex flex-col justify-center content-center border-gray-300 pt-2">
                             <div></div>
-                            {typeCategory ? <Button variant="outlined">EXPENSE</Button> :
-                                <Button onClick={handleTypeCategory}>EXPENSE</Button>}
-                            {!typeCategory ? <Button variant="outlined">INCOME</Button> :
-                                <Button onClick={handleTypeCategory}>INCOME</Button>}
+                            {typeCategory ? <Button sx={{borderBottom:2,borderRadius:0, borderColor:'#2EB74B', color:'#2EB74B'}}>EXPENSE</Button> :
+                                <Button sx={{color:'gray'}} onClick={handleTypeCategory}>EXPENSE</Button>}
+                            {!typeCategory ? <Button sx={{borderBottom:2,borderRadius:0, borderColor:'#2EB74B', color:'#2EB74B'}}>INCOME</Button> :
+                                <Button sx={{color:'gray'}} onClick={handleTypeCategory}>INCOME</Button>}
                             <div></div>
                         </div>
                         {/*body*/}
-                        <div className="modal-body relative w-[500px] h-[490px] border-t-2 flex-auto p-4">
-                            <ul className='m-auto p-4'>
+                        <div className="modal-body relative w-[500px] h-[490px] border-t-2 flex-auto">
+                            <ul className='m-auto'>
                                 {typeCategory
                                     ? listExpense.map((value, index) => {
                                         return (
                                             <div key={index}
                                                  className="relative pl-8 pr-8 border-b-2 hover:cursor-pointer">
-                                                <li className='m-auto grid grid-cols-3 ' onClick={() => {
+                                                <li className='m-auto grid grid-cols-3 p-2' onClick={() => {
                                                     dispatch(selectCategory(value))
                                                     dispatch(closeDialogCategory())
                                                 }}>
                                                     <img data-v-61e80534=""
                                                          src={value.icon} alt=""
-                                                         name="2" className="category-icon w-[50px]"/>
-                                                    <div className="col-span-2">
+                                                         name="2" className="category-icon w-[45px] ml-6 pl-2"/>
+                                                    <div className="col-span-2 my-auto">
                                                         {value.name}
                                                     </div>
                                                 </li>
@@ -135,14 +129,16 @@ const DialogTransactionCategory = (props) => {
                                         return (
                                             <div key={index}
                                                  className="relative pl-8 pr-8 border-b-2 hover:cursor-pointer">
-                                                <li className='m-auto grid grid-cols-2' onClick={() => {
+                                                <li className='m-auto grid grid-cols-3 p-2' onClick={() => {
                                                     dispatch(selectCategory(value.name))
                                                     dispatch(closeDialogCategory())
                                                 }}>
                                                     <img data-v-61e80534=""
-                                                         src={value.icon} alt=""
-                                                         name="2" className="category-icon w-[50px]"/>
-                                                    {value.name}
+                                                         src={value ? value.icon : 'https://static.moneylover.me/img/icon/icon.png'} alt=""
+                                                         name="2" className="category-icon w-[45px] ml-6 pl-2"/>
+                                                    <div className="col-span-2 my-auto">
+                                                        {value.name}
+                                                    </div>
                                                 </li>
                                             </div>
                                         )

@@ -9,17 +9,18 @@ import {selectWallet} from '../../Features/DiaLogSlice/walletSlice'
 
 const DialogSelectWallet = () => {
     const dispatch = useDispatch();
-    const selectWalletState=useSelector(state => state.value)
+    const selectWalletState = useSelector(state => state.value)
     const [listWallet, setListWallet] = useState([]);
-    const user=JSON.parse(localStorage.getItem('alohaUser'));
+    const user = JSON.parse(localStorage.getItem('alohaUser'));
 
 
     useEffect(() => {
-        axios.post('wallet/render',user._id)
+        console.log(user)
+        axios.post('wallet/render', {userId:user._id})
             .then(res => {
                 setListWallet(res.data.data)
             })
-    },[])
+    }, [])
 
     return (
         <div className="bg-white border-2">
@@ -46,16 +47,21 @@ const DialogSelectWallet = () => {
                             </span>
                         </div>
 
-                        <div className="modal-body relative w-[500px] h-[490px] border-t-2 flex-auto p-4">
-                            <ul className="m-auto p-4">
+                        <div className="modal-body relative w-[500px] h-[490px] border-t-2 flex-auto">
+                            <ul className="m-auto">
                                 {listWallet.map((value, index) => {
                                     return (
                                         <div key={index} className="relative pl-8 pr-8 border-b-2 hover:cursor-pointer">
-                                            <li className='m-auto grid grid-cols-2' onClick={()=>{
+                                            <li className='m-auto grid grid-cols-3 p-2' onClick={() => {
                                                 dispatch(selectWallet(value.name))
                                                 dispatch(closeDialogSelectWallet())
                                             }}>
-                                                {value.name}
+                                                <img data-v-61e80534=""
+                                                     src={value.icon.url} alt=""
+                                                     name="2" className="category-icon w-[45px] ml-6 pl-2"/>
+                                                <div className="col-span-2 my-auto">
+                                                    {value.name}
+                                                </div>
                                             </li>
                                         </div>
                                     )
