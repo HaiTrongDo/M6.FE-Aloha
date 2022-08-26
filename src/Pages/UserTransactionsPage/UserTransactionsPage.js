@@ -6,10 +6,8 @@ import DialogSelectWallet from "../../Components/Dialog/DialogSelectWallet";
 
 
 const UserTransactionsPage = () => {
-    const transactionState = useSelector(state => state.dialogTransaction.value);
-    const dialogCategoryState = useSelector(state => state.DialogCategory.value);
-    const dialogWalletState=useSelector(state => state.dialogWallet.value)
-
+    const transactionState=useSelector(state => state.dialogTransaction.value);
+    const dialogCategoryState=useSelector(state => state.DialogCategory)
 
     return (
         <div>
