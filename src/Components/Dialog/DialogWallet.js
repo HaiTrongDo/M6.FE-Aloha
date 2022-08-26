@@ -7,16 +7,16 @@ import DialogIcons from "../Dialog/DialogIcons";
 import DialogCurrency from "../Dialog/DialogCurrency";
 import {openDialogIcons} from "../../Features/DiaLogSlice/openDialogIconsSlice";
 import {openDialogCurrency} from "../../Features/DiaLogSlice/openDialogCurrencySlice";
+import {useNavigate} from "react-router-dom";
 
 export default function DialogWallet({className}) {
-    const [wallets, setWallets] = useState([])
-
-    const [icon, setIcon] = useState('https://static.moneylover.me/img/icon/icon.png');
-    const [currency, setCurrency] = useState({
-        url:'https://static.moneylover.me/img/flag/ic_currency_vnd.png',
-        name:'Việt Nam Đồng',
-    });
+    const navigate = useNavigate()
+    const [walletObj, setWalletObj] = useState({
+        nameWallet:'',
+        initial:''
+    })
     const dispatch = useDispatch();
+
 
     const handleCloseDialogWallet = () => {
         dispatch(closeDialogWallet(false))
@@ -27,6 +27,7 @@ export default function DialogWallet({className}) {
     const iconsState = useSelector((state) =>
         state.DialogIcons.value
     )
+
     const wallet = useSelector((state) =>
         state.wallet
     )
@@ -45,18 +46,33 @@ export default function DialogWallet({className}) {
         dispatch(openDialogCurrency(true))
     }
 
-
-
-    useEffect(() => {
-        axios
-            .get('http://localhost:8080/wallet/',
-            ).then(r => {
-            setWallets(r.data.data)
+    const handleChangeInput= (e)=>{
+        setWalletObj({
+            ...walletObj,
+            [e.target.name]: e.target.value,
         })
-    }, [])
+    }
+
+    const walletData = {
+        name:walletObj?.nameWallet,
+        initial:+walletObj?.initial,
+        icon:wallet?.iconObj?._id,
+        currency:wallet?.currency?._id,
+        user:currentUser?._id
+    }
+
+    const handleAddWallet =  (e)=>{
+        e.preventDefault()
+            axios.post('http://localhost:8080/wallet/add',walletData).then(response =>{
+                console.log(response)
+                handleCloseDialogWallet()
+            })
+
+    }
+
+
 
     return (
-        <form>
             <div>
                 <div
                     className="justify-center  items-center flex overflow-x-hidden overflow-y-auto fixed inset-0 z-50 outline-none focus:outline-none"
@@ -88,6 +104,7 @@ export default function DialogWallet({className}) {
                                     </button>
                                     <div className="relative col-span-2">
                                         <input type="text" id="floating_filled"
+                                               onChange={handleChangeInput}
                                                name={"nameWallet"}
                                                className="block rounded-[10px] p-2 pt-5 w-[296px] h-[60px] text-sm text-gray-900 bg-gray-50  border border-gray-300  appearance-none dark:text-black  focus:outline-none focus:ring-0 hover:border-black peer"
                                                placeholder=" "/>
@@ -116,6 +133,7 @@ export default function DialogWallet({className}) {
 
                                     <div className="relative">
                                         <input type="number" id="floating_filled_init"
+                                               onChange={handleChangeInput}
                                                name={"initial"}
                                                className="block   rounded-[10px] p-2 pt-5 w-[140px] h-[60px] text-sm text-gray-900 bg-gray-50  border border-gray-300  appearance-none dark:text-black  focus:outline-none focus:ring-0 hover:border-black peer appearance-none"
                                                placeholder=" "/>
@@ -141,17 +159,17 @@ export default function DialogWallet({className}) {
                                 <button
                                     className="bg-emerald-500 text-white active:bg-emerald-600 font-bold uppercase text-sm px-6 py-3 rounded shadow hover:shadow-lg outline-none focus:outline-none mr-1 mb-1 ease-linear transition-all duration-150"
                                     type="button"
-                                    onClick={handleCloseDialogWallet}
+                                    onClick={handleAddWallet}
                                 >
-                                    Save Changes
+                                    Create wallet
                                 </button>
+
                             </div>
                         </div>
                     </div>
                 </div>
                 <div className="opacity-50 fixed inset-0 z-40 bg-black"/>
             </div>
-        </form>
     )
 }
 

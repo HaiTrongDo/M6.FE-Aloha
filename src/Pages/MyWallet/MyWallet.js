@@ -38,7 +38,7 @@ export default function MyWallet() {
             headers: {
                 'Content-Type': 'application/x-www-form-urlencoded'
             },
-            data: data
+            data : data
         };
 
         axios(config)
