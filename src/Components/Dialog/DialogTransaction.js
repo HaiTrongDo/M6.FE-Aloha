@@ -65,13 +65,19 @@ const DialogTransaction = () => {
         console.log('req',transaction)
         axios.post('transaction/add', transaction)
             .then((res) => {
-                console.log(res.data.data)
-                console.log('add thanh cong')
+                dispatch(selectCategory(''))
+                dispatch(selectWallet(''))
                 dispatch(closeDialogTransaction())
             })
             .catch(() => {
                 console.log('add that bai')
             })
+    }
+
+    const handleCloseDialogTransaction=()=>{
+        dispatch(selectCategory(''))
+        dispatch(selectWallet(''))
+        dispatch(closeDialogTransaction())
     }
 
     return (
@@ -113,7 +119,7 @@ const DialogTransaction = () => {
                                     </div>
                                     <span
                                         className="my-3 mx-4 absolute pl-12"
-                                    >{selectWalletState.value}
+                                    >{selectWalletState.value ? selectWalletState.value : 'Select Wallet'}
                                     </span>
                                     <label htmlFor="button"
                                            className="absolute text-sm text-gray-500 dark:text-gray-400 duration-300 transform -translate-y-4 scale-75 top-4 z-10 origin-[0] left-2.5   peer-placeholder-shown:scale-100 peer-placeholder-shown:translate-y-0 peer-focus:scale-75 peer-focus:-translate-y-4"
@@ -133,11 +139,11 @@ const DialogTransaction = () => {
                                 <button id="button" onClick={() => dispatch(openDialogCategory())}
                                         className="w-full col-span-2 flex relative  border border-gray-300 p-2 h-[60px]  rounded-[10px] hover:border-black">
                                     <img data-v-6bc9d4d3=""
-                                         src={selectCategoryState.value.icon} alt=""
+                                         src={selectCategoryState.value ? selectCategoryState.value.icon : 'https://static.moneylover.me/img/icon/icon_not_selected.png'} alt=""
                                          name="2" className="transaction-icon w-[24px] my-3 mx-4"/>
                                     <span
                                         className="my-3 text-s pl-14 absolute"
-                                    >{selectCategoryState.value.name ? selectCategoryState.value.name : 'Category'}
+                                    >{selectCategoryState.value.name ? selectCategoryState.value.name : 'Select Category'}
                                     </span>
                                     <label htmlFor="button"
                                            className="absolute text-sm text-gray-500 dark:text-gray-400 duration-300 transform -translate-y-4 scale-75 top-4 z-10 origin-[0] left-2.5   peer-placeholder-shown:scale-100 peer-placeholder-shown:translate-y-0 peer-focus:scale-75 peer-focus:-translate-y-4"
@@ -185,7 +191,7 @@ const DialogTransaction = () => {
                             <button
                                 className="text-red-500 background-transparent font-bold uppercase px-6 py-2 text-sm outline-none focus:outline-none mr-1 mb-1 ease-linear transition-all duration-150"
                                 type="button"
-                                onClick={() => dispatch(closeDialogTransaction())}
+                                onClick={handleCloseDialogTransaction}
                             >
                                 Close
                             </button>
