@@ -5,12 +5,18 @@ import {useDispatch, useSelector} from "react-redux";
 import {openDialogWallet} from "../../Features/DiaLogSlice/openDialogMyWalletSlice";
 import Loading from "../../Components/Loading/Loading";
 import {useNavigate} from "react-router-dom";
+import {openDialogDetail} from "../../Features/DiaLogSlice/openDialogDetailSlice";
+import DialogDetailWallet from "../../Components/Dialog/DialogDetailWallet";
 
 
 export default function MyWallet() {
     const [wallets, setWallets] = useState([])
     const walletState = useSelector((state) =>
         state.DialogWallet.value
+    )
+
+    const detailState = useSelector((state) =>
+        state.DialogDetail.value
     )
 
     const navigate = useNavigate();
@@ -33,7 +39,7 @@ export default function MyWallet() {
             headers: {
                 'Content-Type': 'application/x-www-form-urlencoded'
             },
-            data : data
+            data: data
         };
 
         axios(config)
@@ -48,7 +54,12 @@ export default function MyWallet() {
     }, [wallets])
 
     const handleOpenDialogWallet = () => {
-            dispatch( openDialogWallet(true))
+        dispatch(openDialogWallet(true))
+    }
+
+    const handleOpenDialogDetail = () => {
+        dispatch(openDialogDetail(true))
+        console.log(detailState)
     }
 
     return (
@@ -60,7 +71,7 @@ export default function MyWallet() {
                         className="bg-white  px-2 sm:px-4 py-2.5 bg-white fixed w-full h-16 z-20 top-0 left-0 border-b border-gray-200 dark:border-gray-200">
                         <div className="container flex flex-wrap justify-between items-center ">
                             <div className="flex p-2 ">
-                                <button onClick={()=>{
+                                <button onClick={() => {
                                     navigate(-1)
                                 }}>
                                     <svg xmlns="http://www.w3.org/2000/svg"
@@ -88,29 +99,42 @@ export default function MyWallet() {
                     </nav>
                 </div>
             </div>
-            <div className="flex justify-center">
-                <div className=" border mt-[100px] border-none w-[664px] text-xs text-gray-900">
-                    <div
-                        className={"text-left text-[#707070] px-6 py-2 border-b border-gray-200 w-[664px] h-[40px] bg-[#F4F4F4]  cursor-pointer"}>
-                        Included in Total
-                    </div>
-                    {wallets.map((wallet, index) => {
-                        return (
-                            <div key={index}
-                                 className="text-left hover:bg-[#E6EFE7] flex px-6 py-2 round-[10px]  w-[664px] h-[72px] bg-[#FFFFFF] text-black cursor-pointer">
-                                <img src={wallet.name ?wallet.icon.url : ""} className="w-10 h-10 rounded-full my-2" alt=""/>
-                                <div className="px-3">
-                                    <h3 className="font-sans my-1 text-[14px]">{wallet.name}</h3>
-                                    <span className="text-[#949494]">+{wallet.initial} {wallet.currency.code}</span>
+            <div className={"flex justify-center gap-6"}>
+                <div className={detailState ? "flex justify-center w-1/2 top-0 left-20 transition-transform " : "flex justify-center w-1/2"}
+                     id={"wallet"}>
+                    <div className=" border mt-[100px] w-[80%]  text-xs text-gray-900 drop-shadow-2xl">
+                        <div
+                            className={"text-left text-[#707070] px-6 py-2 border-b border-r border-gray-200 w-full h-[40px] bg-[#F4F4F4]  cursor-pointer"}>
+                            Included in Total
+                        </div>
+                        {wallets.map((wallet, index) => {
+                            return (
+                                <div onClick={handleOpenDialogDetail} key={index}
+                                     className="text-left border-r hover:bg-[#E6EFE7] flex px-6 py-2 round-[10px]  w-full h-[72px] bg-[#FFFFFF] text-black cursor-pointer">
+                                    <img src={wallet.name ? wallet.icon.url : ""}
+                                         className="w-10 h-10 rounded-full my-2"
+                                         alt=""/>
+                                    <div className="px-3">
+                                        <h3 className="font-sans my-1 text-[14px]">{wallet.name}</h3>
+                                        <span className="text-[#949494]">+{wallet.initial} {wallet.currency.code}</span>
+                                    </div>
                                 </div>
-                            </div>
-                        )
-                    })}
+                            )
+                        })}
+                    </div>
                 </div>
+
+
+                {detailState ? (
+                    <>
+                        <DialogDetailWallet/>
+                    </>
+                ) : null
+                }
             </div>
-            {walletState  ? (
+            {walletState ? (
                 <>
-                   <DialogWallet/>
+                    <DialogWallet/>
                 </>
             ) : null}
         </div>
