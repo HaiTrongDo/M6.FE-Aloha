@@ -122,8 +122,8 @@ const LoginPage = () => {
                     const [key, value] = resultFromBEAloha.data.token.split(' ')
                     localStorage.setItem(key, JSON.stringify(value));
                     dispatch(UserLoginWithFireBase(resultFromBEAloha.data.currentUser))
+                    navigate("/transactions")
                 })
-                navigate("/transactions")
             })
             .catch((error) => {
                 console.log(error.message)

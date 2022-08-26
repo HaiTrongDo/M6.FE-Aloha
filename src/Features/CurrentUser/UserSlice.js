@@ -20,10 +20,16 @@ const UserSlice = createSlice({
         updateUserInfo: (state,action)=>{
             state.currentUser = action.payload
             localStorage.setItem('alohaUser',JSON.stringify(action.payload))
+        },
+        userSignOut: (state,action)=>{
+            state.currentUser = {}
+            localStorage.removeItem('alohaUser')
+            localStorage.removeItem('JWT')
         }
+
     }
 })
 
-export const {UserLoginWithFireBase, updateUserInfo,UserLoginWithPassword} = UserSlice.actions
+export const {UserLoginWithFireBase, updateUserInfo,UserLoginWithPassword,userSignOut} = UserSlice.actions
 
 export default UserSlice.reducer
