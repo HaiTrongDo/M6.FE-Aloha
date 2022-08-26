@@ -8,6 +8,9 @@ import isEmpty from "validator/es/lib/isEmpty";
 import {useDispatch} from 'react-redux'
 import {UserLoginWithFireBase, UserLoginWithPassword} from '../../Features/CurrentUser/UserSlice'
 
+const DEFAULT_USER_URL = "https://firebasestorage.googleapis.com/v0/b/aloha-money.appspot.com/o/DefaultUser.jpg?alt=media&token=58615f07-c33a-42f7-aa11-43b9d8170593"
+
+
 const LoginPage = () => {
     const navigate = useNavigate()
     const dispatch = useDispatch()
@@ -117,7 +120,7 @@ const LoginPage = () => {
                     username: resultFromAuthProvider.user.displayName || "Name Not Stated",
                     email: resultFromAuthProvider.user.email || resultFromAuthProvider.user.providerData[0].email,
                     uid: resultFromAuthProvider.user.uid,
-                    avatarUrl: resultFromAuthProvider.user.photoURL
+                    avatarUrl: resultFromAuthProvider.user.photoURL || DEFAULT_USER_URL
                 }).then(resultFromBEAloha => {
                     const [key, value] = resultFromBEAloha.data.token.split(' ')
                     localStorage.setItem(key, JSON.stringify(value));

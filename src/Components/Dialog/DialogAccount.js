@@ -69,6 +69,9 @@ export default function DialogAccount() {
             navigate('/login')
         })
     };
+    const handleClose = () => {
+        dispatch(closeDialog(false))
+    };
 
     const handleChangePass = () => {
         dispatch(openDialogChangePass(true))
@@ -78,12 +81,12 @@ export default function DialogAccount() {
     return (
         <>
             <BootstrapDialog
-                onClose={handleSignOut}
+                onClose={handleClose}
                 aria-labelledby="customized-dialog-title"
                 open={openDialogAccount}
                 fullWidth="500px"
             >
-                <BootstrapDialogTitle id="customized-dialog-title" onClose={handleSignOut}>
+                <BootstrapDialogTitle id="customized-dialog-title" onClose={handleClose}>
                     My Account
                 </BootstrapDialogTitle>
 
