@@ -1,46 +1,50 @@
 import {setIconObj} from "../../Features/SelectWallet/selectWallet";
+import {useDispatch} from "react-redux";
+import {closeDialogIcons} from "../../Features/DiaLogSlice/openDialogIconsSlice";
+import {closeDialogDetail} from "../../Features/DiaLogSlice/openDialogDetailSlice";
 
 export default function DialogDetailWallet() {
+    const dispatch = useDispatch();
 
     const handleCloseDialogDetailWallet = () => {
-
+        dispatch(closeDialogDetail(false))
     }
 
     return (
-        <div>
-            <div
-                className="justify-center  items-center flex overflow-x-hidden overflow-y-auto modal-dialog modal-dialog-scrollable fixed inset-0 z-50 outline-none focus:outline-none"
-                tabIndex="-1" aria-labelledby="exampleModalScrollableLabel" aria-hidden="true"
-            >
-                <div className="relative w-auto my-6 mx-auto max-w-3xl">
-                    {/*content*/}
-                    <div
-                        className="border-0 rounded-[5px] shadow-lg relative flex flex-col w-full bg-white outline-none focus:outline-none">
-                        {/*header*/}
-                        <div
-                            className="flex items-start p-5 border-b border-solid border-slate-200 rounded-t">
-                            <button className="pt-1 text-[#757575]" onClick={handleCloseDialogDetailWallet}>
-                                <svg xmlns="http://www.w3.org/2000/svg" className="h-6 w-6" fill="none"
-                                     viewBox="0 0 24 24"
-                                     stroke="currentColor" strokeWidth="2">
-                                    <path strokeLinecap="round" strokeLinejoin="round" d="M6 18L18 6M6 6l12 12"/>
-                                </svg>
-                            </button>
-                            <span className="pl-[15px] text-[20px] font-sans">
-                                Select icon
-                            </span>
-                        </div>
-                        {/*body*/}
-                        <div className="modal-body relative w-[496px] h-[600px] flex-auto p-4">
-                            <ul className="grid grid-cols-8 grid-rows-4 gap-2 grid-flow-row">
-
-                            </ul>
-                        </div>
-                        {/*footer*/}
+        <div className={" w-1/2 "}>
+            <div className=" border mt-[100px] w-[90%]  text-xs text-gray-900 border ">
+                <div
+                    className={"text-left  flex justify-between py-4 px-6 py-2 border-b border-gray-200 w-full h-[63px]"}>
+                    <div className={"flex"}>
+                        <button onClick={handleCloseDialogDetailWallet}>
+                            <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" strokeWidth={1.5}
+                                 stroke="currentColor" className=" w-5 h-5 text-[#ccc] hover:text-black">
+                                <path strokeLinecap="round" strokeLinejoin="round" d="M4.5 19.5l15-15m-15 0l15 15"/>
+                            </svg>
+                        </button>
+                        <span className={"text-lg px-4 text-black "}>Wallet details</span>
+                    </div>
+                    <div className={"flex text-center text-base"}>
+                        <button className={"text-[#2EB74B] w-[80px] h-[36px] mx-[20px] hover:bg-[#E9F6EB]"}>EDIT
+                        </button>
+                        <button className={"text-[#F15A59] w-[80px] h-[36px] hover:bg-[#FEECEB]"}>DELETE</button>
                     </div>
                 </div>
+                <div className={"w-full h-[102px]"}>
+                    <div className={"p-[23px] pl-[77px] flex "}>
+                        <img className={"w-[56px] h-[56px] rounded-full"}
+                             src="https://static.moneylover.me/img/icon/icon_1.png" alt=""/>
+                        <div className={"mx-[34px] font-sans"} >
+                            <h2 className={"text-[24px] w-[123px] h-[32px] "}>name</h2>
+                            <p className={"text-[14px]  font-normal"}>United States Dollar</p>
+                        </div>
+                    </div>
+                </div>
+                <div className={"w-full h-[113px]"}>
+
+                </div>
+
             </div>
-            <div className="opacity-50 fixed inset-0 z-40 bg-black"/>
         </div>
 
     )
