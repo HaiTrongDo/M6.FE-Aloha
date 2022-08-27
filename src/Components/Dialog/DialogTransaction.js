@@ -6,6 +6,7 @@ import {openDialogCategory, closeDialogCategory} from "../../Features/DiaLogSlic
 import {selectCategory} from "../../Features/DiaLogSlice/categorySlice";
 import {openDialogSelectWallet} from "../../Features/DiaLogSlice/openDialogWallet";
 import {selectWallet} from "../../Features/DiaLogSlice/walletSlice";
+import {useNavigate} from "react-router-dom";
 
 
 const DialogTransaction = () => {
@@ -16,10 +17,11 @@ const DialogTransaction = () => {
     const [wallet, setWallet] = useState('');
     const [amount, setAmount] = useState();
     const [note, setNote] = useState('');
-    const [date, setDate] = useState(new Date().toLocaleDateString());
+    const [date, setDate] = useState(new Date().toDateString());
     const selectCategoryState=useSelector(state=>state.selectCategory)
     const selectWalletState=useSelector(state=>state.selectWallet);
     let user=JSON.parse(localStorage.getItem('alohaUser'))
+
 
     useEffect(() => {
         axios.get('transaction/category')
@@ -59,7 +61,7 @@ const DialogTransaction = () => {
         const transaction = {
             wallet: selectWalletState.value,
             amount: amount*1,
-            category: selectCategoryState.value.name,
+            category: selectCategoryState.value,
             date: date,
             note: note
         }
@@ -70,7 +72,8 @@ const DialogTransaction = () => {
                 dispatch(selectWallet(''))
                 dispatch(closeDialogTransaction())
             })
-            .catch(() => {
+            .catch((err) => {
+                console.log(err.message)
                 console.log('add that bai')
             })
     }
@@ -126,12 +129,6 @@ const DialogTransaction = () => {
                                            className="absolute text-sm text-gray-500 dark:text-gray-400 duration-300 transform -translate-y-4 scale-75 top-4 z-10 origin-[0] left-2.5   peer-placeholder-shown:scale-100 peer-placeholder-shown:translate-y-0 peer-focus:scale-75 peer-focus:-translate-y-4"
                                     >Select Wallet
                                     </label>
-                                    {/*<svg xmlns="http://www.w3.org/2000/svg"*/}
-                                    {/*     className="h-6 w-6 mx-[48px] my-3 pl-12 text-[#757575] hover:text-black "*/}
-                                    {/*     fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth="2">*/}
-                                    {/*    <path strokeLinecap="round" strokeLinejoin="round"*/}
-                                    {/*          d="M9 5l7 7-7 7"></path>*/}
-                                    {/*</svg>*/}
                                 </button>
 
                             </div>

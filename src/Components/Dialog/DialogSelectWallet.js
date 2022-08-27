@@ -15,7 +15,6 @@ const DialogSelectWallet = () => {
 
 
     useEffect(() => {
-        console.log(user)
         axios.post('wallet/render', {userId:user._id})
             .then(res => {
                 setListWallet(res.data.data)

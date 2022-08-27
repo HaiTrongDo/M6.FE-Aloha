@@ -14,7 +14,8 @@ const DialogTransactionCategory = (props) => {
     const [listExpense, setListExpense] = useState([]);
     const [listIncome, setListIncome] = useState([]);
     const [typeCategory, setTypeCategory] = useState(true);
-    const [search, setSearch] = useState([])
+    const [searchIncome, setSearchIncome] = useState();
+    const [searchExpense, setSearchExpense] = useState()
 
     const handleCloseCategory = () => {
         dispatch(closeDialogCategory())
@@ -46,12 +47,12 @@ const DialogTransactionCategory = (props) => {
             let result = listExpense.filter((value, index) => {
                 return value.name.toLowerCase().includes(e.target.value.toLowerCase())
             })
-            setSearch(result)
+            setSearchExpense(result)
         } else {
             let result = listIncome.filter((value, index) => {
                 return value.name.toLowerCase().includes(e.target.value.toLowerCase())
             })
-            setSearch(result)
+            setSearchIncome(result)
         }
     }
 
@@ -97,52 +98,102 @@ const DialogTransactionCategory = (props) => {
                         <div
                             className="grid grid-cols-4 flex flex-col justify-center content-center border-gray-300 pt-2">
                             <div></div>
-                            {typeCategory ? <Button sx={{borderBottom:2,borderRadius:0, borderColor:'#2EB74B', color:'#2EB74B'}}>EXPENSE</Button> :
-                                <Button sx={{color:'gray'}} onClick={handleTypeCategory}>EXPENSE</Button>}
-                            {!typeCategory ? <Button sx={{borderBottom:2,borderRadius:0, borderColor:'#2EB74B', color:'#2EB74B'}}>INCOME</Button> :
-                                <Button sx={{color:'gray'}} onClick={handleTypeCategory}>INCOME</Button>}
+                            {typeCategory ? <Button sx={{
+                                    borderBottom: 2,
+                                    borderRadius: 0,
+                                    borderColor: '#2EB74B',
+                                    color: '#2EB74B'
+                                }}>EXPENSE</Button> :
+                                <Button sx={{color: 'gray'}} onClick={handleTypeCategory}>EXPENSE</Button>}
+                            {!typeCategory ? <Button sx={{
+                                    borderBottom: 2,
+                                    borderRadius: 0,
+                                    borderColor: '#2EB74B',
+                                    color: '#2EB74B'
+                                }}>INCOME</Button> :
+                                <Button sx={{color: 'gray'}} onClick={handleTypeCategory}>INCOME</Button>}
                             <div></div>
                         </div>
                         {/*body*/}
                         <div className="modal-body relative w-[500px] h-[490px] border-t-2 flex-auto">
                             <ul className='m-auto'>
                                 {typeCategory
-                                    ? listExpense.map((value, index) => {
-                                        return (
-                                            <div key={index}
-                                                 className="relative pl-8 pr-8 border-b-2 hover:cursor-pointer">
-                                                <li className='m-auto grid grid-cols-3 p-2' onClick={() => {
-                                                    dispatch(selectCategory(value))
-                                                    dispatch(closeDialogCategory())
-                                                }}>
-                                                    <img data-v-61e80534=""
-                                                         src={value.icon} alt=""
-                                                         name="2" className="category-icon w-[45px] ml-6 pl-2"/>
-                                                    <div className="col-span-2 my-auto">
-                                                        {value.name}
-                                                    </div>
-                                                </li>
-                                            </div>
-                                        )
-                                    })
-                                    : listIncome.map((value, index) => {
-                                        return (
-                                            <div key={index}
-                                                 className="relative pl-8 pr-8 border-b-2 hover:cursor-pointer">
-                                                <li className='m-auto grid grid-cols-3 p-2' onClick={() => {
-                                                    dispatch(selectCategory(value.name))
-                                                    dispatch(closeDialogCategory())
-                                                }}>
-                                                    <img data-v-61e80534=""
-                                                         src={value ? value.icon : 'https://static.moneylover.me/img/icon/icon.png'} alt=""
-                                                         name="2" className="category-icon w-[45px] ml-6 pl-2"/>
-                                                    <div className="col-span-2 my-auto">
-                                                        {value.name}
-                                                    </div>
-                                                </li>
-                                            </div>
-                                        )
-                                    })
+                                    ? (searchExpense ? searchExpense.map((value, index) => {
+                                            return (
+                                                <div key={index}
+                                                     className="relative pl-8 pr-8 border-b-2 hover:cursor-pointer">
+                                                    <li className='m-auto grid grid-cols-3 p-2' onClick={() => {
+                                                        dispatch(selectCategory(value))
+                                                        dispatch(closeDialogCategory())
+                                                    }}>
+                                                        <img data-v-61e80534=""
+                                                             src={value.icon} alt=""
+                                                             name="2" className="category-icon w-[45px] ml-6 pl-2"/>
+                                                        <div className="col-span-2 my-auto">
+                                                            {value.name}
+                                                        </div>
+                                                    </li>
+                                                </div>
+                                            )
+                                        })
+                                        : listExpense.map((value, index) => {
+                                            return (
+                                                <div key={index}
+                                                     className="relative pl-8 pr-8 border-b-2 hover:cursor-pointer">
+                                                    <li className='m-auto grid grid-cols-3 p-2' onClick={() => {
+                                                        dispatch(selectCategory(value))
+                                                        dispatch(closeDialogCategory())
+                                                    }}>
+                                                        <img data-v-61e80534=""
+                                                             src={value.icon} alt=""
+                                                             name="2" className="category-icon w-[45px] ml-6 pl-2"/>
+                                                        <div className="col-span-2 my-auto">
+                                                            {value.name}
+                                                        </div>
+                                                    </li>
+                                                </div>
+                                            )
+                                        }))
+                                    : (searchIncome
+                                        ? searchIncome.map((value, index) => {
+                                            return (
+                                                <div key={index}
+                                                     className="relative pl-8 pr-8 border-b-2 hover:cursor-pointer">
+                                                    <li className='m-auto grid grid-cols-3 p-2' onClick={() => {
+                                                        dispatch(selectCategory(value))
+                                                        dispatch(closeDialogCategory())
+                                                    }}>
+                                                        <img data-v-61e80534=""
+                                                             src={value ? value.icon : 'https://static.moneylover.me/img/icon/icon.png'}
+                                                             alt=""
+                                                             name="2" className="category-icon w-[45px] ml-6 pl-2"/>
+                                                        <div className="col-span-2 my-auto">
+                                                            {value.name}
+                                                        </div>
+                                                    </li>
+                                                </div>
+                                            )
+                                        })
+                                        : listIncome.map((value, index) => {
+                                            return (
+                                                <div key={index}
+                                                     className="relative pl-8 pr-8 border-b-2 hover:cursor-pointer">
+                                                    <li className='m-auto grid grid-cols-3 p-2' onClick={() => {
+                                                        dispatch(selectCategory(value))
+                                                        dispatch(closeDialogCategory())
+                                                    }}>
+                                                        <img data-v-61e80534=""
+                                                             src={value ? value.icon : 'https://static.moneylover.me/img/icon/icon.png'}
+                                                             alt=""
+                                                             name="2" className="category-icon w-[45px] ml-6 pl-2"/>
+                                                        <div className="col-span-2 my-auto">
+                                                            {value.name}
+                                                        </div>
+                                                    </li>
+                                                </div>
+                                            )
+                                        })
+                                    )
                                 }
                             </ul>
                         </div>
