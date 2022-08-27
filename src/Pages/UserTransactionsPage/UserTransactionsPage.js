@@ -22,6 +22,7 @@ const UserTransactionsPage = () => {
     const [detail, setDetail] = useState({})
 
 
+
     useEffect(() => {
         // goi API cot ben trai
         axios.post('transaction/list', {user: user._id})
