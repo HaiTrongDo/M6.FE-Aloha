@@ -3,14 +3,16 @@ import {useEffect, useState} from "react";
 import axios from 'axios'
 import {useDispatch, useSelector} from "react-redux";
 import {openDialogWallet} from "../../Features/DiaLogSlice/openDialogMyWalletSlice";
-import Loading from "../../Components/Loading/Loading";
 import {useNavigate} from "react-router-dom";
 import {openDialogDetail} from "../../Features/DiaLogSlice/openDialogDetailSlice";
 import DialogDetailWallet from "../../Components/Dialog/DialogDetailWallet";
+import {setWalletId} from "../../Features/SelectWallet/walletIdSlice";
 
 
 export default function MyWallet() {
+
     const [wallets, setWallets] = useState([])
+    const [walletId, setWalletId] = useState('')
     const walletState = useSelector((state) =>
         state.DialogWallet.value
     )
@@ -57,14 +59,15 @@ export default function MyWallet() {
         dispatch(openDialogWallet(true))
     }
 
-    const handleOpenDialogDetail = () => {
+    const handleOpenDialogDetail = (e,wallet) => {
         dispatch(openDialogDetail(true))
-        console.log(detailState)
+        setWalletId(wallet._id)
+
     }
 
     return (
 
-        <div className="relative">
+        <div className="relative bg-[#E4E4E4] h-[100vh]">
             <div className="navbar">
                 <div>
                     <nav
@@ -109,11 +112,12 @@ export default function MyWallet() {
                         </div>
                         {wallets.map((wallet, index) => {
                             return (
-                                <div onClick={handleOpenDialogDetail} key={index}
+                                <div onClick={(e)=>{handleOpenDialogDetail(e,wallet)}} key={wallet._id}
                                      className="text-left border-r hover:bg-[#E6EFE7] flex px-6 py-2 round-[10px]  w-full h-[72px] bg-[#FFFFFF] text-black cursor-pointer">
                                     <img src={wallet.name ? wallet.icon.url : ""}
                                          className="w-10 h-10 rounded-full my-2"
                                          alt=""/>
+                                    <div id={"hidden"} hidden>{wallet._id}</div>
                                     <div className="px-3">
                                         <h3 className="font-sans my-1 text-[14px]">{wallet.name}</h3>
                                         <span className="text-[#949494]">+{wallet.initial} {wallet.currency.code}</span>
@@ -127,14 +131,14 @@ export default function MyWallet() {
 
                 {detailState ? (
                     <>
-                        <DialogDetailWallet/>
+                        <DialogDetailWallet walletId = {walletId}/>
                     </>
                 ) : null
                 }
             </div>
             {walletState ? (
                 <>
-                    <DialogWallet/>
+                    <DialogWallet />
                 </>
             ) : null}
         </div>

@@ -10,7 +10,9 @@ import Typography from '@mui/material/Typography';
 import {useDispatch, useSelector} from "react-redux";
 import {closeDialog} from "../../Features/DiaLogSlice/openDialogAccountSlide";
 import {openDialogChangePass} from "../../Features/DiaLogSlice/openDialogChangePassSlice";
+import {userSignOut} from "../../Features/CurrentUser/UserSlice";
 import {useNavigate} from "react-router-dom";
+import swal from "sweetalert";
 const BootstrapDialog = styled(Dialog)(({theme}) => ({
     '& .MuiDialogContent-root': {
         padding: theme.spacing(2),
@@ -19,6 +21,7 @@ const BootstrapDialog = styled(Dialog)(({theme}) => ({
         padding: theme.spacing(1),
     },
 }));
+
 
 const BootstrapDialogTitle = (props) => {
     const {children, onClose, ...other} = props;
@@ -55,6 +58,17 @@ export default function DialogAccount() {
     const dispatch = useDispatch()
     const openDialogAccount = useSelector((state) => state.Dialog.value)
     const currentUser = useSelector((state) => state.currentUser.currentUser)
+
+    const handleSignOut = () => {
+        dispatch(closeDialog(false))
+        dispatch(userSignOut())
+        swal("See you again and Have a nice day!", {
+            buttons: false,
+            timer: 3000,
+        }).then(()=>{
+            navigate('/login')
+        })
+    };
     const handleClose = () => {
         dispatch(closeDialog(false))
     };
@@ -126,7 +140,7 @@ export default function DialogAccount() {
                                     </Typography>
 
                                     <Typography>
-                                        <Button autoFocus onClick={handleClose}>
+                                        <Button autoFocus onClick={handleSignOut}>
                                             SIGN OUT
                                         </Button>
                                     </Typography>
