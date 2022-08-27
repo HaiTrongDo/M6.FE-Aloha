@@ -11,6 +11,7 @@ import PrivateRoute from './utils/PrivateRoute'
 import UserChangeProfile from "./Pages/UserChangeProfile/UserChangeProfile";
 import MyAccountPage from "./Pages/MyAccountPage/MyAccountPage";
 import Category from "./Pages/Category/Category";
+import UserSearchTransactionPage from "./Pages/UserSearchTransactionPage/UserSearchTransactionPage";
 
 function App() {
     return (
@@ -27,7 +28,7 @@ function App() {
                         <Route path="/my-account" element={<MyAccountPage/>}/>
                         <Route path="/my-account/change-profile" element={<UserChangeProfile/>}/>
                         <Route path="/categories" element={<Category/>}/>
-                        <Route path="/search" element={<UserTransactionsPage/>}/>
+                        <Route path="/search" element={<UserSearchTransactionPage/>}/>
                         <Route path="/store" element={<UserTransactionsPage/>}/>
                         <Route path="/help" element={<UserTransactionsPage/>}/>
                     </Route>
