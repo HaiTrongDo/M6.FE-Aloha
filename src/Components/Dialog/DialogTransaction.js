@@ -21,7 +21,6 @@ const DialogTransaction = () => {
     const selectCategoryState=useSelector(state=>state.selectCategory)
     const selectWalletState=useSelector(state=>state.selectWallet);
     let user=JSON.parse(localStorage.getItem('alohaUser'))
-    console.log(selectCategoryState)
 
 
     useEffect(() => {
@@ -119,12 +118,13 @@ const DialogTransaction = () => {
                                     <div className="">
 
                                     <img data-v-6bc9d4d3=""
-                                         src="https://static.moneylover.me/img/icon/icon.png" alt=""
+                                         src={selectWalletState.value.name ? selectWalletState.value.icon.url : 'https://static.moneylover.me/img/icon/icon.png'}
+                                         alt=""
                                          name="2" className="transaction-icon w-[24px] my-3 mx-4"/>
                                     </div>
                                     <span
                                         className="my-3 mx-4 absolute pl-12"
-                                    >{selectWalletState.value ? selectWalletState.value : 'Select Wallet'}
+                                    >{selectWalletState.value.name ? selectWalletState.value.name : 'Select Wallet'}
                                     </span>
                                     <label htmlFor="button"
                                            className="absolute text-sm text-gray-500 dark:text-gray-400 duration-300 transform -translate-y-4 scale-75 top-4 z-10 origin-[0] left-2.5   peer-placeholder-shown:scale-100 peer-placeholder-shown:translate-y-0 peer-focus:scale-75 peer-focus:-translate-y-4"
