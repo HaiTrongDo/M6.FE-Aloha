@@ -5,7 +5,7 @@ const initialState = {
 }
 
 export const selectWalletSlice = createSlice({
-    name: 'transaction',
+    name: 'selectWallet',
     initialState,
     reducers: {
         selectWallet: (state,action) => {

@@ -6,7 +6,7 @@ import openDialogMyWalletSlice from "./Features/DiaLogSlice/openDialogMyWalletSl
 import UserSlice from "./Features/CurrentUser/UserSlice";
 import WalletSlice from "./Features/SelectWallet/selectWallet";
 import WalletIdSlice from "./Features/SelectWallet/walletIdSlice";
-import transactionSlice from "./Features/DiaLogSlice/openDialogTransactionSlice";
+import dialogTransactionSlice from "./Features/DiaLogSlice/openDialogTransactionSlice";
 import openDialogIconsSlice from "./Features/DiaLogSlice/openDialogIconsSlice";
 import openDialogCategorySlice from "./Features/DiaLogSlice/openDialogCategorySlice";
 import openDialogCurrencySlice from "./Features/DiaLogSlice/openDialogCurrencySlice";
@@ -14,6 +14,8 @@ import selectCategorySlice from "./Features/DiaLogSlice/categorySlice";
 import walletTransactionSlice from "./Features/DiaLogSlice/openDialogWallet";
 import selectWalletSlice from "./Features/DiaLogSlice/walletSlice";
 import openDialogDetailSlice from "./Features/DiaLogSlice/openDialogDetailSlice";
+import dialogEditTransactionSlice from './Features/DiaLogSlice/openEditTransactionSlice';
+import selectTransaction from './Features/DiaLogSlice/transactionSlice'
 
 
 const store = configureStore({
@@ -22,7 +24,7 @@ const store = configureStore({
         Dialog: openDialogAccountSlide.reducer,
         DialogPass: openDialogChangePassSlide.reducer,
         currentUser: UserSlice,
-        dialogTransaction: transactionSlice.reducer,
+        dialogTransaction: dialogTransactionSlice.reducer,
         DialogWallet:openDialogMyWalletSlice.reducer,
         DialogIcons:openDialogIconsSlice.reducer,
         DialogTransactionCategory:openDialogCategorySlice.reducer,
@@ -34,7 +36,8 @@ const store = configureStore({
         DialogDetail:openDialogDetailSlice.reducer,
         wallet: WalletSlice,
         walletId: WalletIdSlice,
-
+        dialogEditTransaction:dialogEditTransactionSlice.reducer,
+        selectTransaction:selectTransaction.reducer
     }
 })
 
