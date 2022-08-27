@@ -22,7 +22,6 @@ const UserTransactionsPage = () => {
     const [detail, setDetail] = useState({})
 
 
-
     useEffect(() => {
         // goi API cot ben trai
         axios.post('transaction/list', {user: user._id})
@@ -35,7 +34,6 @@ const UserTransactionsPage = () => {
         setToggleDetail(false)
     }
     const handleOpenDetail = () => {
-        console.log('detail', detail)
         setToggleDetail(true)
     }
 
@@ -104,7 +102,10 @@ const UserTransactionsPage = () => {
                                                     </div>
                                                 </div>
                                             </li>
-                                            <li className={!toggleDetail ? active : active + " " + "bg-emerald-50"}
+                                            <li className={!toggleDetail ? active
+                                                : (detail._id === transaction._id
+                                                    ? active + " " + "bg-emerald-50"
+                                                    : active)}
                                                 onClick={() => {
                                                     setDetail(transaction);
                                                     handleOpenDetail()
