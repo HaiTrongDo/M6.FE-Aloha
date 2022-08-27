@@ -7,7 +7,13 @@ import Button from '@mui/material/Button';
 import {useDispatch} from "react-redux";
 import {openDialogTransaction} from "../../../Features/DiaLogSlice/openDialogTransactionSlice";
 
+
+import {useNavigate} from 'react-router-dom';
+
+
+
 const NavBarTransactions = () => {
+const navigate = useNavigate();
     const dispatch=useDispatch()
     return (
         <div>
@@ -19,9 +25,8 @@ const NavBarTransactions = () => {
                 <IconButton>
                     <RemoveRedEyeIcon/>
                 </IconButton>
-
-                <IconButton>
-                    <SearchIcon/>
+                <IconButton onClick={()=>{navigate('/search')}}>
+                    <SearchIcon />
                 </IconButton>
                 <Button color="success" variant="contained"
                 onClick={()=>dispatch(openDialogTransaction(true))}
