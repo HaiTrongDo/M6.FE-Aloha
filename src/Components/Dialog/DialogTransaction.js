@@ -6,6 +6,7 @@ import {openDialogCategory, closeDialogCategory} from "../../Features/DiaLogSlic
 import {selectCategory} from "../../Features/DiaLogSlice/categorySlice";
 import {openDialogSelectWallet} from "../../Features/DiaLogSlice/openDialogWallet";
 import {selectWallet} from "../../Features/DiaLogSlice/walletSlice";
+import {useNavigate} from "react-router-dom";
 
 
 const DialogTransaction = () => {
@@ -16,10 +17,11 @@ const DialogTransaction = () => {
     const [wallet, setWallet] = useState('');
     const [amount, setAmount] = useState();
     const [note, setNote] = useState('');
-    const [date, setDate] = useState(new Date().toLocaleDateString());
+    const [date, setDate] = useState(new Date().toDateString());
     const selectCategoryState=useSelector(state=>state.selectCategory)
     const selectWalletState=useSelector(state=>state.selectWallet);
     let user=JSON.parse(localStorage.getItem('alohaUser'))
+
 
     useEffect(() => {
         axios.get('transaction/category')
@@ -59,7 +61,7 @@ const DialogTransaction = () => {
         const transaction = {
             wallet: selectWalletState.value,
             amount: amount*1,
-            category: selectCategoryState.value.name,
+            category: selectCategoryState.value,
             date: date,
             note: note
         }
@@ -70,7 +72,8 @@ const DialogTransaction = () => {
                 dispatch(selectWallet(''))
                 dispatch(closeDialogTransaction())
             })
-            .catch(() => {
+            .catch((err) => {
+                console.log(err.message)
                 console.log('add that bai')
             })
     }
@@ -115,23 +118,18 @@ const DialogTransaction = () => {
                                     <div className="">
 
                                     <img data-v-6bc9d4d3=""
-                                         src="https://static.moneylover.me/img/icon/icon.png" alt=""
+                                         src={selectWalletState.value.name ? selectWalletState.value.icon.url : 'https://static.moneylover.me/img/icon/icon.png'}
+                                         alt=""
                                          name="2" className="transaction-icon w-[24px] my-3 mx-4"/>
                                     </div>
                                     <span
                                         className="my-3 mx-4 absolute pl-12"
-                                    >{selectWalletState.value ? selectWalletState.value : 'Select Wallet'}
+                                    >{selectWalletState.value.name ? selectWalletState.value.name : 'Select Wallet'}
                                     </span>
                                     <label htmlFor="button"
                                            className="absolute text-sm text-gray-500 dark:text-gray-400 duration-300 transform -translate-y-4 scale-75 top-4 z-10 origin-[0] left-2.5   peer-placeholder-shown:scale-100 peer-placeholder-shown:translate-y-0 peer-focus:scale-75 peer-focus:-translate-y-4"
                                     >Select Wallet
                                     </label>
-                                    {/*<svg xmlns="http://www.w3.org/2000/svg"*/}
-                                    {/*     className="h-6 w-6 mx-[48px] my-3 pl-12 text-[#757575] hover:text-black "*/}
-                                    {/*     fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth="2">*/}
-                                    {/*    <path strokeLinecap="round" strokeLinejoin="round"*/}
-                                    {/*          d="M9 5l7 7-7 7"></path>*/}
-                                    {/*</svg>*/}
                                 </button>
 
                             </div>
@@ -140,7 +138,7 @@ const DialogTransaction = () => {
                                 <button id="button" onClick={() => dispatch(openDialogCategory())}
                                         className="w-full col-span-2 flex relative  border border-gray-300 p-2 h-[60px]  rounded-[10px] hover:border-black">
                                     <img data-v-6bc9d4d3=""
-                                         src={selectCategoryState.value ? selectCategoryState.value.icon : 'https://static.moneylover.me/img/icon/icon_not_selected.png'} alt=""
+                                         src={selectCategoryState.value.name ? selectCategoryState.value.icon : 'https://static.moneylover.me/img/icon/icon_not_selected.png'} alt=""
                                          name="2" className="transaction-icon w-[24px] my-3 mx-4"/>
                                     <span
                                         className="my-3 text-s pl-14 absolute"

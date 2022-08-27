@@ -15,7 +15,6 @@ const DialogSelectWallet = () => {
 
 
     useEffect(() => {
-        console.log(user)
         axios.post('wallet/render', {userId:user._id})
             .then(res => {
                 setListWallet(res.data.data)
@@ -53,7 +52,7 @@ const DialogSelectWallet = () => {
                                     return (
                                         <div key={index} className="relative pl-8 pr-8 border-b-2 hover:cursor-pointer">
                                             <li className='m-auto grid grid-cols-3 p-2' onClick={() => {
-                                                dispatch(selectWallet(value.name))
+                                                dispatch(selectWallet(value))
                                                 dispatch(closeDialogSelectWallet())
                                             }}>
                                                 <img data-v-61e80534=""
