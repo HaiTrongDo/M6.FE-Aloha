@@ -6,16 +6,20 @@ import {openDialogCategory, closeDialogCategory} from "../../Features/DiaLogSlic
 import {selectCategory} from "../../Features/DiaLogSlice/categorySlice";
 import {openDialogSelectWallet} from "../../Features/DiaLogSlice/openDialogWallet";
 import {selectWallet} from "../../Features/DiaLogSlice/walletSlice";
+import {closeDialogEditTransaction} from "../../Features/DiaLogSlice/openEditTransactionSlice";
+import {selectTransaction} from "../../Features/DiaLogSlice/transactionSlice";
 
 
-const DialogTransaction = () => {
-    let user=JSON.parse(localStorage.getItem('alohaUser'))
+const DialogEditTransaction = () => {
+    let user = JSON.parse(localStorage.getItem('alohaUser'))
     const dispatch = useDispatch();
-    const [amount, setAmount] = useState();
+    const selectCategoryState = useSelector(state => state.selectCategory)
+    const selectWalletState = useSelector(state => state.selectWallet);
+    const selectTransactionState = useSelector(state => state.selectTransaction.value)
+    const [amount, setAmount] = useState(selectTransactionState.amount);
     const [note, setNote] = useState('');
     const [date, setDate] = useState(new Date().toDateString());
-    const selectCategoryState=useSelector(state=>state.selectCategory)
-    const selectWalletState=useSelector(state=>state.selectWallet);
+    console.log(selectTransactionState)
 
 
     const handleChangeAmount = (e) => {
@@ -27,10 +31,10 @@ const DialogTransaction = () => {
     const handleChangeDate = (e) => {
         setDate(e.target.value)
     }
-    const handleSaveTransaction = () => {
+    const handleSaveEditTransaction = () => {
         const transaction = {
             wallet: selectWalletState.value,
-            amount: amount*1,
+            amount: amount * 1,
             category: selectCategoryState.value,
             date: date,
             note: note
@@ -39,18 +43,18 @@ const DialogTransaction = () => {
             .then((res) => {
                 dispatch(selectCategory({}))
                 dispatch(selectWallet({}))
-                dispatch(closeDialogTransaction())
+                dispatch(closeDialogEditTransaction())
             })
             .catch((err) => {
                 console.log(err.message)
             })
     }
-    const handleCloseDialogTransaction=()=>{
+
+    const handleCloseDialogEditTransaction = () => {
         dispatch(selectCategory({}))
         dispatch(selectWallet({}))
-        dispatch(closeDialogTransaction())
+        dispatch(closeDialogEditTransaction())
     }
-
 
     return (
         <div className="">
@@ -65,11 +69,11 @@ const DialogTransaction = () => {
                         <div
                             className="flex items-start justify-between p-5 border-b border-solid border-slate-200 rounded-t">
                             <h4 className="text-2xl font-semibold">
-                                Add transaction
+                                Edit transaction
                             </h4>
                             <button
                                 className="p-1 ml-auto bg-transparent border-0 text-black opacity-5 float-right text-3xl leading-none font-semibold outline-none focus:outline-none"
-                                onClick={handleCloseDialogTransaction}
+                                onClick={handleCloseDialogEditTransaction}
                             >
                     <span
                         className="bg-transparent text-black opacity-5 h-6 w-6 text-2xl block outline-none focus:outline-none">
@@ -85,10 +89,10 @@ const DialogTransaction = () => {
                                         className="w-full col-span-2 flex relative  border border-gray-300 p-2 h-[60px]  rounded-[10px] hover:border-black">
                                     <div className="">
 
-                                    <img data-v-6bc9d4d3=""
-                                         src={selectWalletState.value.name ? selectWalletState.value.icon.url : 'https://static.moneylover.me/img/icon/icon.png'}
-                                         alt=""
-                                         name="2" className="transaction-icon w-[24px] my-3 mx-4"/>
+                                        <img data-v-6bc9d4d3=""
+                                             src={selectWalletState.value.name ? selectWalletState.value.icon.url : 'https://static.moneylover.me/img/icon/icon.png'}
+                                             alt=""
+                                             name="2" className="transaction-icon w-[24px] my-3 mx-4"/>
                                     </div>
                                     <span
                                         className="my-3 mx-4 absolute pl-12"
@@ -106,11 +110,16 @@ const DialogTransaction = () => {
                                 <button id="button" onClick={() => dispatch(openDialogCategory())}
                                         className="w-full col-span-2 flex relative  border border-gray-300 p-2 h-[60px]  rounded-[10px] hover:border-black">
                                     <img data-v-6bc9d4d3=""
-                                         src={selectCategoryState.value.name ? selectCategoryState.value.icon : 'https://static.moneylover.me/img/icon/icon_not_selected.png'} alt=""
+                                         src={selectCategoryState.value.name
+                                             ? selectCategoryState.value.icon
+                                             : selectTransactionState.category.icon}
+                                         alt=""
                                          name="2" className="transaction-icon w-[24px] my-3 mx-4"/>
                                     <span
                                         className="my-3 text-s pl-14 absolute"
-                                    >{selectCategoryState.value.name ? selectCategoryState.value.name : 'Select Category'}
+                                    >{selectCategoryState.value.name
+                                        ? selectCategoryState.value.name
+                                        : selectTransactionState.category.name}
                                     </span>
                                     <label htmlFor="button"
                                            className="absolute text-sm text-gray-500 dark:text-gray-400 duration-300 transform -translate-y-4 scale-75 top-4 z-10 origin-[0] left-2.5   peer-placeholder-shown:scale-100 peer-placeholder-shown:translate-y-0 peer-focus:scale-75 peer-focus:-translate-y-4"
@@ -151,21 +160,21 @@ const DialogTransaction = () => {
                                 </label>
                             </div>
                         </div>
-                        {/*{iconsState && <DialogIcons/>}*/}
+
                         {/*footer*/}
                         <div
                             className="flex items-center justify-end p-6 border-t border-solid border-slate-200 rounded-b">
                             <button
                                 className="text-red-500 background-transparent font-bold uppercase px-6 py-2 text-sm outline-none focus:outline-none mr-1 mb-1 ease-linear transition-all duration-150"
                                 type="button"
-                                onClick={handleCloseDialogTransaction}
+                                onClick={handleCloseDialogEditTransaction}
                             >
                                 Close
                             </button>
                             <button
                                 className="bg-emerald-500 text-white active:bg-emerald-600 font-bold uppercase text-sm px-6 py-3 rounded shadow hover:shadow-lg outline-none focus:outline-none mr-1 mb-1 ease-linear transition-all duration-150"
                                 type="button"
-                                onClick={handleSaveTransaction}
+                                onClick={handleSaveEditTransaction}
                             >
                                 Save Changes
                             </button>
@@ -178,4 +187,4 @@ const DialogTransaction = () => {
     );
 };
 
-export default DialogTransaction;
+export default DialogEditTransaction;

@@ -4,7 +4,7 @@ const initialState = {
     value: false
 }
 
-export const transactionSlice = createSlice({
+export const dialogTransactionSlice = createSlice({
     name: 'transaction',
     initialState,
     reducers: {
@@ -17,6 +17,6 @@ export const transactionSlice = createSlice({
     },
 })
 
-export const {openDialogTransaction,closeDialogTransaction} = transactionSlice.actions
+export const {openDialogTransaction,closeDialogTransaction} = dialogTransactionSlice.actions
 
-export default transactionSlice
+export default dialogTransactionSlice
