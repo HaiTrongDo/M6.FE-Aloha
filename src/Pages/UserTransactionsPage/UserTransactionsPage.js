@@ -10,6 +10,7 @@ import axios from "../../axios";
 import DialogEditTransaction from "../../Components/Dialog/DialogEditTransaction";
 import {openDialogEditTransaction} from "../../Features/DiaLogSlice/openEditTransactionSlice";
 import {selectTransaction} from "../../Features/DiaLogSlice/transactionSlice";
+import {openDialogTransaction} from "../../Features/DiaLogSlice/openDialogTransactionSlice";
 
 
 const UserTransactionsPage = () => {
