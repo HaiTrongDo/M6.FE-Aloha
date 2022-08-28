@@ -4,8 +4,12 @@ import {useDispatch} from "react-redux";
 import {closeDialogCurrency} from "../../Features/DiaLogSlice/openDialogCurrencySlice";
 import {setCurrencyObj} from "../../Features/SelectWallet/selectWallet";
 
-export default function DialogIcons() {
-    const [currencies, setCurrencies] = useState([])
+export default function DialogIcons(props) {
+    const [currencies, setCurrencies] = useState([]);
+    const [filteredName, setFilteredName] = useState([]);
+    const [inputSearch, setInputSearch] = useState('');
+
+
     const dispatch = useDispatch();
 
     useEffect(() => {
@@ -16,6 +20,23 @@ export default function DialogIcons() {
 
     const handleCloseDialogCurrencies = () => {
         dispatch(closeDialogCurrency(false))
+    }
+
+    const handleSearchedCurrencies = () => {
+
+    }
+
+    useEffect(() => {
+        setFilteredName(
+            currencies.filter((country) =>
+                country.name.toLowerCase().includes(inputSearch.toLowerCase())
+            )
+        );
+    }, [inputSearch, currencies]);
+
+
+    const escapeRegex = (text)=> {
+        return text.replace(/[-[\]{}()*+?.,\\^$|#\s]/g, "\\$&");
     }
 
 
@@ -47,7 +68,7 @@ export default function DialogIcons() {
                                 <div
                                     className="relative mx-[50px] mb-1 flex w-[208px] h-[40px]   ">
                                     <div
-                                        className="flex absolute inset-y-0  left-0 items-center pl-3 pointer-events-none">
+                                        className="flex absolute inset-y-0 mr-1 left-0 items-center pl-3 pointer-events-none">
                                         <svg aria-hidden="true" className="w-5 h-5 text-gray-500 dark:text-gray-400"
                                              fill="none" stroke="currentColor" viewBox="0 0 24 24"
                                              xmlns="http://www.w3.org/2000/svg">
@@ -56,25 +77,28 @@ export default function DialogIcons() {
                                         </svg>
                                     </div>
                                     <input type="search" id="default-search"
+                                           onChange={e=>{setInputSearch(e.target.value)}}
                                            className=" pl-10 w-full rounded rounded-[20px] focus:outline-none text-gray-900 bg-[#F5F5F5]  "
-                                           placeholder="Search" required/>
+                                           placeholder="Search"/>
                                 </div>
                             </form>
                         </div>
                         {/*body*/}
                         <div className="modal-body relative w-[496px] h-[600px] flex-auto p-4">
                             <ul className="grid grid-cols-2 gap-2">
-                                {currencies.map((currency, index) => {
+                                {filteredName.map((currency, index) => {
                                     return (
                                         <li className="px-3 py-2 hover:bg-[#F0F9F1]" key={index}>
-                                            <button onClick={(e)=>{
+                                            <button onClick={(e) => {
                                                 e.preventDefault();
+                                                props.onHandleCurrency(currency)
                                                 dispatch(setCurrencyObj(currency))
                                                 handleCloseDialogCurrencies()
                                             }}
                                             >
                                                 <div className={"flex"}>
-                                                    <img className={"w-[32px] rounded-[2px] h-[32px]"} src={currency?.url}
+                                                    <img className={"w-[32px] rounded-[2px] h-[32px]"}
+                                                         src={currency?.url}
                                                          alt="thinh"/>
                                                     <div className={"text-left px-3 text-[13px]"}>
                                                         <span className={""}>{currency?.name}</span>

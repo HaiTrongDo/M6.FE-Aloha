@@ -4,25 +4,38 @@ import {closeDialogIcons} from "../../Features/DiaLogSlice/openDialogIconsSlice"
 import {closeDialogDetail} from "../../Features/DiaLogSlice/openDialogDetailSlice";
 import {useEffect, useState} from "react";
 import axios from "axios"
+import {openDialogEditWallet} from "../../Features/DiaLogSlice/openDialogEditWalletSlice";
+import DialogEditWallet from "../Dialog/DialogEditWallet"
 
 export default function DialogDetailWallet({walletId}) {
     const dispatch = useDispatch();
-    const [walletObj,setWalletObj] = useState({})
-    const [userObj,setUserObj] = useState(JSON.parse(localStorage.getItem('alohaUser')))
-
+    const [walletObj, setWalletObj] = useState({})
+    const [userObj, setUserObj] = useState(JSON.parse(localStorage.getItem('alohaUser')))
 
 
     const handleCloseDialogDetailWallet = () => {
         dispatch(closeDialogDetail(false))
     }
 
+    const handleOpenDialogEditWallet = () => {
+        dispatch(openDialogEditWallet(true))
+    }
+
+    const editState = useSelector((state) =>
+        state.DialogEditWallet.value
+    )
+
     useEffect(() => {
-        axios.post('http://localhost:8080/wallet/detail', {walletId}).then(r=>{
-           setWalletObj(r.data.data)
+        axios.post('http://localhost:8080/wallet/detail', {walletId}).then(r => {
+            setWalletObj(r.data.data)
         })
-        console.log(walletId)
-        console.log(userObj)
-    },[walletId])
+    }, [walletObj])
+
+    const handleDeleteWallet = () => {
+        axios.post('http://localhost:8080/wallet/delete',{walletId}).then(r => {
+            handleCloseDialogDetailWallet()
+        })
+    }
 
     return (
         <div className={" w-1/2 "}>
@@ -39,15 +52,17 @@ export default function DialogDetailWallet({walletId}) {
                         <span className={"text-lg px-4 text-black w-full "}>Wallet details</span>
                     </div>
                     <div className={"flex text-center text-[14px]"}>
-                        <button className={"text-[#2EB74B] w-[80px] h-[36px] mx-[20px] hover:bg-[#E9F6EB]"}>EDIT
+                        <button onClick={handleOpenDialogEditWallet}
+                                className={"text-[#2EB74B] w-[80px] h-[36px] mx-[20px] hover:bg-[#E9F6EB]"}>EDIT
                         </button>
-                        <button className={"text-[#F15A59] w-[80px] h-[36px] hover:bg-[#FEECEB]"}>DELETE</button>
+                        <button onClick={handleDeleteWallet}
+                            className={"text-[#F15A59] w-[80px] h-[36px] hover:bg-[#FEECEB]"}>DELETE</button>
                     </div>
                 </div>
                 <div className={"w-full h-[102px] border-b-[1px]"}>
-                    <div className={"p-[23px] pl-[77px] flex "}>
+                    <div className={"p-[23px] pl-[77p   x] flex "}>
                         <img className={"w-[56px] h-[56px] rounded-full"}
-                             src="https://static.moneylover.me/img/icon/icon_1.png" alt=""/>
+                             src={walletObj?.icon?.url} alt=""/>
                         <div className={"mx-[34px] font-sans"}>
                             <h2 className={"text-[24px] w-full h-[32px] "}>{walletObj?.name}</h2>
                             <p className={"text-[14px]  font-normal"}>{walletObj?.currency?.name}</p>
@@ -61,14 +76,14 @@ export default function DialogDetailWallet({walletId}) {
                         </div>
                         <div className={"flex py-[16px] pl-[4px]"}>
                             <img className={"w-[40px] h-[40px] rounded-full"}
-                                 src="https://static.moneylover.me/img/icon/icon_1.png" alt=""/>
+                                 src={userObj.avatarUrl} alt=""/>
                             <div className={"ml-2"}>
-                                <span className={"font-bold"}>username</span>
-                                <span
-                                    className={"mx-3 w-[34px] p-1 h-[14px] bg-[#FEB74D] text-white rounded-[5px]"}>Owner</span>
+                                <span className={"font-bold"}>{userObj.username}</span>
+                                {userObj.username && <span
+                                    className={"mx-3 w-[34px] p-1 h-[14px] bg-[#FEB74D] text-white rounded-[5px]"}>Owner</span>}
 
 
-                                <h3 className={"text-[#757575]"}>gmail</h3>
+                                <h3 className={"text-[#757575]"}>{userObj.email}</h3>
                             </div>
                         </div>
                     </div>
@@ -110,6 +125,7 @@ export default function DialogDetailWallet({walletId}) {
                 </div>
 
             </div>
+            {editState && <DialogEditWallet walletObj={walletObj}/>}
         </div>
 
     )
