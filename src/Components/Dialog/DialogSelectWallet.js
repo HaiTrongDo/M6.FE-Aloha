@@ -1,11 +1,11 @@
 import React, {useEffect, useState} from 'react';
 import Button from "@mui/material/Button";
-import {selectCategory} from "../../Features/DiaLogSlice/categorySlice";
+import {selectCategory} from "../../Features/Transaction/categorySlice";
 import {closeDialogCategory} from "../../Features/DiaLogSlice/openDialogCategorySlice";
 import {useDispatch, useSelector} from "react-redux";
 import {closeDialogSelectWallet} from "../../Features/DiaLogSlice/openDialogWallet";
 import axios from '../../axios/index'
-import {selectWallet} from '../../Features/DiaLogSlice/walletSlice'
+import {selectWallet} from '../../Features/Transaction/walletSlice'
 
 const DialogSelectWallet = () => {
     const dispatch = useDispatch();
