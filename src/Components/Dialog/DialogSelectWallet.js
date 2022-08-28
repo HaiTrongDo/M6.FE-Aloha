@@ -6,6 +6,7 @@ import {useDispatch, useSelector} from "react-redux";
 import {closeDialogSelectWallet} from "../../Features/DiaLogSlice/openDialogWallet";
 import axios from '../../axios/index'
 import {selectWallet} from '../../Features/DiaLogSlice/walletSlice'
+import {setWalletInSearchPage} from '../../Features/SearchInput/SearchInputSlice'
 
 const DialogSelectWallet = () => {
     const dispatch = useDispatch();
@@ -14,7 +15,7 @@ const DialogSelectWallet = () => {
 
 
     useEffect(() => {
-        axios.post('wallet/render', {userId:user._id})
+        axios.post('wallet/render', {userId: user._id})
             .then(res => {
                 setListWallet(res.data.data)
             })
@@ -52,6 +53,7 @@ const DialogSelectWallet = () => {
                                         <div key={index} className="relative pl-8 pr-8 border-b-2 hover:cursor-pointer">
                                             <li className='m-auto grid grid-cols-3 p-2' onClick={() => {
                                                 dispatch(selectWallet(value))
+                                                dispatch(setWalletInSearchPage(value))
                                                 dispatch(closeDialogSelectWallet())
                                             }}>
                                                 <img data-v-61e80534=""

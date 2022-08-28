@@ -1,6 +1,7 @@
 import React, {useEffect, useState} from 'react';
 import {useDispatch, useSelector} from "react-redux";
 import {closeDialogCategory} from "../../Features/DiaLogSlice/openDialogCategorySlice";
+import {setCategoryInSearchPage} from "../../Features/SearchInput/SearchInputSlice";
 import SearchIcon from '@mui/icons-material/Search';
 import Button from '@mui/material/Button';
 import axios from '../../axios'
@@ -124,7 +125,9 @@ const DialogTransactionCategory = (props) => {
                                                      className="relative pl-8 pr-8 border-b-2 hover:cursor-pointer">
                                                     <li className='m-auto grid grid-cols-3 p-2' onClick={() => {
                                                         dispatch(selectCategory(value))
+                                                        dispatch(setCategoryInSearchPage(value))
                                                         dispatch(closeDialogCategory())
+
                                                     }}>
                                                         <img data-v-61e80534=""
                                                              src={value.icon} alt=""
@@ -142,6 +145,7 @@ const DialogTransactionCategory = (props) => {
                                                      className="relative pl-8 pr-8 border-b-2 hover:cursor-pointer">
                                                     <li className='m-auto grid grid-cols-3 p-2' onClick={() => {
                                                         dispatch(selectCategory(value))
+                                                        dispatch(setCategoryInSearchPage(value))
                                                         dispatch(closeDialogCategory())
                                                     }}>
                                                         <img data-v-61e80534=""
@@ -155,44 +159,46 @@ const DialogTransactionCategory = (props) => {
                                             )
                                         }))
                                     : (searchIncome
-                                        ? searchIncome.map((value, index) => {
-                                            return (
-                                                <div key={index}
-                                                     className="relative pl-8 pr-8 border-b-2 hover:cursor-pointer">
-                                                    <li className='m-auto grid grid-cols-3 p-2' onClick={() => {
-                                                        dispatch(selectCategory(value))
-                                                        dispatch(closeDialogCategory())
-                                                    }}>
-                                                        <img data-v-61e80534=""
-                                                             src={value ? value.icon : 'https://static.moneylover.me/img/icon/icon.png'}
-                                                             alt=""
-                                                             name="2" className="category-icon w-[45px] ml-6 pl-2"/>
-                                                        <div className="col-span-2 my-auto">
-                                                            {value.name}
-                                                        </div>
-                                                    </li>
-                                                </div>
-                                            )
-                                        })
-                                        : listIncome.map((value, index) => {
-                                            return (
-                                                <div key={index}
-                                                     className="relative pl-8 pr-8 border-b-2 hover:cursor-pointer">
-                                                    <li className='m-auto grid grid-cols-3 p-2' onClick={() => {
-                                                        dispatch(selectCategory(value))
-                                                        dispatch(closeDialogCategory())
-                                                    }}>
-                                                        <img data-v-61e80534=""
-                                                             src={value ? value.icon : 'https://static.moneylover.me/img/icon/icon.png'}
-                                                             alt=""
-                                                             name="2" className="category-icon w-[45px] ml-6 pl-2"/>
-                                                        <div className="col-span-2 my-auto">
-                                                            {value.name}
-                                                        </div>
-                                                    </li>
-                                                </div>
-                                            )
-                                        })
+                                            ? searchIncome.map((value, index) => {
+                                                return (
+                                                    <div key={index}
+                                                         className="relative pl-8 pr-8 border-b-2 hover:cursor-pointer">
+                                                        <li className='m-auto grid grid-cols-3 p-2' onClick={() => {
+                                                            dispatch(selectCategory(value))
+                                                            dispatch(setCategoryInSearchPage(value))
+                                                            dispatch(closeDialogCategory())
+                                                        }}>
+                                                            <img data-v-61e80534=""
+                                                                 src={value ? value.icon : 'https://static.moneylover.me/img/icon/icon.png'}
+                                                                 alt=""
+                                                                 name="2" className="category-icon w-[45px] ml-6 pl-2"/>
+                                                            <div className="col-span-2 my-auto">
+                                                                {value.name}
+                                                            </div>
+                                                        </li>
+                                                    </div>
+                                                )
+                                            })
+                                            : listIncome.map((value, index) => {
+                                                return (
+                                                    <div key={index}
+                                                         className="relative pl-8 pr-8 border-b-2 hover:cursor-pointer">
+                                                        <li className='m-auto grid grid-cols-3 p-2' onClick={() => {
+                                                            dispatch(selectCategory(value))
+                                                            dispatch(setCategoryInSearchPage(value))
+                                                            dispatch(closeDialogCategory())
+                                                        }}>
+                                                            <img data-v-61e80534=""
+                                                                 src={value ? value.icon : 'https://static.moneylover.me/img/icon/icon.png'}
+                                                                 alt=""
+                                                                 name="2" className="category-icon w-[45px] ml-6 pl-2"/>
+                                                            <div className="col-span-2 my-auto">
+                                                                {value.name}
+                                                            </div>
+                                                        </li>
+                                                    </div>
+                                                )
+                                            })
                                     )
                                 }
                             </ul>
