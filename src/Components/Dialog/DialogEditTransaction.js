@@ -1,25 +1,22 @@
 import React, {useEffect, useState} from 'react';
 import {useDispatch, useSelector} from "react-redux";
-import {closeDialogTransaction} from "../../Features/DiaLogSlice/openDialogTransactionSlice";
 import axios from '../../axios/index';
 import {openDialogCategory, closeDialogCategory} from "../../Features/DiaLogSlice/openDialogCategorySlice";
 import {selectCategory} from "../../Features/DiaLogSlice/categorySlice";
 import {openDialogSelectWallet} from "../../Features/DiaLogSlice/openDialogWallet";
 import {selectWallet} from "../../Features/DiaLogSlice/walletSlice";
 import {closeDialogEditTransaction} from "../../Features/DiaLogSlice/openEditTransactionSlice";
-import {selectTransaction} from "../../Features/DiaLogSlice/transactionSlice";
 
 
 const DialogEditTransaction = () => {
     let user = JSON.parse(localStorage.getItem('alohaUser'))
     const dispatch = useDispatch();
-    const selectCategoryState = useSelector(state => state.selectCategory)
-    const selectWalletState = useSelector(state => state.selectWallet);
+    const selectCategoryState = useSelector(state => state.selectCategory.value)
+    const selectWalletState = useSelector(state => state.selectWallet.value);
     const selectTransactionState = useSelector(state => state.selectTransaction.value)
     const [amount, setAmount] = useState(selectTransactionState.amount);
     const [note, setNote] = useState(selectTransactionState.note);
     const [date, setDate] = useState(selectTransactionState.date);
-    console.log(selectTransactionState)
 
 
     const handleChangeAmount = (e) => {
@@ -33,13 +30,15 @@ const DialogEditTransaction = () => {
     }
     const handleSaveEditTransaction = () => {
         const transaction = {
-            wallet: selectWalletState.value,
+            id: selectTransactionState._id,
+            wallet: selectTransactionState.wallet,
             amount: amount * 1,
-            category: selectCategoryState.value,
+            category: selectTransactionState.category,
             date: date,
-            note: note
+            note: note,
+            user: user
         }
-        axios.post('transaction/add', transaction)
+        axios.post('transaction/edit', transaction)
             .then((res) => {
                 dispatch(selectCategory({}))
                 dispatch(selectWallet({}))
@@ -90,13 +89,13 @@ const DialogEditTransaction = () => {
                                     <div className="">
 
                                         <img data-v-6bc9d4d3=""
-                                             src={selectWalletState.value.name ? selectWalletState.value.icon.url : 'https://static.moneylover.me/img/icon/icon.png'}
+                                             src={selectWalletState.icon ? selectWalletState.icon.url : 'https://static.moneylover.me/img/icon/icon.png'}
                                              alt=""
                                              name="2" className="transaction-icon w-[24px] my-3 mx-4"/>
                                     </div>
                                     <span
                                         className="my-3 mx-4 absolute pl-12"
-                                    >{selectWalletState.value.name ? selectWalletState.value.name : 'Select Wallet'}
+                                    >{selectWalletState.name ? selectWalletState.name : 'Select Wallet'}
                                     </span>
                                     <label htmlFor="button"
                                            className="absolute text-sm text-gray-500 dark:text-gray-400 duration-300 transform -translate-y-4 scale-75 top-4 z-10 origin-[0] left-2.5   peer-placeholder-shown:scale-100 peer-placeholder-shown:translate-y-0 peer-focus:scale-75 peer-focus:-translate-y-4"
@@ -110,15 +109,15 @@ const DialogEditTransaction = () => {
                                 <button id="button" onClick={() => dispatch(openDialogCategory())}
                                         className=" w-full col-span-2 flex border border-gray-300 p-2 h-[60px]  rounded-[10px] hover:border-black">
                                     <img data-v-6bc9d4d3=""
-                                         src={selectCategoryState.value.name
-                                             ? selectCategoryState.value.icon
+                                         src={selectCategoryState.icon
+                                             ? selectCategoryState.icon
                                              : selectTransactionState.category.icon}
                                          alt=""
                                          name="2" className="transaction-icon w-[24px] my-3 mx-4"/>
                                     <span
                                         className="my-3 text-s pl-14 absolute"
-                                    >{selectCategoryState.value.name
-                                        ? selectCategoryState.value.name
+                                    >{selectCategoryState.name
+                                        ? selectCategoryState.name
                                         : selectTransactionState.category.name}
                                     </span>
                                     <label htmlFor="button"
@@ -147,7 +146,7 @@ const DialogEditTransaction = () => {
                         <div className="grid grid-cols-3 gap-1 p-3 pt-0 px-6 pb-6">
                             <div className="w-full pl-2 pr-2">
                                 <input type="datetime-local" value={date} onChange={handleChangeDate}
-                                       className="block p-4 pl-10 h-full w-full text-sm text-gray-900 bg-gray-50 rounded-lg border border-gray-300 focus:ring-blue-500 focus:border-blue-500 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
+                                       className="block p-4 pl-2 h-full w-full text-sm text-gray-900 bg-gray-50 rounded-lg border border-gray-300 focus:ring-blue-500 focus:border-blue-500 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
                                        placeholder=""/>
                             </div>
                             <div className="relative w-full col-span-2 pl-2 pr-2">
