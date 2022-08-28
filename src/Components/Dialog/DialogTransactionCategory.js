@@ -4,7 +4,7 @@ import {closeDialogCategory} from "../../Features/DiaLogSlice/openDialogCategory
 import SearchIcon from '@mui/icons-material/Search';
 import Button from '@mui/material/Button';
 import axios from '../../axios'
-import {selectCategory} from "../../Features/DiaLogSlice/categorySlice";
+import {selectCategory} from "../../Features/Transaction/categorySlice";
 
 
 const DialogTransactionCategory = (props) => {
