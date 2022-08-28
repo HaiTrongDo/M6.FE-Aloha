@@ -22,11 +22,29 @@ const UserTransactionsPage = () => {
     const user = JSON.parse(localStorage.getItem('alohaUser'))
     const [detail, setDetail] = useState({})
     const dialogEditState = useSelector(state => state.dialogEditTransaction.value);
+    const [totalInflow, setTotalInflow] = useState()
+    const [totalOutflow, setTotalOutflow] = useState()
+    const [total, setTotal] = useState()
 
 
     useEffect(() => {
         axios.post('transaction/list', {user: user._id})
             .then(res => {
+                let inflow = res.data.data.filter(value => {
+                    return value.category.type === 'INCOME'
+                })
+                let sumInflow = 0
+                inflow.forEach(value => sumInflow += value.amount)
+
+                let outFlow = res.data.data.filter(value => {
+                    return value.category.type === 'EXPENSE'
+                })
+                let sumOutFlow = 0
+                outFlow.forEach((value) => sumOutFlow += value.amount)
+
+                setTotalOutflow(sumOutFlow)
+                setTotalInflow(sumInflow)
+                setTotal(sumInflow - sumOutFlow)
                 setListTransaction(res.data.data)
             })
     }, [dialogTransactionState, dialogEditState])
@@ -41,6 +59,31 @@ const UserTransactionsPage = () => {
     const handleOpenEditTransaction = () => {
         dispatch(selectTransaction(detail))
         dispatch(openDialogEditTransaction());
+    }
+    const handleDeleteTransaction = () => {
+        axios.post('transaction/delete', {id: detail._id})
+            .then(() => {
+                axios.post('transaction/list', {user: user._id})
+                    .then(res => {
+                        let inflow = res.data.data.filter(value => {
+                            return value.category.type === 'INCOME'
+                        })
+                        let sumInflow = 0
+                        inflow.forEach(value => sumInflow += value.amount)
+
+                        let outFlow = res.data.data.filter(value => {
+                            return value.category.type === 'EXPENSE'
+                        })
+                        let sumOutFlow = 0
+                        outFlow.forEach((value) => sumOutFlow += value.amount)
+
+                        setTotalOutflow(sumOutFlow)
+                        setTotalInflow(sumInflow)
+                        setTotal(sumInflow - sumOutFlow)
+                        setListTransaction(res.data.data)
+                        setToggleDetail(false)
+                    })
+            })
     }
 
     return (<div>
@@ -63,15 +106,17 @@ const UserTransactionsPage = () => {
                         <div className="report block bg-white">
                             <div className=" flex justify-between p-3">
                                 <div>Inflow</div>
-                                <div>$0</div>
+                                <div className="text-blue-500">${totalInflow}</div>
                             </div>
                             <div className=" flex justify-between px-3 py-1">
                                 <div>Outflow</div>
-                                <div>-$1,200.00</div>
+                                <div className="text-red-500">-${totalOutflow}</div>
                             </div>
                             <div className=" flex justify-between px-3 py-1">
                                 <span> </span>
-                                <span className="border-t-2">-$1,200.00</span>
+                                <span className={total > 0 ? 'border-t-2 text-blue-500' : 'border-t-2 text-red-500'}
+                                >{total}
+                                </span>
                             </div>
                             <div className=" flex text-[#2db84c] font-medium cursor-pointer">
                                 <div className="w-full flex justify-center my-3">VIEW REPORT FOR THIS PERIOD</div>
@@ -96,12 +141,12 @@ const UserTransactionsPage = () => {
                                                     {transaction.category.name}
                                                 </p>
                                                 <p className="text-sm text-gray-500 truncate ">
-                                                    2 Transactions
+                                                    1 Transactions
                                                 </p>
                                             </div>
                                             <div
                                                 className="inline-flex items-center text-base  text-gray-900 ">
-                                                {transaction.category.type === 'EXPENSE' ? "-" + transaction.amount : "+" + transaction.amount}
+                                                {transaction.category.type === 'EXPENSE' ? "-$" + transaction.amount : "+$" + transaction.amount}
                                             </div>
                                         </div>
                                     </li>
@@ -122,9 +167,9 @@ const UserTransactionsPage = () => {
                                                 </p>
                                             </div>
                                             <div
-                                                className={transaction.category.type === 'EXPENSE' ? 'inline-flex items-center text-base text-red-600' : 'inline-flex items-center text-base text-blue-600 '}
+                                                className={transaction.category.type === 'EXPENSE' ? 'inline-flex items-center text-base text-red-500' : 'inline-flex items-center text-base text-blue-500 '}
                                             >
-                                                {transaction.category.type === 'EXPENSE' ? "-" + transaction.amount : "+" + transaction.amount}
+                                                {transaction.category.type === 'EXPENSE' ? "-$" + transaction.amount : "+$" + transaction.amount}
                                             </div>
                                         </div>
                                     </li>
@@ -154,7 +199,7 @@ const UserTransactionsPage = () => {
                                 </div>
                             </div>
                             <div className="">
-                                <Button sx={{color: 'red'}}>DELETE</Button>
+                                <Button sx={{color: 'red'}} onClick={handleDeleteTransaction}>DELETE</Button>
                                 <Button sx={{color: '#2EB74B'}} onClick={handleOpenEditTransaction}
                                 >EDIT
                                 </Button>

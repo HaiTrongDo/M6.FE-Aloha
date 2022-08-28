@@ -6,7 +6,7 @@ import openDialogMyWalletSlice from "./Features/DiaLogSlice/openDialogMyWalletSl
 import UserSlice from "./Features/CurrentUser/UserSlice";
 import WalletSlice from "./Features/SelectWallet/selectWallet";
 import WalletIdSlice from "./Features/SelectWallet/walletIdSlice";
-import transactionSlice from "./Features/DiaLogSlice/openDialogTransactionSlice";
+import dialogTransactionSlice from "./Features/DiaLogSlice/openDialogTransactionSlice";
 import openDialogIconsSlice from "./Features/DiaLogSlice/openDialogIconsSlice";
 import openDialogCategorySlice from "./Features/DiaLogSlice/openDialogCategorySlice";
 import openDialogCurrencySlice from "./Features/DiaLogSlice/openDialogCurrencySlice";

@@ -17,6 +17,7 @@ const DialogEditTransaction = () => {
     const [amount, setAmount] = useState(selectTransactionState.amount);
     const [note, setNote] = useState(selectTransactionState.note);
     const [date, setDate] = useState(selectTransactionState.date);
+    console.log(selectTransactionState)
 
 
     const handleChangeAmount = (e) => {
@@ -89,13 +90,13 @@ const DialogEditTransaction = () => {
                                     <div className="">
 
                                         <img data-v-6bc9d4d3=""
-                                             src={selectWalletState.icon ? selectWalletState.icon.url : 'https://static.moneylover.me/img/icon/icon.png'}
+                                             src={selectWalletState.icon ? selectWalletState.icon.url : selectTransactionState.wallet.icon.url}
                                              alt=""
                                              name="2" className="transaction-icon w-[24px] my-3 mx-4"/>
                                     </div>
                                     <span
                                         className="my-3 mx-4 absolute pl-12"
-                                    >{selectWalletState.name ? selectWalletState.name : 'Select Wallet'}
+                                    >{selectWalletState.name ? selectWalletState.name : selectTransactionState.wallet.name}
                                     </span>
                                     <label htmlFor="button"
                                            className="absolute text-sm text-gray-500 dark:text-gray-400 duration-300 transform -translate-y-4 scale-75 top-4 z-10 origin-[0] left-2.5   peer-placeholder-shown:scale-100 peer-placeholder-shown:translate-y-0 peer-focus:scale-75 peer-focus:-translate-y-4"
