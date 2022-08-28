@@ -13,6 +13,7 @@ export default function MyWallet() {
 
     const [wallets, setWallets] = useState([])
     const [walletId, setWalletId] = useState('')
+
     const walletState = useSelector((state) =>
         state.DialogWallet.value
     )

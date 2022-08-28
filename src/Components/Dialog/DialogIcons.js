@@ -5,7 +5,7 @@ import {closeDialogWallet} from "../../Features/DiaLogSlice/openDialogMyWalletSl
 import {closeDialogIcons, openDialogIcons} from "../../Features/DiaLogSlice/openDialogIconsSlice";
 import {setIconObj} from "../../Features/SelectWallet/selectWallet";
 
-export default function DialogIcons() {
+export default function DialogIcons(props) {
     const [icons, setIcons] = useState([])
     const dispatch = useDispatch();
 
@@ -55,6 +55,7 @@ export default function DialogIcons() {
                                         <li
                                             onClick={(e)=>{
                                                 e.preventDefault()
+                                                props.onHandleIcon(icon)
                                                 dispatch(setIconObj(icon))
                                                 handleCloseDialogIcons()
                                             }}
