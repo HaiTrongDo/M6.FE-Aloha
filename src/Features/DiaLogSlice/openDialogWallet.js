@@ -5,7 +5,7 @@ const initialState = {
 }
 
 export const walletSlice = createSlice({
-    name: 'transaction',
+    name: 'selectWallet',
     initialState,
     reducers: {
         openDialogSelectWallet: (state,action) => {

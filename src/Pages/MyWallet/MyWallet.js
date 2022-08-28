@@ -90,7 +90,6 @@ export default function MyWallet() {
                                     </svg>
                                 </button>
                                 <h2 className="text-[#000000DE] ml-4 font-sans text-xl">My Wallets</h2>
-
                             </div>
                             <div className="hidden justify-between items-center w-full md:flex md:w-auto md:order-1"
                                  id="navbar-sticky">

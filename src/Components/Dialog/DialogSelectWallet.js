@@ -9,7 +9,6 @@ import {selectWallet} from '../../Features/DiaLogSlice/walletSlice'
 
 const DialogSelectWallet = () => {
     const dispatch = useDispatch();
-    const selectWalletState = useSelector(state => state.value)
     const [listWallet, setListWallet] = useState([]);
     const user = JSON.parse(localStorage.getItem('alohaUser'));
 
@@ -22,7 +21,7 @@ const DialogSelectWallet = () => {
     }, [])
 
     return (
-        <div className="bg-white border-2">
+        <div className="bg-white">
             <div
                 className="justify-center items-center flex overflow-x-hidden modal-dialog modal-dialog-scrollable fixed inset-0 z-[100] outline-none focus:outline-none"
                 tabIndex="-1" aria-labelledby="exampleModalScrollableLabel" aria-hidden="true"
