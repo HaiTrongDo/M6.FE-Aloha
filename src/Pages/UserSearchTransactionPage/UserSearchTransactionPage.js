@@ -9,9 +9,9 @@ const UserSearchTransactionPage = () => {
     const dialogWalletState = useSelector(state => state.dialogWallet.value);
     return (
         <div>
-            <SearchPageLayout>
                 {dialogCategoryState && <DialogTransactionCategory/>}
                 {dialogWalletState && <DialogSelectWallet/>}
+            <SearchPageLayout>
                 <div className="mt-[150px] flex justify-center ">
 
                 <div className="bg-white w-1/2 shadow-md rounded">sadas</div>
