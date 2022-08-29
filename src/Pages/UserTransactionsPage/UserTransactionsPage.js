@@ -8,7 +8,8 @@ import Button from '@mui/material/Button';
 import axios from "../../axios";
 import DialogEditTransaction from "../../Components/Dialog/DialogEditTransaction";
 import {openDialogEditTransaction} from "../../Features/DiaLogSlice/openEditTransactionSlice";
-import {selectTransaction} from "../../Features/DiaLogSlice/transactionSlice";
+import {selectTransaction} from "../../Features/Transaction/transactionSlice";
+import {selectDetailTransaction} from '../../Features/Transaction/detailTransactionSlice'
 
 
 const UserTransactionsPage = () => {
@@ -20,11 +21,12 @@ const UserTransactionsPage = () => {
     const [active] = useState("py-3 sm:py-4 hover:bg-emerald-50 hover:cursor-pointer")
     const [listTransaction, setListTransaction] = useState([])
     const user = JSON.parse(localStorage.getItem('alohaUser'))
-    const [detail, setDetail] = useState({})
+    const detailTransactionState=useSelector(state=>state.selectDetailTransaction.value)
     const dialogEditState = useSelector(state => state.dialogEditTransaction.value);
     const [totalInflow, setTotalInflow] = useState()
     const [totalOutflow, setTotalOutflow] = useState()
     const [total, setTotal] = useState()
+    console.log(detailTransactionState, 'transaction after edit')
 
 
     useEffect(() => {
@@ -57,11 +59,11 @@ const UserTransactionsPage = () => {
         setToggleDetail(true)
     }
     const handleOpenEditTransaction = () => {
-        dispatch(selectTransaction(detail))
+        dispatch(selectDetailTransaction(detailTransactionState))
         dispatch(openDialogEditTransaction());
     }
     const handleDeleteTransaction = () => {
-        axios.post('transaction/delete', {id: detail._id})
+        axios.post('transaction/delete', {id: detailTransactionState._id})
             .then(() => {
                 axios.post('transaction/list', {user: user._id})
                     .then(res => {
@@ -114,7 +116,7 @@ const UserTransactionsPage = () => {
                             </div>
                             <div className=" flex justify-between px-3 py-1">
                                 <span> </span>
-                                <span className={total > 0 ? 'border-t-2 text-blue-500' : 'border-t-2 text-red-500'}
+                                <span className='border-t-2'
                                 >{total}
                                 </span>
                             </div>
@@ -150,9 +152,9 @@ const UserTransactionsPage = () => {
                                             </div>
                                         </div>
                                     </li>
-                                    <li className={!toggleDetail ? active : (detail._id === transaction._id ? active + " " + "bg-emerald-50" : active)}
+                                    <li className={!toggleDetail ? active : (detailTransactionState._id === transaction._id ? active + " " + "bg-emerald-50" : active)}
                                         onClick={() => {
-                                            setDetail(transaction);
+                                            dispatch(selectDetailTransaction(transaction));
                                             handleOpenDetail()
                                         }}>
                                         <div className="flex items-center space-x-4">
@@ -211,16 +213,16 @@ const UserTransactionsPage = () => {
                             <div className="grid grid-cols-6 mt-3">
                                 <div className="">
                                     <img
-                                        src={detail.category.icon
-                                            ? detail.category.icon
+                                        src={detailTransactionState.category.icon
+                                            ? detailTransactionState.category.icon
                                             : "https://static.moneylover.me/img/icon/ic_category_foodndrink.png"}
                                         alt=""
                                         className="w-[60px] ml-14"/>
                                 </div>
                                 <div className="col-span-5">
-                                    <div className="text-3xl">{detail.category.name}</div>
+                                    <div className="text-3xl">{detailTransactionState.category.name}</div>
                                     <div className="mt-1 ">Ăn uống</div>
-                                    <div className="mt-1 text-gray-500">{detail.date}</div>
+                                    <div className="mt-1 text-gray-500">{detailTransactionState.date}</div>
                                     <hr className="mt-2 w-[200px]"/>
                                 </div>
                             </div>
@@ -228,9 +230,9 @@ const UserTransactionsPage = () => {
                             <div className="grid grid-cols-6">
                                 <div></div>
                                 <div
-                                    className={detail.category.type === 'EXPENSE' ? 'text-3xl text-red-600 mt-4 col-span-5' : 'text-3xl text-blue-600 mt-4 col-span-5'}
+                                    className={detailTransactionState.category.type === 'EXPENSE' ? 'text-3xl text-red-600 mt-4 col-span-5' : 'text-3xl text-blue-600 mt-4 col-span-5'}
                                 >
-                                    {detail.category.type === 'EXPENSE' ? '-' + detail.amount : '+' + detail.amount}
+                                    {detailTransactionState.category.type === 'EXPENSE' ? '-' + detailTransactionState.amount : '+' + detailTransactionState.amount}
                                 </div>
                             </div>
                         </div>

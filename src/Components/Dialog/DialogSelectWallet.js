@@ -1,11 +1,9 @@
 import React, {useEffect, useState} from 'react';
-import Button from "@mui/material/Button";
-import {selectCategory} from "../../Features/DiaLogSlice/categorySlice";
-import {closeDialogCategory} from "../../Features/DiaLogSlice/openDialogCategorySlice";
+
 import {useDispatch, useSelector} from "react-redux";
 import {closeDialogSelectWallet} from "../../Features/DiaLogSlice/openDialogWallet";
 import axios from '../../axios/index'
-import {selectWallet} from '../../Features/DiaLogSlice/walletSlice'
+import {selectWallet} from '../../Features/Transaction/walletSlice'
 import {setWalletInSearchPage} from '../../Features/SearchInput/SearchInputSlice'
 
 const DialogSelectWallet = () => {
@@ -15,7 +13,7 @@ const DialogSelectWallet = () => {
 
 
     useEffect(() => {
-        axios.post('wallet/render', {userId: user._id})
+        axios.post('wallet/render', {userId:user._id})
             .then(res => {
                 setListWallet(res.data.data)
             })

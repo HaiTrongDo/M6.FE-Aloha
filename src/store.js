@@ -10,13 +10,14 @@ import dialogTransactionSlice from "./Features/DiaLogSlice/openDialogTransaction
 import openDialogIconsSlice from "./Features/DiaLogSlice/openDialogIconsSlice";
 import openDialogCategorySlice from "./Features/DiaLogSlice/openDialogCategorySlice";
 import openDialogCurrencySlice from "./Features/DiaLogSlice/openDialogCurrencySlice";
-import selectCategorySlice from "./Features/DiaLogSlice/categorySlice";
+import selectCategorySlice from "./Features/Transaction/categorySlice";
 import walletTransactionSlice from "./Features/DiaLogSlice/openDialogWallet";
-import selectWalletSlice from "./Features/DiaLogSlice/walletSlice";
+import selectWalletSlice from "./Features/Transaction/walletSlice";
 import openDialogDetailSlice from "./Features/DiaLogSlice/openDialogDetailSlice";
 import openDialogEditWallet from "./Features/DiaLogSlice/openDialogEditWalletSlice";
 import dialogEditTransactionSlice from './Features/DiaLogSlice/openEditTransactionSlice';
-import selectTransaction from './Features/DiaLogSlice/transactionSlice'
+import selectTransaction from './Features/Transaction/transactionSlice';
+import detailTransactionSlice from './Features/Transaction/detailTransactionSlice'
 import SearchInputSlice from './Features/SearchInput/SearchInputSlice'
 
 
@@ -42,7 +43,8 @@ const store = configureStore({
         wallet: WalletSlice,
         walletId: WalletIdSlice,
         dialogEditTransaction:dialogEditTransactionSlice.reducer,
-        selectTransaction:selectTransaction.reducer
+        selectTransaction:selectTransaction.reducer,
+        selectDetailTransaction:detailTransactionSlice
     }
 })
 
