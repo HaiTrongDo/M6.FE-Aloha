@@ -15,8 +15,9 @@ import MenuTwoToneIcon from '@mui/icons-material/MenuTwoTone';
 import {useDispatch, useSelector} from "react-redux";
 import {addClick} from "../Features/SidebarOpenSlice/clickSlice";
 import Box from "@mui/material/Box";
-import {useState} from "react";
+import {useEffect, useState} from "react";
 import {selectCurrentWallet} from "../Features/Transaction/currentWalletSlice";
+import axios from '../axios/index'
 
 const drawerWidth = 240;
 const AppBar = styled(MuiAppBar, {
@@ -96,9 +97,6 @@ function NavBar({children}) {
     const handleClose = () => {
         setAnchorEl(null);
     };
-    const handleSelectCurrentWallet=()=>{
-
-    }
 
 
     return (
@@ -131,7 +129,7 @@ function NavBar({children}) {
                 >
                     <img
                         className='rounded-full w-[35px] h-[35px] object-cover'
-                        src={'https://static.moneylover.me/img/icon/icon.png'}
+                        src={currentWalletState?.icon?.url ? currentWalletState.icon.url : 'https://static.moneylover.me/img/icon/icon.png'}
                     />
                     <Box sx={{ml: 1}}>
                         <Typography sx={{
@@ -140,7 +138,7 @@ function NavBar({children}) {
                             color: 'black',
                             textAlign: 'left'
                         }}>
-                            {currentWalletState ? currentWalletState.name : ''}
+                            {currentWalletState.name ? currentWalletState.name : 'Total'}
                             <KeyboardArrowDownIcon/>
                         </Typography>
 
@@ -216,7 +214,7 @@ function NavBar({children}) {
                             <Divider/>
                             <MenuItem disableRipple onClick={()=>{
                                 dispatch(selectCurrentWallet(wallet));
-                                handleSelectCurrentWallet()
+
                             }}>
                                 <img src={wallet.icon.url ? wallet.icon.url : "https://static.moneylover.me/img/icon/icon.png"}
                                      className='rounded-full w-[35px] h-[35px] object-cover'

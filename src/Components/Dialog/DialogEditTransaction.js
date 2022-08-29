@@ -88,8 +88,8 @@ const DialogEditTransaction = () => {
                         <div className="grid grid-cols-3 gap-1 py-6 px-6">
 
                             <div className="relative w-full pl-2 pr-2">
-                                <button id="button" onClick={() => dispatch(openDialogSelectWallet())}
-                                        className="w-full col-span-2 flex relative  border border-gray-300 p-2 h-[60px]  rounded-[10px] hover:border-black">
+                                <button id="button" onClick={() => dispatch(openDialogSelectWallet())} disabled={true}
+                                        className="w-full col-span-2 flex relative  border border-gray-300 p-2 h-[60px]  rounded-[10px] ">
                                     <div className="">
 
                                         <img data-v-6bc9d4d3=""
