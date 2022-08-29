@@ -12,6 +12,7 @@ export default function DialogBalance(props) {
     const [walletObj, setWalletObj] = useState(props.walletObj || {});
     const [initialInput, setInitialInput] = useState(props.walletObj.initial);
     const dispatch = useDispatch();
+    const userId = JSON.parse(localStorage.getItem('alohaUser'))._id
 
     const handleCloseDialogBalance = () => {
         dispatch(closeDialogBalance(false))
@@ -41,6 +42,22 @@ export default function DialogBalance(props) {
         setTimeout(() => {
             swal.close()
         }, 1000)
+
+        console.log(walletObj.initial,'====')
+        console.log(data.initial,'========')
+        if (data.initial > walletObj.initial){
+            const dataTransaction = {
+                wallet:walletObj._id,
+                category:'6304a3470f0a39e5923a672a',
+                amount:Number(data.initial)-Number(walletObj.initial),
+                date:new Date.toDateString(),
+                user: userId
+            }
+            e.preventDefault()
+            axios.post('http://localhost:8080/transaction/add', dataTransaction).then(r => {
+                console.log(r)
+            })
+        }
     }
 
     const dialogWalletState = useSelector(state => state.dialogWallet.value);
