@@ -1,15 +1,15 @@
 import {createSlice, createAsyncThunk} from "@reduxjs/toolkit";
 import axios from "../../axios";
 
-const userId= JSON.parse(localStorage.getItem('alohaUser'))._id || ''
+// const userId= JSON.parse(localStorage.getItem('alohaUser'))._id || ''
 
-const fetchAllTransactions = createAsyncThunk(
-    'transactions/fetchByIdStatus',
-    async (params, thunkAPI) => {
-        const response = await axios.post('',userId)
-        return response.data
-    }
-)
+// const fetchAllTransactions = createAsyncThunk(
+//     'transactions/fetchByIdStatus',
+//     async (params, thunkAPI) => {
+//         const response = await axios.post('',userId)
+//         return response.data
+//     }
+// )
 
 
 const initialState = {
@@ -52,18 +52,18 @@ const SearchInputSlice = createSlice({
             state.SearchInput.date =  action.payload.startDate + "->" + action.payload.endDate
         }
     },
-    extraReducers:{
-        [fetchAllTransactions.pending]: (state)=>{
-            state.AllTransactions.loading=true
-        },
-        [fetchAllTransactions.rejected]: (state, action)=>{
-            state.AllTransactions.loading=false
-        },
-        [fetchAllTransactions.fulfilled]: (state,action)=>{
-            state.AllTransactions.loading=false
-            state.AllTransactions.data=action.payload
-        },
-    }
+    // extraReducers:{
+    //     [fetchAllTransactions.pending]: (state)=>{
+    //         state.AllTransactions.loading=true
+    //     },
+    //     [fetchAllTransactions.rejected]: (state, action)=>{
+    //         state.AllTransactions.loading=false
+    //     },
+    //     [fetchAllTransactions.fulfilled]: (state,action)=>{
+    //         state.AllTransactions.loading=false
+    //         state.AllTransactions.data=action.payload
+    //     },
+    // }
 })
 
 export const {setCategoryInSearchPage, setSearchInputForNote, setWalletInSearchPage,setSearchInputForDate} = SearchInputSlice.actions
