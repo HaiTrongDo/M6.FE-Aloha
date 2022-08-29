@@ -55,7 +55,10 @@
   },
   "proxy": "http://localhost:8080/",
   "devDependencies": {
+    "@types/react": "^18.0.17",
     "prop-types": "^15.8.1",
-    "qs": "^6.11.0"
+    "qs": "^6.11.0",
+    "react-loading-screen": "^0.0.17",
+    "react-spring": "^9.5.2"
   }
 }

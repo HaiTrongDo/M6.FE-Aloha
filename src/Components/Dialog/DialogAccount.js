@@ -95,7 +95,7 @@ export default function DialogAccount() {
                         <div className="flex flex-wrap justify-center">
                             <div className="w-full flex justify-center">
                                 <div className="relative">
-                                    <img src={currentUser.avatarUrl ? currentUser.avatarUrl: "https://icon-library.com/images/default-profile-icon/default-profile-icon-24.jpg" } className="shadow-xl rounded-full align-middle border-none absolute -m-16 -ml-20 lg:-ml-16 max-w-[150px]" />
+                                    <img src={currentUser.avatarUrl ? currentUser.avatarUrl: "https://icon-library.com/images/default-profile-icon/default-profile-icon-24.jpg" } className="shadow-xl object-cover w-[150px] h-[150px] rounded-full align-middle border-none absolute -m-16 -ml-20 lg:-ml-16 max-w-[150px]"  alt=""/>
                                 </div>
                             </div>
                             <div className="w-full text-center mt-20">

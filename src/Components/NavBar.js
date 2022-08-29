@@ -14,6 +14,7 @@ import AccountBalanceWalletIcon from '@mui/icons-material/AccountBalanceWallet';
 import MenuTwoToneIcon from '@mui/icons-material/MenuTwoTone';
 import {useDispatch, useSelector} from "react-redux";
 import {addClick} from "../Features/SidebarOpenSlice/clickSlice";
+import Box from "@mui/material/Box";
 
 const drawerWidth = 240;
 const AppBar = styled(MuiAppBar, {
@@ -77,6 +78,8 @@ const StyledMenu = styled((props) => (
 }));
 
 function NavBar({children}) {
+    let tokenUser = JSON.parse(localStorage.getItem('alohaUser')) //lay token o trong localra
+    console.log(tokenUser)
     const dispatch = useDispatch()
     const open = useSelector((state) => state.Layout.value)
 
@@ -113,16 +116,34 @@ function NavBar({children}) {
 
                 {/*<IconButton>*/}
                     <Button
-                        id="demo-customized-button"
-                        aria-controls={opens ? 'demo-customized-menu' : undefined}
-                        aria-haspopup="true"
-                        aria-expanded={opens ? 'true' : undefined}
-                        variant="contained"
-                        disableElevation
                         onClick={handleClick}
-                        endIcon={<KeyboardArrowDownIcon/>}
+                        // endIcon={<KeyboardArrowDownIcon/>}
                     >
-                        Total
+                        <img
+                            className='rounded-full w-[35px] h-[35px] object-cover'
+                            src={tokenUser.avatarUrl}
+                        />
+                        <Box sx={{ml:1}}>
+                            <Typography sx={{
+                                fontWeight: 'medium',
+                                fontSize: 12,
+                                color: 'black',
+                                textAlign: 'left'
+                            }}>
+                                {tokenUser.username}
+                                <KeyboardArrowDownIcon/>
+                            </Typography>
+
+                            <Typography sx={{
+                                fontWeight: 'bold',
+                                fontSize: 14,
+                                color: 'black',
+                                textAlign: 'left'
+                            }} >
+                                +50.000d
+                            </Typography>
+                        </Box>
+
                     </Button>
                     <StyledMenu
                         id="demo-customized-menu"
@@ -133,15 +154,73 @@ function NavBar({children}) {
                         open={opens}
                         onClose={handleClose}
                     >
-                        <MenuItem onClick={handleClose} disableRipple>
-                            <LanguageIcon/>
-                            Total
+                        <Typography sx={{
+                            fontWeight: 'light',
+                            fontSize: 13,
+                            color: 'black',
+                            textAlign: 'center',
+                            m:1
+                        }} >
+                            Select Wallet
+                        </Typography>
+                        <Divider/>
+                        <MenuItem disableRipple>
+                            <img src="https://static.moneylover.me/img/icon/ic_category_all.png"
+                                 className='rounded-full w-[35px] h-[35px] object-cover'
+                            />
+                            <Box sx={{ml:2}}>
+                                <Typography sx={{
+                                    fontWeight: 'bold',
+                                    fontSize: 14,
+                                    color: 'black',
+                                    textAlign: 'left'
+                                }} >
+                                    Total
+                                </Typography>
+                                <Typography sx={{
+                                    fontWeight: 'light',
+                                    fontSize: 12,
+                                    color: 'black',
+                                    textAlign: 'left'
+                                }}>
+                                    +95.000
+                                </Typography>
+                            </Box>
                         </MenuItem>
-
                         <Divider sx={{my: 0.5}}/>
-                        <MenuItem onClick={handleClose} disableRipple>
-                            <AccountBalanceWalletIcon/>
-                            Thangbui
+                        <Typography sx={{
+                            fontWeight: 'light',
+                            fontSize: 13,
+                            color: 'black',
+                            textAlign: 'center',
+                            m:1
+                        }} >
+                            Included in Total
+                        </Typography>
+                        <Divider/>
+
+                        <MenuItem disableRipple>
+                            <img src="https://static.moneylover.me/img/icon/icon.png"
+                                 className='rounded-full w-[35px] h-[35px] object-cover'
+                            />
+                            <Box sx={{ml:2}}>
+                                <Typography sx={{
+                                    fontWeight: 'bold',
+                                    fontSize: 14,
+                                    color: 'black',
+                                    textAlign: 'left'
+                                }} >
+                                    Trung nguyen
+                                </Typography>
+                                <Typography sx={{
+                                    fontWeight: 'light',
+                                    fontSize: 12,
+                                    color: 'black',
+                                    textAlign: 'left'
+                                }}>
+                                    +95.000
+                                </Typography>
+                            </Box>
                         </MenuItem>
 
                     </StyledMenu>
