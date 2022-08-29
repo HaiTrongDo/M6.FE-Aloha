@@ -7,6 +7,7 @@ import axios from "axios"
 import {openDialogEditWallet} from "../../Features/DiaLogSlice/openDialogEditWalletSlice";
 import DialogEditWallet from "../Dialog/DialogEditWallet"
 import {Slide} from "@mui/material";
+import swal from "sweetalert";
 
 export default function DialogDetailWallet({walletId}) {
     const dispatch = useDispatch();
@@ -33,9 +34,27 @@ export default function DialogDetailWallet({walletId}) {
     }, [walletObj])
 
     const handleDeleteWallet = () => {
-        axios.post('http://localhost:8080/wallet/delete',{walletId}).then(r => {
-            handleCloseDialogDetailWallet()
+        swal({
+            title: `Do you want to delete wallet ${walletObj.name}?`,
+            text: "Once deleted, you will not be able to recover this record!",
+            icon: "warning",
+            buttons: true,
+            dangerMode: true,
         })
+            .then((willDelete) => {
+                if (willDelete) {
+                    swal("Poof! Your imaginary file has been deleted!", {
+                        icon: "success",
+                    }).then(()=>{
+                        axios.post('http://localhost:8080/wallet/delete',{walletId}).then(r => {
+                            handleCloseDialogDetailWallet()
+                        })
+                    });
+                } else {
+                    swal("Your record is safe!");
+                }
+            });
+
     }
 
     const containerRef = useRef(null);
@@ -83,7 +102,7 @@ export default function DialogDetailWallet({walletId}) {
                                 <span className={"font-bold text-[#757575]"}>Users</span>
                             </div>
                             <div className={"flex py-[16px] pl-[4px]"}>
-                                <img className={"w-[40px] h-[40px] rounded-full"}
+                                <img className={"w-[40px] h-[40px] object-cover rounded-full"}
                                      src={userObj.avatarUrl} alt=""/>
                                 <div className={"ml-2"}>
                                     <span className={"font-bold"}>{userObj.username}</span>
