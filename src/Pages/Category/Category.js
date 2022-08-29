@@ -76,6 +76,8 @@ const StyledMenu = styled((props) => (
 function Category() {
     const navigate = useNavigate()
     const dispatch = useDispatch()
+    let tokenUser = JSON.parse(localStorage.getItem('alohaUser')) //lay token o trong localra
+    console.log(tokenUser)
     //the hien ra khi bam button
     const [checked, setChecked] = React.useState(false);
     const [category, setCategory] = useState({})

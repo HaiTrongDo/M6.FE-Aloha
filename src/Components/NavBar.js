@@ -79,7 +79,6 @@ const StyledMenu = styled((props) => (
 
 function NavBar({children}) {
     let tokenUser = JSON.parse(localStorage.getItem('alohaUser')) //lay token o trong localra
-    console.log(tokenUser)
     const dispatch = useDispatch()
     const open = useSelector((state) => state.Layout.value)
 
@@ -164,7 +163,29 @@ function NavBar({children}) {
                             Select Wallet
                         </Typography>
                         <Divider/>
-                       c
+                        <MenuItem disableRipple>
+                            <img src="https://static.moneylover.me/img/icon/ic_category_all.png"
+                                 className='rounded-full w-[35px] h-[35px] object-cover'
+                            />
+                            <Box sx={{ml:2}}>
+                                <Typography sx={{
+                                    fontWeight: 'bold',
+                                    fontSize: 14,
+                                    color: 'black',
+                                    textAlign: 'left'
+                                }} >
+                                    Total
+                                </Typography>
+                                <Typography sx={{
+                                    fontWeight: 'light',
+                                    fontSize: 12,
+                                    color: 'black',
+                                    textAlign: 'left'
+                                }}>
+                                    +95.000
+                                </Typography>
+                            </Box>
+                        </MenuItem>
                         <Divider sx={{my: 0.5}}/>
                         <Typography sx={{
                             fontWeight: 'light',
