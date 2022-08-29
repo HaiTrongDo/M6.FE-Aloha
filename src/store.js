@@ -21,6 +21,12 @@ import detailTransactionSlice from './Features/Transaction/detailTransactionSlic
 import SearchInputSlice from './Features/SearchInput/SearchInputSlice'
 
 
+import openDialogNewCategorySlice from "./Features/DiaLogSlice/openDialogNewCategorySlice";
+import openDialogIconCategorySlice from "./Features/DiaLogSlice/openDialogIconCategorySlice";
+import selectIconSlice from "./Features/DiaLogSlice/selectIconSlice";
+import dataCategorySlice from "./Features/DiaLogSlice/dataCategorySlice";
+import openDialogUpdateCategorySlide from "./Features/DiaLogSlice/openDialogUpdateCategorySlice";
+import updateDataCategorySlice from "./Features/DiaLogSlice/updataDataCategorySlice";
 
 const store = configureStore({
     reducer:{
@@ -41,6 +47,13 @@ const store = configureStore({
         DialogDetail:openDialogDetailSlice.reducer,
         DialogEditWallet:openDialogEditWallet.reducer,
         wallet: WalletSlice,
+        DialogNewCategory: openDialogNewCategorySlice.reducer,
+        DialogIconCategory: openDialogIconCategorySlice.reducer,
+        SelectIcon: selectIconSlice.reducer,
+        DateCategory: dataCategorySlice.reducer,
+        UpdateCategory: openDialogUpdateCategorySlide.reducer,
+        UpdateDataCategory: updateDataCategorySlice.reducer,
+
         walletId: WalletIdSlice,
         dialogEditTransaction:dialogEditTransactionSlice.reducer,
         selectTransaction:selectTransaction.reducer,
