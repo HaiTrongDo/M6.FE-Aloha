@@ -22,6 +22,7 @@ const UserTransactionsPage = () => {
     const [totalInflow, setTotalInflow] = useState()
     const [totalOutflow, setTotalOutflow] = useState()
     const [total, setTotal] = useState()
+    console.log(user)
 
 
     useEffect(() => {

@@ -15,6 +15,8 @@ import MenuTwoToneIcon from '@mui/icons-material/MenuTwoTone';
 import {useDispatch, useSelector} from "react-redux";
 import {addClick} from "../Features/SidebarOpenSlice/clickSlice";
 import Box from "@mui/material/Box";
+import {useState} from "react";
+import {selectCurrentWallet} from "../Features/Transaction/currentWalletSlice";
 
 const drawerWidth = 240;
 const AppBar = styled(MuiAppBar, {
@@ -78,9 +80,12 @@ const StyledMenu = styled((props) => (
 }));
 
 function NavBar({children}) {
-    let tokenUser = JSON.parse(localStorage.getItem('alohaUser')) //lay token o trong localra
+    const user = JSON.parse(localStorage.getItem('alohaUser'))
+    let tokenUser = JSON.parse(localStorage.getItem('alohaUser'))
     const dispatch = useDispatch()
     const open = useSelector((state) => state.Layout.value)
+    const currentWalletState=useSelector(state=>state.currentWallet.value)
+    const [total,setTotal]=useState()
 
     // thanh dropDow
     const [anchorEl, setAnchorEl] = React.useState(null);
@@ -91,6 +96,10 @@ function NavBar({children}) {
     const handleClose = () => {
         setAnchorEl(null);
     };
+    const handleSelectCurrentWallet=()=>{
+        console.log(currentWalletState,'current wallet')
+    }
+
 
     return (
         <AppBar position="absolute" open={open}>
@@ -104,7 +113,9 @@ function NavBar({children}) {
                     edge="start"
                     color="inherit"
                     aria-label="open drawer"
-                    onClick={() => {dispatch(addClick(!open))}}
+                    onClick={() => {
+                        dispatch(addClick(!open))
+                    }}
                     sx={{
                         marginRight: '100px',
                         ...(open && {display: 'none'}),
@@ -114,115 +125,125 @@ function NavBar({children}) {
                 </IconButton>
 
                 {/*<IconButton>*/}
-                    <Button
-                        onClick={handleClick}
-                        // endIcon={<KeyboardArrowDownIcon/>}
-                    >
-                        <img
-                            className='rounded-full w-[35px] h-[35px] object-cover'
-                            src={tokenUser.avatarUrl}
-                        />
-                        <Box sx={{ml:1}}>
-                            <Typography sx={{
-                                fontWeight: 'medium',
-                                fontSize: 12,
-                                color: 'black',
-                                textAlign: 'left'
-                            }}>
-                                {tokenUser.username}
-                                <KeyboardArrowDownIcon/>
-                            </Typography>
+                <Button
+                    onClick={handleClick}
+                    // endIcon={<KeyboardArrowDownIcon/>}
+                >
+                    <img
+                        className='rounded-full w-[35px] h-[35px] object-cover'
+                        src={'https://static.moneylover.me/img/icon/icon.png'}
+                    />
+                    <Box sx={{ml: 1}}>
+                        <Typography sx={{
+                            fontWeight: 'medium',
+                            fontSize: 12,
+                            color: 'black',
+                            textAlign: 'left'
+                        }}>
+                            {currentWalletState ? currentWalletState.name : ''}
+                            <KeyboardArrowDownIcon/>
+                        </Typography>
 
+                        <Typography sx={{
+                            fontWeight: 'bold',
+                            fontSize: 14,
+                            color: 'black',
+                            textAlign: 'left'
+                        }}>
+                            {/*total current wallet*/}
+                            +50.000d
+                        </Typography>
+                    </Box>
+
+                </Button>
+                <StyledMenu
+                    id="demo-customized-menu"
+                    MenuListProps={{
+                        'aria-labelledby': 'demo-customized-button',
+                    }}
+                    anchorEl={anchorEl}
+                    open={opens}
+                    onClose={handleClose}
+                >
+                    <Typography sx={{
+                        fontWeight: 'light',
+                        fontSize: 13,
+                        color: 'black',
+                        textAlign: 'center',
+                        m: 1
+                    }}>
+                        Select Wallet
+                    </Typography>
+                    <Divider/>
+                    <MenuItem disableRipple>
+                        <img src="https://static.moneylover.me/img/icon/ic_category_all.png"
+                             className='rounded-full w-[35px] h-[35px] object-cover'
+                        />
+                        <Box sx={{ml: 2}}>
                             <Typography sx={{
                                 fontWeight: 'bold',
                                 fontSize: 14,
                                 color: 'black',
                                 textAlign: 'left'
-                            }} >
-                                +50.000d
+                            }}>
+                                Total
+                            </Typography>
+                            <Typography sx={{
+                                fontWeight: 'light',
+                                fontSize: 12,
+                                color: 'black',
+                                textAlign: 'left'
+                            }}>
+                                {/*Total all wallet*/}
+                                +95.000
                             </Typography>
                         </Box>
+                    </MenuItem>
+                    <Divider sx={{my: 0.5}}/>
+                    <Typography sx={{
+                        fontWeight: 'light',
+                        fontSize: 13,
+                        color: 'black',
+                        textAlign: 'center',
+                        m: 1
+                    }}>
+                        Included in Total
+                    </Typography>
 
-                    </Button>
-                    <StyledMenu
-                        id="demo-customized-menu"
-                        MenuListProps={{
-                            'aria-labelledby': 'demo-customized-button',
-                        }}
-                        anchorEl={anchorEl}
-                        open={opens}
-                        onClose={handleClose}
-                    >
-                        <Typography sx={{
-                            fontWeight: 'light',
-                            fontSize: 13,
-                            color: 'black',
-                            textAlign: 'center',
-                            m:1
-                        }} >
-                            Select Wallet
-                        </Typography>
-                        <Divider/>
-                        <MenuItem disableRipple>
-                            <img src="https://static.moneylover.me/img/icon/ic_category_all.png"
-                                 className='rounded-full w-[35px] h-[35px] object-cover'
-                            />
-                            <Box sx={{ml:2}}>
-                                <Typography sx={{
-                                    fontWeight: 'bold',
-                                    fontSize: 14,
-                                    color: 'black',
-                                    textAlign: 'left'
-                                }} >
-                                    Total
-                                </Typography>
-                                <Typography sx={{
-                                    fontWeight: 'light',
-                                    fontSize: 12,
-                                    color: 'black',
-                                    textAlign: 'left'
-                                }}>
-                                    +95.000
-                                </Typography>
-                            </Box>
-                        </MenuItem>
-                        <Divider sx={{my: 0.5}}/>
-                        <Typography sx={{
-                            fontWeight: 'light',
-                            fontSize: 13,
-                            color: 'black',
-                            textAlign: 'center',
-                            m:1
-                        }} >
-                            Included in Total
-                        </Typography>
-                        <Divider/>
+                    {/*Each wallet*/}
+                    {user.wallet.map((wallet, index) => (
+                        <div key={index}>
+                            <Divider/>
+                            <MenuItem disableRipple onClick={()=>{
+                                dispatch(selectCurrentWallet(wallet));
+                                handleSelectCurrentWallet()
+                            }}>
+                                <img src={wallet.icon.url ? wallet.icon.url : "https://static.moneylover.me/img/icon/icon.png"}
+                                     className='rounded-full w-[35px] h-[35px] object-cover'
+                                />
+                                <Box sx={{ml: 2}}>
+                                    <Typography sx={{
+                                        fontWeight: 'bold',
+                                        fontSize: 14,
+                                        color: 'black',
+                                        textAlign: 'left'
+                                    }}>
+                                        {wallet.name}
+                                    </Typography>
+                                    <Typography sx={{
+                                        fontWeight: 'light',
+                                        fontSize: 12,
+                                        color: 'black',
+                                        textAlign: 'left'
+                                    }}>
+                                        {wallet.initial}
+                                    </Typography>
+                                </Box>
+                            </MenuItem>
+                        </div>
+                    ))}
 
-                        <MenuItem disableRipple>
-                            <img src="https://static.moneylover.me/img/icon/icon.png"
-                                 className='rounded-full w-[35px] h-[35px] object-cover'
-                            />
-                            <Box sx={{ml:2}}>
-                                <Typography sx={{
-                                    fontWeight: 'bold',
-                                    fontSize: 14,
-                                    color: 'black',
-                                    textAlign: 'left'
-                                }} >
-                                    Trung nguyen
-                                </Typography>
-                                <Typography sx={{
-                                    fontWeight: 'light',
-                                    fontSize: 12,
-                                    color: 'black',
-                                    textAlign: 'left'
-                                }}>
-                                    +95.000
-                                </Typography>
-                            </Box>
-                        </MenuItem>
-
-                    </StyledMenu>
+                </StyledMenu>
                 {/*</IconButton>*/}
                 <Typography
                     component="h1"

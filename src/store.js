@@ -28,6 +28,7 @@ import selectIconSlice from "./Features/DiaLogSlice/selectIconSlice";
 import dataCategorySlice from "./Features/DiaLogSlice/dataCategorySlice";
 import openDialogUpdateCategorySlide from "./Features/DiaLogSlice/openDialogUpdateCategorySlice";
 import updateDataCategorySlice from "./Features/DiaLogSlice/updataDataCategorySlice";
+import openDialogBalanceSlice, {openDialogBalance} from "./Features/DiaLogSlice/openDialogBalanceSlice";
 
 const store = configureStore({
     reducer:{
@@ -47,6 +48,7 @@ const store = configureStore({
         DialogCategory:openDialogCategorySlice.reducer,
         DialogDetail:openDialogDetailSlice.reducer,
         DialogEditWallet:openDialogEditWallet.reducer,
+        DialogBalance:openDialogBalanceSlice.reducer,
         wallet: WalletSlice,
         DialogNewCategory: openDialogNewCategorySlice.reducer,
         DialogIconCategory: openDialogIconCategorySlice.reducer,
