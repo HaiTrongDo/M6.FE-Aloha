@@ -1,5 +1,4 @@
 import {useDispatch, useSelector} from "react-redux";
-import {closeDialogWallet, openDialogWallet} from "../../Features/DiaLogSlice/openDialogMyWalletSlice";
 import {useEffect, useState} from "react";
 import axios from "axios";
 import '../../Pages/MyWallet/MyWallet.css';
@@ -45,7 +44,6 @@ export default function DialogWallet(props) {
 
     const handleUpdateWallet = () => {
         axios.post('http://localhost:8080/wallet/update',{dataUpdateWallet}).then(r=>{
-            console.log(r)
             handleCloseDialogEditWallet()
         })
     }
@@ -71,44 +69,10 @@ export default function DialogWallet(props) {
         dispatch(openDialogIcons(true))
     }
 
-    console.log(dataUpdateWallet)
-
     const handleOpenDialogCurrency = (e) => {
         e.preventDefault()
         dispatch(openDialogCurrency(true))
     }
-
-    // useEffect(() => {
-    //     axios.post('http://localhost:8080/wallet/detail', {walletId}).then(r => {
-    //         setWalletObj(r.data.data)
-    //     })
-    // })
-
-
-    // const handleChangeInput= (e)=>{
-    //     setWalletObj({
-    //         ...walletObj,
-    //         [e.target.name]: e.target.value,
-    //     })
-    // }
-
-    // const walletData = {
-    //     name:walletObj?.nameWallet,
-    //     initial:+walletObj?.initial,
-    //     icon:wallet?.iconObj?._id,
-    //     currency:wallet?.currencyObj?._id,
-    //     user:currentUser?._id
-    // }
-
-    // const handleAddWallet =  (e)=>{
-    //     e.preventDefault()
-    //     axios.post('http://localhost:8080/wallet/add',walletData).then(response =>{
-    //         console.log(response)
-    //         handleCloseDialogWallet()
-    //     })
-    //
-    // }
-
 
     return (
         <div>

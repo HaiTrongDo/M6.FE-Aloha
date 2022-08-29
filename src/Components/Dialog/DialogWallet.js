@@ -13,11 +13,12 @@ export default function DialogWallet({className}) {
         nameWallet: '',
         initial: ''
     })
+
     const [iconObj, setIconObj] = useState({
-        url:'https://static.moneylover.me/img/icon/icon_not_selected.png'
-})
+        url: 'https://static.moneylover.me/img/icon/icon_not_selected.png'
+    })
     const [currencyObj, setCurrencyObj] = useState({
-        url:'https://static.moneylover.me/img/icon/icon_not_selected.png'
+        url: 'https://static.moneylover.me/img/icon/icon_not_selected.png'
     })
     const dispatch = useDispatch();
 
@@ -42,7 +43,6 @@ export default function DialogWallet({className}) {
     const wallet = useSelector((state) =>
         state.wallet
     )
-    console.log(wallet)
 
     const currencyState = useSelector((state) =>
         state.DialogCurrency.value
@@ -78,7 +78,6 @@ export default function DialogWallet({className}) {
     const handleAddWallet = (e) => {
         e.preventDefault()
         axios.post('http://localhost:8080/wallet/add', walletData).then(response => {
-            console.log(response)
             handleCloseDialogWallet()
         })
 
