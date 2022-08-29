@@ -6,6 +6,8 @@ import {openDialogCategory, closeDialogCategory} from "../../Features/DiaLogSlic
 import {selectCategory} from "../../Features/Transaction/categorySlice";
 import {openDialogSelectWallet} from "../../Features/DiaLogSlice/openDialogWallet";
 import {selectWallet} from "../../Features/Transaction/walletSlice";
+import DialogTransactionCategory from "./DialogTransactionCategory";
+import DialogSelectWallet from "./DialogSelectWallet";
 
 
 const DialogTransaction = () => {
@@ -16,6 +18,8 @@ const DialogTransaction = () => {
     const [date, setDate] = useState(new Date().toDateString());
     const selectCategoryState=useSelector(state=>state.selectCategory)
     const selectWalletState=useSelector(state=>state.selectWallet);
+    const dialogCategoryState = useSelector(state => state.DialogCategory.value)
+    const dialogWalletState = useSelector(state => state.dialogWallet.value);
 
 
     const handleChangeAmount = (e) => {
@@ -32,7 +36,7 @@ const DialogTransaction = () => {
             wallet: selectWalletState.value,
             amount: amount*1,
             category: selectCategoryState.value,
-            date: date,
+            date: Date(date),
             note: note,
             user:user
         }
@@ -154,6 +158,9 @@ const DialogTransaction = () => {
                                 </label>
                             </div>
                         </div>
+
+                        {dialogCategoryState && <DialogTransactionCategory/>}
+                        {dialogWalletState && <DialogSelectWallet/>}
 
                         {/*footer*/}
                         <div

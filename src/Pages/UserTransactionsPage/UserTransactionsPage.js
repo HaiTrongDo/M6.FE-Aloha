@@ -8,15 +8,13 @@ import Button from '@mui/material/Button';
 import axios from "../../axios";
 import DialogEditTransaction from "../../Components/Dialog/DialogEditTransaction";
 import {openDialogEditTransaction} from "../../Features/DiaLogSlice/openEditTransactionSlice";
-import {selectTransaction} from "../../Features/Transaction/transactionSlice";
-import {selectDetailTransaction} from '../../Features/Transaction/detailTransactionSlice'
+import {selectDetailTransaction} from '../../Features/Transaction/detailTransactionSlice';
+import swal from 'sweetalert';
 
 
 const UserTransactionsPage = () => {
     const dispatch = useDispatch()
     const dialogTransactionState = useSelector(state => state.dialogTransaction.value);
-    const dialogCategoryState = useSelector(state => state.DialogCategory.value)
-    const dialogWalletState = useSelector(state => state.dialogWallet.value);
     const [toggleDetail, setToggleDetail] = useState(false)
     const [active] = useState("py-3 sm:py-4 hover:bg-emerald-50 hover:cursor-pointer")
     const [listTransaction, setListTransaction] = useState([])
@@ -26,7 +24,6 @@ const UserTransactionsPage = () => {
     const [totalInflow, setTotalInflow] = useState()
     const [totalOutflow, setTotalOutflow] = useState()
     const [total, setTotal] = useState()
-    console.log(detailTransactionState, 'transaction after edit')
 
 
     useEffect(() => {
@@ -63,37 +60,54 @@ const UserTransactionsPage = () => {
         dispatch(openDialogEditTransaction());
     }
     const handleDeleteTransaction = () => {
-        axios.post('transaction/delete', {id: detailTransactionState._id})
-            .then(() => {
-                axios.post('transaction/list', {user: user._id})
-                    .then(res => {
-                        let inflow = res.data.data.filter(value => {
-                            return value.category.type === 'INCOME'
-                        })
-                        let sumInflow = 0
-                        inflow.forEach(value => sumInflow += value.amount)
 
-                        let outFlow = res.data.data.filter(value => {
-                            return value.category.type === 'EXPENSE'
-                        })
-                        let sumOutFlow = 0
-                        outFlow.forEach((value) => sumOutFlow += value.amount)
+        swal({
+            title: "Are you sure?",
+            text: "Once deleted, you will not be able to recover this record!",
+            icon: "warning",
+            buttons: true,
+            dangerMode: true,
+        })
+            .then((willDelete) => {
+                if (willDelete) {
+                    swal("Poof! Your imaginary file has been deleted!", {
+                        icon: "success",
+                    });
+                axios.post('transaction/delete', {id: detailTransactionState._id})
+                    .then(() => {
+                        axios.post('transaction/list', {user: user._id})
+                            .then(res => {
+                                let inflow = res.data.data.filter(value => {
+                                    return value.category.type === 'INCOME'
+                                })
+                                let sumInflow = 0
+                                inflow.forEach(value => sumInflow += value.amount)
 
-                        setTotalOutflow(sumOutFlow)
-                        setTotalInflow(sumInflow)
-                        setTotal(sumInflow - sumOutFlow)
-                        setListTransaction(res.data.data)
-                        setToggleDetail(false)
+                                let outFlow = res.data.data.filter(value => {
+                                    return value.category.type === 'EXPENSE'
+                                })
+                                let sumOutFlow = 0
+                                outFlow.forEach((value) => sumOutFlow += value.amount)
+
+                                setTotalOutflow(sumOutFlow)
+                                setTotalInflow(sumInflow)
+                                setTotal(sumInflow - sumOutFlow)
+                                setListTransaction(res.data.data)
+                                setToggleDetail(false)
+                            })
                     })
-            })
+
+                } else {
+                    swal("Your record is safe!");
+                }
+            });
+
     }
 
-    return (<div>
-        <TransactionsLayout>
+    return (<div className="">
+        <TransactionsLayout className="">
             {dialogTransactionState && <DialogTransaction/>}
             {dialogEditState && <DialogEditTransaction/>}
-            {dialogCategoryState && <DialogTransactionCategory/>}
-            {dialogWalletState && <DialogSelectWallet/>}
 
             <div className="flex justify-center gap-2">
                 <div className=" bg-white master-container shadow-md flex-cols w-1/3 h-1/3 rounded rounded-lg pt-2">
@@ -126,7 +140,7 @@ const UserTransactionsPage = () => {
                         </div>
                     </div>
                     <div
-                        className=" w-full bg-white border sm:p-8 ">
+                        className=" w-full bg-white border-t sm:p-8 ">
                         <div className="flow-root w-full ">
                             <ul role="list" className="divide-y divide-gray-200 ">
 
@@ -184,7 +198,7 @@ const UserTransactionsPage = () => {
 
                 {/*detail transaction*/}
                 {toggleDetail && <div className=" master-container flex h-[280px] w-[60%] rounded-5">
-                    <div className="bg-white w-full ">
+                    <div className=" bg-white w-full ">
                         <div className="flex justify-between items-start p-5 border-0 rounded-t border-b-2">
                             <div className="inline flex ml-4">
                                 <button className="pt-1 text-[#757575] my-auto"
