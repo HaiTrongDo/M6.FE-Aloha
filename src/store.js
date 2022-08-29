@@ -18,6 +18,8 @@ import openDialogEditWallet from "./Features/DiaLogSlice/openDialogEditWalletSli
 import dialogEditTransactionSlice from './Features/DiaLogSlice/openEditTransactionSlice';
 import selectTransaction from './Features/Transaction/transactionSlice';
 import detailTransactionSlice from './Features/Transaction/detailTransactionSlice'
+import SearchInputSlice from './Features/SearchInput/SearchInputSlice'
+
 
 
 const store = configureStore({
@@ -26,6 +28,8 @@ const store = configureStore({
         Dialog: openDialogAccountSlide.reducer,
         DialogPass: openDialogChangePassSlide.reducer,
         currentUser: UserSlice,
+        SearchInput: SearchInputSlice,
+        dialogTransaction: dialogTransactionSlice.reducer,
         DialogWallet:openDialogMyWalletSlice.reducer,
         DialogIcons:openDialogIconsSlice.reducer,
         DialogTransactionCategory:openDialogCategorySlice.reducer,
