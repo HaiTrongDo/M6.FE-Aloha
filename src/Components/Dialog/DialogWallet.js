@@ -1,22 +1,38 @@
 import {useDispatch, useSelector} from "react-redux";
 import {closeDialogWallet, openDialogWallet} from "../../Features/DiaLogSlice/openDialogMyWalletSlice";
 import {useEffect, useState} from "react";
+import * as React from 'react';
 import axios from "axios";
 import '../../Pages/MyWallet/MyWallet.css';
 import DialogIcons from "../Dialog/DialogIcons";
 import DialogCurrency from "../Dialog/DialogCurrency";
 import {openDialogIcons} from "../../Features/DiaLogSlice/openDialogIconsSlice";
 import {openDialogCurrency} from "../../Features/DiaLogSlice/openDialogCurrencySlice";
-import {useNavigate} from "react-router-dom";
+import {Dialog, DialogActions, Zoom} from "@mui/material";
+import Transition from "../Transition"
+
 
 export default function DialogWallet({className}) {
-    const navigate = useNavigate()
     const [walletObj, setWalletObj] = useState({
-        nameWallet:'',
-        initial:''
+        nameWallet: '',
+        initial: ''
+    })
+
+    const [iconObj, setIconObj] = useState({
+        url: 'https://static.moneylover.me/img/icon/icon_not_selected.png'
+    })
+    const [currencyObj, setCurrencyObj] = useState({
+        url: 'https://static.moneylover.me/img/icon/icon_not_selected.png'
     })
     const dispatch = useDispatch();
 
+    const handleIcon = (iconObj) => {
+        setIconObj(iconObj)
+    }
+
+    const handleCurrency = (currencyObj) => {
+        setCurrencyObj(currencyObj)
+    }
 
     const handleCloseDialogWallet = () => {
         dispatch(closeDialogWallet(false))
@@ -46,7 +62,8 @@ export default function DialogWallet({className}) {
         dispatch(openDialogCurrency(true))
     }
 
-    const handleChangeInput= (e)=>{
+
+    const handleChangeInput = (e) => {
         setWalletObj({
             ...walletObj,
             [e.target.name]: e.target.value,
@@ -54,28 +71,39 @@ export default function DialogWallet({className}) {
     }
 
     const walletData = {
-        name:walletObj?.nameWallet,
-        initial:+walletObj?.initial,
-        icon:wallet?.iconObj?._id,
-        currency:wallet?.currency?._id,
-        user:currentUser?._id
+        name: walletObj?.nameWallet,
+        initial: +walletObj?.initial,
+        icon: iconObj?._id,
+        currency: currencyObj?._id,
+        user: currentUser?._id
     }
 
-    const handleAddWallet =  (e)=>{
+
+    const handleAddWallet = (e) => {
         e.preventDefault()
-            axios.post('http://localhost:8080/wallet/add',walletData).then(response =>{
-                console.log(response)
-                handleCloseDialogWallet()
-            })
+        axios.post('http://localhost:8080/wallet/add', walletData).then(response => {
+            handleCloseDialogWallet()
+        })
 
     }
+
+    const walletState = useSelector((state) =>
+        state.DialogWallet.value
+    )
 
 
 
     return (
-            <div>
+        <div>
+            <Dialog
+                open={walletState}
+                TransitionComponent={Transition}
+                onClose={handleCloseDialogWallet}
+                aria-describedby="alert-dialog-slide-description"
+            >
                 <div
                     className="justify-center  items-center flex overflow-x-hidden overflow-y-auto fixed inset-0 z-50 outline-none focus:outline-none"
+                    tabIndex="-1" aria-labelledby="exampleModalScrollableLabel" aria-hidden="true"
                 >
                     <div className="relative w-auto my-6 mx-auto max-w-3xl">
                         {/*content*/}
@@ -94,10 +122,11 @@ export default function DialogWallet({className}) {
                                     <button
                                         onClick={handleOpenDialogIcons}
                                         className=" flex  justify-center border border-gray-300 p-2 h-[60px] rounded-[10px] hover:border-black">
-                                        <img className="w-10 h-10 rounded-full my-0.5" src={wallet?.iconObj?.url}
+                                        <img className="w-10 h-10 rounded-full my-0.5" src={iconObj?.url}
                                              alt="..."/>
                                         <svg xmlns="http://www.w3.org/2000/svg"
-                                             className="h-6 w-6 my-2 mx-2 text-[#757575] hover:text-black" fill="none"
+                                             className="h-6 w-6 my-2 mx-2 text-[#757575] hover:text-black"
+                                             fill="none"
                                              viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2}>
                                             <path strokeLinecap="round" strokeLinejoin="round" d="M19 9l-7 7-7-7"/>
                                         </svg>
@@ -118,9 +147,9 @@ export default function DialogWallet({className}) {
                                         id="button"
                                         className="col-span-2 flex relative  border border-gray-300 p-2 h-[60px]  rounded-[10px] hover:border-black">
                                         <img className="w-[24px] h-[24px] rounded-full my-3"
-                                             src={wallet?.currency?.url}
+                                             src={currencyObj?.url}
                                              alt="..."/>
-                                        <span className="my-3 mx-4">{wallet?.currency?.name}</span>
+                                        <span className="my-3 mx-4">{wallet?.currencyObj?.name}</span>
                                         <label htmlFor="button"
                                                className="absolute text-sm text-gray-500 dark:text-gray-400 duration-300 transform -translate-y-4 scale-75 top-4 z-10 origin-[0] left-2.5   peer-placeholder-shown:scale-100 peer-placeholder-shown:translate-y-0 peer-focus:scale-75 peer-focus:-translate-y-4">Currency</label>
                                         <svg xmlns="http://www.w3.org/2000/svg"
@@ -144,18 +173,18 @@ export default function DialogWallet({className}) {
                                     </div>
                                 </div>
                             </div>
-                            {iconsState && <DialogIcons/>}
-                            {currencyState && <DialogCurrency/>}
+                            {iconsState && <DialogIcons onHandleIcon={handleIcon}/>}
+                            {currencyState && <DialogCurrency onHandleCurrency={handleCurrency}/>}
                             {/*footer*/}
                             <div
                                 className="flex items-center justify-end p-6 border-t border-solid border-slate-200 rounded-b">
-                                <button
-                                    className="text-red-500 background-transparent font-bold uppercase px-6 py-2 text-sm outline-none focus:outline-none mr-1 mb-1 ease-linear transition-all duration-150"
-                                    type="button"
-                                    onClick={handleCloseDialogWallet}
-                                >
-                                    Close
-                                </button>
+                                    <button
+                                        className="text-red-500 background-transparent font-bold uppercase px-6 py-2 text-sm outline-none focus:outline-none mr-1 mb-1 ease-linear transition-all duration-150"
+                                        type="button"
+                                        onClick={handleCloseDialogWallet}
+                                    >
+                                        Close
+                                    </button>
                                 <button
                                     className="bg-emerald-500 text-white active:bg-emerald-600 font-bold uppercase text-sm px-6 py-3 rounded shadow hover:shadow-lg outline-none focus:outline-none mr-1 mb-1 ease-linear transition-all duration-150"
                                     type="button"
@@ -168,8 +197,14 @@ export default function DialogWallet({className}) {
                         </div>
                     </div>
                 </div>
-                <div className="opacity-50 fixed inset-0 z-40 bg-black"/>
-            </div>
+            </Dialog>
+        </div>
+
     )
 }
+
+
+
+
+
 

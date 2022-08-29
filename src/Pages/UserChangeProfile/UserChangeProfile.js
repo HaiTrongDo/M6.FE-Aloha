@@ -8,14 +8,16 @@ import axios from '../../axios/index'
 import {useSelector} from 'react-redux'
 import {updateUserInfo} from "../../Features/CurrentUser/UserSlice"
 import {useDispatch} from 'react-redux'
-
+import swal from 'sweetalert';
+import {useNavigate} from "react-router-dom";
 
 const UserChangeProfile = () => {
+    const navigate = useNavigate()
     const dispatch = useDispatch()
     const currentUser = useSelector((store) => store.currentUser.currentUser)
-    // console.log(currentUser);
+
     const [progress, setProgress] = useState(0);
-    const [imageUrls, setImageUrls] = useState();
+    const [imageUrls, setImageUrls] = useState(currentUser?.avatarUrl ? currentUser.avatarUrl : '');
     const [formData, setFormData] = useState({
         username: '',
         company: '',
@@ -27,19 +29,35 @@ const UserChangeProfile = () => {
 
     const setImageUploaded = (e) => {
         e.preventDefault()
+        console.log(formData);
         if (formData.imageUpload == null) {
             return axios
                 .put('/my-account/change-profile', {
                 ...formData, userId: currentUser._id
-            }).catch(err => console.log(err))
+            }).then((resultFromBEAloha) => {
+                    dispatch(updateUserInfo(resultFromBEAloha.data))
+                    swal("You have updated profile successfully", {
+                        buttons: false,
+                        timer: 3000,
+                    }).then(()=>{
+                        navigate("/transactions")
+                    })
+                })
+                .catch(err => console.log(err))
         } else {
             return axios
                 .put('/my-account/change-profile', {
                     ...formData, avatarUrl: imageUrls, userId: currentUser._id
                 }).then((resultFromBEAloha) => {
                     dispatch(updateUserInfo(resultFromBEAloha.data))
-                    alert("update profile success")
-                }).catch(err => console.log(err))
+                    swal("You have updated profile successfully", {
+                        buttons: false,
+                        timer: 3000,
+                    }).then(()=>{
+                        navigate("/transactions")
+                    })
+                })
+                .catch(err => console.log(err))
         }
     }
 
@@ -75,7 +93,27 @@ const UserChangeProfile = () => {
     return (
         <div>
             <MyAccountLayout>
+                <div className="flex justify-center">
+                    <div className=" avatar-card-container master-container h-px ">
+                        <div className="w-full max-w-sm bg-white rounded-lg border border-gray-200 shadow-md p-10">
+                            <div className="flex justify-end px-4 pt-4">
+                            </div>
+                            <div className="flex flex-col items-center">
+                                <img className="mb-3 w-24 h-24 rounded-full shadow-lg" src=
+                                    {imageUrls ? imageUrls : "https://thumbs.dreamstime.com/b/default-avatar-profile-icon-vector-social-media-user-image-182145777.jpg"}
+                                     alt="Avatar image" />
+                                <h5 className="mb-1 text-xl font-medium text-gray-900 ">
+                                    {currentUser.username}</h5>
+                                <span className="text-sm text-gray-500 dark:text-gray-400">
+                                    {currentUser?.email}
+                                </span>  <span className="text-sm text-gray-500 dark:text-gray-400">
+                                    {currentUser?.phone}
+                                </span>
+                            </div>
+                        </div>
+                    </div>
                 <div className=" master-container block p-6 rounded-lg shadow-lg  bg-white max-w-7xl ">
+
                     <form onSubmit={(e) => setImageUploaded(e)}>
                         <div className="grid gap-6 mb-6 md:grid-cols-2">
                             <div>
@@ -86,12 +124,12 @@ const UserChangeProfile = () => {
                                 <input type="text" id="name" name='username' value={formData.username}
                                        onChange={(e) => handleChange(e)}
                                        className="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 "
-                                       placeholder="John" required=""/>
+                                       placeholder="John" required="true"/>
+                                <span className="nameErrorMessage">It cannot be empty</span>
                             </div>
 
                             <div>
                                 <label htmlFor="company"
-
                                        className="block mb-2 text-sm font-medium text-gray-900 ">Company</label>
                                 <input type="text" id="company" name="company"
                                        value={formData.company}
@@ -102,20 +140,24 @@ const UserChangeProfile = () => {
                             <div>
                                 <label htmlFor="phone"
 
-                                       className="block mb-2 text-sm font-medium text-gray-900 ">Phone
-                                    number</label>
-                                <input type="tel" id="phone" name='phone'
+                                       className="block mb-2 text-sm font-medium text-gray-900 ">
+                                    Phone number
+                                </label>
+                                <input type="telNo" id="phone" name='phone'
                                        value={formData.phone}
                                        onChange={(e) => handleChange(e)}
-                                       className="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 "
-                                       placeholder="123-45-678" /*pattern="[0-9]{3}-[0-9]{2}-[0-9]{3}"*/ required=""/>
+                                       className=" userPhoneInput bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 "
+                                       placeholder="123-45-6789" pattern="\d{10,}" required=""
+                                />
+                                <span
+                                    className="userPhoneInputMessage font-medium">It has to be 10 digits number</span>
                             </div>
-
                             <div>
                                 <label htmlFor="DOB"
                                        className="block mb-2 text-sm font-medium text-gray-900 ">Date Of Birth</label>
                                 <input type="date" id="DOB" name='birthday'
                                        value={formData.birthday}
+                                       max={new Date().toISOString().split("T")[0]}
                                        onChange={(e) => handleChange(e)}
                                        className="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 "
                                        placeholder="" required=""/>
@@ -126,7 +168,6 @@ const UserChangeProfile = () => {
                                    className="block mb-2 text-sm font-medium text-gray-900 ">Email
                                 address</label>
                             <input type="email" id="email" name='email'
-                                   readOnly
                                    value={formData.email}
                                    onChange={(e) => handleChange(e)}
                                    className="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 "
@@ -152,6 +193,7 @@ const UserChangeProfile = () => {
                         </div>
                     </form>
 
+                </div>
                 </div>
             </MyAccountLayout>
 

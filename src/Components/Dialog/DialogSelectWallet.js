@@ -1,31 +1,28 @@
 import React, {useEffect, useState} from 'react';
-import Button from "@mui/material/Button";
-import {selectCategory} from "../../Features/DiaLogSlice/categorySlice";
-import {closeDialogCategory} from "../../Features/DiaLogSlice/openDialogCategorySlice";
+
 import {useDispatch, useSelector} from "react-redux";
 import {closeDialogSelectWallet} from "../../Features/DiaLogSlice/openDialogWallet";
 import axios from '../../axios/index'
-import {selectWallet} from '../../Features/DiaLogSlice/walletSlice'
+import {selectWallet} from '../../Features/Transaction/walletSlice'
+import {setWalletInSearchPage} from '../../Features/SearchInput/SearchInputSlice'
 
 const DialogSelectWallet = () => {
     const dispatch = useDispatch();
-    const selectWalletState=useSelector(state => state.value)
     const [listWallet, setListWallet] = useState([]);
-    const user=JSON.parse(localStorage.getItem('alohaUser'));
-    console.log(user)
+    const user = JSON.parse(localStorage.getItem('alohaUser'));
+
 
     useEffect(() => {
-        axios.post('wallet/render')
+        axios.post('wallet/render', {userId:user._id})
             .then(res => {
                 setListWallet(res.data.data)
             })
-    },[])
-
+    }, [])
 
     return (
-        <div className="bg-white border-gray-800">
+        <div className="bg-white">
             <div
-                className="justify-center  items-center flex overflow-x-hidden modal-dialog modal-dialog-scrollable fixed inset-0 z-100 outline-none focus:outline-none"
+                className="justify-center items-center flex overflow-x-hidden modal-dialog modal-dialog-scrollable fixed inset-0 z-[100] outline-none focus:outline-none"
                 tabIndex="-1" aria-labelledby="exampleModalScrollableLabel" aria-hidden="true"
             >
                 <div className="relative w-auto my-6 mx-auto max-w-3xl">
@@ -43,19 +40,26 @@ const DialogSelectWallet = () => {
                                 </svg>
                             </button>
                             <span className="pl-[15px] text-[20px] font-sans">
-                                Select Category
+                                Select Wallet
                             </span>
                         </div>
 
-                        <div className="modal-body relative w-[500px] h-[490px] border-t-2 flex-auto p-4">
-                            <ul className="m-auto p-4">
+                        <div className="modal-body relative w-[500px] h-[490px] border-t-2 flex-auto">
+                            <ul className="m-auto">
                                 {listWallet.map((value, index) => {
                                     return (
                                         <div key={index} className="relative pl-8 pr-8 border-b-2 hover:cursor-pointer">
-                                            <li className='m-auto grid grid-cols-2' onClick={()=>{
-                                                dispatch(selectWallet(value.name))
+                                            <li className='m-auto grid grid-cols-3 p-2' onClick={() => {
+                                                dispatch(selectWallet(value))
+                                                dispatch(setWalletInSearchPage(value))
+                                                dispatch(closeDialogSelectWallet())
                                             }}>
-                                                {value.name}
+                                                <img data-v-61e80534=""
+                                                     src={value.icon.url} alt=""
+                                                     name="2" className="category-icon w-[45px] ml-6 pl-2"/>
+                                                <div className="col-span-2 my-auto">
+                                                    {value.name}
+                                                </div>
                                             </li>
                                         </div>
                                     )
@@ -70,6 +74,7 @@ const DialogSelectWallet = () => {
                     </div>
                 </div>
             </div>
+            <div className="opacity-50 fixed inset-0 z-40 bg-black"/>
         </div>
     );
 };

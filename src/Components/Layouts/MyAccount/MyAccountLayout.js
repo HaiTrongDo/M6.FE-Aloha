@@ -29,9 +29,9 @@ function MyAccountLayout({children}) {
                     }}
                 >
                     <Toolbar/>
-                    <div className=" flex container justify-center ">
+                    <>
                         {children}
-                    </div>
+                    </>
                 </Box>
             </Box>
         </ThemeProvider>

@@ -1,11 +1,11 @@
 import { createSlice } from '@reduxjs/toolkit'
 
 const initialState = {
-    value: false
+    value: {}
 }
 
 export const selectWalletSlice = createSlice({
-    name: 'transaction',
+    name: 'selectWallet',
     initialState,
     reducers: {
         selectWallet: (state,action) => {
