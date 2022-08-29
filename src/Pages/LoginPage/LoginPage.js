@@ -26,6 +26,7 @@ const LoginPage = () => {
     })
     const [validateSignInMsg, setValidateSignInMsg] = useState({});
     const [validateSignUpMsg, setValidateSignUpMsg] = useState('');
+    const [listWallet, setListWallet] = useState([])
 
     const handleClickSignIn = () => {
         setActive('container')
@@ -49,10 +50,16 @@ const LoginPage = () => {
         if (isValid) {
             await axios
                 .post('auth/signin', userSignIn)
-                .then((resultFromBEAloha) => {
+                .then(async (resultFromBEAloha) => {
+                    await axios.post('wallet/render', {userId: resultFromBEAloha.data.currentUser._id})
+                        .then(res => {
+                            dispatch(UserLoginWithPassword({
+                                ...resultFromBEAloha.data.currentUser,
+                                wallet: res.data.data
+                            }))
+                        })
                     const [key, value] = resultFromBEAloha.data.token.split(' ')
                     localStorage.setItem(key, JSON.stringify(value));
-                    dispatch(UserLoginWithPassword(resultFromBEAloha.data.currentUser))
                     navigate('/transactions')
                 })
                 .catch(() => {

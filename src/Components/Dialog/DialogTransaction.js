@@ -15,7 +15,7 @@ const DialogTransaction = () => {
     const dispatch = useDispatch();
     const [amount, setAmount] = useState();
     const [note, setNote] = useState('');
-    const [date, setDate] = useState(new Date().toDateString());
+    const [date, setDate] = useState();
     const selectCategoryState=useSelector(state=>state.selectCategory)
     const selectWalletState=useSelector(state=>state.selectWallet);
     const dialogCategoryState = useSelector(state => state.DialogCategory.value)
@@ -36,7 +36,7 @@ const DialogTransaction = () => {
             wallet: selectWalletState.value,
             amount: amount*1,
             category: selectCategoryState.value,
-            date: Date(date),
+            date: new Date(date),
             note: note,
             user:user
         }
