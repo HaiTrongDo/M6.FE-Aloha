@@ -35,11 +35,11 @@ export default function DialogWallet(props) {
     }
 
     const dataUpdateWallet = {
-        name:newWallet.name,
-        initial:Number(newWallet.initial),
-        icon: iconObj._id,
-        currency: currencyObj._id,
-        _id:props.walletObj._id
+        name:newWallet?.name,
+        initial:Number(newWallet?.initial),
+        icon: iconObj?._id,
+        currency: currencyObj?._id,
+        _id:props.walletObj?._id
     }
 
     const handleUpdateWallet = () => {
@@ -54,10 +54,6 @@ export default function DialogWallet(props) {
 
     const iconsState = useSelector((state) =>
         state.DialogIcons.value
-    )
-
-    const wallet = useSelector((state) =>
-        state.wallet
     )
 
     const currencyState = useSelector((state) =>

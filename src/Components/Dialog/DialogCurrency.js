@@ -1,8 +1,11 @@
-import {useEffect, useState} from "react";
+import {forwardRef, useEffect, useState} from "react";
 import axios from "axios";
-import {useDispatch} from "react-redux";
+import {useDispatch, useSelector} from "react-redux";
 import {closeDialogCurrency} from "../../Features/DiaLogSlice/openDialogCurrencySlice";
 import {setCurrencyObj} from "../../Features/SelectWallet/selectWallet";
+import {Dialog, Zoom} from "@mui/material";
+import Transition from "../Transition"
+
 
 export default function DialogIcons(props) {
     const [currencies, setCurrencies] = useState([]);
@@ -22,9 +25,6 @@ export default function DialogIcons(props) {
         dispatch(closeDialogCurrency(false))
     }
 
-    const handleSearchedCurrencies = () => {
-
-    }
 
     useEffect(() => {
         setFilteredName(
@@ -34,18 +34,22 @@ export default function DialogIcons(props) {
         );
     }, [inputSearch, currencies]);
 
-
-    const escapeRegex = (text)=> {
-        return text.replace(/[-[\]{}()*+?.,\\^$|#\s]/g, "\\$&");
-    }
-
+    const currencyState = useSelector((state) =>
+        state.DialogCurrency.value
+    )
 
     return (
+        <Dialog
+            open={currencyState}
+            TransitionComponent={Transition}
+            onClose={handleCloseDialogCurrencies}
+            aria-describedby="alert-dialog-slide-description"
+        >
 
         <div>
             <div
                 className="justify-center  items-center flex overflow-x-hidden overflow-y-auto modal-dialog modal-dialog-scrollable fixed inset-0 z-50 outline-none focus:outline-none"
-                tabIndex="-1" aria-labelledby="exampleModalScrollableLabel" aria-hidden="true"
+
             >
                 <div className="relative w-auto my-6 mx-auto max-w-3xl">
                     {/*content*/}
@@ -116,8 +120,11 @@ export default function DialogIcons(props) {
                     </div>
                 </div>
             </div>
-            <div className="opacity-50 fixed inset-0 z-40 bg-black"/>
         </div>
+        </Dialog>
 
     )
 }
+
+
+
