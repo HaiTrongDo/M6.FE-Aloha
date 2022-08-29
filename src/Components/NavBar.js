@@ -97,7 +97,7 @@ function NavBar({children}) {
         setAnchorEl(null);
     };
     const handleSelectCurrentWallet=()=>{
-        console.log(currentWalletState,'current wallet')
+
     }
 
 
