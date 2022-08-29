@@ -11,15 +11,19 @@ import DialogSelectWallet from "./DialogSelectWallet";
 
 
 const DialogTransaction = () => {
-    let user=JSON.parse(localStorage.getItem('alohaUser'))
+    let user = JSON.parse(localStorage.getItem('alohaUser'))
     const dispatch = useDispatch();
     const [amount, setAmount] = useState();
     const [note, setNote] = useState('');
     const [date, setDate] = useState();
-    const selectCategoryState=useSelector(state=>state.selectCategory)
-    const selectWalletState=useSelector(state=>state.selectWallet);
+    const selectCategoryState = useSelector(state => state.selectCategory)
+    const selectWalletState = useSelector(state => state.selectWallet);
     const dialogCategoryState = useSelector(state => state.DialogCategory.value)
     const dialogWalletState = useSelector(state => state.dialogWallet.value);
+
+    const handleWallet = (walletObj) => {
+        console.log(walletObj)
+    }
 
 
     const handleChangeAmount = (e) => {
@@ -34,11 +38,11 @@ const DialogTransaction = () => {
     const handleSaveTransaction = () => {
         const transaction = {
             wallet: selectWalletState.value._id,
-            amount: amount*1,
+            amount: amount * 1,
             category: selectCategoryState.value._id,
             date: new Date(date),
             note: note,
-            user:user
+            user: user
         }
         axios.post('transaction/add', transaction)
             .then((res) => {
@@ -50,7 +54,7 @@ const DialogTransaction = () => {
                 console.log(err.message)
             })
     }
-    const handleCloseDialogTransaction=()=>{
+    const handleCloseDialogTransaction = () => {
         dispatch(selectCategory({}))
         dispatch(selectWallet({}))
         dispatch(closeDialogTransaction())
@@ -159,7 +163,7 @@ const DialogTransaction = () => {
                         </div>
 
                         {dialogCategoryState && <DialogTransactionCategory/>}
-                        {dialogWalletState && <DialogSelectWallet/>}
+                        {dialogWalletState && <DialogSelectWallet onHandleWallet={handleWallet}/>}
 
                         {/*footer*/}
                         <div

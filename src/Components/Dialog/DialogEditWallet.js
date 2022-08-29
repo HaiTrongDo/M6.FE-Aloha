@@ -44,6 +44,7 @@ export default function DialogWallet(props) {
         _id: props.walletObj?._id
     }
 
+
     const handleUpdateWallet = () => {
         axios.post('http://localhost:8080/wallet/update', {dataUpdateWallet}).then(r => {
             handleCloseDialogEditWallet()

@@ -1,12 +1,20 @@
 // import {useEffect} from 'react';
 // import {useNavigate} from 'react-router-dom';
 import './UserHomePage.css'
+import {motion} from "framer-motion"
+import Variants from "../../Components/Variants";
+
 
 
 const UserHomePage = () => {
 
     return (
-        <div id="__docusaurus">
+        <motion.div id="__docusaurus"
+                    initial="exit"
+                    animate="enter"
+                    exit="exit"
+                    variants={Variants.variant1}
+        >
             <div id="docusaurus-base-url-issue-banner-container"/>
             <header
                 className="fixed top-0 inset-x-0 z-50 h-20 bg-transparent border-none header_GVHt headerHidden_kyDz">
@@ -308,7 +316,7 @@ const UserHomePage = () => {
                     </ul>
                 </section>
             </footer>
-        </div>
+        </motion.div>
     );
 };
 

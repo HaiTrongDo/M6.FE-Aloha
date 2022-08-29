@@ -50,7 +50,20 @@ export default function DialogBalance(props) {
                 wallet:walletObj._id,
                 category:'6304a3470f0a39e5923a672a',
                 amount:Number(data.initial)-Number(walletObj.initial),
-                date:new Date.toDateString(),
+                date:new Date().toLocaleString().split(',')[0],
+                user: userId
+            }
+            e.preventDefault()
+            axios.post('http://localhost:8080/transaction/add', dataTransaction).then(r => {
+                console.log(r)
+            })
+        }else {
+
+            const dataTransaction = {
+                wallet:walletObj._id,
+                category:'6304a22b0f0a39e5923a6727',
+                amount:Number(walletObj.initial)-Number(data.initial),
+                date:new Date().toLocaleString().split(',')[0],
                 user: userId
             }
             e.preventDefault()
