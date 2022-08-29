@@ -103,7 +103,6 @@ const DialogTransaction = () => {
                                     >Select Wallet
                                     </label>
                                 </button>
-
                             </div>
 
                             <div className="relative w-full pl-2 pr-2">
