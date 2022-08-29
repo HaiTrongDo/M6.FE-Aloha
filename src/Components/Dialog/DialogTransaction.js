@@ -56,7 +56,6 @@ const DialogTransaction = () => {
         dispatch(closeDialogTransaction())
     }
 
-
     return (
         <div className="">
             <div
