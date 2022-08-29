@@ -9,7 +9,7 @@ export const currentWalletSlice = createSlice({
     initialState,
     reducers: {
         selectCurrentWallet: (state, action) => {
-            state.value += action.payload
+            state.value = action.payload
         },
     },
 })

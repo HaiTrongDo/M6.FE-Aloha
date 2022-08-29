@@ -10,8 +10,10 @@ import {selectDetailTransaction} from '../../Features/Transaction/detailTransact
 import swal from 'sweetalert';
 
 
+
 const UserTransactionsPage = () => {
     const dispatch = useDispatch()
+    const currentWalletState=useSelector(state=>state.currentWallet.value)
     const dialogTransactionState = useSelector(state => state.dialogTransaction.value);
     const [toggleDetail, setToggleDetail] = useState(false)
     const [active] = useState("py-3 sm:py-4 hover:bg-emerald-50 hover:cursor-pointer")
@@ -22,13 +24,11 @@ const UserTransactionsPage = () => {
     const [totalInflow, setTotalInflow] = useState()
     const [totalOutflow, setTotalOutflow] = useState()
     const [total, setTotal] = useState()
-    console.log(user)
 
 
     useEffect(() => {
-        axios.post('transaction/list', {user: user._id})
-            .then(res => {
-
+        axios.post('transaction/list/wallet',{user:user._id,wallet:currentWalletState._id})
+            .then(res=>{
                 let inflow = res.data.data.filter(value => {
                     return value.category.type === 'INCOME'
                 })
@@ -47,7 +47,7 @@ const UserTransactionsPage = () => {
                 setTotal(sumInflow - sumOutFlow)
                 setListTransaction(res.data.data)
             })
-    }, [dialogTransactionState, dialogEditState])
+    }, [dialogTransactionState, dialogEditState, currentWalletState])
 
 
     const handleCLoseDetail = () => {
