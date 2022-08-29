@@ -57,7 +57,7 @@ const LoginPage = () => {
                         })
                     const [key, value] = resultFromBEAloha.data.token.split(' ')
                     localStorage.setItem(key, JSON.stringify(value));
-                    dispatch(UserLoginWithPassword({...resultFromBEAloha.data.currentUser,wallet:listWallet}))
+                    dispatch(UserLoginWithPassword({...resultFromBEAloha.data.currentUser,asdasd:listWallet}))
                     navigate('/transactions')
                 })
                 .catch(() => {
