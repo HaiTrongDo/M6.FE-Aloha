@@ -8,6 +8,7 @@ import {setWalletInSearchPage} from '../../Features/SearchInput/SearchInputSlice
 
 const DialogSelectWallet = (props) => {
     const dispatch = useDispatch();
+
     const [listWallet, setListWallet] = useState([]);
     const user = JSON.parse(localStorage.getItem('alohaUser'));
 
@@ -18,6 +19,7 @@ const DialogSelectWallet = (props) => {
             .then(res => {
                 setListWallet(res.data.data)
             })
+        console.log(props)
     }, [])
 
     return (

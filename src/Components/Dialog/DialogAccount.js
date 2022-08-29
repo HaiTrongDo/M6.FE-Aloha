@@ -66,6 +66,7 @@ export default function DialogAccount() {
             buttons: false,
             timer: 3000,
         }).then(()=>{
+
             navigate('/login')
         })
     };
