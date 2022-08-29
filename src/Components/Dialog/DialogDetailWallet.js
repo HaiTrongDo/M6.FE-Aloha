@@ -8,6 +8,8 @@ import {openDialogEditWallet} from "../../Features/DiaLogSlice/openDialogEditWal
 import DialogEditWallet from "../Dialog/DialogEditWallet"
 import {Slide} from "@mui/material";
 import swal from "sweetalert";
+import DialogBalance from "./DialogBalance";
+import {openDialogBalance} from "../../Features/DiaLogSlice/openDialogBalanceSlice";
 
 export default function DialogDetailWallet({walletId}) {
     const dispatch = useDispatch();
@@ -45,8 +47,8 @@ export default function DialogDetailWallet({walletId}) {
                 if (willDelete) {
                     swal("Poof! Your imaginary file has been deleted!", {
                         icon: "success",
-                    }).then(()=>{
-                        axios.post('http://localhost:8080/wallet/delete',{walletId}).then(r => {
+                    }).then(() => {
+                        axios.post('http://localhost:8080/wallet/delete', {walletId}).then(r => {
                             handleCloseDialogDetailWallet()
                         })
                     });
@@ -63,6 +65,14 @@ export default function DialogDetailWallet({walletId}) {
         state.DialogDetail.value
     )
 
+    const balanceState = useSelector((state) =>
+        state.DialogBalance.value
+    )
+
+    const handleOpenDialogBalance = () => {
+        dispatch(openDialogBalance(true))
+    }
+
     return (
         <Slide direction="left" in={detailState} container={containerRef.current}>
             <div className={" w-1/2 "}>
@@ -71,7 +81,8 @@ export default function DialogDetailWallet({walletId}) {
                         className={"text-left  flex justify-between py-4 px-6 py-2 border-b border-gray-200 w-full h-[63px]"}>
                         <div className={"flex"}>
                             <button onClick={handleCloseDialogDetailWallet}>
-                                <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" strokeWidth={1.5}
+                                <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24"
+                                     strokeWidth={1.5}
                                      stroke="currentColor" className=" w-5 h-5 text-[#ccc] hover:text-black">
                                     <path strokeLinecap="round" strokeLinejoin="round" d="M4.5 19.5l15-15m-15 0l15 15"/>
                                 </svg>
@@ -83,7 +94,8 @@ export default function DialogDetailWallet({walletId}) {
                                     className={"text-[#2EB74B] w-[80px] h-[36px] mx-[20px] hover:bg-[#E9F6EB]"}>EDIT
                             </button>
                             <button onClick={handleDeleteWallet}
-                                    className={"text-[#F15A59] w-[80px] h-[36px] hover:bg-[#FEECEB]"}>DELETE</button>
+                                    className={"text-[#F15A59] w-[80px] h-[36px] hover:bg-[#FEECEB]"}>DELETE
+                            </button>
                         </div>
                     </div>
                     <div className={"w-full h-[102px] border-b-[1px]"}>
@@ -144,8 +156,8 @@ export default function DialogDetailWallet({walletId}) {
 
                         </div>
                     </div>
-                    <div className={"h-[50px] text-center border-t hover:bg-[#E9F6EB]  cursor-pointer"}>
-                        <button className={"py-4 text-[#2EB74B]"}>
+                    <div onClick={handleOpenDialogBalance} className={"h-[50px] text-center border-t hover:bg-[#E9F6EB]  cursor-pointer"}>
+                        <button className={"py-4 text-[#2EB74B]"} >
                             ADJUST BALANCE
                         </button>
 
@@ -153,9 +165,9 @@ export default function DialogDetailWallet({walletId}) {
 
                 </div>
                 {editState && <DialogEditWallet walletObj={walletObj}/>}
+                {balanceState && <DialogBalance walletObj={walletObj}/>}
             </div>
         </Slide>
-
 
 
     )
