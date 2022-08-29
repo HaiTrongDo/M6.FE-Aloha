@@ -76,6 +76,8 @@ const StyledMenu = styled((props) => (
 function Category() {
     const navigate = useNavigate()
     const dispatch = useDispatch()
+    let tokenUser = JSON.parse(localStorage.getItem('alohaUser')) //lay token o trong localra
+    console.log(tokenUser)
     //the hien ra khi bam button
     const [checked, setChecked] = React.useState(false);
     const [category, setCategory] = useState({})
@@ -211,15 +213,38 @@ function Category() {
                             open={opens}
                             onClose={handleCloseNav}
                         >
-                            <MenuItem onClick={handleCloseNav} disableRipple>
-                                <LanguageIcon/>
-                                Total
-                            </MenuItem>
-
+                            <Typography sx={{
+                                fontWeight: 'light',
+                                fontSize: 13,
+                                color: 'black',
+                                textAlign: 'left',
+                                m:1
+                            }} >
+                                Included in Total
+                            </Typography>
                             <Divider sx={{my: 0.5}}/>
-                            <MenuItem onClick={handleCloseNav} disableRipple>
-                                <AccountBalanceWalletIcon/>
-                                Thangbui
+                            <MenuItem disableRipple>
+                                <img src="https://static.moneylover.me/img/icon/icon.png"
+                                     className='rounded-full w-[35px] h-[35px] object-cover'
+                                />
+                                <Box sx={{ml:2}}>
+                                    <Typography sx={{
+                                        fontWeight: 'bold',
+                                        fontSize: 14,
+                                        color: 'black',
+                                        textAlign: 'left'
+                                    }} >
+                                        Trung nguyen
+                                    </Typography>
+                                    <Typography sx={{
+                                        fontWeight: 'light',
+                                        fontSize: 12,
+                                        color: 'black',
+                                        textAlign: 'left'
+                                    }}>
+                                        +95.000
+                                    </Typography>
+                                </Box>
                             </MenuItem>
 
                         </StyledMenu>
