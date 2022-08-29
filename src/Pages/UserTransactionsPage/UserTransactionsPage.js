@@ -2,8 +2,6 @@ import React, {useEffect, useState} from 'react'
 import TransactionsLayout from "../../Components/Layouts/Transactions/TransactionsLayout";
 import {useDispatch, useSelector} from "react-redux";
 import DialogTransaction from "../../Components/Dialog/DialogTransaction";
-import DialogTransactionCategory from "../../Components/Dialog/DialogTransactionCategory";
-import DialogSelectWallet from "../../Components/Dialog/DialogSelectWallet";
 import Button from '@mui/material/Button';
 import axios from "../../axios";
 import DialogEditTransaction from "../../Components/Dialog/DialogEditTransaction";
@@ -19,7 +17,7 @@ const UserTransactionsPage = () => {
     const [active] = useState("py-3 sm:py-4 hover:bg-emerald-50 hover:cursor-pointer")
     const [listTransaction, setListTransaction] = useState([])
     const user = JSON.parse(localStorage.getItem('alohaUser'))
-    const detailTransactionState=useSelector(state=>state.selectDetailTransaction.value)
+    const detailTransactionState = useSelector(state => state.selectDetailTransaction.value)
     const dialogEditState = useSelector(state => state.dialogEditTransaction.value);
     const [totalInflow, setTotalInflow] = useState()
     const [totalOutflow, setTotalOutflow] = useState()
@@ -29,11 +27,13 @@ const UserTransactionsPage = () => {
     useEffect(() => {
         axios.post('transaction/list', {user: user._id})
             .then(res => {
+
                 let inflow = res.data.data.filter(value => {
                     return value.category.type === 'INCOME'
                 })
                 let sumInflow = 0
                 inflow.forEach(value => sumInflow += value.amount)
+
 
                 let outFlow = res.data.data.filter(value => {
                     return value.category.type === 'EXPENSE'
@@ -70,33 +70,32 @@ const UserTransactionsPage = () => {
         })
             .then((willDelete) => {
                 if (willDelete) {
-                    swal("Poof! Your imaginary file has been deleted!", {
+                    axios.post('transaction/delete', {id: detailTransactionState._id})
+                        .then(() => {
+                            axios.post('transaction/list', {user: user._id})
+                                .then(res => {
+                                    let inflow = res.data.data.filter(value => {
+                                        return value.category.type === 'INCOME'
+                                    })
+                                    let sumInflow = 0
+                                    inflow.forEach(value => sumInflow += value.amount)
+
+                                    let outFlow = res.data.data.filter(value => {
+                                        return value.category.type === 'EXPENSE'
+                                    })
+                                    let sumOutFlow = 0
+                                    outFlow.forEach((value) => sumOutFlow += value.amount)
+
+                                    setTotalOutflow(sumOutFlow)
+                                    setTotalInflow(sumInflow)
+                                    setTotal(sumInflow - sumOutFlow)
+                                    setListTransaction(res.data.data)
+                                    setToggleDetail(false)
+                                })
+                        })
+                    swal("Poof! Your record has been deleted!", {
                         icon: "success",
                     });
-                axios.post('transaction/delete', {id: detailTransactionState._id})
-                    .then(() => {
-                        axios.post('transaction/list', {user: user._id})
-                            .then(res => {
-                                let inflow = res.data.data.filter(value => {
-                                    return value.category.type === 'INCOME'
-                                })
-                                let sumInflow = 0
-                                inflow.forEach(value => sumInflow += value.amount)
-
-                                let outFlow = res.data.data.filter(value => {
-                                    return value.category.type === 'EXPENSE'
-                                })
-                                let sumOutFlow = 0
-                                outFlow.forEach((value) => sumOutFlow += value.amount)
-
-                                setTotalOutflow(sumOutFlow)
-                                setTotalInflow(sumInflow)
-                                setTotal(sumInflow - sumOutFlow)
-                                setListTransaction(res.data.data)
-                                setToggleDetail(false)
-                            })
-                    })
-
                 } else {
                     swal("Your record is safe!");
                 }
@@ -110,7 +109,7 @@ const UserTransactionsPage = () => {
             {dialogEditState && <DialogEditTransaction/>}
 
             <div className="flex justify-center gap-2">
-                <div className=" bg-white master-container shadow-md flex-cols w-1/3 h-1/3 rounded rounded-lg pt-2">
+                <div className=" bg-white master-container shadow-md flex-cols w-[40%] h-1/3 rounded rounded-lg pt-2">
                     <div className='pb-5'>
                         <div
                             className="containHeader bg-white flex flex-grow w-full justify-center gap-10 m-auto p-2">
@@ -166,6 +165,7 @@ const UserTransactionsPage = () => {
                                             </div>
                                         </div>
                                     </li>
+
                                     <li className={!toggleDetail ? active : (detailTransactionState._id === transaction._id ? active + " " + "bg-emerald-50" : active)}
                                         onClick={() => {
                                             dispatch(selectDetailTransaction(transaction));
@@ -174,12 +174,12 @@ const UserTransactionsPage = () => {
                                         <div className="flex items-center space-x-4">
                                             <div className="flex-shrink-0">
                                                 <div className="text-2xl"
-                                                >25
+                                                >{new Date(transaction.date).getDate()}
                                                 </div>
                                             </div>
                                             <div className="flex-1 min-w-0">
                                                 <p className="text-sm text-gray-500 truncate ">
-                                                    {transaction.date}
+                                                    {new Date(transaction.date).toDateString()}
                                                 </p>
                                             </div>
                                             <div
@@ -197,7 +197,7 @@ const UserTransactionsPage = () => {
 
 
                 {/*detail transaction*/}
-                {toggleDetail && <div className=" master-container flex h-[280px] w-[60%] rounded-5">
+                {toggleDetail && <div className=" master-container flex h-[280px] w-[50%] rounded-5">
                     <div className=" bg-white w-full ">
                         <div className="flex justify-between items-start p-5 border-0 rounded-t border-b-2">
                             <div className="inline flex ml-4">
@@ -236,7 +236,8 @@ const UserTransactionsPage = () => {
                                 <div className="col-span-5">
                                     <div className="text-3xl">{detailTransactionState.category.name}</div>
                                     <div className="mt-1 ">Ăn uống</div>
-                                    <div className="mt-1 text-gray-500">{detailTransactionState.date}</div>
+                                    <div
+                                        className="mt-1 text-gray-500">{new Date(detailTransactionState.date).toDateString()}</div>
                                     <hr className="mt-2 w-[200px]"/>
                                 </div>
                             </div>
@@ -246,7 +247,7 @@ const UserTransactionsPage = () => {
                                 <div
                                     className={detailTransactionState.category.type === 'EXPENSE' ? 'text-3xl text-red-600 mt-4 col-span-5' : 'text-3xl text-blue-600 mt-4 col-span-5'}
                                 >
-                                    {detailTransactionState.category.type === 'EXPENSE' ? '-' + detailTransactionState.amount : '+' + detailTransactionState.amount}
+                                    {detailTransactionState.category.type === 'EXPENSE' ? '-$' + detailTransactionState.amount : '+$' + detailTransactionState.amount}
                                 </div>
                             </div>
                         </div>

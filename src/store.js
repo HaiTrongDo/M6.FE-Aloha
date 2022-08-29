@@ -18,7 +18,8 @@ import openDialogEditWallet from "./Features/DiaLogSlice/openDialogEditWalletSli
 import dialogEditTransactionSlice from './Features/DiaLogSlice/openEditTransactionSlice';
 import selectTransaction from './Features/Transaction/transactionSlice';
 import detailTransactionSlice from './Features/Transaction/detailTransactionSlice'
-import SearchInputSlice from './Features/SearchInput/SearchInputSlice'
+import SearchInputSlice from './Features/SearchInput/SearchInputSlice';
+import currentWalletSlice from "./Features/Transaction/currentWalletSlice";
 
 
 import openDialogNewCategorySlice from "./Features/DiaLogSlice/openDialogNewCategorySlice";
@@ -57,7 +58,8 @@ const store = configureStore({
         walletId: WalletIdSlice,
         dialogEditTransaction:dialogEditTransactionSlice.reducer,
         selectTransaction:selectTransaction.reducer,
-        selectDetailTransaction:detailTransactionSlice
+        selectDetailTransaction:detailTransactionSlice,
+        currentWallet:currentWalletSlice
     }
 })
 
