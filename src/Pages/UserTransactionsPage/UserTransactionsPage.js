@@ -14,7 +14,7 @@ const UserTransactionsPage = () => {
             <TransactionsLayout >
                 {transactionState && <DialogTransaction />}
                 {dialogCategoryState && <DialogTransactionCategory />}
-                {dialogWalletState && <DialogSelectWallet/>}
+                {/*{dialogWalletState && <DialogSelectWallet/>}*/}
 
                 <div className="flex justify-center gap-2">
                     <div className="master-container flex-cols w-1/3 h-1/3 rounded">

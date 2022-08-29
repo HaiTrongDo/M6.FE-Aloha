@@ -12,7 +12,12 @@ import openDialogCurrencySlice from "./Features/DiaLogSlice/openDialogCurrencySl
 import selectCategorySlice from "./Features/DiaLogSlice/categorySlice";
 import walletTransactionSlice from "./Features/DiaLogSlice/openDialogWallet";
 import selectWalletSlice from "./Features/DiaLogSlice/walletSlice";
-
+import openDialogNewCategorySlice from "./Features/DiaLogSlice/openDialogNewCategorySlice";
+import openDialogIconCategorySlice from "./Features/DiaLogSlice/openDialogIconCategorySlice";
+import selectIconSlice from "./Features/DiaLogSlice/selectIconSlice";
+import dataCategorySlice from "./Features/DiaLogSlice/dataCategorySlice";
+import openDialogUpdateCategorySlide from "./Features/DiaLogSlice/openDialogUpdateCategorySlice";
+import updateDataCategorySlice from "./Features/DiaLogSlice/updataDataCategorySlice";
 
 const store = configureStore({
     reducer:{
@@ -30,6 +35,12 @@ const store = configureStore({
         DialogCurrency:openDialogCurrencySlice.reducer,
         DialogCategory:openDialogCategorySlice.reducer,
         wallet: WalletSlice,
+        DialogNewCategory: openDialogNewCategorySlice.reducer,
+        DialogIconCategory: openDialogIconCategorySlice.reducer,
+        SelectIcon: selectIconSlice.reducer,
+        DateCategory: dataCategorySlice.reducer,
+        UpdateCategory: openDialogUpdateCategorySlide.reducer,
+        UpdateDataCategory: updateDataCategorySlice.reducer,
 
     }
 })
