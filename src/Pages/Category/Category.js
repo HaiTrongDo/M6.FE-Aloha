@@ -239,7 +239,7 @@ function Category() {
                     <div className='w-1/2 flex justify-center'>
                         {/*<Grid xs={6} md={4}>*/}
                         <Box
-                            sx={{width: 450, backgroundColor: '#e0e0e0'}}
+                            sx={{width: 500, backgroundColor: '#e0e0e0'}}
                         >
                             <Typography sx={{mt: 2}}>
                                 <Typography sx={{bgcolor: '#eeeeee'}}>
@@ -313,7 +313,7 @@ function Category() {
                                     <Box>
                                         <Box sx={{width: '50%'}}>
                                             <Collapse orientation="horizontal" in={checked}>
-                                                <Card sx={{minWidth: 500, bgcolor: '#eeeeee'}}>
+                                                <Card position="fixed" sx={{minWidth: 500, bgcolor: '#eeeeee'}}>
                                                     <CardHeader sx={{height: '50px'}}
                                                                 avatar={
                                                                     <Button onClick={handleClose}>
