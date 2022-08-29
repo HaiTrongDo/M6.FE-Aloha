@@ -2,21 +2,26 @@ import React, {useEffect, useState} from 'react';
 import {useDispatch, useSelector} from "react-redux";
 import axios from '../../axios/index';
 import {openDialogCategory, closeDialogCategory} from "../../Features/DiaLogSlice/openDialogCategorySlice";
-import {selectCategory} from "../../Features/DiaLogSlice/categorySlice";
+import {selectCategory} from "../../Features/Transaction/categorySlice";
 import {openDialogSelectWallet} from "../../Features/DiaLogSlice/openDialogWallet";
-import {selectWallet} from "../../Features/DiaLogSlice/walletSlice";
+import {selectWallet} from "../../Features/Transaction/walletSlice";
 import {closeDialogEditTransaction} from "../../Features/DiaLogSlice/openEditTransactionSlice";
+import {selectDetailTransaction} from "../../Features/Transaction/detailTransactionSlice";
+import DialogTransactionCategory from "./DialogTransactionCategory";
+import DialogSelectWallet from "./DialogSelectWallet";
 
 
 const DialogEditTransaction = () => {
     let user = JSON.parse(localStorage.getItem('alohaUser'))
     const dispatch = useDispatch();
+    const detailTransactionState = useSelector(state => state.selectDetailTransaction.value)
     const selectCategoryState = useSelector(state => state.selectCategory.value)
     const selectWalletState = useSelector(state => state.selectWallet.value);
-    const selectTransactionState = useSelector(state => state.selectTransaction.value)
-    const [amount, setAmount] = useState(selectTransactionState.amount);
-    const [note, setNote] = useState(selectTransactionState.note);
-    const [date, setDate] = useState(selectTransactionState.date);
+    const [amount, setAmount] = useState(detailTransactionState.amount);
+    const [note, setNote] = useState(detailTransactionState.note);
+    const [date, setDate] = useState(detailTransactionState.date);
+    const dialogCategoryState = useSelector(state => state.DialogCategory.value)
+    const dialogWalletState = useSelector(state => state.dialogWallet.value);
 
 
     const handleChangeAmount = (e) => {
@@ -30,19 +35,19 @@ const DialogEditTransaction = () => {
     }
     const handleSaveEditTransaction = () => {
         const transaction = {
-            id: selectTransactionState._id,
-            wallet: selectTransactionState.wallet,
+            id: detailTransactionState._id,
+            wallet: selectWalletState.name ? selectWalletState : detailTransactionState.wallet,
             amount: amount * 1,
-            category: selectTransactionState.category,
-            date: date,
+            category: selectCategoryState.name ? selectCategoryState : detailTransactionState.category,
+            date: Date(date),
             note: note,
             user: user
         }
+        console.log(transaction, 'transaction req')
         axios.post('transaction/edit', transaction)
             .then((res) => {
-                dispatch(selectCategory({}))
-                dispatch(selectWallet({}))
-                dispatch(closeDialogEditTransaction())
+                dispatch(selectDetailTransaction(res.data.data))
+                handleCloseDialogEditTransaction()
             })
             .catch((err) => {
                 console.log(err.message)
@@ -89,13 +94,13 @@ const DialogEditTransaction = () => {
                                     <div className="">
 
                                         <img data-v-6bc9d4d3=""
-                                             src={selectWalletState.icon ? selectWalletState.icon.url : 'https://static.moneylover.me/img/icon/icon.png'}
+                                             src={selectWalletState.icon ? selectWalletState.icon.url : detailTransactionState.wallet.icon.url}
                                              alt=""
                                              name="2" className="transaction-icon w-[24px] my-3 mx-4"/>
                                     </div>
                                     <span
                                         className="my-3 mx-4 absolute pl-12"
-                                    >{selectWalletState.name ? selectWalletState.name : 'Select Wallet'}
+                                    >{selectWalletState.name ? selectWalletState.name : detailTransactionState.wallet.name}
                                     </span>
                                     <label htmlFor="button"
                                            className="absolute text-sm text-gray-500 dark:text-gray-400 duration-300 transform -translate-y-4 scale-75 top-4 z-10 origin-[0] left-2.5   peer-placeholder-shown:scale-100 peer-placeholder-shown:translate-y-0 peer-focus:scale-75 peer-focus:-translate-y-4"
@@ -111,14 +116,14 @@ const DialogEditTransaction = () => {
                                     <img data-v-6bc9d4d3=""
                                          src={selectCategoryState.icon
                                              ? selectCategoryState.icon
-                                             : selectTransactionState.category.icon}
+                                             : detailTransactionState.category.icon}
                                          alt=""
                                          name="2" className="transaction-icon w-[24px] my-3 mx-4"/>
                                     <span
                                         className="my-3 text-s pl-14 absolute"
                                     >{selectCategoryState.name
                                         ? selectCategoryState.name
-                                        : selectTransactionState.category.name}
+                                        : detailTransactionState.category.name}
                                     </span>
                                     <label htmlFor="button"
                                            className="absolute pl-3 text-sm text-gray-500 dark:text-gray-400 duration-300 transform -translate-y-4 scale-75 top-4 z-10 origin-[0] left-2.5   peer-placeholder-shown:scale-100 peer-placeholder-shown:translate-y-0 peer-focus:scale-75 peer-focus:-translate-y-4"
@@ -159,6 +164,9 @@ const DialogEditTransaction = () => {
                                 </label>
                             </div>
                         </div>
+
+                        {dialogCategoryState && <DialogTransactionCategory/>}
+                        {dialogWalletState && <DialogSelectWallet/>}
 
                         {/*footer*/}
                         <div
