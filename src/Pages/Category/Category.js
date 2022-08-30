@@ -20,7 +20,6 @@ import AccountBalanceWalletIcon from '@mui/icons-material/AccountBalanceWallet';
 import DialogNewCategory from "../../Components/Dialog/DialogCategory/DialogNewCategory";
 import {useDispatch, useSelector} from "react-redux";
 import {closeDialogNewCategory, openDialogNewCategory} from "../../Features/DiaLogSlice/openDialogNewCategorySlice";
-import DialogIconCategory from "../../Components/Dialog/DialogCategory/DialogIconCategory";
 import {setSelectIcon} from "../../Features/DiaLogSlice/selectIconSlice";
 import {setDataCategory} from "../../Features/DiaLogSlice/dataCategorySlice";
 import {openDialogUpdateCategory} from "../../Features/DiaLogSlice/openDialogUpdateCategorySlice";
