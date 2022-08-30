@@ -93,13 +93,13 @@ const DialogEditTransaction = () => {
                                     <div className="">
 
                                         <img data-v-6bc9d4d3=""
-                                             src={selectWalletState.icon ? selectWalletState.icon.url : detailTransactionState.wallet.icon.url}
+                                             src={selectWalletState?.icon ? selectWalletState?.icon?.url : detailTransactionState?.wallet?.icon?.url}
                                              alt=""
                                              name="2" className="transaction-icon w-[24px] my-3 mx-4"/>
                                     </div>
                                     <span
                                         className="my-3 mx-4 absolute pl-12"
-                                    >{selectWalletState.name ? selectWalletState.name : detailTransactionState.wallet.name}
+                                    >{selectWalletState?.name ? selectWalletState?.name : detailTransactionState?.wallet?.name}
                                     </span>
                                     <label htmlFor="button"
                                            className="absolute text-sm text-gray-500 dark:text-gray-400 duration-300 transform -translate-y-4 scale-75 top-4 z-10 origin-[0] left-2.5   peer-placeholder-shown:scale-100 peer-placeholder-shown:translate-y-0 peer-focus:scale-75 peer-focus:-translate-y-4"
@@ -113,16 +113,16 @@ const DialogEditTransaction = () => {
                                 <button id="button" onClick={() => dispatch(openDialogCategory())}
                                         className=" w-full col-span-2 flex border border-gray-300 p-2 h-[60px]  rounded-[10px] hover:border-black">
                                     <img data-v-6bc9d4d3=""
-                                         src={selectCategoryState.icon
-                                             ? selectCategoryState.icon
-                                             : detailTransactionState.category.icon}
+                                         src={selectCategoryState?.icon
+                                             ? selectCategoryState?.icon
+                                             : detailTransactionState?.category?.icon}
                                          alt=""
                                          name="2" className="transaction-icon w-[24px] my-3 mx-4"/>
                                     <span
                                         className="my-3 text-s pl-14 absolute"
-                                    >{selectCategoryState.name
-                                        ? selectCategoryState.name
-                                        : detailTransactionState.category.name}
+                                    >{selectCategoryState?.name
+                                        ? selectCategoryState?.name
+                                        : detailTransactionState?.category?.name}
                                     </span>
                                     <label htmlFor="button"
                                            className="absolute pl-3 text-sm text-gray-500 dark:text-gray-400 duration-300 transform -translate-y-4 scale-75 top-4 z-10 origin-[0] left-2.5   peer-placeholder-shown:scale-100 peer-placeholder-shown:translate-y-0 peer-focus:scale-75 peer-focus:-translate-y-4"

@@ -27,7 +27,7 @@ const UserSearchTransactionPage = () => {
     const [totalInflow, setTotalInflow] = useState()
     const [totalOutflow, setTotalOutflow] = useState()
     const [total, setTotal] = useState()
-    const [listSearch,setListSearch]=useState([])
+
 
     useEffect(()=>{
         axios.post('transaction/search',{
@@ -38,17 +38,17 @@ const UserSearchTransactionPage = () => {
             note:searchInput.note
         })
             .then(res=>{
-                let inflow = res.data.data.filter(value => {
+                let inflow = res?.data?.data?.filter(value => {
                     return value.category.type === 'INCOME'
                 })
                 let sumInflow = 0
-                inflow.forEach(value => sumInflow += value.amount)
+                inflow?.forEach(value => sumInflow += value.amount)
 
-                let outFlow = res.data.data.filter(value => {
+                let outFlow = res?.data?.data?.filter(value => {
                     return value.category.type === 'EXPENSE'
                 })
                 let sumOutFlow = 0
-                outFlow.forEach((value) => sumOutFlow += value.amount)
+                outFlow?.forEach((value) => sumOutFlow += value.amount)
 
                 setTotalOutflow(sumOutFlow)
                 setTotalInflow(sumInflow)
@@ -58,6 +58,7 @@ const UserSearchTransactionPage = () => {
                 // setListSearch(res.data.data)
                 console.log(res.data.data,'search data')
             })
+
 
     },[searchInput])
 
