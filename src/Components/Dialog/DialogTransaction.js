@@ -27,7 +27,6 @@ const DialogTransaction = () => {
         console.log(walletObj)
     }
 
-
     const handleChangeAmount = (e) => {
         setAmount(e.target.value)
     }
