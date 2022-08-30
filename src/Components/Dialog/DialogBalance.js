@@ -47,7 +47,9 @@ export default function DialogBalance(props) {
                 wallet:walletObj._id,
                 category:'6304a3470f0a39e5923a672a',
                 amount:Number(data.initial)-Number(walletObj.initial),
-                date:new Date().toLocaleString().split(',')[0],
+                date:new Date().getFullYear()
+                    + ((0 < new Date().getMonth() < 10) ? `-0${new Date().getMonth()}` : `-${new Date().getMonth()}`)
+                    + "-" + new Date().getDate(),
                 user: userId
             }
             e.preventDefault()

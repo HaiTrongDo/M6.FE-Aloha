@@ -19,6 +19,7 @@ export default function DialogWallet({className}) {
         nameWallet: '',
         initial: ''
     })
+    const [isFull,setIsFull] = useState(false)
 
     const [iconObj, setIconObj] = useState({
         url: 'https://static.moneylover.me/img/icon/icon_not_selected.png'
@@ -80,11 +81,13 @@ export default function DialogWallet({className}) {
         user: currentUser?._id
     }
 
-    // useEffect(() => {
-    //     if (walletObj?.nameWallet && walletObj?.initial && iconObj?._id && currencyObj?._id){
-    //         document.getElementById('btn-create').disabled = 'none';
-    //     }
-    // },[walletData])
+    useEffect(() => {
+        if (walletObj?.nameWallet && walletObj?.initial && iconObj?._id && currencyObj?._id){
+           setIsFull(true)
+        }else if (walletObj?.nameWallet==="" || walletObj?.initial==="" || !iconObj?._id || !currencyObj?._id){
+            setIsFull(false)
+        }
+    },[walletData])
 
     const handleAddWallet = (e) => {
         swal({
@@ -201,15 +204,22 @@ export default function DialogWallet({className}) {
                                     >
                                         Close
                                     </button>
-                                    <button
-                                        className="bg-emerald-500 text-white active:bg-emerald-600 font-bold uppercase text-sm px-6 py-3 rounded shadow hover:shadow-lg outline-none focus:outline-none mr-1 mb-1 ease-linear transition-all duration-150"
+                                    {isFull ? <button
+                                        className="bg-[#2EB74B] text-white active:bg-emerald-600 font-bold uppercase text-sm px-6 py-3 rounded shadow hover:shadow-lg outline-none focus:outline-none mr-1 mb-1 ease-linear transition-all duration-150"
                                         type="button"
                                         onClick={handleAddWallet}
                                         id="btn-create"
                                     >
                                         Create wallet
-                                    </button>
-
+                                    </button> : <button
+                                        className="bg-[#E0E0E0] text-[#ACACAC]  font-bold uppercase text-sm px-6 py-3 rounded shadow hover:shadow-lg outline-none focus:outline-none mr-1 mb-1 ease-linear transition-all duration-150"
+                                        type="button"
+                                        disabled={true}
+                                        onClick={handleAddWallet}
+                                        id="btn-create"
+                                    >
+                                        Create wallet
+                                    </button>}
                                 </div>
                             </div>
                         </div>
