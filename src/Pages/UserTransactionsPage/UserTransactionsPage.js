@@ -10,6 +10,8 @@ import {selectDetailTransaction} from '../../Features/Transaction/detailTransact
 import swal from 'sweetalert';
 import {motion} from "framer-motion"
 import Variants from "../../Components/Variants";
+import {selectCurrentWallet} from "../../Features/Transaction/currentWalletSlice";
+import {UserLoginWithPassword} from "../../Features/CurrentUser/UserSlice";
 
 
 const UserTransactionsPage = () => {
@@ -25,11 +27,38 @@ const UserTransactionsPage = () => {
     const [totalInflow, setTotalInflow] = useState()
     const [totalOutflow, setTotalOutflow] = useState()
     const [total, setTotal] = useState()
+    const [listByCategory, setListByCategory] = useState({})
 
+
+    console.log(user, 'user')
+    console.log(currentWalletState, 'wallet')
+    // useEffect(() => {
+    //     axios.post('transaction/sort', {user: user._id, wallet: currentWalletState._id})
+    //         .then(res => {
+    //             console.log(res.data.data, 'sort')
+    //         })
+    // }, [currentWalletState])
 
     useEffect(() => {
         axios.post('transaction/list/wallet', {user: user._id, wallet: currentWalletState._id})
             .then(res => {
+                // const b={}
+                // res.data.data.forEach((item,index)=>{
+                //     if(listByCategory[item.category.name]){
+                //         b[item.category._id].push({
+                //             ...item,
+                //             _id:item.category._id,
+                //             name:item.category.name
+                //         })
+                //     }
+                //     else{
+                //         b[item.category._id]=[{
+                //             _id:item.category._id,
+                //             name:item.category.name
+                //         }]
+                //     }
+                // })
+                // console.log(b,'test')
                 let inflow = res.data.data.filter(value => {
                     return value.category.type === 'INCOME'
                 })
@@ -47,8 +76,21 @@ const UserTransactionsPage = () => {
                 setTotalInflow(sumInflow)
                 setTotal(sumInflow - sumOutFlow)
                 setListTransaction(res.data.data)
+
             })
     }, [dialogTransactionState, dialogEditState, currentWalletState])
+
+    useEffect(() => {
+        axios.post('wallet/updateBalance', {walletId: currentWalletState._id, initial: total})
+            .then(res => {
+                dispatch(selectCurrentWallet({...currentWalletState, initial: total}))
+                axios.post('wallet/render',{userId:user._id})
+                    .then(res=>{
+                        dispatch(UserLoginWithPassword({...user,wallet:res.data.data}))
+                    })
+                console.log(res.msg)
+            })
+    }, [total])
 
 
     const handleCLoseDetail = () => {

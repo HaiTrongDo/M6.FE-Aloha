@@ -149,7 +149,7 @@ function NavBar({children}) {
                             textAlign: 'left'
                         }}>
                             {/*total current wallet*/}
-                            +50.000d
+                            {currentWalletState?.initial ? currentWalletState.initial : "$ 0"}
                         </Typography>
                     </Box>
 
@@ -209,15 +209,16 @@ function NavBar({children}) {
                     </Typography>
 
                     {/*Each wallet*/}
-                    {user.wallet.map((wallet, index) => (
+                    {user?.wallet?.map((wallet, index) => (
                         <div key={index}>
                             <Divider/>
                             <MenuItem disableRipple onClick={()=>{
                                 dispatch(selectCurrentWallet(wallet));
 
                             }}>
-                                <img src={wallet.icon.url ? wallet.icon.url : "https://static.moneylover.me/img/icon/icon.png"}
+                                <img src={wallet?.icon?.url ? wallet?.icon?.url : "https://static.moneylover.me/img/icon/icon.png"}
                                      className='rounded-full w-[35px] h-[35px] object-cover'
+                                     alt="..."
                                 />
                                 <Box sx={{ml: 2}}>
                                     <Typography sx={{
@@ -226,7 +227,7 @@ function NavBar({children}) {
                                         color: 'black',
                                         textAlign: 'left'
                                     }}>
-                                        {wallet.name}
+                                        {wallet?.name}
                                     </Typography>
                                     <Typography sx={{
                                         fontWeight: 'light',
@@ -234,7 +235,7 @@ function NavBar({children}) {
                                         color: 'black',
                                         textAlign: 'left'
                                     }}>
-                                        {wallet.initial}
+                                        {wallet?.initial}
                                     </Typography>
                                 </Box>
                             </MenuItem>
