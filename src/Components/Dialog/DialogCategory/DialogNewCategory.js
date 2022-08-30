@@ -12,17 +12,17 @@ import Alert from '@mui/material/Alert';
 import Select from "@mui/material/Select";
 import TextField from "@mui/material/TextField";
 import {useDispatch, useSelector} from "react-redux";
-import {closeDialogNewCategory} from "../../../Features/DiaLogSlice/openDialogNewCategorySlice";
+import {closeDialogNewCategory} from "../../../Features/DialogCategorySlice/openDialogNewCategorySlice";
 import {useState} from "react";
 import HelpOutlineIcon from '@mui/icons-material/HelpOutline';
 import DialogIconCategory from "./DialogIconCategory";
 import {useNavigate} from "react-router-dom";
 import {
     openDialogIconCategory
-} from "../../../Features/DiaLogSlice/openDialogIconCategorySlice";
+} from "../../../Features/DialogCategorySlice/openDialogIconCategorySlice";
 import Typography from "@mui/material/Typography";
 import axios from "../../../axios";
-import {setDataCategory} from "../../../Features/DiaLogSlice/dataCategorySlice";
+import {setDataCategory} from "../../../Features/DialogCategorySlice/dataCategorySlice";
 import Stack from '@mui/material/Stack';
 import MuiAlert from '@mui/material/Alert';
 
@@ -40,9 +40,12 @@ export default function DialogNewCategory() {
     const [name, setName] = useState('')
     const [type, setType] = useState('EXPENSE')
     const dispatch = useDispatch()
+    const dataWallet = useSelector((state) => state.SelectDataWalletOnCategory.value)
     const openDialogNewCategory = useSelector((state) => state.DialogNewCategory.value)
     const handleClose = () => {
         dispatch(closeDialogNewCategory(false))
+        setName('');
+        setType('EXPENSE')
         setMessageErr('')
     }
 
@@ -71,7 +74,8 @@ export default function DialogNewCategory() {
         let body = {
             type: type,
             name: name,
-            icon: iconButton
+            icon: iconButton,
+            wallet: dataWallet.idWallet
         }
         try {
             let token = JSON.parse(localStorage.getItem('JWT')) //lay token o trong localra

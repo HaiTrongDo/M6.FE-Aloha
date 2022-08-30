@@ -19,18 +19,19 @@ import DialogIconCategory from "./DialogIconCategory";
 import {useNavigate} from "react-router-dom";
 import {
     openDialogIconCategory
-} from "../../../Features/DiaLogSlice/openDialogIconCategorySlice";
+} from "../../../Features/DialogCategorySlice/openDialogIconCategorySlice";
 import Typography from "@mui/material/Typography";
 import axios from "../../../axios";
-import {setDataCategory} from "../../../Features/DiaLogSlice/dataCategorySlice";
+import {setDataCategory} from "../../../Features/DialogCategorySlice/dataCategorySlice";
 import Stack from '@mui/material/Stack';
 import MuiAlert from '@mui/material/Alert';
-import {closeDialogUpdateCategory} from "../../../Features/DiaLogSlice/openDialogUpdateCategorySlice";
+import {closeDialogUpdateCategory} from "../../../Features/DialogCategorySlice/openDialogUpdateCategorySlice";
 import {setSelectIcon} from "../../../Features/DiaLogSlice/selectIconSlice";
 import {
     setUpdateDataNameCategory,
     setUpdateDataTypeCategory
-} from "../../../Features/DiaLogSlice/updataDataCategorySlice";
+} from "../../../Features/DialogCategorySlice/updataDataCategorySlice";
+
 const Transition = React.forwardRef(function Transition(props, ref) {
     return <Slide direction="up" ref={ref} {...props} />;
 });
@@ -40,12 +41,13 @@ const alert = React.forwardRef(function Alert(props, ref) {
 export default function DialogUpdateCategory() {
     let navigate = useNavigate();
     const [open, setOpen] = React.useState(false); //bat tat alert thong bao
-    const[messageSucsess,setMessageSucsess] = useState('')
-    const[messageErr,setMessageErr] = useState('')
+    const [messageSucsess, setMessageSucsess] = useState('')
+    const [messageErr, setMessageErr] = useState('')
     // const [name, setName] = useState('')
     // const [type, setType] = useState('EXPENSE')
     const dispatch = useDispatch()
     const openDialogUpdateCategory = useSelector((state) => state.UpdateCategory.value)
+    const dataWallet = useSelector((state) => state.SelectDataWalletOnCategory.value)
     const dataUpdateCategory = useSelector((state) => state.UpdateDataCategory.value)
     console.log(dataUpdateCategory)
 
@@ -80,7 +82,13 @@ export default function DialogUpdateCategory() {
         try {
             let token = JSON.parse(localStorage.getItem('JWT')) //lay token o trong localra
             await axios.put('/category/update',
-                dataUpdateCategory, {
+                {
+                    id:dataUpdateCategory.id,
+                    type: dataUpdateCategory.type,
+                    name: dataUpdateCategory.name,
+                    icon: dataUpdateCategory.icon,
+                    wallet: dataWallet.idWallet
+                }, {
                     headers: {
                         Authorization: `Bearer ${token}`
                     }
@@ -90,7 +98,8 @@ export default function DialogUpdateCategory() {
                 setMessageSucsess(r.data.message)
                 setOpen(true);
                 dispatch(setDataCategory(r.data.data)) //set data toan bo du lieu tra ve de in ra man hinh
-                dispatch(closeDialogUpdateCategory(false))
+                dispatch(closeDialogUpdateCategory(false));
+
             }).catch(err => {
                 setMessageErr(err.response.data.message)
                 console.log(err.response.data)
@@ -121,7 +130,7 @@ export default function DialogUpdateCategory() {
                     onSubmit={handleSubmit}
                 >
                     <DialogTitle>{"Update Category"}</DialogTitle>
-                    <DialogContent >
+                    <DialogContent>
                         <Grid container spacing={2}>
                             <Grid item xs={3}>
                                 <Button align='center' onClick={handleIcon}
@@ -149,14 +158,15 @@ export default function DialogUpdateCategory() {
                                 />
 
                                 <FormControl sx={{width: '100%'}}>
-                                    <InputLabel id='demo-simple-select-label' htmlFor="demo-simple-select-label">Type</InputLabel>
+                                    <InputLabel id='demo-simple-select-label'
+                                                htmlFor="demo-simple-select-label">Type</InputLabel>
                                     <Select
                                         labelId="demo-simple-select-label"
                                         id="demo-simple-select"
                                         value={dataUpdateCategory.type ? dataUpdateCategory.type : " "}
                                         label="Type"
                                         onChange={(e) => handleChangeType(e)}
-                                        sx={{color: '#9e9e9e', ml:1}}
+                                        sx={{color: '#9e9e9e', ml: 1}}
                                         focused
                                     >
                                         <MenuItem value={'EXPENSE'}>Expense</MenuItem>
@@ -174,9 +184,9 @@ export default function DialogUpdateCategory() {
                     </DialogActions>
                 </Box>
             </Dialog>
-            <Stack spacing={2} sx={{ width: '100%' }}>
+            <Stack spacing={2} sx={{width: '100%'}}>
                 <Snackbar open={open} autoHideDuration={6000} onClose={handleCloseAlert}>
-                    <Alert onClose={handleCloseAlert} severity="success" sx={{ width: '100%' }}>
+                    <Alert onClose={handleCloseAlert} severity="success" sx={{width: '100%'}}>
                         {messageSucsess}
                     </Alert>
                 </Snackbar>
