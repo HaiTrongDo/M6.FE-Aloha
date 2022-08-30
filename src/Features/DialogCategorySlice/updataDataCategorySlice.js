@@ -20,6 +20,7 @@ export const updateDataCategorySlice = createSlice({
         setUpdateDataIconCategory: (state, action) => {
             state.value.icon = action.payload
         },
+
         // closeDialogIconCategory: (state, action) => {
         //     state.value = action.payload
         // }

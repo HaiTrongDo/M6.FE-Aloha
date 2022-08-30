@@ -1,6 +1,6 @@
 import React, {useEffect, useState} from 'react';
 import {useDispatch, useSelector} from "react-redux";
-import {closeDialogCategory} from "../../Features/DiaLogSlice/openDialogCategorySlice";
+import {closeDialogCategory} from "../../Features/DialogCategorySlice/openDialogCategorySlice";
 import {setCategoryInSearchPage} from "../../Features/SearchInput/SearchInputSlice";
 import SearchIcon from '@mui/icons-material/Search';
 import Button from '@mui/material/Button';

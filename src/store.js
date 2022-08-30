@@ -8,7 +8,7 @@ import WalletSlice from "./Features/SelectWallet/selectWallet";
 import WalletIdSlice from "./Features/SelectWallet/walletIdSlice";
 import dialogTransactionSlice from "./Features/DiaLogSlice/openDialogTransactionSlice";
 import openDialogIconsSlice from "./Features/DiaLogSlice/openDialogIconsSlice";
-import openDialogCategorySlice from "./Features/DiaLogSlice/openDialogCategorySlice";
+import openDialogCategorySlice from "./Features/DialogCategorySlice/openDialogCategorySlice";
 import openDialogCurrencySlice from "./Features/DiaLogSlice/openDialogCurrencySlice";
 import selectCategorySlice from "./Features/Transaction/categorySlice";
 import walletTransactionSlice from "./Features/DiaLogSlice/openDialogWallet";
@@ -22,13 +22,14 @@ import SearchInputSlice from './Features/SearchInput/SearchInputSlice';
 import currentWalletSlice from "./Features/Transaction/currentWalletSlice";
 
 
-import openDialogNewCategorySlice from "./Features/DiaLogSlice/openDialogNewCategorySlice";
-import openDialogIconCategorySlice from "./Features/DiaLogSlice/openDialogIconCategorySlice";
+import openDialogNewCategorySlice from "./Features/DialogCategorySlice/openDialogNewCategorySlice";
+import openDialogIconCategorySlice from "./Features/DialogCategorySlice/openDialogIconCategorySlice";
 import selectIconSlice from "./Features/DiaLogSlice/selectIconSlice";
-import dataCategorySlice from "./Features/DiaLogSlice/dataCategorySlice";
-import openDialogUpdateCategorySlide from "./Features/DiaLogSlice/openDialogUpdateCategorySlice";
-import updateDataCategorySlice from "./Features/DiaLogSlice/updataDataCategorySlice";
+import dataCategorySlice from "./Features/DialogCategorySlice/dataCategorySlice";
+import openDialogUpdateCategorySlide from "./Features/DialogCategorySlice/openDialogUpdateCategorySlice";
+import updateDataCategorySlice from "./Features/DialogCategorySlice/updataDataCategorySlice";
 import openDialogBalanceSlice, {openDialogBalance} from "./Features/DiaLogSlice/openDialogBalanceSlice";
+import selectDataWalletOnCategorySlice from "./Features/DialogCategorySlice/selectDataWalletOnCategory";
 
 const store = configureStore({
     reducer:{
@@ -56,6 +57,7 @@ const store = configureStore({
         DateCategory: dataCategorySlice.reducer,
         UpdateCategory: openDialogUpdateCategorySlide.reducer,
         UpdateDataCategory: updateDataCategorySlice.reducer,
+        SelectDataWalletOnCategory: selectDataWalletOnCategorySlice.reducer,
 
         walletId: WalletIdSlice,
         dialogEditTransaction:dialogEditTransactionSlice.reducer,

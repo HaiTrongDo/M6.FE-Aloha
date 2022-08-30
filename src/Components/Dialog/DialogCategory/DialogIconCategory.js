@@ -4,13 +4,13 @@ import Dialog from '@mui/material/Dialog';
 import DialogActions from '@mui/material/DialogActions';
 import DialogTitle from '@mui/material/DialogTitle';
 import {useDispatch, useSelector} from "react-redux";
-import {closeDialogIconCategory} from "../../../Features/DiaLogSlice/openDialogIconCategorySlice";
+import {closeDialogIconCategory} from "../../../Features/DialogCategorySlice/openDialogIconCategorySlice";
 import {ImageList, ImageListItem} from "@mui/material";
 import {setSelectIcon} from "../../../Features/DiaLogSlice/selectIconSlice";
 import {
     setUpdateDataIconCategory,
     setUpdateDataTypeCategory
-} from "../../../Features/DiaLogSlice/updataDataCategorySlice";
+} from "../../../Features/DialogCategorySlice/updataDataCategorySlice";
 
 export default function DialogIconCategory() {
 
