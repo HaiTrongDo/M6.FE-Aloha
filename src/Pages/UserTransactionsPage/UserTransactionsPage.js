@@ -29,9 +29,8 @@ const UserTransactionsPage = () => {
     const [totalOutflow, setTotalOutflow] = useState()
     const [total, setTotal] = useState()
 
-
-    console.log(user, 'user')
-    console.log(currentWalletState, 'wallet')
+    // console.log(user, 'user')
+    // console.log(currentWalletState, 'wallet')
     // useEffect(() => {
     //     axios.post('transaction/sort', {user: user._id, wallet: currentWalletState._id})
     //         .then(res => {

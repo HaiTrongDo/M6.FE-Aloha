@@ -28,7 +28,7 @@ export default function DialogDetailWallet({walletId}) {
     const editState = useSelector((state) =>
         state.DialogEditWallet.value
     )
-    console.log(new Date(new Date().toLocaleString().split(',')[0]))
+    // console.log(new Date())
 
     useEffect(() => {
         axios.post('http://localhost:8080/wallet/detail', {walletId}).then(r => {
