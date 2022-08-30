@@ -9,6 +9,7 @@ import {useDispatch} from 'react-redux'
 import {UserLoginWithFireBase, UserLoginWithPassword} from '../../Features/CurrentUser/UserSlice'
 import {motion} from "framer-motion"
 import Variants from "../../Components/Variants";
+import DialogWallet from "../../Components/Dialog/DialogWallet";
 
 
 const DEFAULT_USER_URL = "https://firebasestorage.googleapis.com/v0/b/aloha-money.appspot.com/o/DefaultUser.jpg?alt=media&token=58615f07-c33a-42f7-aa11-43b9d8170593"
@@ -29,7 +30,8 @@ const LoginPage = () => {
     })
     const [validateSignInMsg, setValidateSignInMsg] = useState({});
     const [validateSignUpMsg, setValidateSignUpMsg] = useState('');
-    const [listWallet, setListWallet] = useState([])
+    const [listWallet, setListWallet] = useState([]);
+    const [isHaveWallet, setIsHaveWallet] = useState(false);
 
     const handleClickSignIn = () => {
         setActive('container')
@@ -56,14 +58,17 @@ const LoginPage = () => {
                 .then(async (resultFromBEAloha) => {
                     await axios.post('wallet/render', {userId: resultFromBEAloha.data.currentUser._id})
                         .then(res => {
+                            console.log(res.data.data)
                             dispatch(UserLoginWithPassword({
                                 ...resultFromBEAloha.data.currentUser,
                                 wallet: res.data.data
                             }))
+                            const [key, value] = resultFromBEAloha.data.token.split(' ')
+                            localStorage.setItem(key, JSON.stringify(value));
+                            navigate('/transactions')
                         })
-                    const [key, value] = resultFromBEAloha.data.token.split(' ')
-                    localStorage.setItem(key, JSON.stringify(value));
-                    navigate('/transactions')
+
+
                 })
                 .catch(() => {
                     setValidateSignInMsg({password: '* Wrong email or password *'})

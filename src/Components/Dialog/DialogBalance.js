@@ -42,9 +42,6 @@ export default function DialogBalance(props) {
         setTimeout(() => {
             swal.close()
         }, 1000)
-
-        console.log(walletObj.initial,'====')
-        console.log(data.initial,'========')
         if (data.initial > walletObj.initial){
             const dataTransaction = {
                 wallet:walletObj._id,
@@ -58,12 +55,11 @@ export default function DialogBalance(props) {
                 console.log(r)
             })
         }else {
-
             const dataTransaction = {
                 wallet:walletObj._id,
                 category:'6304a22b0f0a39e5923a6727',
                 amount:Number(walletObj.initial)-Number(data.initial),
-                date:new Date().toLocaleString().split(',')[0],
+                date:new Date(new Date().toLocaleString().split('T')[0]),
                 user: userId
             }
             e.preventDefault()
