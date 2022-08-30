@@ -19,6 +19,7 @@ export default function DialogWallet({className}) {
         nameWallet: '',
         initial: ''
     })
+    const [isFull,setIsFull] = useState(false)
 
     const [iconObj, setIconObj] = useState({
         url: 'https://static.moneylover.me/img/icon/icon_not_selected.png'
