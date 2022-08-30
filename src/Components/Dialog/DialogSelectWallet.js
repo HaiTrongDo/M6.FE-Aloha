@@ -6,10 +6,12 @@ import axios from '../../axios/index'
 import {selectWallet} from '../../Features/Transaction/walletSlice'
 import {setWalletInSearchPage} from '../../Features/SearchInput/SearchInputSlice'
 
-const DialogSelectWallet = () => {
+const DialogSelectWallet = (props) => {
     const dispatch = useDispatch();
+
     const [listWallet, setListWallet] = useState([]);
     const user = JSON.parse(localStorage.getItem('alohaUser'));
+
 
 
     useEffect(() => {
@@ -17,6 +19,7 @@ const DialogSelectWallet = () => {
             .then(res => {
                 setListWallet(res.data.data)
             })
+        console.log(props)
     }, [])
 
     return (
@@ -36,7 +39,7 @@ const DialogSelectWallet = () => {
                                 <svg xmlns="http://www.w3.org/2000/svg" className="h-6 w-6" fill="none"
                                      viewBox="0 0 24 24"
                                      stroke="currentColor" strokeWidth="2">
-                                    <path strokeLinecap="round" strokeLinejoin="round" d="M6 18L18 6M6 6l12 12"></path>
+                                    <path strokeLinecap="round" strokeLinejoin="round" d="M6 18L18 6M6 6l12 12"/>
                                 </svg>
                             </button>
                             <span className="pl-[15px] text-[20px] font-sans">
@@ -44,15 +47,16 @@ const DialogSelectWallet = () => {
                             </span>
                         </div>
 
-                        <div className="modal-body relative w-[500px] h-[490px] border-t-2 flex-auto">
+                        <div className="modal-body relative w-[500px] h-[490px] border-t flex-auto">
                             <ul className="m-auto">
                                 {listWallet.map((value, index) => {
                                     return (
-                                        <div key={index} className="relative pl-8 pr-8 border-b-2 hover:cursor-pointer">
-                                            <li className='m-auto grid grid-cols-3 p-2' onClick={() => {
+                                        <div key={index} className="relative pl-8 pr-8  hover:bg-[#E6EFE7] hover:cursor-pointer">
+                                            <li className='m-auto grid grid-cols-3 p-2 border-b' onClick={() => {
                                                 dispatch(selectWallet(value))
                                                 dispatch(setWalletInSearchPage(value))
                                                 dispatch(closeDialogSelectWallet())
+                                                props.onHandleWallet(value)
                                             }}>
                                                 <img data-v-61e80534=""
                                                      src={value.icon.url} alt=""

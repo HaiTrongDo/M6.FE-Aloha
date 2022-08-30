@@ -10,6 +10,9 @@ import {updateUserInfo} from "../../Features/CurrentUser/UserSlice"
 import {useDispatch} from 'react-redux'
 import swal from 'sweetalert';
 import {useNavigate} from "react-router-dom";
+import {motion} from "framer-motion"
+import Variants from "../../Components/Variants";
+
 
 const UserChangeProfile = () => {
     const navigate = useNavigate()
@@ -91,7 +94,10 @@ const UserChangeProfile = () => {
     }
 
     return (
-        <div>
+        <motion.div initial="exit"
+                    animate="enter"
+                    exit="exit"
+                    variants={Variants.variant1}>
             <MyAccountLayout>
                 <div className="flex justify-center">
                     <div className=" avatar-card-container master-container h-px ">
@@ -99,7 +105,7 @@ const UserChangeProfile = () => {
                             <div className="flex justify-end px-4 pt-4">
                             </div>
                             <div className="flex flex-col items-center">
-                                <img className="mb-3 w-24 h-24 rounded-full shadow-lg" src=
+                                <img className="mb-3 w-24 object-cover h-24 rounded-full shadow-lg" src=
                                     {imageUrls ? imageUrls : "https://thumbs.dreamstime.com/b/default-avatar-profile-icon-vector-social-media-user-image-182145777.jpg"}
                                      alt="Avatar image" />
                                 <h5 className="mb-1 text-xl font-medium text-gray-900 ">
@@ -197,7 +203,7 @@ const UserChangeProfile = () => {
                 </div>
             </MyAccountLayout>
 
-        </div>
+        </motion.div>
     );
 };
 

@@ -18,9 +18,17 @@ import openDialogEditWallet from "./Features/DiaLogSlice/openDialogEditWalletSli
 import dialogEditTransactionSlice from './Features/DiaLogSlice/openEditTransactionSlice';
 import selectTransaction from './Features/Transaction/transactionSlice';
 import detailTransactionSlice from './Features/Transaction/detailTransactionSlice'
-import SearchInputSlice from './Features/SearchInput/SearchInputSlice'
+import SearchInputSlice from './Features/SearchInput/SearchInputSlice';
+import currentWalletSlice from "./Features/Transaction/currentWalletSlice";
 
 
+import openDialogNewCategorySlice from "./Features/DiaLogSlice/openDialogNewCategorySlice";
+import openDialogIconCategorySlice from "./Features/DiaLogSlice/openDialogIconCategorySlice";
+import selectIconSlice from "./Features/DiaLogSlice/selectIconSlice";
+import dataCategorySlice from "./Features/DiaLogSlice/dataCategorySlice";
+import openDialogUpdateCategorySlide from "./Features/DiaLogSlice/openDialogUpdateCategorySlice";
+import updateDataCategorySlice from "./Features/DiaLogSlice/updataDataCategorySlice";
+import openDialogBalanceSlice, {openDialogBalance} from "./Features/DiaLogSlice/openDialogBalanceSlice";
 
 const store = configureStore({
     reducer:{
@@ -40,11 +48,20 @@ const store = configureStore({
         DialogCategory:openDialogCategorySlice.reducer,
         DialogDetail:openDialogDetailSlice.reducer,
         DialogEditWallet:openDialogEditWallet.reducer,
+        DialogBalance:openDialogBalanceSlice.reducer,
         wallet: WalletSlice,
+        DialogNewCategory: openDialogNewCategorySlice.reducer,
+        DialogIconCategory: openDialogIconCategorySlice.reducer,
+        SelectIcon: selectIconSlice.reducer,
+        DateCategory: dataCategorySlice.reducer,
+        UpdateCategory: openDialogUpdateCategorySlide.reducer,
+        UpdateDataCategory: updateDataCategorySlice.reducer,
+
         walletId: WalletIdSlice,
         dialogEditTransaction:dialogEditTransactionSlice.reducer,
         selectTransaction:selectTransaction.reducer,
-        selectDetailTransaction:detailTransactionSlice
+        selectDetailTransaction:detailTransactionSlice,
+        currentWallet:currentWalletSlice
     }
 })
 

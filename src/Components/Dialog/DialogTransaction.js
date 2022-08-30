@@ -11,15 +11,19 @@ import DialogSelectWallet from "./DialogSelectWallet";
 
 
 const DialogTransaction = () => {
-    let user=JSON.parse(localStorage.getItem('alohaUser'))
+    let user = JSON.parse(localStorage.getItem('alohaUser'))
     const dispatch = useDispatch();
     const [amount, setAmount] = useState();
     const [note, setNote] = useState('');
-    const [date, setDate] = useState(new Date().toDateString());
-    const selectCategoryState=useSelector(state=>state.selectCategory)
-    const selectWalletState=useSelector(state=>state.selectWallet);
+    const [date, setDate] = useState();
+    const selectCategoryState = useSelector(state => state.selectCategory)
+    const selectWalletState = useSelector(state => state.selectWallet);
     const dialogCategoryState = useSelector(state => state.DialogCategory.value)
     const dialogWalletState = useSelector(state => state.dialogWallet.value);
+
+    const handleWallet = (walletObj) => {
+        console.log(walletObj)
+    }
 
 
     const handleChangeAmount = (e) => {
@@ -33,12 +37,12 @@ const DialogTransaction = () => {
     }
     const handleSaveTransaction = () => {
         const transaction = {
-            wallet: selectWalletState.value,
-            amount: amount*1,
-            category: selectCategoryState.value,
-            date: Date(date),
+            wallet: selectWalletState.value._id,
+            amount: amount * 1,
+            category: selectCategoryState.value._id,
+            date: new Date(date),
             note: note,
-            user:user
+            user: user
         }
         axios.post('transaction/add', transaction)
             .then((res) => {
@@ -50,7 +54,7 @@ const DialogTransaction = () => {
                 console.log(err.message)
             })
     }
-    const handleCloseDialogTransaction=()=>{
+    const handleCloseDialogTransaction = () => {
         dispatch(selectCategory({}))
         dispatch(selectWallet({}))
         dispatch(closeDialogTransaction())
@@ -103,7 +107,6 @@ const DialogTransaction = () => {
                                     >Select Wallet
                                     </label>
                                 </button>
-
                             </div>
 
                             <div className="relative w-full pl-2 pr-2">
@@ -144,7 +147,7 @@ const DialogTransaction = () => {
                         </div>
                         <div className="grid grid-cols-3 gap-1 p-3 pt-0 px-6 pb-6">
                             <div className="w-full pl-2 pr-2">
-                                <input type="datetime-local" value={date} onChange={handleChangeDate}
+                                <input type="date" value={date} onChange={handleChangeDate}
                                        className="block p-4 pl-2 h-full w-full text-sm text-gray-900 bg-gray-50 rounded-lg border border-gray-300 focus:ring-blue-500 focus:border-blue-500 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
                                        placeholder=""/>
                             </div>
@@ -160,7 +163,7 @@ const DialogTransaction = () => {
                         </div>
 
                         {dialogCategoryState && <DialogTransactionCategory/>}
-                        {dialogWalletState && <DialogSelectWallet/>}
+                        {dialogWalletState && <DialogSelectWallet onHandleWallet={handleWallet}/>}
 
                         {/*footer*/}
                         <div
