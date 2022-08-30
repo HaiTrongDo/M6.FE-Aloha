@@ -88,8 +88,8 @@ const DialogEditTransaction = () => {
                         <div className="grid grid-cols-3 gap-1 py-6 px-6">
 
                             <div className="relative w-full pl-2 pr-2">
-                                <button id="button" onClick={() => dispatch(openDialogSelectWallet())}
-                                        className="w-full col-span-2 flex relative  border border-gray-300 p-2 h-[60px]  rounded-[10px] hover:border-black">
+                                <button id="button" onClick={() => dispatch(openDialogSelectWallet())} disabled={true}
+                                        className="w-full col-span-2 flex relative  border border-gray-300 p-2 h-[60px]  rounded-[10px] ">
                                     <div className="">
 
                                         <img data-v-6bc9d4d3=""
@@ -149,7 +149,7 @@ const DialogEditTransaction = () => {
                         </div>
                         <div className="grid grid-cols-3 gap-1 p-3 pt-0 px-6 pb-6">
                             <div className="w-full pl-2 pr-2">
-                                <input type="date" value={date ? date : detailTransactionState.date.split("T")[0]}
+                                <input type="date" value={date ? date : detailTransactionState?.date?.split("T")[0]}
                                        onChange={handleChangeDate}
                                        className="block p-4 pl-4 h-full w-full text-sm text-gray-900 bg-gray-50 rounded-lg border border-gray-300 focus:ring-blue-500 focus:border-blue-500 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
                                        placeholder=""/>
