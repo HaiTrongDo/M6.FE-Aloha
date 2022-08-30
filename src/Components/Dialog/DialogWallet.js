@@ -19,6 +19,7 @@ export default function DialogWallet({className}) {
         nameWallet: '',
         initial: ''
     })
+    const [isFull,setIsFull] = useState(false)
 
     const [iconObj, setIconObj] = useState({
         url: 'https://static.moneylover.me/img/icon/icon_not_selected.png'
@@ -80,11 +81,13 @@ export default function DialogWallet({className}) {
         user: currentUser?._id
     }
 
-    // useEffect(() => {
-    //     if (walletObj?.nameWallet && walletObj?.initial && iconObj?._id && currencyObj?._id){
-    //         document.getElementById('btn-create').disabled = 'none';
-    //     }
-    // },[walletData])
+    useEffect(() => {
+        if (walletObj?.nameWallet && walletObj?.initial && iconObj?._id && currencyObj?._id){
+           setIsFull(true)
+        }else if (walletObj?.nameWallet==="" || walletObj?.initial==="" || !iconObj?._id || !currencyObj?._id){
+            setIsFull(false)
+        }
+    },[walletData])
 
     const handleAddWallet = (e) => {
         swal({
@@ -184,46 +187,53 @@ export default function DialogWallet({className}) {
                                         </svg>
                                     </button>
 
-                                    <div className="relative">
-                                        <input type="number" id="floating_filled_init"
-                                               onChange={handleChangeInput}
-                                               name={"initial"}
-                                               className="block   rounded-[10px] p-2 pt-5 w-[140px] h-[60px] text-sm text-gray-900 bg-gray-50  border border-gray-300  appearance-none dark:text-black  focus:outline-none focus:ring-0 hover:border-black peer appearance-none"
-                                               placeholder=" "/>
-                                        <label htmlFor="floating_filled_init"
-                                               className="absolute text-sm text-gray-500 dark:text-gray-400 duration-300 transform -translate-y-4 scale-75 top-4 z-10 origin-[0] left-2.5   peer-placeholder-shown:scale-100 peer-placeholder-shown:translate-y-0 peer-focus:scale-75 peer-focus:-translate-y-4">Initial
-                                            Balance
-                                        </label>
+                                        <div className="relative">
+                                            <input type="number" id="floating_filled_init"
+                                                   onChange={handleChangeInput}
+                                                   name={"initial"}
+                                                   className="block   rounded-[10px] p-2 pt-5 w-[140px] h-[60px] text-sm text-gray-900 bg-gray-50  border border-gray-300  appearance-none dark:text-black  focus:outline-none focus:ring-0 hover:border-black peer appearance-none"
+                                                   placeholder=" "/>
+                                            <label htmlFor="floating_filled_init"
+                                                   className="absolute text-sm text-gray-500 dark:text-gray-400 duration-300 transform -translate-y-4 scale-75 top-4 z-10 origin-[0] left-2.5   peer-placeholder-shown:scale-100 peer-placeholder-shown:translate-y-0 peer-focus:scale-75 peer-focus:-translate-y-4">Initial
+                                                Balance
+                                            </label>
+                                        </div>
                                     </div>
                                 </div>
-                            </div>
-                            {iconsState && <DialogIcons onHandleIcon={handleIcon}/>}
-                            {currencyState && <DialogCurrency onHandleCurrency={handleCurrency}/>}
-                            {/*footer*/}
-                            <div
-                                className="flex items-center justify-end p-6 border-t border-solid border-slate-200 rounded-b">
-                                <button
-                                    className="text-red-500 background-transparent font-bold uppercase px-6 py-2 text-sm outline-none focus:outline-none mr-1 mb-1 ease-linear transition-all duration-150"
-                                    type="button"
-                                    onClick={handleCloseDialogWallet}
-                                >
-                                    Close
-                                </button>
-                                <button
-                                    className="bg-emerald-500 text-white active:bg-emerald-600 font-bold uppercase text-sm px-6 py-3 rounded shadow hover:shadow-lg outline-none focus:outline-none mr-1 mb-1 ease-linear transition-all duration-150"
-                                    type="button"
-                                    onClick={handleAddWallet}
-                                    id="btn-create"
-                                >
-                                    Create wallet
-                                </button>
-
+                                {iconsState && <DialogIcons onHandleIcon={handleIcon}/>}
+                                {currencyState && <DialogCurrency onHandleCurrency={handleCurrency}/>}
+                                {/*footer*/}
+                                <div
+                                    className="flex items-center justify-end p-6 border-t border-solid border-slate-200 rounded-b">
+                                    <button
+                                        className="text-red-500 background-transparent font-bold uppercase px-6 py-2 text-sm outline-none focus:outline-none mr-1 mb-1 ease-linear transition-all duration-150"
+                                        type="button"
+                                        onClick={handleCloseDialogWallet}
+                                    >
+                                        Close
+                                    </button>
+                                    {isFull ? <button
+                                        className="bg-[#2EB74B] text-white active:bg-emerald-600 font-bold uppercase text-sm px-6 py-3 rounded shadow hover:shadow-lg outline-none focus:outline-none mr-1 mb-1 ease-linear transition-all duration-150"
+                                        type="button"
+                                        onClick={handleAddWallet}
+                                        id="btn-create"
+                                    >
+                                        Create wallet
+                                    </button> : <button
+                                        className="bg-[#E0E0E0] text-[#ACACAC]  font-bold uppercase text-sm px-6 py-3 rounded shadow hover:shadow-lg outline-none focus:outline-none mr-1 mb-1 ease-linear transition-all duration-150"
+                                        type="button"
+                                        disabled={true}
+                                        onClick={handleAddWallet}
+                                        id="btn-create"
+                                    >
+                                        Create wallet
+                                    </button>}
+                                </div>
                             </div>
                         </div>
                     </div>
-                </div>
-            </Dialog>
-        </div>
+                </Dialog>
+            </div>
 
     )
 }
