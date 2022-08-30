@@ -76,7 +76,7 @@ export default function DialogIcons(props) {
                         </div>
                         {/*body*/}
                         <div className="modal-body relative w-[496px] h-[600px] flex-auto p-4">
-                            {isLoading &&
+                            {/*{isLoading &&
                                 <LoadingScreen
                                     loading={isLoading}
                                     bgColor="rgba(255,255,255,0.8)"
@@ -85,7 +85,7 @@ export default function DialogIcons(props) {
                                     logoSrc=""
                                     text=""
                                 />
-                            }
+                            }*/}
                             <ul className="grid grid-cols-8 grid-rows-4 gap-2 grid-flow-row">
                                 {icons.map((icon, index) => {
                                     return (

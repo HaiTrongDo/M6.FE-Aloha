@@ -11,6 +11,7 @@ import Transition from "../Transition";
 import {Dialog} from "@mui/material";
 
 export default function DialogWallet(props) {
+    const [isFull, setIsFull] = useState(false)
     const [newWallet, setNewWallet] = useState({
         name: props?.walletObj?.name,
         initial: Number(props?.walletObj?.initial),
@@ -43,6 +44,33 @@ export default function DialogWallet(props) {
         currency: currencyObj?._id,
         _id: props.walletObj?._id
     }
+
+
+    useEffect(() => {
+        if (props?.walletObj?.name === dataUpdateWallet?.name &&
+            props?.walletObj?.initial === dataUpdateWallet?.initial &&
+            props?.walletObj?.icon._id === iconObj?._id &&
+            props?.walletObj?.currency._id === currencyObj._id
+        ) {
+            console.log('fuck1')
+            setIsFull(false)
+        } else if (dataUpdateWallet.name === "" ||
+            dataUpdateWallet.initial === 0 ||
+            dataUpdateWallet.icon === "" ||
+            dataUpdateWallet.currency === "")
+        {
+            console.log('fuck2')
+            setIsFull(false)
+        } else if (props?.walletObj?.name !== dataUpdateWallet?.name ||
+            props?.walletObj?.initial !== dataUpdateWallet?.initial ||
+            props?.walletObj?.icon._id !== dataUpdateWallet?.icon ||
+            props?.walletObj?.currency._id !== dataUpdateWallet.currency) {
+            setIsFull(true)
+
+        } else {
+            setIsFull(true)
+        }
+    }, [newWallet,iconObj._id,currencyObj._id])
 
 
     const handleUpdateWallet = () => {
@@ -91,7 +119,7 @@ export default function DialogWallet(props) {
                     <div className="relative w-auto my-6 mx-auto max-w-3xl">
                         {/*content*/}
                         <div
-                            className="border-0 rounded-[5px] shadow-lg relative flex flex-col w-full bg-white outline-none focus:outline-none">
+                            className="border-0 rounded-[5px]  relative flex flex-col w-full bg-white outline-none focus:outline-none">
                             {/*header*/}
                             <div
                                 className="flex items-start justify-between p-5 border-b border-solid border-slate-200 rounded-t">
@@ -169,13 +197,20 @@ export default function DialogWallet(props) {
                                 >
                                     Close
                                 </button>
-                                <button
-                                    className="bg-emerald-500 text-white active:bg-emerald-600 font-bold uppercase text-sm px-6 py-3 rounded shadow hover:shadow-lg outline-none focus:outline-none mr-1 mb-1 ease-linear transition-all duration-150"
+                                {isFull ? <button
+                                    className="bg-[#2EB74B] text-white active:bg-emerald-600 font-bold uppercase text-sm px-6 py-3 rounded shadow hover:shadow-lg outline-none focus:outline-none mr-1 mb-1 ease-linear transition-all duration-150"
                                     type="button"
                                     onClick={handleUpdateWallet}
                                 >
                                     Update wallet
-                                </button>
+                                </button> : <button
+                                    className="bg-[#E0E0E0] text-[#ACACAC]  font-bold uppercase text-sm px-6 py-3 rounded shadow hover:shadow-lg outline-none focus:outline-none mr-1 mb-1 ease-linear transition-all duration-150"
+                                    type="button"
+                                    disabled={true}
+                                    onClick={handleUpdateWallet}
+                                >
+                                    Update wallet
+                                </button>}
 
                             </div>
                         </div>
