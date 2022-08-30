@@ -129,7 +129,7 @@ function NavBar({children}) {
                 >
                     <img
                         className='rounded-full w-[35px] h-[35px] object-cover'
-                        src={currentWalletState?.icon?.url ? currentWalletState.icon.url : 'https://static.moneylover.me/img/icon/icon.png'}
+                        src={currentWalletState?.icon?.url ? currentWalletState.icon.url : 'https://static.moneylover.me/img/icon/ic_category_all.png'}
                     />
                     <Box sx={{ml: 1}}>
                         <Typography sx={{
@@ -173,7 +173,9 @@ function NavBar({children}) {
                         Select Wallet
                     </Typography>
                     <Divider/>
-                    <MenuItem disableRipple>
+                    <MenuItem disableRipple onClick={()=>{
+                        dispatch(selectCurrentWallet({}))
+                    }}>
                         <img src="https://static.moneylover.me/img/icon/ic_category_all.png"
                              className='rounded-full w-[35px] h-[35px] object-cover'
                         />
