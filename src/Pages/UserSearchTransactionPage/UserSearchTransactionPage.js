@@ -2,6 +2,9 @@ import React, {useEffect,useState} from 'react';
 import SearchPageLayout from "../../Components/Layouts/Search/SearchPageLayout";
 import DialogTransactionCategory from "../../Components/Dialog/DialogTransactionCategory";
 import DialogSelectWallet from "../../Components/Dialog/DialogSelectWallet";
+import {motion} from "framer-motion"
+import Variants from "../../Components/Variants";
+
 import {useDispatch, useSelector} from "react-redux";
 import {selectDetailTransaction} from "../../Features/Transaction/detailTransactionSlice";
 import Button from "@mui/material/Button";
@@ -27,7 +30,7 @@ const UserSearchTransactionPage = () => {
     const [totalInflow, setTotalInflow] = useState()
     const [totalOutflow, setTotalOutflow] = useState()
     const [total, setTotal] = useState()
-    const [listSearch,setListSearch]=useState([])
+
 
     useEffect(()=>{
         axios.post('transaction/search',{
@@ -38,17 +41,17 @@ const UserSearchTransactionPage = () => {
             note:searchInput.note
         })
             .then(res=>{
-                let inflow = res.data.data.filter(value => {
+                let inflow = res?.data?.data?.filter(value => {
                     return value.category.type === 'INCOME'
                 })
                 let sumInflow = 0
-                inflow.forEach(value => sumInflow += value.amount)
+                inflow?.forEach(value => sumInflow += value.amount)
 
-                let outFlow = res.data.data.filter(value => {
+                let outFlow = res?.data?.data?.filter(value => {
                     return value.category.type === 'EXPENSE'
                 })
                 let sumOutFlow = 0
-                outFlow.forEach((value) => sumOutFlow += value.amount)
+                outFlow?.forEach((value) => sumOutFlow += value.amount)
 
                 setTotalOutflow(sumOutFlow)
                 setTotalInflow(sumInflow)
@@ -58,6 +61,7 @@ const UserSearchTransactionPage = () => {
                 // setListSearch(res.data.data)
                 console.log(res.data.data,'search data')
             })
+
 
     },[searchInput])
 
@@ -171,9 +175,13 @@ const UserSearchTransactionPage = () => {
 
     return (
         <div>
-            <SearchPageLayout>
+            <motion.div initial="exit"
+                        animate="enter"
+                        exit="exit"
+                        variants={Variants.variant1}>
                 {dialogCategoryState && <DialogTransactionCategory/>}
                 {dialogWalletState && <DialogSelectWallet/>}
+                <SearchPageLayout>
                 <div className="pt-24 mt-6 ">
 
                     <div className="flex justify-center gap-2">
@@ -319,9 +327,9 @@ const UserSearchTransactionPage = () => {
                     </div>
 
                 {/*<div className="bg-white w-1/2 shadow-md rounded">sadas</div>*/}
-
                 </div>
-            </SearchPageLayout>
+                </SearchPageLayout>
+            </motion.div>
         </div>
     );
 };
