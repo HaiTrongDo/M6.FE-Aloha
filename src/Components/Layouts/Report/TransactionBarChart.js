@@ -1,7 +1,9 @@
 import React from 'react';
 import {Bar, BarChart, CartesianGrid, Legend, Tooltip, XAxis, YAxis} from "recharts";
 
+
 function TransactionBarChart({transactionData}) {
+
     return <BarChart
         width={700}
         height={400}

@@ -2,8 +2,10 @@ import React, {useCallback, useEffect, useState} from "react";
 import {PieChart, Pie, Sector} from "recharts";
 
 
-const renderActiveShape = ({data, ...props}) => {
+const renderActiveShape = (props) => {
+
     const RADIAN = Math.PI / 180;
+
     const {
         cx,
         cy,
@@ -28,7 +30,6 @@ const renderActiveShape = ({data, ...props}) => {
     const ex = mx + (cos >= 0 ? 1 : -1) * 22;
     const ey = my;
     const textAnchor = cos >= 0 ? "start" : "end";
-
 
     return (
         <g>
@@ -64,7 +65,7 @@ const renderActiveShape = ({data, ...props}) => {
                 y={ey}
                 textAnchor={textAnchor}
                 fill="#333"
-            >{`${value}`}</text>
+            >{`${value.toFixed(1)}`}</text>
             <text
                 x={ex + (cos >= 0 ? 1 : -1) * 12}
                 y={ey}
@@ -72,13 +73,14 @@ const renderActiveShape = ({data, ...props}) => {
                 textAnchor={textAnchor}
                 fill="#999"
             >
-                {`${(percent * 100).toFixed(1)}%`}
+                {`${value > 0.01 ? (percent * 100).toFixed(1) : 0}%`}
             </text>
         </g>
     );
 };
 
 export default function PieChartInReport({color, data, ...props}) {
+
     const [activeIndex, setActiveIndex] = useState(0);
     const onPieEnter = useCallback(
         (_, index) => {
@@ -88,8 +90,7 @@ export default function PieChartInReport({color, data, ...props}) {
     );
 
     return (
-
-
+        
         <PieChart width={400} height={400}>
             <Pie
                 activeIndex={activeIndex}
