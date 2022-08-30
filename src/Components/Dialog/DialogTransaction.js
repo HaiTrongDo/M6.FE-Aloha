@@ -2,7 +2,7 @@ import React, {useEffect, useState} from 'react';
 import {useDispatch, useSelector} from "react-redux";
 import {closeDialogTransaction} from "../../Features/DiaLogSlice/openDialogTransactionSlice";
 import axios from '../../axios/index';
-import {openDialogCategory, closeDialogCategory} from "../../Features/DiaLogSlice/openDialogCategorySlice";
+import {openDialogCategory, closeDialogCategory} from "../../Features/DialogCategorySlice/openDialogCategorySlice";
 import {selectCategory} from "../../Features/Transaction/categorySlice";
 import {openDialogSelectWallet} from "../../Features/DiaLogSlice/openDialogWallet";
 import {selectWallet} from "../../Features/Transaction/walletSlice";

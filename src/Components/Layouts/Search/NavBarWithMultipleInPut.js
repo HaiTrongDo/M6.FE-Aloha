@@ -24,7 +24,7 @@ import InputAdornment from '@mui/material/InputAdornment';
 import FormControl from '@mui/material/FormControl';
 import category from "../../../Pages/Category/Category";
 import {useNavigate} from "react-router-dom";
-import {openDialogCategory, closeDialogCategory} from "../../../Features/DiaLogSlice/openDialogCategorySlice";
+import {openDialogCategory, closeDialogCategory} from "../../../Features/DialogCategorySlice/openDialogCategorySlice";
 import {openDialogSelectWallet} from "../../../Features/DiaLogSlice/openDialogWallet";
 import {setSearchInputForNote, setSearchInputForDate} from "../../../Features/SearchInput/SearchInputSlice";
 

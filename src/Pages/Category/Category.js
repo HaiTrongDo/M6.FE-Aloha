@@ -19,16 +19,20 @@ import LanguageIcon from '@mui/icons-material/Language';
 import AccountBalanceWalletIcon from '@mui/icons-material/AccountBalanceWallet';
 import DialogNewCategory from "../../Components/Dialog/DialogCategory/DialogNewCategory";
 import {useDispatch, useSelector} from "react-redux";
-import {closeDialogNewCategory, openDialogNewCategory} from "../../Features/DiaLogSlice/openDialogNewCategorySlice";
+import {
+    closeDialogNewCategory,
+    openDialogNewCategory
+} from "../../Features/DialogCategorySlice/openDialogNewCategorySlice";
 import DialogIconCategory from "../../Components/Dialog/DialogCategory/DialogIconCategory";
 import {setSelectIcon} from "../../Features/DiaLogSlice/selectIconSlice";
-import {setDataCategory} from "../../Features/DiaLogSlice/dataCategorySlice";
-import {openDialogUpdateCategory} from "../../Features/DiaLogSlice/openDialogUpdateCategorySlice";
+import {setDataCategory} from "../../Features/DialogCategorySlice/dataCategorySlice";
+import {openDialogUpdateCategory} from "../../Features/DialogCategorySlice/openDialogUpdateCategorySlice";
 import DialogUpdateCategory from "../../Components/Dialog/DialogCategory/DialogUpdateCategory";
-import {setUpdateDataCategory} from "../../Features/DiaLogSlice/updataDataCategorySlice";
+import {setUpdateDataCategory} from "../../Features/DialogCategorySlice/updataDataCategorySlice";
 import Alert from "@mui/material/Alert";
 import Stack from "@mui/material/Stack";
 import {useNavigate} from "react-router-dom";
+import {selectDataWallet} from "../../Features/DialogCategorySlice/selectDataWalletOnCategory";
 
 
 //o dropDow
@@ -77,13 +81,14 @@ function Category() {
     const navigate = useNavigate()
     const dispatch = useDispatch()
     let tokenUser = JSON.parse(localStorage.getItem('alohaUser')) //lay token o trong localra
-    console.log(tokenUser)
     //the hien ra khi bam button
     const [checked, setChecked] = React.useState(false);
     const [category, setCategory] = useState({})
     const [messageSucsess, setMessageSucsess] = useState('')
     const [open, setOpen] = React.useState(false); //bat tat alert thong bao
-
+    const [wallets, setWallets] = useState([])
+    const dataWallet = useSelector((state) => state.SelectDataWalletOnCategory.value)
+    const dataUpdateCategory = useSelector((state) => state.UpdateDataCategory.value)
 
     const handleChange = (id, type, name, icon) => {
         setChecked(true);
@@ -110,11 +115,12 @@ function Category() {
     }
 
     //bat edit category
-    console.log(category)
+
     const handleUpdateCategory = () => {
         dispatch(openDialogUpdateCategory(true))
         dispatch(setUpdateDataCategory(category))
         dispatch(setSelectIcon(category.icon))
+
     }
     //tat alert
     const handleCloseAlert = (event, reason) => {
@@ -123,12 +129,16 @@ function Category() {
         }
         setOpen(false);
     };
-
+//click chon vi
+    const handleSellectWallet = (idWallet, iconUrl) => {
+        setAnchorEl(null);
+        dispatch(selectDataWallet({idWallet, iconUrl}))
+    }
 
     const handleDeleteCategory = async () => {
         try {
             let token = JSON.parse(localStorage.getItem('JWT')) //lay token o trong localra
-            await axios.post('/category/delete',  {id:category.id},
+            await axios.post('/category/delete', {id: category.id, wallet: dataWallet.idWallet},
                 {
                     headers: {
                         Authorization: `Bearer ${token}`
@@ -140,8 +150,6 @@ function Category() {
                 setMessageSucsess(r.data.message)
                 setOpen(true);
                 dispatch(setDataCategory(r.data.data)) //set data toan bo du lieu tra ve de in ra man hinh
-
-
             })
         } catch (err) {
             console.log(err)
@@ -149,23 +157,44 @@ function Category() {
 
     }
 
-    //
     async function getAllProduct() {
+
         let token = JSON.parse(localStorage.getItem('JWT'))
-        return await axios.get('/category',
-            {headers: {Authorization: `Bearer ${token}`}})
+        let idWallet = dataWallet.idWallet == '' ? wallets[0]._id : dataWallet.idWallet;
+        return await axios.post('/category', {idWallet: idWallet},
+            {headers: {Authorization: `Bearer ${token}`}},
+        )
     }
+
+    useEffect(() => {
+            async function demo() {
+                let token = JSON.parse(localStorage.getItem('JWT'))
+                await axios.post('/wallet/render', {userId: tokenUser._id},
+                    {headers: {Authorization: `Bearer ${token}`}})
+                    .then((r) => {
+                        setWallets(r.data.data)
+                    })
+            }
+
+            demo().catch(err => {
+                console.log(err.response)
+            })
+        }, []
+    )
 
     useEffect(() => {
             getAllProduct()
                 .then((r) => {
                     dispatch(setDataCategory(r.data.data))
                 })
-        }, []
+        }, [dataWallet.idWallet || wallets]
     )
 
     const data = useSelector((state) => state.DateCategory.value)
-
+    useEffect(() => {
+            setCategory({...dataUpdateCategory})
+        }, [data]
+    )
 
     return (
         <div>
@@ -179,7 +208,9 @@ function Category() {
                             color="inherit"
                             aria-label="menu"
                             sx={{mr: 2}}
-                            onClick= {()=>{navigate(-1)}}
+                            onClick={() => {
+                                navigate(-1)
+                            }}
                         >
                             <ArrowBackIcon/>
                         </IconButton>
@@ -200,7 +231,7 @@ function Category() {
                             endIcon={<KeyboardArrowDownIcon sx={{color: 'black'}}/>}
                             variant="plain"
                         >
-                            <img src="https://static.moneylover.me/img/icon/icon.png"
+                            <img src={dataWallet.iconUrl}
                                  style={{height: 30}}
                             />
                         </Button>
@@ -218,34 +249,43 @@ function Category() {
                                 fontSize: 13,
                                 color: 'black',
                                 textAlign: 'left',
-                                m:1
-                            }} >
+                                m: 1
+                            }}>
                                 Included in Total
                             </Typography>
                             <Divider sx={{my: 0.5}}/>
-                            <MenuItem disableRipple>
-                                <img src="https://static.moneylover.me/img/icon/icon.png"
-                                     className='rounded-full w-[35px] h-[35px] object-cover'
-                                />
-                                <Box sx={{ml:2}}>
-                                    <Typography sx={{
-                                        fontWeight: 'bold',
-                                        fontSize: 14,
-                                        color: 'black',
-                                        textAlign: 'left'
-                                    }} >
-                                        Trung nguyen
-                                    </Typography>
-                                    <Typography sx={{
-                                        fontWeight: 'light',
-                                        fontSize: 12,
-                                        color: 'black',
-                                        textAlign: 'left'
-                                    }}>
-                                        +95.000
-                                    </Typography>
-                                </Box>
-                            </MenuItem>
+
+                            {
+                                wallets.map((item) => (
+                                    <MenuItem disableRipple key={item._id}
+                                              onClick={() => handleSellectWallet(item._id, item.icon.url)}>
+
+                                        <img src={item.icon.url}
+                                             className='rounded-full w-[35px] h-[35px] object-cover'
+                                        />
+                                        <Box sx={{ml: 2}}>
+                                            <Typography sx={{
+                                                fontWeight: 'bold',
+                                                fontSize: 14,
+                                                color: 'black',
+                                                textAlign: 'left'
+                                            }}>
+                                                {item.name}
+                                            </Typography>
+                                            <Typography sx={{
+                                                fontWeight: 'light',
+                                                fontSize: 12,
+                                                color: 'black',
+                                                textAlign: 'left'
+                                            }}>
+                                                +95.000
+                                            </Typography>
+                                        </Box>
+
+                                    </MenuItem>
+                                ))
+                            }
+
 
                         </StyledMenu>
 
