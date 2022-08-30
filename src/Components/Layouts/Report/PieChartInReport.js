@@ -1,8 +1,8 @@
-import {Sector} from "recharts";
-import React from "@types/react";
+import React, {useCallback, useEffect, useState} from "react";
 import {PieChart, Pie, Sector} from "recharts";
 
-export const renderActiveShape = (props) => {
+
+const renderActiveShape = ({data, ...props}) => {
     const RADIAN = Math.PI / 180;
     const {
         cx,
@@ -31,7 +31,7 @@ export const renderActiveShape = (props) => {
 
 
     return (
-        <g className='flex justify-center text-sm text-center'>
+        <g>
             <text x={cx} y={cy} dy={8} textAnchor="middle" fill={fill}>
                 {payload.name}
             </text>
@@ -60,21 +60,50 @@ export const renderActiveShape = (props) => {
             />
             <circle cx={ex} cy={ey} r={2} fill={fill} stroke="none"/>
             <text
-                x={ex + (cos >= 0 ? 1 : -1) * 5}
+                x={ex + (cos >= 0 ? 1 : -1) * 12}
                 y={ey}
                 textAnchor={textAnchor}
                 fill="#333"
             >{`${value}`}</text>
             <text
-                x={ex + (cos >= 0 ? 1 : -1) * 5}
+                x={ex + (cos >= 0 ? 1 : -1) * 12}
                 y={ey}
                 dy={18}
                 textAnchor={textAnchor}
                 fill="#999"
             >
-                {`${(percent * 100).toFixed(2)}%`}
+                {`${(percent * 100).toFixed(1)}%`}
             </text>
         </g>
     );
 };
 
+export default function PieChartInReport({color, data, ...props}) {
+    const [activeIndex, setActiveIndex] = useState(0);
+    const onPieEnter = useCallback(
+        (_, index) => {
+            setActiveIndex(index);
+        },
+        [setActiveIndex]
+    );
+
+    return (
+
+
+        <PieChart width={400} height={400}>
+            <Pie
+                activeIndex={activeIndex}
+                activeShape={renderActiveShape}
+                data={data}
+                cx={190}
+                cy={150}
+                innerRadius={60}
+                outerRadius={80}
+                fill={color || "#71717a"}
+                dataKey="value"
+                onMouseEnter={onPieEnter}
+            />
+        </PieChart>
+
+    );
+}
