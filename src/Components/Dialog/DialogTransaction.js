@@ -114,7 +114,7 @@ const DialogTransaction = () => {
                                         >{selectWalletState.value.name ? selectWalletState.value.name : 'Select Wallet'}
                                     </span>
                                         <label htmlFor="button"
-                                               className="absolute text-sm text-gray-500 dark:text-gray-400 duration-300 transform -translate-y-4 scale-75 top-4 z-10 origin-[0] left-2.5   peer-placeholder-shown:scale-100 peer-placeholder-shown:translate-y-0 peer-focus:scale-75 peer-focus:-translate-y-4"
+                                               className="absolute text-sm text-gray-500 duration-300 transform -translate-y-4 scale-75 top-4 z-10 origin-[0] left-2.5   peer-placeholder-shown:scale-100 peer-placeholder-shown:translate-y-0 peer-focus:scale-75 peer-focus:-translate-y-4"
                                         >Select Wallet
                                         </label>
                                     </button>
@@ -134,7 +134,7 @@ const DialogTransaction = () => {
                                             : 'Select category'}
                                     </span>
                                         <label htmlFor="button"
-                                               className="absolute pl-3 text-sm text-gray-500 dark:text-gray-400 duration-300 transform -translate-y-4 scale-75 top-4 z-10 origin-[0] left-2.5   peer-placeholder-shown:scale-100 peer-placeholder-shown:translate-y-0 peer-focus:scale-75 peer-focus:-translate-y-4"
+                                               className="absolute pl-3 text-sm text-gray-500 duration-300 transform -translate-y-4 scale-75 top-4 z-10 origin-[0] left-2.5   peer-placeholder-shown:scale-100 peer-placeholder-shown:translate-y-0 peer-focus:scale-75 peer-focus:-translate-y-4"
                                         >Select Category
                                         </label>
                                         <svg xmlns="http://www.w3.org/2000/svg"
@@ -148,10 +148,10 @@ const DialogTransaction = () => {
                                 <div className="relative w-full pl-2 pr-2">
                                     <input type="number" id="floating_filled" onChange={handleChangeAmount}
                                            value={amount}
-                                           className="block rounded-[10px] p-2 pl-5 pt-5 w-full h-full text-sm text-gray-900 bg-gray-50  border border-gray-300  appearance-none dark:text-black  focus:outline-none focus:ring-0 hover:border-black peer"
+                                           className="block rounded-[10px] p-2 pl-5 pt-5 w-full h-full text-sm text-gray-900 bg-gray-50  border border-gray-300  appearance-none focus:outline-none focus:ring-0 hover:border-black peer"
                                            placeholder=" "/>
                                     <label htmlFor="floating_filled"
-                                           className="absolute pl-4 text-sm text-gray-500 dark:text-gray-400 duration-300 transform -translate-y-4 scale-75 top-4 z-10 origin-[0] left-2.5   peer-placeholder-shown:scale-100 peer-placeholder-shown:translate-y-0 peer-focus:scale-75 peer-focus:-translate-y-4"
+                                           className="absolute pl-4 text-sm text-gray-500 duration-300 transform -translate-y-4 scale-75 top-4 z-10 origin-[0] left-2.5   peer-placeholder-shown:scale-100 peer-placeholder-shown:translate-y-0 peer-focus:scale-75 peer-focus:-translate-y-4"
                                     >Amount
                                     </label>
                                 </div>
@@ -160,15 +160,15 @@ const DialogTransaction = () => {
                             <div className="grid grid-cols-3 gap-1 p-3 pt-0 px-6 pb-6">
                                 <div className="w-full pl-2 pr-2">
                                     <input type="date" value={date} onChange={handleChangeDate}
-                                           className="block p-4 pl-2 h-full w-full text-sm text-gray-900 bg-gray-50 rounded-lg border border-gray-300 focus:ring-blue-500 focus:border-blue-500 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
+                                           className="block p-4 pl-2 h-full w-full text-sm text-gray-900 bg-gray-50 rounded-lg border border-gray-300 focus:ring-blue-500 focus:border-blue-500 "
                                            placeholder=""/>
                                 </div>
                                 <div className="relative w-full col-span-2 pl-2 pr-2">
                                     <input type="text" id="floating_filled" onChange={handleChangeNote} value={note}
-                                           className="block rounded-[10px] p-2 pl-6 pt-5 w-full h-full text-sm text-gray-900 bg-gray-50  border border-gray-300  appearance-none dark:text-black  focus:outline-none focus:ring-0 hover:border-black peer"
+                                           className="block rounded-[10px] p-2 pl-6 pt-5 w-full h-full text-sm text-gray-900 bg-gray-50  border border-gray-300  appearance-none focus:outline-none focus:ring-0 hover:border-black peer"
                                            placeholder=" "/>
                                     <label htmlFor="floating_filled"
-                                           className="absolute pl-3 text-sm text-gray-500 dark:text-gray-400 duration-300 transform -translate-y-4 scale-75 top-4 z-10 origin-[0] left-2.5   peer-placeholder-shown:scale-100 peer-placeholder-shown:translate-y-0 peer-focus:scale-75 peer-focus:-translate-y-4"
+                                           className="absolute pl-3 text-sm text-gray-500 duration-300 transform -translate-y-4 scale-75 top-4 z-10 origin-[0] left-2.5 peer-placeholder-shown:scale-100 peer-placeholder-shown:translate-y-0 peer-focus:scale-75 peer-focus:-translate-y-4"
                                     >Note
                                     </label>
                                 </div>

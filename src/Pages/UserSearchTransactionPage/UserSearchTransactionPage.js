@@ -2,6 +2,9 @@ import React, {useEffect,useState} from 'react';
 import SearchPageLayout from "../../Components/Layouts/Search/SearchPageLayout";
 import DialogTransactionCategory from "../../Components/Dialog/DialogTransactionCategory";
 import DialogSelectWallet from "../../Components/Dialog/DialogSelectWallet";
+import {motion} from "framer-motion"
+import Variants from "../../Components/Variants";
+
 import {useDispatch, useSelector} from "react-redux";
 import {selectDetailTransaction} from "../../Features/Transaction/detailTransactionSlice";
 import Button from "@mui/material/Button";
@@ -171,9 +174,13 @@ const UserSearchTransactionPage = () => {
 
     return (
         <div>
-            <SearchPageLayout>
+            <motion.div initial="exit"
+                        animate="enter"
+                        exit="exit"
+                        variants={Variants.variant1}>
                 {dialogCategoryState && <DialogTransactionCategory/>}
                 {dialogWalletState && <DialogSelectWallet/>}
+                <SearchPageLayout>
                 <div className="pt-24 mt-6 ">
 
                     <div className="flex justify-center gap-2">
@@ -319,9 +326,9 @@ const UserSearchTransactionPage = () => {
                     </div>
 
                 {/*<div className="bg-white w-1/2 shadow-md rounded">sadas</div>*/}
-
                 </div>
-            </SearchPageLayout>
+                </SearchPageLayout>
+            </motion.div>
         </div>
     );
 };
