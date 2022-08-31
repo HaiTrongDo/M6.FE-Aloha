@@ -18,7 +18,8 @@ const DialogTransactionCategory = (props) => {
     const [listIncome, setListIncome] = useState([]);
     const [typeCategory, setTypeCategory] = useState(true);
     const [searchIncome, setSearchIncome] = useState();
-    const [searchExpense, setSearchExpense] = useState()
+    const [searchExpense, setSearchExpense] = useState();
+    const currentWalletState = useSelector(state => state.currentWallet.value)
 
     const handleCloseCategory = () => {
         dispatch(closeDialogCategory())
@@ -29,15 +30,27 @@ const DialogTransactionCategory = (props) => {
             .then(res => {
                 setListCategory(res.data.data)
             })
-        axios.get('transaction/category/expense')
-            .then(res => {
-                setListExpense(res.data.data)
-            })
-        axios.get('transaction/category/income')
-            .then(res => {
-                setListIncome(res.data.data)
-            })
-    }, [])
+        if (currentWalletState._id) {
+            axios.post('category/expense', {wallet: currentWalletState._id})
+                .then(res => {
+                    setListExpense(res.data.data)
+                })
+            axios.post('category/income', {wallet: currentWalletState._id})
+                .then(res => {
+                    setListIncome(res.data.data)
+                })
+        }
+        else{
+            axios.get('transaction/category/expense')
+                .then(res=>{
+                    setListExpense(res.data.data)
+                })
+            axios.get('transaction/category/income')
+                .then(res=>{
+                    setListIncome(res.data.data)
+                })
+        }
+    }, [currentWalletState])
 
 
     const handleTypeCategory = () => {

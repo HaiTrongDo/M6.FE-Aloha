@@ -6,6 +6,12 @@ import Variants from "../../Components/Variants";
 import TransactionBarChart from "../../Components/Layouts/Report/TransactionBarChart";
 import PieChartInReport from "../../Components/Layouts/Report/PieChartInReport";
 
+//do not change this below data
+const DEFAULT_DATA = [
+    {name: "None", value: 0.001, type: "EXPENSES"}
+];
+//do not change this above data
+
 
 const transactionData = [
     {
@@ -56,13 +62,13 @@ const dataPieChartExpense = [
     {name: "Transportation", value: 400, type: "EXPENSES"},
     {name: "Group B", value: 300, type: "EXPENSES"},
     {name: "Group C", value: 300, type: "EXPENSES"},
-    {name: "Group D", value: 1000, type: "INCOME"}
+    {name: "Group D", value: 100, type: "INCOME"}
 ];
 const dataPieChartIncome = [
-    {name: "Salary", value: 400, type: "EXPENSES"},
-    {name: "Interest", value: 300, type: "EXPENSES"},
+
+    {name: "Interest", value: 600, type: "EXPENSES"},
     {name: "Investment", value: 300, type: "EXPENSES"},
-];
+]
 
 
 const UserReportPage = () => {
@@ -103,7 +109,7 @@ const UserReportPage = () => {
                                 <div className="w-full flex px-[15px] mb-[16px] text-sm">
                                     <PieChartInReport
                                         color={dataPieChartIncome.length > 0 && "#1d4ed8"}
-                                        data={dataPieChartIncome}/>
+                                        data={dataPieChartIncome.length ? dataPieChartIncome : DEFAULT_DATA}/>
                                 </div>
                             </div>
                             <div className="block w-1/2 relative ">
@@ -112,7 +118,7 @@ const UserReportPage = () => {
                                 <div className="w-full flex px-[15px] mb-[16px] text-sm absolute">
                                     <PieChartInReport
                                         color={dataPieChartExpense.length > 0 && "#be123c"}
-                                        data={dataPieChartExpense}/>
+                                        data={dataPieChartExpense.length ? dataPieChartExpense : DEFAULT_DATA}/>
                                 </div>
                             </div>
 
