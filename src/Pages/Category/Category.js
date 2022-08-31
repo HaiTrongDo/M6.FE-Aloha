@@ -32,7 +32,7 @@ import {setUpdateDataCategory} from "../../Features/DialogCategorySlice/updataDa
 import Alert from "@mui/material/Alert";
 import Stack from "@mui/material/Stack";
 import {useNavigate} from "react-router-dom";
-import {selectDataWallet} from "../../Features/DialogCategorySlice/selectDataWalletOnCategory";
+import {selectDataWallet, setIdWallet} from "../../Features/DialogCategorySlice/selectDataWalletOnCategory";
 
 
 //o dropDow
@@ -161,6 +161,7 @@ function Category() {
 
         let token = JSON.parse(localStorage.getItem('JWT'))
         let idWallet = dataWallet.idWallet == '' ? wallets[0]._id : dataWallet.idWallet;
+        dispatch(setIdWallet(idWallet))
         return await axios.post('/category', {idWallet: idWallet},
             {headers: {Authorization: `Bearer ${token}`}},
         )

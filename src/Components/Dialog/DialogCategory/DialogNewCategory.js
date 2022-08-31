@@ -77,6 +77,7 @@ export default function DialogNewCategory() {
             icon: iconButton,
             wallet: dataWallet.idWallet
         }
+        console.log(body)
         try {
             let token = JSON.parse(localStorage.getItem('JWT')) //lay token o trong localra
             await axios.post('/category/add',
@@ -103,7 +104,6 @@ export default function DialogNewCategory() {
             console.log(err.response)
         }
     }
-    console.log(open,'123')
 
 
     return (
