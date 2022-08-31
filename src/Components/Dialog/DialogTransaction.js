@@ -10,6 +10,7 @@ import DialogTransactionCategory from "./DialogTransactionCategory";
 import DialogSelectWallet from "./DialogSelectWallet";
 import Transition from "../Transition";
 import {Dialog} from "@mui/material";
+import swal from "sweetalert";
 
 
 const DialogTransaction = () => {
@@ -17,7 +18,9 @@ const DialogTransaction = () => {
     const dispatch = useDispatch();
     const [amount, setAmount] = useState();
     const [note, setNote] = useState('');
-    const [date, setDate] = useState();
+    const [date, setDate] = useState(new Date().getFullYear()
+        + ((new Date().getMonth() < 9) ? `-0${new Date().getMonth() + 1}` : `-${new Date().getMonth() + 1}`)
+        + "-" + new Date().getDate());
     const selectCategoryState = useSelector(state => state.selectCategory)
     const selectWalletState = useSelector(state => state.selectWallet);
     const dialogCategoryState = useSelector(state => state.DialogCategory.value)
@@ -38,22 +41,31 @@ const DialogTransaction = () => {
     }
     const handleSaveTransaction = () => {
         const transaction = {
-            wallet: selectWalletState.value._id,
+            wallet: selectWalletState?.value?._id,
             amount: amount * 1,
-            category: selectCategoryState.value._id,
+            category: selectCategoryState?.value?._id,
             date: new Date(date),
             note: note,
             user: user
         }
-        axios.post('transaction/add', transaction)
-            .then((res) => {
-                dispatch(selectCategory({}))
-                dispatch(selectWallet({}))
-                dispatch(closeDialogTransaction())
+        swal({
+            icon: "success",
+            button: null,
+        })
+            .then(() => {
+                axios.post('transaction/add', transaction)
+                    .then((res) => {
+                        dispatch(selectCategory({}))
+                        dispatch(selectWallet({}))
+                        dispatch(closeDialogTransaction())
+                    })
+                    .catch((err) => {
+                        console.log(err.message)
+                    })
             })
-            .catch((err) => {
-                console.log(err.message)
-            })
+        setTimeout(() => {
+            swal.close()
+        }, 1000)
     }
     const handleCloseDialogTransaction = () => {
         dispatch(selectCategory({}))
@@ -104,13 +116,13 @@ const DialogTransaction = () => {
                                         <div className="">
 
                                             <img data-v-6bc9d4d3=""
-                                                 src={selectWalletState.value.name ? selectWalletState.value.icon.url : 'https://static.moneylover.me/img/icon/icon.png'}
+                                                 src={selectWalletState?.value?.name ? selectWalletState?.value?.icon?.url : 'https://static.moneylover.me/img/icon/icon.png'}
                                                  alt=""
                                                  name="2" className="transaction-icon w-[24px] my-3 mx-4"/>
                                         </div>
                                         <span
                                             className="my-3 mx-4 absolute pl-12"
-                                        >{selectWalletState.value.name ? selectWalletState.value.name : 'Select Wallet'}
+                                        >{selectWalletState?.value?.name ? selectWalletState?.value?.name : 'Select Wallet'}
                                     </span>
                                         <label htmlFor="button"
                                                className="absolute text-sm text-gray-500 duration-300 transform -translate-y-4 scale-75 top-4 z-10 origin-[0] left-2.5   peer-placeholder-shown:scale-100 peer-placeholder-shown:translate-y-0 peer-focus:scale-75 peer-focus:-translate-y-4"
@@ -123,13 +135,13 @@ const DialogTransaction = () => {
                                     <button id="button" onClick={() => dispatch(openDialogCategory())}
                                             className=" w-full col-span-2 flex border border-gray-300 p-2 h-[60px]  rounded-[10px] hover:border-black">
                                         <img data-v-6bc9d4d3=""
-                                             src={selectCategoryState.value.name ? selectCategoryState.value.icon : 'https://static.moneylover.me/img/icon/icon_not_selected.png'}
+                                             src={selectCategoryState?.value?.name ? selectCategoryState?.value?.icon : 'https://static.moneylover.me/img/icon/icon_not_selected.png'}
                                              alt=""
                                              name="2" className="transaction-icon w-[24px] my-3 mx-4"/>
                                         <span
                                             className="my-3 text-s pl-14 absolute"
-                                        >{selectCategoryState.value.name
-                                            ? selectCategoryState.value.name
+                                        >{selectCategoryState?.value?.name
+                                            ? selectCategoryState?.value?.name
                                             : 'Select category'}
                                     </span>
                                         <label htmlFor="button"

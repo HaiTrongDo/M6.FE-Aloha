@@ -85,8 +85,10 @@ function NavBar({children}) {
     let tokenUser = JSON.parse(localStorage.getItem('alohaUser'))
     const dispatch = useDispatch()
     const open = useSelector((state) => state.Layout.value)
-    const currentWalletState=useSelector(state=>state.currentWallet.value)
-    const [total,setTotal]=useState()
+    const currentWalletState = useSelector(state => state.currentWallet.value)
+    const [total, setTotal] = useState()
+    const dialogTransactionState = useSelector(state => state.dialogTransaction.value);
+    const dialogEditState = useSelector(state => state.dialogEditTransaction.value);
 
     // thanh dropDow
     const [anchorEl, setAnchorEl] = React.useState(null);
@@ -97,6 +99,17 @@ function NavBar({children}) {
     const handleClose = () => {
         setAnchorEl(null);
     };
+
+    useEffect(() => {
+        let result = 0
+        axios.post('wallet/render', {userId: user?._id})
+            .then(res => {
+                res.data.data.forEach((item) => {
+                    result += item.initial
+                })
+                setTotal(result)
+            })
+    }, [dialogTransactionState, dialogEditState, currentWalletState])
 
 
     return (
@@ -138,7 +151,7 @@ function NavBar({children}) {
                             color: 'black',
                             textAlign: 'left'
                         }}>
-                            {currentWalletState.name ? currentWalletState.name : 'Total'}
+                            {currentWalletState?.name ? currentWalletState?.name : 'Total'}
                             <KeyboardArrowDownIcon/>
                         </Typography>
 
@@ -149,7 +162,7 @@ function NavBar({children}) {
                             textAlign: 'left'
                         }}>
                             {/*total current wallet*/}
-                            {currentWalletState?.initial ? currentWalletState.initial : "$ 0"}
+                            {currentWalletState?.initial ? currentWalletState?.initial : "$ 0"}
                         </Typography>
                     </Box>
 
@@ -173,8 +186,8 @@ function NavBar({children}) {
                         Select Wallet
                     </Typography>
                     <Divider/>
-                    <MenuItem disableRipple onClick={()=>{
-                        dispatch(selectCurrentWallet({}))
+                    <MenuItem disableRipple onClick={() => {
+                        dispatch(selectCurrentWallet({initial:total}))
                     }}>
                         <img src="https://static.moneylover.me/img/icon/ic_category_all.png"
                              className='rounded-full w-[35px] h-[35px] object-cover'
@@ -195,7 +208,7 @@ function NavBar({children}) {
                                 textAlign: 'left'
                             }}>
                                 {/*Total all wallet*/}
-                                +95.000
+                                {total}
                             </Typography>
                         </Box>
                     </MenuItem>
@@ -214,13 +227,14 @@ function NavBar({children}) {
                     {user?.wallet?.map((wallet, index) => (
                         <div key={index}>
                             <Divider/>
-                            <MenuItem disableRipple onClick={()=>{
+                            <MenuItem disableRipple onClick={() => {
                                 dispatch(selectCurrentWallet(wallet));
 
                             }}>
-                                <img src={wallet?.icon?.url ? wallet?.icon?.url : "https://static.moneylover.me/img/icon/icon.png"}
-                                     className='rounded-full w-[35px] h-[35px] object-cover'
-                                     alt="..."
+                                <img
+                                    src={wallet?.icon?.url ? wallet?.icon?.url : "https://static.moneylover.me/img/icon/icon.png"}
+                                    className='rounded-full w-[35px] h-[35px] object-cover'
+                                    alt="..."
                                 />
                                 <Box sx={{ml: 2}}>
                                     <Typography sx={{

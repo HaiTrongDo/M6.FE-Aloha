@@ -55,6 +55,8 @@ const NavBarWithMultipleInPut = () => {
                 type: ''
             },
             date: '',
+            startDate:'',
+            endDate:'',
             note: ''
         }));
     };
@@ -78,20 +80,20 @@ const NavBarWithMultipleInPut = () => {
 
     const handleStartDateChange = (newValue) => {
         setSelectedDate({...selectedDate, startDate: newValue});
+        dispatch(setSearchInputForNote({...SearchInput,startDate:new Date(newValue.$d.toLocaleDateString('en-US')).getTime()}))
     };
     const handleEndDateChange = (newValue) => {
         setSelectedDate({...selectedDate, endDate: newValue});
+        dispatch(setSearchInputForNote({...SearchInput,endDate:new Date(newValue.$d.toLocaleDateString('en-US')).getTime()}))
     };
 
     const handleUpdateDateIntoRedux = () => {
         dispatch(setSearchInputForDate({
-                    startDate: selectedDate.endDate.$d.toLocaleDateString('en-US'),
+                    startDate: selectedDate.startDate.$d.toLocaleDateString('en-US'),
                     endDate: selectedDate.endDate.$d.toLocaleDateString('en-US')}))
     }
 
-    useEffect(() => {
 
-    })
     return (
         <div>
             <NavBar>
