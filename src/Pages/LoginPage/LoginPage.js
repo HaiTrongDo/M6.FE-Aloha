@@ -10,12 +10,14 @@ import {UserLoginWithFireBase, UserLoginWithPassword} from '../../Features/Curre
 import {motion} from "framer-motion"
 import Variants from "../../Components/Variants";
 import DialogWallet from "../../Components/Dialog/DialogWallet";
+import {usePasswordToggle} from "../../Components/usePasswordToggle";
 
 
 const DEFAULT_USER_URL = "https://firebasestorage.googleapis.com/v0/b/aloha-money.appspot.com/o/DefaultUser.jpg?alt=media&token=58615f07-c33a-42f7-aa11-43b9d8170593"
 
 
 const LoginPage = () => {
+    console.log(usePasswordToggle())
     const navigate = useNavigate()
     const dispatch = useDispatch()
     const [active, setActive] = useState('container');
@@ -32,6 +34,7 @@ const LoginPage = () => {
     const [validateSignUpMsg, setValidateSignUpMsg] = useState('');
     const [listWallet, setListWallet] = useState([]);
     const [isHaveWallet, setIsHaveWallet] = useState(false);
+    const [togglePassword, setTogglePassword] = useState(true)
 
     const handleClickSignIn = () => {
         setActive('container')
@@ -128,6 +131,10 @@ const LoginPage = () => {
         return Object.keys(msg).length <= 0;
     }
 
+    const handleChangeTypePassword = () => {
+        setTogglePassword(!togglePassword);
+    }
+
     const signInWithFireBase = async (auth, provider) => {
         signInWithPopup(auth, provider)
             .then((resultFromAuthProvider) => {
@@ -195,10 +202,22 @@ const LoginPage = () => {
                                value={userSignIn.email}/>
                         {validateSignInMsg.email &&
                             <p className='text-red-500 text-xs italic'>{validateSignInMsg.email}</p>}
-                        <input type="password" name='password' placeholder="Password" onChange={handleChangeSignIn}
-                               value={userSignIn.password}/>
-                        {validateSignInMsg.password &&
-                            <p className='text-red-500 text-xs italic'>{validateSignInMsg.password}</p>}
+                        <div className={"w-full relative "}>
+                            <input type={togglePassword ? "password" : "text"} name='password' placeholder="Password" onChange={handleChangeSignIn}
+                            />
+                            <div onClick={handleChangeTypePassword}
+                                 className={"absolute cursor-pointer inset-y-0 right-0 pr-3 flex items-center text-sm leading-5"}>
+                                <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24"
+                                     strokeWidth={1.5} stroke="currentColor" className="w-6 h-6 ">
+                                    <path strokeLinecap="round" strokeLinejoin="round"
+                                          d="M2.036 12.322a1.012 1.012 0 010-.639C3.423 7.51 7.36 4.5 12 4.5c4.638 0 8.573 3.007 9.963 7.178.07.207.07.431 0 .639C20.577 16.49 16.64 19.5 12 19.5c-4.638 0-8.573-3.007-9.963-7.178z"/>
+                                    <path strokeLinecap="round" strokeLinejoin="round"
+                                          d="M15 12a3 3 0 11-6 0 3 3 0 016 0z"/>
+                                </svg>
+                            </div>
+                            {validateSignInMsg.password &&
+                                <p className='text-red-500 text-xs italic'>{validateSignInMsg.password}</p>}
+                        </div>
                         <Link to="" style={{color: 'darkcyan', margin: '20px'}}>Forgot your password?</Link>
                         <button onClick={handleSignIn}>Sign In</button>
                     </form>
