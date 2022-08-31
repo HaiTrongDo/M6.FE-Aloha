@@ -55,7 +55,7 @@ const transactionData = [
         Income: 3490,
         Expense: 4300,
         amt: 2100
-    }
+    },
 ];
 
 const dataPieChartExpense = [

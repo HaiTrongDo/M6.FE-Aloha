@@ -91,7 +91,7 @@ const NavBarWithMultipleInPut = () => {
     }
 
     useEffect(() => {
-
+        // console.log(SearchInput);
     })
     return (
         <div>
