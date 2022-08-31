@@ -15,6 +15,9 @@ export const selectDataWalletOnCategorySlice = createSlice({
         selectDataWallet: (state, action) => {
             state.value = action.payload
         },
+        setIdWallet: (state, action) => {
+            state.value.idWallet = action.payload
+        },
         // setUpdateDataNameCategory: (state, action) => {
         //     state.value.name = action.payload
         // },
@@ -22,6 +25,6 @@ export const selectDataWalletOnCategorySlice = createSlice({
 })
 
 
-export const {selectDataWallet,} = selectDataWalletOnCategorySlice.actions
+export const {selectDataWallet, setIdWallet} = selectDataWalletOnCategorySlice.actions
 
 export default selectDataWalletOnCategorySlice

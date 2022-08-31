@@ -24,7 +24,6 @@ import {
     openDialogNewCategory
 } from "../../Features/DialogCategorySlice/openDialogNewCategorySlice";
 import DialogIconCategory from "../../Components/Dialog/DialogCategory/DialogIconCategory";
-
 import {setSelectIcon} from "../../Features/DiaLogSlice/selectIconSlice";
 import {setDataCategory} from "../../Features/DialogCategorySlice/dataCategorySlice";
 import {openDialogUpdateCategory} from "../../Features/DialogCategorySlice/openDialogUpdateCategorySlice";
@@ -33,7 +32,7 @@ import {setUpdateDataCategory} from "../../Features/DialogCategorySlice/updataDa
 import Alert from "@mui/material/Alert";
 import Stack from "@mui/material/Stack";
 import {useNavigate} from "react-router-dom";
-import {selectDataWallet} from "../../Features/DialogCategorySlice/selectDataWalletOnCategory";
+import {selectDataWallet, setIdWallet} from "../../Features/DialogCategorySlice/selectDataWalletOnCategory";
 import {motion} from "framer-motion"
 import Variants from "../../Components/Variants";
 
@@ -84,7 +83,6 @@ function Category() {
     const navigate = useNavigate()
     const dispatch = useDispatch()
     let tokenUser = JSON.parse(localStorage.getItem('alohaUser')) //lay token o trong localra
-    console.log(tokenUser)
     //the hien ra khi bam button
     const [checked, setChecked] = React.useState(false);
     const [category, setCategory] = useState({})
@@ -119,11 +117,12 @@ function Category() {
     }
 
     //bat edit category
-    console.log(category)
+
     const handleUpdateCategory = () => {
         dispatch(openDialogUpdateCategory(true))
         dispatch(setUpdateDataCategory(category))
         dispatch(setSelectIcon(category.icon))
+
     }
     //tat alert
     const handleCloseAlert = (event, reason) => {
@@ -153,8 +152,6 @@ function Category() {
                 setMessageSucsess(r.data.message)
                 setOpen(true);
                 dispatch(setDataCategory(r.data.data)) //set data toan bo du lieu tra ve de in ra man hinh
-
-
             })
         } catch (err) {
             console.log(err)
@@ -162,10 +159,11 @@ function Category() {
 
     }
 
-    //
     async function getAllProduct() {
+
         let token = JSON.parse(localStorage.getItem('JWT'))
         let idWallet = dataWallet.idWallet == '' ? wallets[0]._id : dataWallet.idWallet;
+        dispatch(setIdWallet(idWallet))
         return await axios.post('/category', {idWallet: idWallet},
             {headers: {Authorization: `Bearer ${token}`}},
         )
