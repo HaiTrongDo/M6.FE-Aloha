@@ -28,6 +28,7 @@ export default function DialogDetailWallet({walletId}) {
     const editState = useSelector((state) =>
         state.DialogEditWallet.value
     )
+    // console.log(new Date())
 
     useEffect(() => {
         axios.post('http://localhost:8080/wallet/detail', {walletId}).then(r => {
@@ -119,10 +120,10 @@ export default function DialogDetailWallet({walletId}) {
                                 <div className={"ml-2"}>
                                     <span className={"font-bold"}>{userObj.username}</span>
                                     {userObj.username && <span
-                                        className={"mx-3 w-[34px] p-1 h-[14px] bg-[#FEB74D] text-white rounded-[5px]"}>Owner</span>}
+                                        className={"mx-3 w-[34px] p-1 h-[10px] bg-[#FEB74D] text-white rounded-[5px]"}>Owner</span>}
 
 
-                                    <h3 className={"text-[#757575]"}>{userObj.email}</h3>
+                                    <h3 className={"text-[#757575] py-1"}>{userObj.email}</h3>
                                 </div>
                             </div>
                         </div>

@@ -33,6 +33,8 @@ import Alert from "@mui/material/Alert";
 import Stack from "@mui/material/Stack";
 import {useNavigate} from "react-router-dom";
 import {selectDataWallet, setIdWallet} from "../../Features/DialogCategorySlice/selectDataWalletOnCategory";
+import {motion} from "framer-motion"
+import Variants from "../../Components/Variants";
 
 
 //o dropDow
@@ -198,7 +200,12 @@ function Category() {
     )
 
     return (
-        <div>
+        <motion.div
+            initial="exit"
+            animate="enter"
+            exit="exit"
+            variants={Variants.variant1}
+        >
             // navbar
             <Box sx={{flexGrow: 1}}>
                 <AppBar position="fixed" sx={{bgcolor: '#e0e0e0'}}>
@@ -450,7 +457,7 @@ function Category() {
                     </Alert>
                 </Snackbar>
             </Stack>
-        </div>
+        </motion.div>
     )
 }
 

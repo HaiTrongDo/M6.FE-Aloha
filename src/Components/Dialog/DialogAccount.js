@@ -13,6 +13,7 @@ import {openDialogChangePass} from "../../Features/DiaLogSlice/openDialogChangeP
 import {userSignOut} from "../../Features/CurrentUser/UserSlice";
 import {useNavigate} from "react-router-dom";
 import swal from "sweetalert";
+import {selectCurrentWallet} from "../../Features/Transaction/currentWalletSlice";
 const BootstrapDialog = styled(Dialog)(({theme}) => ({
     '& .MuiDialogContent-root': {
         padding: theme.spacing(2),
@@ -66,6 +67,7 @@ export default function DialogAccount() {
             buttons: false,
             timer: 3000,
         }).then(()=>{
+            dispatch(selectCurrentWallet({}))
             navigate('/login')
         })
     };

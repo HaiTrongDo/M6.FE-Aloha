@@ -15,8 +15,9 @@ import MenuTwoToneIcon from '@mui/icons-material/MenuTwoTone';
 import {useDispatch, useSelector} from "react-redux";
 import {addClick} from "../Features/SidebarOpenSlice/clickSlice";
 import Box from "@mui/material/Box";
-import {useState} from "react";
+import {useEffect, useState} from "react";
 import {selectCurrentWallet} from "../Features/Transaction/currentWalletSlice";
+import axios from '../axios/index'
 
 const drawerWidth = 240;
 const AppBar = styled(MuiAppBar, {
@@ -84,8 +85,10 @@ function NavBar({children}) {
     let tokenUser = JSON.parse(localStorage.getItem('alohaUser'))
     const dispatch = useDispatch()
     const open = useSelector((state) => state.Layout.value)
-    const currentWalletState=useSelector(state=>state.currentWallet.value)
-    const [total,setTotal]=useState()
+    const currentWalletState = useSelector(state => state.currentWallet.value)
+    const [total, setTotal] = useState()
+    const dialogTransactionState = useSelector(state => state.dialogTransaction.value);
+    const dialogEditState = useSelector(state => state.dialogEditTransaction.value);
 
     // thanh dropDow
     const [anchorEl, setAnchorEl] = React.useState(null);
@@ -96,9 +99,17 @@ function NavBar({children}) {
     const handleClose = () => {
         setAnchorEl(null);
     };
-    const handleSelectCurrentWallet=()=>{
-        console.log(currentWalletState,'current wallet')
-    }
+
+    useEffect(() => {
+        let result = 0
+        axios.post('wallet/render', {userId: user?._id})
+            .then(res => {
+                res.data.data.forEach((item) => {
+                    result += item.initial
+                })
+                setTotal(result)
+            })
+    }, [dialogTransactionState, dialogEditState, currentWalletState])
 
 
     return (
@@ -131,7 +142,7 @@ function NavBar({children}) {
                 >
                     <img
                         className='rounded-full w-[35px] h-[35px] object-cover'
-                        src={'https://static.moneylover.me/img/icon/icon.png'}
+                        src={currentWalletState?.icon?.url ? currentWalletState.icon.url : 'https://static.moneylover.me/img/icon/ic_category_all.png'}
                     />
                     <Box sx={{ml: 1}}>
                         <Typography sx={{
@@ -140,7 +151,7 @@ function NavBar({children}) {
                             color: 'black',
                             textAlign: 'left'
                         }}>
-                            {currentWalletState ? currentWalletState.name : ''}
+                            {currentWalletState?.name ? currentWalletState?.name : 'Total'}
                             <KeyboardArrowDownIcon/>
                         </Typography>
 
@@ -151,7 +162,7 @@ function NavBar({children}) {
                             textAlign: 'left'
                         }}>
                             {/*total current wallet*/}
-                            +50.000d
+                            {currentWalletState?.initial ? currentWalletState?.initial : "$ 0"}
                         </Typography>
                     </Box>
 
@@ -175,7 +186,9 @@ function NavBar({children}) {
                         Select Wallet
                     </Typography>
                     <Divider/>
-                    <MenuItem disableRipple>
+                    <MenuItem disableRipple onClick={() => {
+                        dispatch(selectCurrentWallet({initial:total}))
+                    }}>
                         <img src="https://static.moneylover.me/img/icon/ic_category_all.png"
                              className='rounded-full w-[35px] h-[35px] object-cover'
                         />
@@ -195,7 +208,7 @@ function NavBar({children}) {
                                 textAlign: 'left'
                             }}>
                                 {/*Total all wallet*/}
-                                +95.000
+                                {total}
                             </Typography>
                         </Box>
                     </MenuItem>
@@ -211,15 +224,17 @@ function NavBar({children}) {
                     </Typography>
 
                     {/*Each wallet*/}
-                    {user.wallet.map((wallet, index) => (
+                    {user?.wallet?.map((wallet, index) => (
                         <div key={index}>
                             <Divider/>
-                            <MenuItem disableRipple onClick={()=>{
+                            <MenuItem disableRipple onClick={() => {
                                 dispatch(selectCurrentWallet(wallet));
-                                handleSelectCurrentWallet()
+
                             }}>
-                                <img src={wallet.icon.url ? wallet.icon.url : "https://static.moneylover.me/img/icon/icon.png"}
-                                     className='rounded-full w-[35px] h-[35px] object-cover'
+                                <img
+                                    src={wallet?.icon?.url ? wallet?.icon?.url : "https://static.moneylover.me/img/icon/icon.png"}
+                                    className='rounded-full w-[35px] h-[35px] object-cover'
+                                    alt="..."
                                 />
                                 <Box sx={{ml: 2}}>
                                     <Typography sx={{
@@ -228,7 +243,7 @@ function NavBar({children}) {
                                         color: 'black',
                                         textAlign: 'left'
                                     }}>
-                                        {wallet.name}
+                                        {wallet?.name}
                                     </Typography>
                                     <Typography sx={{
                                         fontWeight: 'light',
@@ -236,7 +251,7 @@ function NavBar({children}) {
                                         color: 'black',
                                         textAlign: 'left'
                                     }}>
-                                        {wallet.initial}
+                                        {wallet?.initial}
                                     </Typography>
                                 </Box>
                             </MenuItem>

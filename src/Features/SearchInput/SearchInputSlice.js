@@ -26,6 +26,8 @@ const initialState = {
         type: ''
     },
     date: '',
+    startDate:'',
+    endDate:'',
     note: ''
 };
 
@@ -36,7 +38,9 @@ const SearchInputSlice = createSlice({
         AllTransactions: {
             loading:false,
             data:{}
-        }
+        },
+        searchResult:[]
+
     },
     reducers: {
         setCategoryInSearchPage: (state, action) => {

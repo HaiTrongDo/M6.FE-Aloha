@@ -7,6 +7,9 @@ import {useNavigate} from "react-router-dom";
 import {openDialogDetail} from "../../Features/DiaLogSlice/openDialogDetailSlice";
 import DialogDetailWallet from "../../Components/Dialog/DialogDetailWallet";
 import {setWalletId} from "../../Features/SelectWallet/walletIdSlice";
+import {motion} from "framer-motion"
+import Variants from"../../Components/Variants"
+
 
 
 export default function MyWallet() {
@@ -70,9 +73,16 @@ export default function MyWallet() {
 
     }
 
+
+
     return (
 
-        <div className="relative bg-[#E4E4E4] h-[100vh]">
+        <motion.div className="relative bg-[#E4E4E4] h-[100vh]"
+                    initial="exit"
+                    animate="enter"
+                    exit="exit"
+                    variants={Variants.variant1}
+        >
             <div className="navbar">
                 <div>
                     <nav
@@ -148,7 +158,7 @@ export default function MyWallet() {
                     <DialogWallet/>
                 </>
             ) : null}
-        </div>
+        </motion.div>
     )
 }
 
