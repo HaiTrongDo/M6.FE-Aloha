@@ -223,6 +223,7 @@ function Category() {
                             <ArrowBackIcon sx={{color:'black'}}/>
                         </IconButton>
                         <Typography variant="h6" color='black' component="div" sx={{flexGrow: 1}}>
+                            <span></span>
                             Categories
                         </Typography>
                         <Button onClick={handleNewCategory} variant="soft" color="neutral" sx={{color: 'black'}}>New
