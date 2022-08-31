@@ -85,8 +85,9 @@ const NavBarWithMultipleInPut = () => {
 
     const handleUpdateDateIntoRedux = () => {
         dispatch(setSearchInputForDate({
-                    startDate: selectedDate.endDate.$d.toLocaleDateString('en-US'),
-                    endDate: selectedDate.endDate.$d.toLocaleDateString('en-US')}))
+            startDate: selectedDate.startDate.$d.toLocaleDateString('en-US'),
+            endDate: selectedDate.endDate.$d.toLocaleDateString('en-US')
+        }))
     }
 
     useEffect(() => {
@@ -113,6 +114,7 @@ const NavBarWithMultipleInPut = () => {
                                         Wallet
                                     </InputLabel>
                                     <Input
+                                        size="small"
                                         name={"wallet"}
                                         onChange={() => {
                                         }}

@@ -208,15 +208,15 @@ const UserTransactionsPage = () => {
                             </div>
                             <hr/>
                             <div className="report block bg-white">
-                                <div className=" flex justify-between p-3">
+                                <div className=" flex justify-between pt-6 px-8">
                                     <div>Inflow</div>
                                     <div className="text-blue-500">${totalInflow}</div>
                                 </div>
-                                <div className=" flex justify-between px-3 py-1">
+                                <div className=" flex justify-between px-8 py-1">
                                     <div>Outflow</div>
                                     <div className="text-red-500">-${totalOutflow}</div>
                                 </div>
-                                <div className=" flex justify-between px-3 py-1">
+                                <div className=" flex justify-between px-8 py-1">
                                     <span> </span>
                                     <span className='border-t-2'
                                     >{total}
