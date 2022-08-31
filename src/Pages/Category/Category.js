@@ -207,8 +207,9 @@ function Category() {
             variants={Variants.variant1}
         >
             // navbar
+
             <Box sx={{flexGrow: 1}}>
-                <AppBar position="fixed" sx={{bgcolor: '#e0e0e0'}}>
+                <AppBar position="fixed" sx={{bgcolor: 'white'}}>
                     <Toolbar>
                         <IconButton
                             size="large"
@@ -220,7 +221,7 @@ function Category() {
                                 navigate(-1)
                             }}
                         >
-                            <ArrowBackIcon/>
+                            <ArrowBackIcon sx={{color:'black'}}/>
                         </IconButton>
                         <Typography variant="h6" color='black' component="div" sx={{flexGrow: 1}}>
                             Categories
@@ -301,6 +302,7 @@ function Category() {
                 </AppBar>
             </Box>
 
+
             //2 the grid danh sach
             <div className='flex inline relative'>
                 <Grid container
@@ -308,11 +310,12 @@ function Category() {
                       alignItems="center"
                       justifyContent="center"
                       style={{minHeight: '100vh'}}
+                      sx={{bgcolor: '#e0e0e0'}}
                 >
                     <div className='w-1/2 flex justify-center'>
                         {/*<Grid xs={6} md={4}>*/}
                         <Box
-                            sx={{width: 500, backgroundColor: '#e0e0e0'}}
+                            sx={{width: 500, backgroundColor: 'white'}}
                         >
                             <Typography sx={{mt: 2}}>
                                 <Typography sx={{bgcolor: '#eeeeee'}}>
@@ -386,7 +389,7 @@ function Category() {
                                     <Box>
                                         <Box sx={{width: '50%'}}>
                                             <Collapse orientation="horizontal" in={checked}>
-                                                <Card position="fixed" sx={{minWidth: 500, bgcolor: '#eeeeee'}}>
+                                                <Card position="fixed" sx={{minWidth: 500, bgcolor: 'white'}}>
                                                     <CardHeader sx={{height: '50px'}}
                                                                 avatar={
                                                                     <Button onClick={handleClose}>
