@@ -3,13 +3,13 @@
     font-size: 14px;
     text-rendering: optimizeLegibility;
     -webkit-text-size-adjust: 100%;
-    color: rgba(0,0,0,.87);
+    color: rgba(0, 0, 0, .87);
     -webkit-box-direction: normal;
 
-    font-family: roboto,sans-serif;
+    font-family: roboto, sans-serif;
     font-weight: 400;
     box-sizing: border-box;
-    box-shadow: 0 3px 24px 0 rgba(0,0,0,.12);
+    box-shadow: 0 3px 24px 0 rgba(0, 0, 0, .12);
     margin-top: 30px;
     margin-left: 15px;
 }
@@ -31,7 +31,7 @@ input:invalid {
     display: block;
 }
 
-.nameErrorMessage{
+.nameErrorMessage {
     display: none;
 }
 
@@ -39,3 +39,17 @@ input:invalid {
     color: red;
     display: block;
 }
+
+#email:invalid ~ .emailErrorMessage {
+    color: red;
+    display: block;
+}
+
+.emailErrorMessage {
+    display: none;
+}
+
+.btnUpdateProfile :disabled {
+    background-color: gray;
+}
+
