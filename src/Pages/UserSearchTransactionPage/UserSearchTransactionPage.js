@@ -58,8 +58,7 @@ const UserSearchTransactionPage = () => {
                 setTotal(sumInflow - sumOutFlow)
                 setListTransaction(res.data.data)
                 setToggleDetail(false)
-                // setListSearch(res.data.data)
-                // console.log(res.data.data,'search data')
+
             })
 
 
@@ -213,57 +212,57 @@ const UserSearchTransactionPage = () => {
                                 <div className="flow-root w-full ">
                                     <ul role="list" className="divide-y divide-gray-200 ">
 
-                                            {listTransaction?.map((transaction, index) => (<div key={index}>
-                                                <li className="py-3 sm:py-4">
-                                                    <div className="flex items-center space-x-4">
-                                                        <div className="flex-shrink-0">
-                                                            <img className="w-8 h-8 rounded-full"
-                                                                 src={transaction?.category?.icon ? transaction?.category?.icon : "https://static.moneylover.me/img/icon/icon_136.png"}
-                                                                 alt="Neil image"/>
-                                                        </div>
-                                                        <div className="flex-1 min-w-0">
-                                                            <p className="text-sm font-medium text-gray-900 truncate ">
-                                                                {transaction.category.name}
-                                                            </p>
-                                                            <p className="text-sm text-gray-500 truncate ">
-                                                                1 Transactions
-                                                            </p>
-                                                        </div>
-                                                        <div
-                                                            className="inline-flex items-center text-base  text-gray-900 ">
-                                                            {transaction.category.type === 'EXPENSE' ? "-$" + transaction.amount : "+$" + transaction.amount}
-                                                        </div>
+                                        {listTransaction?.map((transaction, index) => (<div key={index}>
+                                            <li className="py-3 sm:py-4">
+                                                <div className="flex items-center space-x-4">
+                                                    <div className="flex-shrink-0">
+                                                        <img className="w-8 h-8 rounded-full"
+                                                             src={transaction.category.icon ? transaction.category.icon : "https://static.moneylover.me/img/icon/icon_136.png"}
+                                                             alt="Neil image"/>
                                                     </div>
-                                                </li>
+                                                    <div className="flex-1 min-w-0">
+                                                        <p className="text-sm font-medium text-gray-900 truncate ">
+                                                            {transaction.category.name}
+                                                        </p>
+                                                        <p className="text-sm text-gray-500 truncate ">
+                                                            1 Transactions
+                                                        </p>
+                                                    </div>
+                                                    <div
+                                                        className="inline-flex items-center text-base  text-gray-900 ">
+                                                        {transaction.category.type === 'EXPENSE' ? "-$" + transaction.amount : "+$" + transaction.amount}
+                                                    </div>
+                                                </div>
+                                            </li>
 
-                                                <li className={!toggleDetail ? active : (detailTransactionState?._id === transaction?._id ? active + " " + "bg-emerald-50" : active)}
-                                                    onClick={() => {
-                                                        dispatch(selectDetailTransaction(transaction));
-                                                        handleOpenDetail()
-                                                    }}>
-                                                    <div className="flex items-center space-x-4">
-                                                        <div className="flex-shrink-0">
-                                                            <div className="text-2xl"
-                                                            >{new Date(transaction?.date).getDate()}
-                                                            </div>
-                                                        </div>
-                                                        <div className="flex-1 min-w-0">
-                                                            <p className="text-sm text-gray-500 truncate ">
-                                                                {new Date(transaction?.date).toDateString()}
-                                                            </p>
-                                                        </div>
-                                                        <div
-                                                            className={transaction?.category?.type === 'EXPENSE' ? 'inline-flex items-center text-base text-red-500' : 'inline-flex items-center text-base text-blue-500 '}
-                                                        >
-                                                            {transaction?.category?.type === 'EXPENSE' ? "-$" + transaction?.amount : "+$" + transaction?.amount}
+                                            <li className={!toggleDetail ? active : (detailTransactionState._id === transaction._id ? active + " " + "bg-emerald-50" : active)}
+                                                onClick={() => {
+                                                    dispatch(selectDetailTransaction(transaction));
+                                                    handleOpenDetail()
+                                                }}>
+                                                <div className="flex items-center space-x-4">
+                                                    <div className="flex-shrink-0">
+                                                        <div className="text-2xl"
+                                                        >{new Date(transaction.date).getDate()}
                                                         </div>
                                                     </div>
-                                                </li>
-                                            </div>))}
-                                        </ul>
-                                    </div>
+                                                    <div className="flex-1 min-w-0">
+                                                        <p className="text-sm text-gray-500 truncate ">
+                                                            {new Date(transaction.date).toDateString()}
+                                                        </p>
+                                                    </div>
+                                                    <div
+                                                        className={transaction.category.type === 'EXPENSE' ? 'inline-flex items-center text-base text-red-500' : 'inline-flex items-center text-base text-blue-500 '}
+                                                    >
+                                                        {transaction.category.type === 'EXPENSE' ? "-$" + transaction.amount : "+$" + transaction.amount}
+                                                    </div>
+                                                </div>
+                                            </li>
+                                        </div>))}
+                                    </ul>
                                 </div>
                             </div>
+                        </div>
 
 
                         {/*detail transaction*/}
@@ -293,36 +292,36 @@ const UserSearchTransactionPage = () => {
                                 </div>
 
 
-                                    <div>
-                                        <div className="grid grid-cols-6 mt-3">
-                                            <div className="">
-                                                <img
-                                                    src={detailTransactionState?.category?.icon
-                                                        ? detailTransactionState?.category?.icon
-                                                        : "https://static.moneylover.me/img/icon/ic_category_foodndrink.png"}
-                                                    alt=""
-                                                    className="w-[60px] ml-14"/>
-                                            </div>
-                                            <div className="col-span-5">
-                                                <div className="text-3xl">{detailTransactionState?.category?.name}</div>
-                                                <div className="mt-1 ">Ăn uống</div>
-                                                <div
-                                                    className="mt-1 text-gray-500">{new Date(detailTransactionState?.date).toDateString()}</div>
-                                                <hr className="mt-2 w-[200px]"/>
-                                            </div>
+                                <div>
+                                    <div className="grid grid-cols-6 mt-3">
+                                        <div className="">
+                                            <img
+                                                src={detailTransactionState.category.icon
+                                                    ? detailTransactionState.category.icon
+                                                    : "https://static.moneylover.me/img/icon/ic_category_foodndrink.png"}
+                                                alt=""
+                                                className="w-[60px] ml-14"/>
                                         </div>
-
-                                        <div className="grid grid-cols-6">
-                                            <div></div>
+                                        <div className="col-span-5">
+                                            <div className="text-3xl">{detailTransactionState.category.name}</div>
+                                            <div className="mt-1 ">Ăn uống</div>
                                             <div
-                                                className={detailTransactionState?.category?.type === 'EXPENSE' ? 'text-3xl text-red-600 mt-4 col-span-5' : 'text-3xl text-blue-600 mt-4 col-span-5'}
-                                            >
-                                                {detailTransactionState?.category?.type === 'EXPENSE' ? '-$' + detailTransactionState?.amount : '+$' + detailTransactionState?.amount}
-                                            </div>
+                                                className="mt-1 text-gray-500">{new Date(detailTransactionState.date).toDateString()}</div>
+                                            <hr className="mt-2 w-[200px]"/>
+                                        </div>
+                                    </div>
+
+                                    <div className="grid grid-cols-6">
+                                        <div></div>
+                                        <div
+                                            className={detailTransactionState.category.type === 'EXPENSE' ? 'text-3xl text-red-600 mt-4 col-span-5' : 'text-3xl text-blue-600 mt-4 col-span-5'}
+                                        >
+                                            {detailTransactionState.category.type === 'EXPENSE' ? '-$' + detailTransactionState.amount : '+$' + detailTransactionState.amount}
                                         </div>
                                     </div>
                                 </div>
-                            </div>}
+                            </div>
+                        </div>}
 
                     </div>
 
