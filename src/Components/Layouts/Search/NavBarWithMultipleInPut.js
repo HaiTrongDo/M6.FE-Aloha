@@ -114,7 +114,6 @@ const NavBarWithMultipleInPut = () => {
                                         Wallet
                                     </InputLabel>
                                     <Input
-                                        size="small"
                                         name={"wallet"}
                                         onChange={() => {
                                         }}

@@ -26,6 +26,8 @@ const initialState = {
         type: ''
     },
     date: '',
+    startDate:'',
+    endDate:'',
     note: ''
 };
 

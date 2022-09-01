@@ -24,7 +24,6 @@ import {
     openDialogNewCategory
 } from "../../Features/DialogCategorySlice/openDialogNewCategorySlice";
 import DialogIconCategory from "../../Components/Dialog/DialogCategory/DialogIconCategory";
-
 import {setSelectIcon} from "../../Features/DiaLogSlice/selectIconSlice";
 import {setDataCategory} from "../../Features/DialogCategorySlice/dataCategorySlice";
 import {openDialogUpdateCategory} from "../../Features/DialogCategorySlice/openDialogUpdateCategorySlice";
@@ -33,7 +32,7 @@ import {setUpdateDataCategory} from "../../Features/DialogCategorySlice/updataDa
 import Alert from "@mui/material/Alert";
 import Stack from "@mui/material/Stack";
 import {useNavigate} from "react-router-dom";
-import {selectDataWallet} from "../../Features/DialogCategorySlice/selectDataWalletOnCategory";
+import {selectDataWallet, setIdWallet} from "../../Features/DialogCategorySlice/selectDataWalletOnCategory";
 import {motion} from "framer-motion"
 import Variants from "../../Components/Variants";
 
@@ -84,7 +83,6 @@ function Category() {
     const navigate = useNavigate()
     const dispatch = useDispatch()
     let tokenUser = JSON.parse(localStorage.getItem('alohaUser')) //lay token o trong localra
-    console.log(tokenUser)
     //the hien ra khi bam button
     const [checked, setChecked] = React.useState(false);
     const [category, setCategory] = useState({})
@@ -119,11 +117,12 @@ function Category() {
     }
 
     //bat edit category
-    console.log(category)
+
     const handleUpdateCategory = () => {
         dispatch(openDialogUpdateCategory(true))
         dispatch(setUpdateDataCategory(category))
         dispatch(setSelectIcon(category.icon))
+
     }
     //tat alert
     const handleCloseAlert = (event, reason) => {
@@ -153,8 +152,6 @@ function Category() {
                 setMessageSucsess(r.data.message)
                 setOpen(true);
                 dispatch(setDataCategory(r.data.data)) //set data toan bo du lieu tra ve de in ra man hinh
-
-
             })
         } catch (err) {
             console.log(err)
@@ -162,10 +159,11 @@ function Category() {
 
     }
 
-    //
     async function getAllProduct() {
+
         let token = JSON.parse(localStorage.getItem('JWT'))
         let idWallet = dataWallet.idWallet == '' ? wallets[0]._id : dataWallet.idWallet;
+        dispatch(setIdWallet(idWallet))
         return await axios.post('/category', {idWallet: idWallet},
             {headers: {Authorization: `Bearer ${token}`}},
         )
@@ -210,7 +208,7 @@ function Category() {
         >
             // navbar
             <Box sx={{flexGrow: 1}}>
-                <AppBar position="fixed" sx={{bgcolor: '#e0e0e0'}}>
+                <AppBar position="fixed" sx={{bgcolor: 'white'}}>
                     <Toolbar>
                         <IconButton
                             size="large"
@@ -222,9 +220,10 @@ function Category() {
                                 navigate(-1)
                             }}
                         >
-                            <ArrowBackIcon/>
+                            <ArrowBackIcon sx={{color:'black'}}/>
                         </IconButton>
                         <Typography variant="h6" color='black' component="div" sx={{flexGrow: 1}}>
+                            <span></span>
                             Categories
                         </Typography>
                         <Button onClick={handleNewCategory} variant="soft" color="neutral" sx={{color: 'black'}}>New
@@ -310,11 +309,12 @@ function Category() {
                       alignItems="center"
                       justifyContent="center"
                       style={{minHeight: '100vh'}}
+                      sx={{bgcolor: '#e0e0e0'}}
                 >
                     <div className='w-1/2 flex justify-center'>
                         {/*<Grid xs={6} md={4}>*/}
                         <Box
-                            sx={{width: 500, backgroundColor: '#e0e0e0'}}
+                            sx={{width: 500, backgroundColor: 'white'}}
                         >
                             <Typography sx={{mt: 2}}>
                                 <Typography sx={{bgcolor: '#eeeeee'}}>
@@ -388,7 +388,7 @@ function Category() {
                                     <Box>
                                         <Box sx={{width: '50%'}}>
                                             <Collapse orientation="horizontal" in={checked}>
-                                                <Card position="fixed" sx={{minWidth: 500, bgcolor: '#eeeeee'}}>
+                                                <Card position="fixed" sx={{minWidth: 500, bgcolor: 'white'}}>
                                                     <CardHeader sx={{height: '50px'}}
                                                                 avatar={
                                                                     <Button onClick={handleClose}>
