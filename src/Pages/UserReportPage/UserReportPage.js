@@ -5,7 +5,8 @@ import {motion} from "framer-motion"
 import Variants from "../../Components/Variants";
 import TransactionBarChart from "../../Components/Layouts/Report/TransactionBarChart";
 import PieChartInReport from "../../Components/Layouts/Report/PieChartInReport";
-
+import {isLoadingAPIScreen, afterLoadingAPIScreen} from '../../Features/isLoadingScreen/isLoadingScreen'
+import {useDispatch} from "react-redux";
 //do not change this below data
 const DEFAULT_DATA = [
     {name: "None", value: 0.001, type: "EXPENSES"}
@@ -57,7 +58,6 @@ const transactionData = [
         amt: 2100
     },
 ];
-
 const dataPieChartExpense = [
     {name: "Transportation", value: 400, type: "EXPENSES"},
     {name: "Group B", value: 300, type: "EXPENSES"},
@@ -65,15 +65,17 @@ const dataPieChartExpense = [
     {name: "Group D", value: 100, type: "INCOME"}
 ];
 const dataPieChartIncome = [
-
     {name: "Interest", value: 600, type: "EXPENSES"},
     {name: "Investment", value: 300, type: "EXPENSES"},
 ]
 
 
 const UserReportPage = () => {
-
-
+    const dispatch = useDispatch()
+    useEffect(() => {
+        dispatch(isLoadingAPIScreen())
+        dispatch(afterLoadingAPIScreen())
+    }, [])
     return (
         <motion.div
             initial="exit"

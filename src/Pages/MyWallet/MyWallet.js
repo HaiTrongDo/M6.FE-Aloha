@@ -8,8 +8,8 @@ import {openDialogDetail} from "../../Features/DiaLogSlice/openDialogDetailSlice
 import DialogDetailWallet from "../../Components/Dialog/DialogDetailWallet";
 import {setWalletId} from "../../Features/SelectWallet/walletIdSlice";
 import {motion} from "framer-motion"
-import Variants from"../../Components/Variants"
-
+import Variants from "../../Components/Variants"
+import {afterLoadingAPIScreen, isLoadingAPIScreen} from "../../Features/isLoadingScreen/isLoadingScreen";
 
 
 export default function MyWallet() {
@@ -36,9 +36,10 @@ export default function MyWallet() {
 
     useEffect(() => {
         dispatch(openDialogDetail(false))
-    },[])
+    }, [])
 
     useEffect(() => {
+
         const qs = require('qs');
         const data = qs.stringify({
             'userId': currentUser._id
@@ -52,6 +53,7 @@ export default function MyWallet() {
             data: data
         };
 
+        dispatch(isLoadingAPIScreen())
         axios(config)
             .then(function (response) {
                 setWallets(response.data.data);
@@ -59,8 +61,7 @@ export default function MyWallet() {
             .catch(function (error) {
                 console.log(error.message);
             });
-
-
+        dispatch(afterLoadingAPIScreen())
     }, [wallets])
 
     const handleOpenDialogWallet = () => {
@@ -72,7 +73,6 @@ export default function MyWallet() {
         setWalletId(wallet._id)
 
     }
-
 
 
     return (

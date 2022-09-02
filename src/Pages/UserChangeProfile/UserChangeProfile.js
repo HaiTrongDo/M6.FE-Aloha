@@ -12,6 +12,7 @@ import swal from 'sweetalert';
 import {useNavigate} from "react-router-dom";
 import {motion} from "framer-motion"
 import Variants from "../../Components/Variants";
+import {afterLoadingAPIScreen, isLoadingAPIScreen} from "../../Features/isLoadingScreen/isLoadingScreen";
 
 
 const UserChangeProfile = () => {
@@ -32,7 +33,6 @@ const UserChangeProfile = () => {
 
     const setImageUploaded = (e) => {
         e.preventDefault()
-        console.log(formData);
         if (formData.imageUpload == null) {
             return axios
                 .put('/my-account/change-profile', {
@@ -65,12 +65,15 @@ const UserChangeProfile = () => {
     }
 
     useEffect(() => {
+        dispatch(isLoadingAPIScreen())
         setFormData({...currentUser})
+        dispatch(afterLoadingAPIScreen())
     }, [])
 
 
     useEffect(() => {
         if (!formData.imageUpload) return
+        dispatch(isLoadingAPIScreen())
         const userImage = ref(storage, `images/${formData.username + v4()}`)
         const uploadTask = uploadBytesResumable(userImage, formData.imageUpload)
         uploadTask.on(
@@ -83,6 +86,7 @@ const UserChangeProfile = () => {
                 getDownloadURL(uploadTask.snapshot.ref)
                     .then((downloadURL) => {
                         setImageUrls(downloadURL);
+                        dispatch(afterLoadingAPIScreen())
                     });
             }
         );
@@ -198,7 +202,7 @@ const UserChangeProfile = () => {
                             <div className=" text-center ">
                                 {progress ? <h2>Uploading done {progress}%</h2> : ""}
                                 <button type="submit"
-                                      
+
                                         className="btnUpdateProfile disabled:bg-amber-500 text-white bg-blue-700 hover:bg-blue-800 focus:ring-4 focus:outline-none focus:ring-blue-300 font-medium rounded-lg text-sm w-full sm:w-auto px-5 mt-2.5 py-2.5 text-center dark:bg-blue-600 ">Submit
                                 </button>
                             </div>
