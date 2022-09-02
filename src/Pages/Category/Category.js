@@ -35,6 +35,7 @@ import {useNavigate} from "react-router-dom";
 import {selectDataWallet, setIdWallet} from "../../Features/DialogCategorySlice/selectDataWalletOnCategory";
 import {motion} from "framer-motion"
 import Variants from "../../Components/Variants";
+import {afterLoadingAPIScreen, isLoadingAPIScreen} from "../../Features/isLoadingScreen/isLoadingScreen";
 
 
 //o dropDow
@@ -160,7 +161,6 @@ function Category() {
     }
 
     async function getAllProduct() {
-
         let token = JSON.parse(localStorage.getItem('JWT'))
         let idWallet = dataWallet.idWallet == '' ? wallets[0]._id : dataWallet.idWallet;
         dispatch(setIdWallet(idWallet))
@@ -186,9 +186,11 @@ function Category() {
     )
 
     useEffect(() => {
+            dispatch(isLoadingAPIScreen())
             getAllProduct()
                 .then((r) => {
                     dispatch(setDataCategory(r.data.data))
+                    dispatch(afterLoadingAPIScreen())
                 })
         }, [dataWallet.idWallet || wallets]
     )
@@ -220,7 +222,7 @@ function Category() {
                                 navigate(-1)
                             }}
                         >
-                            <ArrowBackIcon sx={{color:'black'}}/>
+                            <ArrowBackIcon sx={{color: 'black'}}/>
                         </IconButton>
                         <Typography variant="h6" color='black' component="div" sx={{flexGrow: 1}}>
                             <span></span>

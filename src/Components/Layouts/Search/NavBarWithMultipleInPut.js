@@ -27,6 +27,7 @@ import {useNavigate} from "react-router-dom";
 import {openDialogCategory, closeDialogCategory} from "../../../Features/DialogCategorySlice/openDialogCategorySlice";
 import {openDialogSelectWallet} from "../../../Features/DiaLogSlice/openDialogWallet";
 import {setSearchInputForNote, setSearchInputForDate} from "../../../Features/SearchInput/SearchInputSlice";
+import {afterLoadingAPIScreen, isLoadingAPIScreen} from "../../../Features/isLoadingScreen/isLoadingScreen";
 
 
 const NavBarWithMultipleInPut = () => {
@@ -92,6 +93,8 @@ const NavBarWithMultipleInPut = () => {
 
     useEffect(() => {
         // console.log(SearchInput);
+        dispatch(isLoadingAPIScreen())
+        dispatch(afterLoadingAPIScreen())
     })
     return (
         <div>

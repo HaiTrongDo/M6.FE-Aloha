@@ -15,11 +15,13 @@ import {UserLoginWithPassword} from "../../Features/CurrentUser/UserSlice";
 import {setSearchInputForNote} from "../../Features/SearchInput/SearchInputSlice";
 import Transition from "../../Components/Transition";
 import {Dialog} from "@mui/material";
+import {isLoadingAPIScreen, afterLoadingAPIScreen} from '../../Features/isLoadingScreen/isLoadingScreen'
 
 
 const UserTransactionsPage = () => {
     const dispatch = useDispatch()
     const currentWalletState = useSelector(state => state.currentWallet.value)
+
     const dialogTransactionState = useSelector(state => state.dialogTransaction.value);
     const [toggleDetail, setToggleDetail] = useState(false)
     const [active] = useState("py-3 sm:py-4 hover:bg-emerald-50 hover:cursor-pointer")
@@ -54,8 +56,8 @@ const UserTransactionsPage = () => {
             type: ''
         },
         date: '',
-        startDate:'',
-        endDate:'',
+        startDate: '',
+        endDate: '',
         note: ''
     }));
 
@@ -107,12 +109,14 @@ const UserTransactionsPage = () => {
     }, [dialogTransactionState, dialogEditState, currentWalletState])
 
     useEffect(() => {
+        dispatch(isLoadingAPIScreen())
         axios.post('wallet/updateBalance', {walletId: currentWalletState?._id, initial: total})
             .then(res => {
                 dispatch(selectCurrentWallet({...currentWalletState, initial: total}))
                 axios.post('wallet/render', {userId: user?._id})
                     .then(res => {
                         dispatch(UserLoginWithPassword({...user, wallet: res.data.data}))
+                        dispatch(afterLoadingAPIScreen())
                     })
             })
     }, [total])
@@ -301,13 +305,13 @@ const UserTransactionsPage = () => {
 
                                 <div>
                                     <div className="grid grid-cols-6 mt-3">
-                                        <div className="">
+                                        <div className="flex justify-center py-3 ">
                                             <img
                                                 src={detailTransactionState?.category?.icon
                                                     ? detailTransactionState?.category?.icon
                                                     : "https://static.moneylover.me/img/icon/ic_category_foodndrink.png"}
                                                 alt=""
-                                                className="w-[60px] ml-14"/>
+                                                className="w-[60px] h-[60px] p-1  object-cover"/>
                                         </div>
                                         <div className="col-span-5">
                                             <div className="text-3xl">{detailTransactionState?.category?.name}</div>

@@ -30,26 +30,27 @@ import openDialogUpdateCategorySlide from "./Features/DialogCategorySlice/openDi
 import updateDataCategorySlice from "./Features/DialogCategorySlice/updataDataCategorySlice";
 import openDialogBalanceSlice, {openDialogBalance} from "./Features/DiaLogSlice/openDialogBalanceSlice";
 import selectDataWalletOnCategorySlice from "./Features/DialogCategorySlice/selectDataWalletOnCategory";
+import isLoadingScreenSlice from "./Features/isLoadingScreen/isLoadingScreen";
 
 const store = configureStore({
-    reducer:{
+    reducer: {
         Layout: clickSlide.reducer,
         Dialog: openDialogAccountSlide.reducer,
         DialogPass: openDialogChangePassSlide.reducer,
         currentUser: UserSlice,
         SearchInput: SearchInputSlice,
         dialogTransaction: dialogTransactionSlice.reducer,
-        DialogWallet:openDialogMyWalletSlice.reducer,
-        DialogIcons:openDialogIconsSlice.reducer,
-        DialogTransactionCategory:openDialogCategorySlice.reducer,
-        selectCategory:selectCategorySlice.reducer,
-        dialogWallet:walletTransactionSlice.reducer,
-        selectWallet:selectWalletSlice.reducer,
-        DialogCurrency:openDialogCurrencySlice.reducer,
-        DialogCategory:openDialogCategorySlice.reducer,
-        DialogDetail:openDialogDetailSlice.reducer,
-        DialogEditWallet:openDialogEditWallet.reducer,
-        DialogBalance:openDialogBalanceSlice.reducer,
+        DialogWallet: openDialogMyWalletSlice.reducer,
+        DialogIcons: openDialogIconsSlice.reducer,
+        DialogTransactionCategory: openDialogCategorySlice.reducer,
+        selectCategory: selectCategorySlice.reducer,
+        dialogWallet: walletTransactionSlice.reducer,
+        selectWallet: selectWalletSlice.reducer,
+        DialogCurrency: openDialogCurrencySlice.reducer,
+        DialogCategory: openDialogCategorySlice.reducer,
+        DialogDetail: openDialogDetailSlice.reducer,
+        DialogEditWallet: openDialogEditWallet.reducer,
+        DialogBalance: openDialogBalanceSlice.reducer,
         wallet: WalletSlice,
         DialogNewCategory: openDialogNewCategorySlice.reducer,
         DialogIconCategory: openDialogIconCategorySlice.reducer,
@@ -58,12 +59,12 @@ const store = configureStore({
         UpdateCategory: openDialogUpdateCategorySlide.reducer,
         UpdateDataCategory: updateDataCategorySlice.reducer,
         SelectDataWalletOnCategory: selectDataWalletOnCategorySlice.reducer,
-
         walletId: WalletIdSlice,
-        dialogEditTransaction:dialogEditTransactionSlice.reducer,
-        selectTransaction:selectTransaction.reducer,
-        selectDetailTransaction:detailTransactionSlice,
-        currentWallet:currentWalletSlice
+        dialogEditTransaction: dialogEditTransactionSlice.reducer,
+        selectTransaction: selectTransaction.reducer,
+        selectDetailTransaction: detailTransactionSlice,
+        currentWallet: currentWalletSlice,
+        isLoadingScreenSlice: isLoadingScreenSlice
     }
 })
 
