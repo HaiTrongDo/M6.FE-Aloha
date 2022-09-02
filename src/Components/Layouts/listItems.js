@@ -16,6 +16,8 @@ import {useDispatch, useSelector} from "react-redux";
 import {openDialog} from "../../Features/DiaLogSlice/openDialogAccountSlide";
 import DialogChangePassword from "../Dialog/DialogChangePassword";
 
+
+
 const MainListItems = () => {
     let navigate = useNavigate();
     const dispatch = useDispatch()
@@ -32,7 +34,7 @@ const MainListItems = () => {
                 <ListItemButton
                     onClick={() => navigate('/Transactions')}>
                     <ListItemIcon>
-                        <AccountBalanceWalletIcon/>
+                        <AccountBalanceWalletIcon sx={{}}/>
                     </ListItemIcon>
                     <ListItemText primary="Transactions"/>
                 </ListItemButton>
@@ -44,14 +46,6 @@ const MainListItems = () => {
                         <CollectionsBookmarkIcon/>
                     </ListItemIcon>
                     <ListItemText primary="Report"/>
-                </ListItemButton>
-
-                <ListItemButton
-                    onClick={() => navigate('/budget')}>
-                    <ListItemIcon>
-                        <PeopleIcon/>
-                    </ListItemIcon>
-                    <ListItemText primary="Budget"/>
                 </ListItemButton>
 
                 <ListItemButton

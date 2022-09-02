@@ -103,7 +103,7 @@ export default function MyWallet() {
                             </div>
                             <div className="hidden justify-between items-center w-full md:flex md:w-auto md:order-1"
                                  id="navbar-sticky">
-                                <button className="flex" onClick={handleOpenDialogWallet}>
+                                <button className="h-[26px] rounded-[5px] flex hover:bg-[#E9F6EB]" onClick={handleOpenDialogWallet}>
                                     <svg xmlns="http://www.w3.org/2000/svg" className="h-6 w-6" fill="none"
                                          viewBox="0 0 24 24" stroke="currentColor" strokeWidth="2">
                                         <path strokeLinecap="round" strokeLinejoin="round"

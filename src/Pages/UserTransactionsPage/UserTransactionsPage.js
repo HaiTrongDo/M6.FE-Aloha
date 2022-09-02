@@ -30,15 +30,7 @@ const UserTransactionsPage = () => {
     const [totalInflow, setTotalInflow] = useState()
     const [totalOutflow, setTotalOutflow] = useState()
     const [total, setTotal] = useState()
-
-    // console.log(user, 'user')
-    // console.log(currentWalletState, 'wallet')
-    // useEffect(() => {
-    //     axios.post('transaction/sort', {user: user._id, wallet: currentWalletState._id})
-    //         .then(res => {
-    //             console.log(res.data.data, 'sort')
-    //         })
-    // }, [currentWalletState])
+    const [wallet, setWallet] = useState()
 
     dispatch(setSearchInputForNote({
         wallet: {
@@ -112,6 +104,7 @@ const UserTransactionsPage = () => {
                 dispatch(selectCurrentWallet({...currentWalletState, initial: total}))
                 axios.post('wallet/render', {userId: user?._id})
                     .then(res => {
+                        setWallet(res.data.data)
                         dispatch(UserLoginWithPassword({...user, wallet: res.data.data}))
                     })
             })

@@ -143,8 +143,8 @@ const DialogTransactionCategory = (props) => {
                                         ? (searchExpense ? searchExpense.map((value, index) => {
                                                 return (
                                                     <div key={index}
-                                                         className="relative pl-8 pr-8 border-b hover:cursor-pointer">
-                                                        <li className='m-auto grid grid-cols-3 p-2' onClick={() => {
+                                                         className="relative pl-8 pr-8  hover:cursor-pointer">
+                                                        <li className='m-auto grid grid-cols-3 border-b p-2' onClick={() => {
                                                             dispatch(selectCategory(value))
                                                             dispatch(setCategoryInSearchPage(value))
                                                             dispatch(closeDialogCategory())
@@ -163,8 +163,8 @@ const DialogTransactionCategory = (props) => {
                                             : listExpense.map((value, index) => {
                                                 return (
                                                     <div key={index}
-                                                         className="relative pl-8 pr-8 border-b hover:cursor-pointer">
-                                                        <li className='m-auto grid grid-cols-3 p-2' onClick={() => {
+                                                         className="relative pl-8 pr-8  hover:cursor-pointer">
+                                                        <li className='m-auto grid grid-cols-3 border-b p-2' onClick={() => {
                                                             dispatch(selectCategory(value))
                                                             dispatch(setCategoryInSearchPage(value))
                                                             dispatch(closeDialogCategory())
@@ -183,8 +183,8 @@ const DialogTransactionCategory = (props) => {
                                                 ? searchIncome.map((value, index) => {
                                                     return (
                                                         <div key={index}
-                                                             className="relative pl-8 pr-8 border-b hover:cursor-pointer">
-                                                            <li className='m-auto grid grid-cols-3 p-2' onClick={() => {
+                                                             className="relative pl-8 pr-8  hover:cursor-pointer">
+                                                            <li className='m-auto grid grid-cols-3 border-b p-2' onClick={() => {
                                                                 dispatch(selectCategory(value))
                                                                 dispatch(setCategoryInSearchPage(value))
                                                                 dispatch(closeDialogCategory())
@@ -204,8 +204,8 @@ const DialogTransactionCategory = (props) => {
                                                 : listIncome.map((value, index) => {
                                                     return (
                                                         <div key={index}
-                                                             className="relative pl-8 pr-8 border-b hover:cursor-pointer">
-                                                            <li className='m-auto grid grid-cols-3 p-2' onClick={() => {
+                                                             className="relative pl-8 pr-8  hover:cursor-pointer">
+                                                            <li className='m-auto grid grid-cols-3 border-b p-2' onClick={() => {
                                                                 dispatch(selectCategory(value))
                                                                 dispatch(setCategoryInSearchPage(value))
                                                                 dispatch(closeDialogCategory())
