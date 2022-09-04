@@ -14,6 +14,8 @@ import {UserLoginWithPassword} from "../../Features/CurrentUser/UserSlice";
 import {openDialogEditTransaction} from "../../Features/DiaLogSlice/openEditTransactionSlice";
 import swal from "sweetalert";
 import {afterLoadingAPIScreen, isLoadingAPIScreen} from "../../Features/isLoadingScreen/isLoadingScreen";
+import {updateSearchResult} from "../../Features/SearchInput/SearchInputSlice"
+
 
 const UserSearchTransactionPage = () => {
     const dialogCategoryState = useSelector(state => state.DialogCategory.value)
@@ -42,6 +44,9 @@ const UserSearchTransactionPage = () => {
             note: searchInput.note
         })
             .then(res => {
+
+                dispatch(updateSearchResult(res.data.data))
+                console.log(res.data.data)
                 let inflow = res?.data?.data?.filter(value => {
                     return value.category.type === 'INCOME'
                 })
@@ -194,15 +199,15 @@ const UserSearchTransactionPage = () => {
                                 className=" bg-white master-container shadow-md flex-cols w-[40%] h-1/3 rounded rounded-lg pt-2">
                                 <div className='pb-5'>
                                     <div className="report block bg-white">
-                                        <div className=" flex justify-between p-3">
+                                        <div className=" flex justify-between pt-3 px-8">
                                             <div>Inflow</div>
                                             <div className="text-blue-500">${totalInflow}</div>
                                         </div>
-                                        <div className=" flex justify-between px-3 py-1">
+                                        <div className=" flex justify-between px-8 py-1">
                                             <div>Outflow</div>
                                             <div className="text-red-500">-${totalOutflow}</div>
                                         </div>
-                                        <div className=" flex justify-between px-3 py-1">
+                                        <div className=" flex justify-between px-8 py-1">
                                             <span> </span>
                                             <span className='border-t-2'
                                             >{total}
@@ -303,17 +308,17 @@ const UserSearchTransactionPage = () => {
 
                                     <div>
                                         <div className="grid grid-cols-6 mt-3">
-                                            <div className="">
+                                            <div className="flex justify-center">
                                                 <img
                                                     src={detailTransactionState.category.icon
                                                         ? detailTransactionState.category.icon
                                                         : "https://static.moneylover.me/img/icon/ic_category_foodndrink.png"}
                                                     alt=""
-                                                    className="w-[60px] ml-14"/>
+                                                    className="w-[60px] h-[60px] m-auto"/>
                                             </div>
                                             <div className="col-span-5">
                                                 <div className="text-3xl">{detailTransactionState.category.name}</div>
-                                                <div className="mt-1 ">Ăn uống</div>
+                                                <div className="mt-1 ">{detailTransactionState.category.type}</div>
                                                 <div
                                                     className="mt-1 text-gray-500">{new Date(detailTransactionState.date).toDateString()}</div>
                                                 <hr className="mt-2 w-[200px]"/>
