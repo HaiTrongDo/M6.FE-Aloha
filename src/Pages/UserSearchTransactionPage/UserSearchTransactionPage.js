@@ -33,37 +33,32 @@ const UserSearchTransactionPage = () => {
     const [startDate, setStartDate] = useState();
     const [endDate, setEndDate] = useState();
 
-
+    console.log(new Date(searchInput.startDate).toLocaleDateString())
     useEffect(() => {
         axios.post('transaction/search', {
             userId: user._id,
             wallet: searchInput.wallet,
             category: searchInput.category,
             date: searchInput.date,
-            // startDate:new Date(searchInput.startDate.$d.toLocaleDateString('en-US')).getTime(),
-            // endDate:new Date(searchInput.endDate.$d.toLocaleDateString('en-US')).getTime(),
+            startDate:new Date(searchInput.startDate).toLocaleDateString(),
+            endDate:new Date(searchInput.endDate).toLocaleDateString(),
             note: searchInput.note
         })
             .then(res => {
-                // console.log(new Date(res.data.data[0].date).toLocaleDateString(), 'res')
-                // console.log(new Date(searchInput.startDate).toLocaleDateString(), 'start')
-                // console.log(new Date(searchInput.endDate).toLocaleDateString(), 'end')
-                // console.log(searchInput.startDate, 'start')
-                // console.log(searchInput.endDate, 'end')
-                // console.log(new Date(res.data.data[0].date).getTime(), 'res')
-                if (searchInput.startDate !=='' && searchInput.endDate!=='') {
+                console.log(res.data.data)
+                if (searchInput.startDate && searchInput.endDate) {
                     const result = res.data.data.filter((item) => {
                         return (searchInput.startDate <= new Date(item?.date).getTime()
                             && searchInput.endDate >= new Date(item?.date).getTime())
                     })
                     let inflow = result.filter(value => {
-                        return value.category.type === 'INCOME'
+                        return value?.category?.type === 'INCOME'
                     })
                     let sumInflow = 0
                     inflow?.forEach(value => sumInflow += value.amount)
 
                     let outFlow = result.filter(value => {
-                        return value.category.type === 'EXPENSE'
+                        return value?.category?.type === 'EXPENSE'
                     })
                     let sumOutFlow = 0
                     outFlow?.forEach((value) => sumOutFlow += value.amount)
@@ -75,16 +70,16 @@ const UserSearchTransactionPage = () => {
                     setToggleDetail(false)
                 } else {
                     let inflow = res?.data?.data?.filter(value => {
-                        return value.category.type === 'INCOME'
+                        return value?.category?.type === 'INCOME'
                     })
                     let sumInflow = 0
-                    inflow?.forEach(value => sumInflow += value.amount)
+                    inflow?.forEach(value => sumInflow += value?.amount)
 
                     let outFlow = res?.data?.data?.filter(value => {
-                        return value.category.type === 'EXPENSE'
+                        return value?.category?.type === 'EXPENSE'
                     })
                     let sumOutFlow = 0
-                    outFlow?.forEach((value) => sumOutFlow += value.amount)
+                    outFlow?.forEach((value) => sumOutFlow += value?.amount)
 
                     setTotalOutflow(sumOutFlow)
                     setTotalInflow(sumInflow)
@@ -94,8 +89,6 @@ const UserSearchTransactionPage = () => {
                 }
 
             })
-
-
     }, [searchInput])
 
     useEffect(() => {
@@ -132,19 +125,27 @@ const UserSearchTransactionPage = () => {
                 if (willDelete) {
                     axios.post('transaction/delete', {id: detailTransactionState?._id})
                         .then(() => {
-                            axios.post('transaction/list', {user: user?._id})
+                            axios.post('transaction/search', {
+                                userId: user._id,
+                                wallet: searchInput.wallet,
+                                category: searchInput.category,
+                                date: searchInput.date,
+                                // startDate:new Date(searchInput.startDate.$d.toLocaleDateString('en-US')).getTime(),
+                                // endDate:new Date(searchInput.endDate.$d.toLocaleDateString('en-US')).getTime(),
+                                note: searchInput.note
+                            })
                                 .then(res => {
                                     let inflow = res.data.data.filter(value => {
-                                        return value.category.type === 'INCOME'
+                                        return value?.category?.type === 'INCOME'
                                     })
                                     let sumInflow = 0
-                                    inflow.forEach(value => sumInflow += value.amount)
+                                    inflow.forEach(value => sumInflow += value?.amount)
 
                                     let outFlow = res.data.data.filter(value => {
-                                        return value.category.type === 'EXPENSE'
+                                        return value?.category?.type === 'EXPENSE'
                                     })
                                     let sumOutFlow = 0
-                                    outFlow.forEach((value) => sumOutFlow += value.amount)
+                                    outFlow.forEach((value) => sumOutFlow += value?.amount)
 
                                     setTotalOutflow(sumOutFlow)
                                     setTotalInflow(sumInflow)
@@ -216,7 +217,7 @@ const UserSearchTransactionPage = () => {
                                                         </div>
                                                         <div className="flex-1 min-w-0">
                                                             <p className="text-sm font-medium text-gray-900 truncate ">
-                                                                {transaction.category.name}
+                                                                {transaction?.category?.name}
                                                             </p>
                                                             <p className="text-sm text-gray-500 truncate ">
                                                                 1 Transactions
@@ -224,7 +225,7 @@ const UserSearchTransactionPage = () => {
                                                         </div>
                                                         <div
                                                             className="inline-flex items-center text-base  text-gray-900 ">
-                                                            {transaction.category.type === 'EXPENSE' ? "-$" + transaction.amount : "+$" + transaction.amount}
+                                                            {transaction?.category?.type === 'EXPENSE' ? "-$" + transaction?.amount : "+$" + transaction?.amount}
                                                         </div>
                                                     </div>
                                                 </li>

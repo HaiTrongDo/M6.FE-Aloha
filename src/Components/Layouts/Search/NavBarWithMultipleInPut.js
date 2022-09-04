@@ -55,8 +55,8 @@ const NavBarWithMultipleInPut = () => {
                 type: ''
             },
             date: '',
-            startDate:'',
-            endDate:'',
+            // startDate:'',
+            // endDate:'',
             note: ''
         }));
     };
@@ -217,7 +217,7 @@ const NavBarWithMultipleInPut = () => {
                                         inputFormat="MM/DD/YYYY"
                                         name={'EndDate'}
                                         minDate={selectedDate.startDate}
-                                        maxDate={dayjs(new Date().toString())}
+                                        // maxDate={dayjs(new Date().toString())}
                                         value={selectedDate.endDate}
                                         onChange={handleEndDateChange}
                                         renderInput={(params) => <TextField {...params} />}

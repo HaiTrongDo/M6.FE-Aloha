@@ -25,11 +25,27 @@ const DialogTransaction = () => {
     const selectWalletState = useSelector(state => state.selectWallet);
     const dialogCategoryState = useSelector(state => state.DialogCategory.value)
     const dialogWalletState = useSelector(state => state.dialogWallet.value);
+    const [activeSave,setActiveSave]=useState(false)
+
+    const transactionObj={
+        wallet:'',
+        category:'',
+        amount:'',
+    }
+
+    useEffect(()=>{
+        if(selectWalletState.value && selectCategoryState && amount ){
+            setActiveSave(true)
+        }
+        else{
+            setActiveSave(false)
+        }
+    },[selectWalletState,selectCategoryState,amount,date,note])
+
 
     const handleWallet = (walletObj) => {
         console.log(walletObj)
     }
-
     const handleChangeAmount = (e) => {
         setAmount(e.target.value)
     }
@@ -198,13 +214,21 @@ const DialogTransaction = () => {
                                 >
                                     Close
                                 </button>
-                                <button
-                                    className="bg-emerald-500 text-white active:bg-emerald-600 font-bold uppercase text-sm px-6 py-3 rounded shadow hover:shadow-lg outline-none focus:outline-none mr-1 mb-1 ease-linear transition-all duration-150"
-                                    type="button"
-                                    onClick={handleSaveTransaction}
-                                >
-                                    Save Changes
-                                </button>
+                                {activeSave
+                                ? <button
+                                        className="bg-emerald-500 text-white active:bg-emerald-600 font-bold uppercase text-sm px-6 py-3 rounded shadow hover:shadow-lg outline-none focus:outline-none mr-1 mb-1 ease-linear transition-all duration-150"
+                                        type="button"
+                                        onClick={handleSaveTransaction}
+                                    >
+                                        Save Changes
+                                    </button>
+                                : <button
+                                        className="bg-gray-300 text-white font-bold uppercase text-sm px-6 py-3 rounded shadow hover:shadow-lg outline-none focus:outline-none mr-1 mb-1 ease-linear transition-all duration-150"
+                                        type="button" disabled={true}
+                                    >
+                                        Save Changes
+                                    </button>}
+
                             </div>
                         </div>
                     </div>

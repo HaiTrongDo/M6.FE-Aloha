@@ -54,8 +54,8 @@ const UserTransactionsPage = () => {
             type: ''
         },
         date: '',
-        startDate:'',
-        endDate:'',
+        // startDate:'',
+        // endDate:'',
         note: ''
     }));
 
