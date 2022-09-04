@@ -13,6 +13,7 @@ import {selectCurrentWallet} from "../../Features/Transaction/currentWalletSlice
 import {UserLoginWithPassword} from "../../Features/CurrentUser/UserSlice";
 import {openDialogEditTransaction} from "../../Features/DiaLogSlice/openEditTransactionSlice";
 import swal from "sweetalert";
+import {afterLoadingAPIScreen, isLoadingAPIScreen} from "../../Features/isLoadingScreen/isLoadingScreen";
 
 const UserSearchTransactionPage = () => {
     const dialogCategoryState = useSelector(state => state.DialogCategory.value)
@@ -30,21 +31,24 @@ const UserSearchTransactionPage = () => {
     const [totalInflow, setTotalInflow] = useState()
     const [totalOutflow, setTotalOutflow] = useState()
     const [total, setTotal] = useState()
-    const [startDate, setStartDate] = useState();
-    const [endDate, setEndDate] = useState();
 
-    console.log(new Date(searchInput.startDate).toLocaleDateString())
+
     useEffect(() => {
         axios.post('transaction/search', {
             userId: user._id,
             wallet: searchInput.wallet,
             category: searchInput.category,
-            date: searchInput.date,
+            // date: searchInput.date,
             startDate:new Date(searchInput.startDate).toLocaleDateString(),
             endDate:new Date(searchInput.endDate).toLocaleDateString(),
             note: searchInput.note
         })
             .then(res => {
+                // let inflow = res?.data?.data?.filter(value => {
+                //     return value.category.type === 'INCOME'
+                // })
+                // let sumInflow = 0
+                // inflow?.forEach(value => sumInflow += value.amount)
                 console.log(res.data.data)
                 if (searchInput.startDate && searchInput.endDate) {
                     const result = res.data.data.filter((item) => {
@@ -75,6 +79,11 @@ const UserSearchTransactionPage = () => {
                     let sumInflow = 0
                     inflow?.forEach(value => sumInflow += value?.amount)
 
+                    // let outFlow = res?.data?.data?.filter(value => {
+                    //     return value.category.type === 'EXPENSE'
+                    // })
+                    // let sumOutFlow = 0
+                    // outFlow?.forEach((value) => sumOutFlow += value.amount)
                     let outFlow = res?.data?.data?.filter(value => {
                         return value?.category?.type === 'EXPENSE'
                     })
@@ -87,12 +96,57 @@ const UserSearchTransactionPage = () => {
                     setListTransaction(res.data.data)
                     setToggleDetail(false)
                 }
-
             })
     }, [searchInput])
 
     useEffect(() => {
-        axios.post('wallet/updateBalance', {walletId: currentWalletState?._id, initial: total})
+        dispatch(isLoadingAPIScreen())
+        dispatch(afterLoadingAPIScreen())
+    }, [])
+
+    // useEffect(() => {
+    //     axios.post('transaction/list/wallet', {user: user._id, wallet: currentWalletState._id})
+    //         .then(res => {
+    //             // const b={}
+    //             // res.data.data.forEach((item,index)=>{
+    //             //     if(listByCategory[item.category.name]){
+    //             //         b[item.category._id].push({
+    //             //             ...item,
+    //             //             _id:item.category._id,
+    //             //             name:item.category.name
+    //             //         })
+    //             //     }
+    //             //     else{
+    //             //         b[item.category._id]=[{
+    //             //             _id:item.category._id,
+    //             //             name:item.category.name
+    //             //         }]
+    //             //     }
+    //             // })
+    //             // console.log(b,'test')
+    //             let inflow = res.data.data.filter(value => {
+    //                 return value.category.type === 'INCOME'
+    //             })
+    //             let sumInflow = 0
+    //             inflow.forEach(value => sumInflow += value.amount)
+    //
+    //
+    //             let outFlow = res.data.data.filter(value => {
+    //                 return value.category.type === 'EXPENSE'
+    //             })
+    //             let sumOutFlow = 0
+    //             outFlow.forEach((value) => sumOutFlow += value.amount)
+    //
+    //             setTotalOutflow(sumOutFlow)
+    //             setTotalInflow(sumInflow)
+    //             setTotal(sumInflow - sumOutFlow)
+    //             setListTransaction(res.data.data)
+    //
+    //         })
+    // }, [dialogTransactionState, dialogEditState, currentWalletState])
+
+    useEffect(() => {
+        axios.post('wallet/updateBalance', {walletId: currentWalletState._id, initial: total})
             .then(res => {
                 dispatch(selectCurrentWallet({...currentWalletState, initial: total}))
                 axios.post('wallet/render', {userId: user._id})
@@ -123,8 +177,10 @@ const UserSearchTransactionPage = () => {
         })
             .then((willDelete) => {
                 if (willDelete) {
-                    axios.post('transaction/delete', {id: detailTransactionState?._id})
+                    axios.post('transaction/delete', {id: detailTransactionState._id})
                         .then(() => {
+                            // main
+                            // axios.post('transaction/list', {user: user._id})
                             axios.post('transaction/search', {
                                 userId: user._id,
                                 wallet: searchInput.wallet,

@@ -27,6 +27,7 @@ import {useNavigate} from "react-router-dom";
 import {openDialogCategory, closeDialogCategory} from "../../../Features/DialogCategorySlice/openDialogCategorySlice";
 import {openDialogSelectWallet} from "../../../Features/DiaLogSlice/openDialogWallet";
 import {setSearchInputForNote, setSearchInputForDate} from "../../../Features/SearchInput/SearchInputSlice";
+import {afterLoadingAPIScreen, isLoadingAPIScreen} from "../../../Features/isLoadingScreen/isLoadingScreen";
 
 
 const NavBarWithMultipleInPut = () => {
@@ -55,8 +56,6 @@ const NavBarWithMultipleInPut = () => {
                 type: ''
             },
             date: '',
-            // startDate:'',
-            // endDate:'',
             note: ''
         }));
     };
@@ -89,11 +88,16 @@ const NavBarWithMultipleInPut = () => {
 
     const handleUpdateDateIntoRedux = () => {
         dispatch(setSearchInputForDate({
-                    startDate: selectedDate.startDate.$d.toLocaleDateString('en-US'),
-                    endDate: selectedDate.endDate.$d.toLocaleDateString('en-US')}))
+            startDate: selectedDate.startDate.$d.toLocaleDateString('en-US'),
+            endDate: selectedDate.endDate.$d.toLocaleDateString('en-US')
+        }))
     }
 
-
+    useEffect(() => {
+        // console.log(SearchInput);
+        dispatch(isLoadingAPIScreen())
+        dispatch(afterLoadingAPIScreen())
+    })
     return (
         <div>
             <NavBar>
@@ -217,7 +221,7 @@ const NavBarWithMultipleInPut = () => {
                                         inputFormat="MM/DD/YYYY"
                                         name={'EndDate'}
                                         minDate={selectedDate.startDate}
-                                        // maxDate={dayjs(new Date().toString())}
+                                        maxDate={dayjs(new Date().toString())}
                                         value={selectedDate.endDate}
                                         onChange={handleEndDateChange}
                                         renderInput={(params) => <TextField {...params} />}
