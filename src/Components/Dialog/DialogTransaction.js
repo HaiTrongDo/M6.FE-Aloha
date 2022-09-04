@@ -43,7 +43,7 @@ const DialogTransaction = () => {
         const transaction = {
             wallet: selectWalletState?.value?._id,
             amount: amount * 1,
-            category: selectCategoryState?.value?._id,
+            category: selectCategoryState?.value,
             date: new Date(date),
             note: note,
             user: user
