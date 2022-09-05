@@ -34,7 +34,7 @@ export default function DialogDetailWallet({walletId}) {
         axios.post('http://localhost:8080/wallet/detail', {walletId}).then(r => {
             setWalletObj(r.data.data)
         })
-    }, [walletObj])
+    }, [walletObj._id])
 
     const handleDeleteWallet = () => {
         swal({

@@ -161,11 +161,11 @@ export default function DialogBalance(props) {
                         <div
                             className="flex items-center m-5 mt-0 justify-end  border-slate-200 rounded-b">
                             <button
-                                className="text-[#2EB74B] hover:bg-[#E9F6EB] w-[96px] h-[36px] background-transparent rounded-[5px] bg-[#F0F0F0] font-bold uppercase mr-4 text-sm outline-none focus:outline-none mr-1 mb-1 ease-linear transition-all duration-150"
+                                className="text-[#F15A59] rounded-[5px] hover:bg-[#FEECEB] w-[96px] h-[36px] background-transparent rounded-[5px] bg-[#F0F0F0] font-bold uppercase mr-4 text-sm outline-none focus:outline-none mr-1 mb-1 ease-linear transition-all duration-150"
                                 type="button"
                                 onClick={handleCloseDialogBalance}
                             >
-                                CANCEL
+                                CLOSE
                             </button>
                             <button
                                 className="bg-[#2EB74B] text-white active:bg-emerald-600 w-[96px] h-[36px] font-bold uppercase text-sm mr-4 rounded shadow hover:shadow-lg outline-none focus:outline-none mr-1 mb-1 ease-linear transition-all duration-150"
