@@ -25,9 +25,10 @@ const UserReportPage = () => {
         dispatch(isLoadingAPIScreen())
         axios.post('transaction/search/get-report-data', {userId: currentUser?._id})
             .then(resultFromBEAloha => {
+                console.log(resultFromBEAloha.data);
                 resultFromBEAloha?.data?.transactionData && setTransactionData([...resultFromBEAloha.data.transactionData])
-                resultFromBEAloha?.data?.dataPieChartIncome && setDataPieChartIncome([...resultFromBEAloha.data.dataPieChartIncome])
-                resultFromBEAloha?.data?.dataPieChartExpense && setDataPieChartExpense([...resultFromBEAloha.data.dataPieChartExpense])
+                resultFromBEAloha?.data?.dataPieChartIncome.length && setDataPieChartIncome([...resultFromBEAloha.data.dataPieChartIncome])
+                resultFromBEAloha?.data?.dataPieChartExpense.length && setDataPieChartExpense([...resultFromBEAloha.data.dataPieChartExpense])
                 dispatch(afterLoadingAPIScreen())
             })
     }, [])
@@ -67,17 +68,17 @@ const UserReportPage = () => {
                             <div className="block w-1/2 ">
                                 <span className="flex justify-center mt-[22px]">Income</span>
                                 <span
-                                    className="flex justify-center text-blue-500">${totalIncome}</span>
+                                    className="flex justify-center text-blue-500">${totalIncome.toFixed(2)}</span>
                                 <div className="w-full flex px-[15px] mb-[16px] text-sm">
                                     <PieChartInReport
-                                        color={dataPieChartIncome[0].name !== "None" ? "#1d4ed8" : "#71717a"}
+                                        color={dataPieChartIncome[0]?.name !== "None" ? "#1d4ed8" : "#71717a"}
                                         data={dataPieChartIncome}/>
                                 </div>
                             </div>
                             <div className="block w-1/2 relative ">
                                 <span className="flex justify-center mt-[22px]">Expenses</span>
                                 <span
-                                    className="flex justify-center text-red-600">-$ {totalExpense}</span>
+                                    className="flex justify-center text-red-600">-$ {totalExpense.toFixed(2)}</span>
                                 <div className="w-full flex px-[15px] mb-[16px] text-sm absolute">
                                     <PieChartInReport
                                         color={dataPieChartExpense[0].name !== "None" ? "#be123c" : "#71717a"}

@@ -374,14 +374,14 @@ function Category() {
                     {checked && <div className='w-1/2 flex '>
 
                         {/*<Grid xs={6} md={4}>*/}
-                        <Box sx={{height: 1250}}>
+                        <Box sx={{height: 1000}}>
                             <Box
                                 sx={{
                                     '& > :not(style)': {
                                         display: 'flex',
                                         justifyContent: 'space-around',
                                         height: 120,
-                                        width: 50,
+                                        width: 1000,
                                     },
                                 }}
                             >
