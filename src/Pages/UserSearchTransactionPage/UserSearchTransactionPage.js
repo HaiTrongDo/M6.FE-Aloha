@@ -22,14 +22,12 @@ const UserSearchTransactionPage = () => {
     const dialogWalletState = useSelector(state => state.dialogWallet.value);
     const dispatch = useDispatch();
     const currentWalletState = useSelector(state => state.currentWallet.value)
-    const dialogTransactionState = useSelector(state => state.dialogTransaction.value);
     const searchInput = useSelector(state => state.SearchInput.SearchInput);
     const [toggleDetail, setToggleDetail] = useState(false)
     const [active] = useState("py-3 sm:py-4 hover:bg-emerald-50 hover:cursor-pointer")
     const [listTransaction, setListTransaction] = useState([])
     const user = JSON.parse(localStorage.getItem('alohaUser'))
     const detailTransactionState = useSelector(state => state.selectDetailTransaction.value)
-    const dialogEditState = useSelector(state => state.dialogEditTransaction.value);
     const [totalInflow, setTotalInflow] = useState()
     const [totalOutflow, setTotalOutflow] = useState()
     const [total, setTotal] = useState()
@@ -74,47 +72,6 @@ const UserSearchTransactionPage = () => {
         dispatch(isLoadingAPIScreen())
         dispatch(afterLoadingAPIScreen())
     }, [])
-
-    // useEffect(() => {
-    //     axios.post('transaction/list/wallet', {user: user._id, wallet: currentWalletState._id})
-    //         .then(res => {
-    //             // const b={}
-    //             // res.data.data.forEach((item,index)=>{
-    //             //     if(listByCategory[item.category.name]){
-    //             //         b[item.category._id].push({
-    //             //             ...item,
-    //             //             _id:item.category._id,
-    //             //             name:item.category.name
-    //             //         })
-    //             //     }
-    //             //     else{
-    //             //         b[item.category._id]=[{
-    //             //             _id:item.category._id,
-    //             //             name:item.category.name
-    //             //         }]
-    //             //     }
-    //             // })
-    //             // console.log(b,'test')
-    //             let inflow = res.data.data.filter(value => {
-    //                 return value.category.type === 'INCOME'
-    //             })
-    //             let sumInflow = 0
-    //             inflow.forEach(value => sumInflow += value.amount)
-    //
-    //
-    //             let outFlow = res.data.data.filter(value => {
-    //                 return value.category.type === 'EXPENSE'
-    //             })
-    //             let sumOutFlow = 0
-    //             outFlow.forEach((value) => sumOutFlow += value.amount)
-    //
-    //             setTotalOutflow(sumOutFlow)
-    //             setTotalInflow(sumInflow)
-    //             setTotal(sumInflow - sumOutFlow)
-    //             setListTransaction(res.data.data)
-    //
-    //         })
-    // }, [dialogTransactionState, dialogEditState, currentWalletState])
 
     useEffect(() => {
         axios.post('wallet/updateBalance', {walletId: currentWalletState._id, initial: total})

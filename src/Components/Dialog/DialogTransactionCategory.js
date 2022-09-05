@@ -104,7 +104,6 @@ const DialogTransactionCategory = (props) => {
                             </div>
                             <div className="grid grid-cols-5 flex flex-col justify-center items-center border-0">
                                 <div></div>
-
                                 <div className="relative bg-gray-200 rounded-full col-span-3">
                                     <div className="absolute left-0 my-2.5 pl-5">
                                         <SearchIcon/>
@@ -137,14 +136,14 @@ const DialogTransactionCategory = (props) => {
                                 <div></div>
                             </div>
                             {/*body*/}
-                            <div className="modal-body relative w-[500px] h-[490px] border-t-2 flex-auto">
+                            <div className="modal-body relative w-[500px] h-[490px] border flex-auto">
                                 <ul className='m-auto'>
                                     {typeCategory
                                         ? (searchExpense ? searchExpense.map((value, index) => {
                                                 return (
                                                     <div key={index}
-                                                         className="relative pl-8 pr-8 border-b hover:cursor-pointer">
-                                                        <li className='m-auto grid grid-cols-3 p-2' onClick={() => {
+                                                         className="relative hover:bg-[#E6EFE7] pl-8 pr-8  hover:cursor-pointer">
+                                                        <li className='m-auto grid grid-cols-3 border-b p-2' onClick={() => {
                                                             dispatch(selectCategory(value))
                                                             dispatch(setCategoryInSearchPage(value))
                                                             dispatch(closeDialogCategory())
@@ -163,8 +162,8 @@ const DialogTransactionCategory = (props) => {
                                             : listExpense.map((value, index) => {
                                                 return (
                                                     <div key={index}
-                                                         className="relative pl-8 pr-8 border-b hover:cursor-pointer">
-                                                        <li className='m-auto grid grid-cols-3 p-2' onClick={() => {
+                                                         className="relative pl-8 pr-8 hover:bg-[#E6EFE7] hover:cursor-pointer">
+                                                        <li className='m-auto grid grid-cols-3 p-2 border-b' onClick={() => {
                                                             dispatch(selectCategory(value))
                                                             dispatch(setCategoryInSearchPage(value))
                                                             dispatch(closeDialogCategory())
@@ -183,8 +182,8 @@ const DialogTransactionCategory = (props) => {
                                                 ? searchIncome.map((value, index) => {
                                                     return (
                                                         <div key={index}
-                                                             className="relative pl-8 pr-8 border-b hover:cursor-pointer">
-                                                            <li className='m-auto grid grid-cols-3 p-2' onClick={() => {
+                                                             className="relative pl-8 pr-8 hover:bg-[#E6EFE7] hover:cursor-pointer">
+                                                            <li className='m-auto grid grid-cols-3 border-b p-2' onClick={() => {
                                                                 dispatch(selectCategory(value))
                                                                 dispatch(setCategoryInSearchPage(value))
                                                                 dispatch(closeDialogCategory())
@@ -204,8 +203,8 @@ const DialogTransactionCategory = (props) => {
                                                 : listIncome.map((value, index) => {
                                                     return (
                                                         <div key={index}
-                                                             className="relative pl-8 pr-8 border-b hover:cursor-pointer">
-                                                            <li className='m-auto grid grid-cols-3 p-2' onClick={() => {
+                                                             className="relative pl-8 pr-8 hover:bg-[#E6EFE7] hover:cursor-pointer">
+                                                            <li className='m-auto grid grid-cols-3 border-b p-2' onClick={() => {
                                                                 dispatch(selectCategory(value))
                                                                 dispatch(setCategoryInSearchPage(value))
                                                                 dispatch(closeDialogCategory())
