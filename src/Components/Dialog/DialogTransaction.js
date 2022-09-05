@@ -53,9 +53,9 @@ const DialogTransaction = () => {
     }
     const handleSaveTransaction = () => {
         const transaction = {
-            wallet: selectWalletState?.value?._id,
+            wallet: selectWalletState?.value,
             amount: amount * 1,
-            category: selectCategoryState?.value?._id,
+            category: selectCategoryState?.value,
             date: new Date(date),
             note: note,
             user: user
