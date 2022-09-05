@@ -5,10 +5,11 @@ import axios from '../../axios/index';
 import {auth, googleAuthProvider, faceBookAuthProvider, githubAuthProvider} from "../../Config/firebase"
 import {signInWithPopup} from "firebase/auth"
 import isEmpty from "validator/es/lib/isEmpty";
-import {useDispatch} from 'react-redux'
+import {useDispatch, useSelector} from 'react-redux'
 import {UserLoginWithFireBase, UserLoginWithPassword} from '../../Features/CurrentUser/UserSlice'
 import {motion} from "framer-motion"
 import Variants from "../../Components/Variants";
+import {selectCurrentWallet} from "../../Features/Transaction/currentWalletSlice";
 
 const DEFAULT_USER_URL = "https://firebasestorage.googleapis.com/v0/b/aloha-money.appspot.com/o/DefaultUser.jpg?alt=media&token=58615f07-c33a-42f7-aa11-43b9d8170593"
 
@@ -31,7 +32,7 @@ const LoginPage = () => {
     const [listWallet, setListWallet] = useState([]);
     const [isHaveWallet, setIsHaveWallet] = useState(false);
     const [togglePassword, setTogglePassword] = useState(true)
-
+const currentWalletState=useSelector(state=>state.currentWallet.value)
     const handleClickSignIn = () => {
         setActive('container')
     }
@@ -63,6 +64,7 @@ const LoginPage = () => {
                             }))
                             const [key, value] = resultFromBEAloha.data.token.split(' ')
                             localStorage.setItem(key, JSON.stringify(value));
+                            dispatch(selectCurrentWallet(res.data.data[0]))
                             navigate('/transactions')
                         })
                 })
