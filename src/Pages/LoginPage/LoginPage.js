@@ -57,7 +57,6 @@ const LoginPage = () => {
                 .then(async (resultFromBEAloha) => {
                     await axios.post('wallet/render', {userId: resultFromBEAloha.data.currentUser._id})
                         .then(res => {
-                            console.log(res.data.data)
                             dispatch(UserLoginWithPassword({
                                 ...resultFromBEAloha.data.currentUser,
                                 wallet: res.data.data
@@ -66,8 +65,6 @@ const LoginPage = () => {
                             localStorage.setItem(key, JSON.stringify(value));
                             navigate('/transactions')
                         })
-
-
                 })
                 .catch(() => {
                     setValidateSignInMsg({password: '* Wrong email or password *'})

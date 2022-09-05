@@ -15,6 +15,7 @@ import {openDialogEditTransaction} from "../../Features/DiaLogSlice/openEditTran
 import swal from "sweetalert";
 import {afterLoadingAPIScreen, isLoadingAPIScreen} from "../../Features/isLoadingScreen/isLoadingScreen";
 import {updateSearchResult} from "../../Features/SearchInput/SearchInputSlice"
+import DialogEditTransaction from "../../Components/Dialog/DialogEditTransaction";
 
 
 const UserSearchTransactionPage = () => {
@@ -150,6 +151,7 @@ const UserSearchTransactionPage = () => {
                         variants={Variants.variant1}>
                 {dialogCategoryState && <DialogTransactionCategory/>}
                 {dialogWalletState && <DialogSelectWallet/>}
+                {dialogEditState && <DialogEditTransaction/>}
                 <SearchPageLayout>
                     <div className="pt-24 mt-6 ">
 
@@ -238,8 +240,8 @@ const UserSearchTransactionPage = () => {
 
 
                             {/*detail transaction*/}
-                            {toggleDetail && <div className=" master-container flex h-[280px] w-[50%] rounded-5">
-                                <div className=" bg-white w-full ">
+                            {toggleDetail && <div className="pt-7 flex h-[300px] w-[50%] rounded-lg sticky top-[160px]">
+                                <div className=" bg-white shadow-md w-full rounded-lg">
                                     <div className="flex justify-between items-start p-5 border-0 rounded-t border-b-2">
                                         <div className="inline flex ml-4">
                                             <button className="pt-1 text-[#757575] my-auto"

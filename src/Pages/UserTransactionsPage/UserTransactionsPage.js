@@ -33,8 +33,7 @@ const UserTransactionsPage = () => {
     const [totalOutflow, setTotalOutflow] = useState()
     const [total, setTotal] = useState()
 
-    // console.log(user, 'user')
-    // console.log(currentWalletState, 'wallet')
+
 
     dispatch(setSearchInputForNote({
         wallet: {
@@ -137,32 +136,57 @@ const UserTransactionsPage = () => {
                 if (willDelete) {
                     axios.post('transaction/delete', {id: detailTransactionState?._id})
                         .then(() => {
-                            axios.post('transaction/list', {user: user?._id})
-                                .then(res => {
-                                    let inflow = res.data.data.filter(value => {
-                                        return value.category.type === 'INCOME'
-                                    })
-                                    let sumInflow = 0
-                                    inflow.forEach(value => sumInflow += value?.amount)
-
-                                    let outFlow = res.data.data.filter(value => {
-                                        return value?.category?.type === 'EXPENSE'
-                                    })
-                                    let sumOutFlow = 0
-                                    outFlow.forEach((value) => sumOutFlow += value?.amount)
-
-                                    setTotalOutflow(sumOutFlow)
-                                    setTotalInflow(sumInflow)
-                                    setTotal(sumInflow - sumOutFlow)
-                                    setListTransaction(res.data.data)
-                                    setToggleDetail(false)
+                            if (currentWalletState._id) {
+                                axios.post('transaction/list/wallet', {
+                                    user: user?._id,
+                                    wallet: currentWalletState?._id
                                 })
+                                    .then(res => {
+
+                                        let inflow = res.data.data.filter(value => {
+                                            return value?.category?.type === 'INCOME'
+                                        })
+                                        let sumInflow = 0
+                                        inflow.forEach(value => sumInflow += value.amount)
+
+
+                                        let outFlow = res.data.data.filter(value => {
+                                            return value?.category?.type === 'EXPENSE'
+                                        })
+                                        let sumOutFlow = 0
+                                        outFlow.forEach((value) => sumOutFlow += value?.amount)
+
+                                        setTotalOutflow(sumOutFlow)
+                                        setTotalInflow(sumInflow)
+                                        setTotal(sumInflow - sumOutFlow)
+                                        setListTransaction(res.data.data)
+                                    })
+                            } else {
+                                axios.post('transaction/list', {user: user?._id})
+                                    .then(res => {
+                                        let inflow = res.data.data.filter(value => {
+                                            return value?.category?.type === 'INCOME'
+                                        })
+                                        let sumInflow = 0
+                                        inflow.forEach(value => sumInflow += value?.amount)
+
+                                        let outFlow = res.data.data.filter(value => {
+                                            return value?.category?.type === 'EXPENSE'
+                                        })
+                                        let sumOutFlow = 0
+                                        outFlow.forEach((value) => sumOutFlow += value?.amount)
+
+                                        setTotalOutflow(sumOutFlow)
+                                        setTotalInflow(sumInflow)
+                                        setTotal(sumInflow - sumOutFlow)
+                                        setListTransaction(res.data.data)
+                                        setToggleDetail(false)
+                                    })
+                            }
                         })
                     swal("Poof! Your record has been deleted!", {
                         icon: "success",
                     });
-                } else {
-                    swal("Your record is safe!");
                 }
             });
 
@@ -179,7 +203,7 @@ const UserTransactionsPage = () => {
                 {dialogTransactionState && <DialogTransaction/>}
                 {dialogEditState && <DialogEditTransaction/>}
 
-                <div className="flex justify-center gap-2">
+                <div className="flex justify-center gap-2 relative">
                     <div
                         className=" bg-white master-container shadow-md flex-cols w-[40%] h-1/3 rounded rounded-lg pt-2">
                         <div className='pb-5'>
@@ -233,7 +257,9 @@ const UserTransactionsPage = () => {
                                                 </div>
                                                 <div
                                                     className="inline-flex items-center text-base  text-gray-900 ">
-                                                    {transaction?.category?.type === 'EXPENSE' ? "-$" + transaction?.amount : "+$" + transaction?.amount}
+                                                    {transaction?.category?.type === 'EXPENSE'
+                                                        ? "-" + transaction?.amount + " " + transaction?.wallet?.currency?.code?.split("-")[1]
+                                                        : "+" + transaction?.amount + " " + transaction?.wallet?.currency?.code?.split("-")[1]}
                                                 </div>
                                             </div>
                                         </li>
@@ -257,7 +283,9 @@ const UserTransactionsPage = () => {
                                                 <div
                                                     className={transaction?.category?.type === 'EXPENSE' ? 'inline-flex items-center text-base text-red-500' : 'inline-flex items-center text-base text-blue-500 '}
                                                 >
-                                                    {transaction?.category?.type === 'EXPENSE' ? "-$" + transaction?.amount : "+$" + transaction?.amount}
+                                                    {transaction?.category?.type === 'EXPENSE'
+                                                        ? "-" + transaction?.amount + " " + transaction?.wallet?.currency?.code?.split("-")[1]
+                                                        : "+" + transaction?.amount + " " + transaction?.wallet?.currency?.code?.split("-")[1]}
                                                 </div>
                                             </div>
                                         </li>
@@ -269,9 +297,9 @@ const UserTransactionsPage = () => {
 
                     {/*detail transaction*/}
                     {toggleDetail &&
-                        <div className=" master-container flex h-[280px] w-[50%] rounded-5">
-                            <div className=" bg-white w-full ">
-                                <div className="flex justify-between items-start p-5 border-0 rounded-t border-b-2">
+                        <div className="pt-7 flex h-[300px] w-[50%] rounded-lg sticky top-[40px]">
+                            <div className=" bg-white shadow-md w-full rounded-lg">
+                                <div className=" flex justify-between items-start p-5 border-0 rounded-t border-b-2">
                                     <div className="inline flex ml-4">
                                         <button className="pt-1 text-[#757575] my-auto"
                                                 onClick={handleCLoseDetail}>
@@ -311,7 +339,7 @@ const UserTransactionsPage = () => {
                                         </div>
                                         <div className="col-span-5">
                                             <div className="text-3xl">{detailTransactionState?.category?.name}</div>
-                                            <div className="mt-1 ">Ăn uống</div>
+                                            <div className="mt-1 ">{detailTransactionState?.category?.type}</div>
                                             <div
                                                 className="mt-1 text-gray-500">{new Date(detailTransactionState?.date).toDateString()}</div>
                                             <hr className="mt-2 w-[200px]"/>
@@ -321,9 +349,11 @@ const UserTransactionsPage = () => {
                                     <div className="grid grid-cols-6">
                                         <div></div>
                                         <div
-                                            className={detailTransactionState?.category?.type === 'EXPENSE' ? 'text-3xl text-red-600 mt-4 col-span-5' : 'text-3xl text-blue-600 mt-4 col-span-5'}
+                                            className={detailTransactionState?.category?.type === 'EXPENSE' ? 'text-3xl text-red-500 mt-4 col-span-5' : 'text-3xl text-blue-600 mt-4 col-span-5'}
                                         >
-                                            {detailTransactionState?.category?.type === 'EXPENSE' ? '-$' + detailTransactionState?.amount : '+$' + detailTransactionState?.amount}
+                                            {detailTransactionState?.category?.type === 'EXPENSE'
+                                                ? '-' + detailTransactionState?.amount + " " + detailTransactionState?.wallet?.currency?.code?.split("-")[1]
+                                                : '+' + detailTransactionState?.amount + " " + detailTransactionState?.wallet?.currency?.code?.split("-")[1]}
                                         </div>
                                     </div>
                                 </div>
