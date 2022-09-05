@@ -1,48 +1,41 @@
 export const DEFAULT_DATA = [
     {name: "None", value: 0.001, type: "EXPENSES"}
 ];
-export const transactionData = [
+export const transactionDataDefault = [
     {
-        XAxis: "2/5",
-        Income: 4000,
-        Expense: 2400,
-        amt: 2400
+        XAxis: "2/5/2022",
+        INCOME: 4000,
+        EXPENSE: 2400,
     },
     {
         XAxis: "5/5",
-        Income: 3000,
-        Expense: 1398,
-        amt: 2210
+        INCOME: 3000,
+        EXPENSE: 1398,
     },
     {
         XAxis: "5/5",
-        Income: 2000,
-        Expense: 9800,
-        amt: 2290
+        INCOME: 2000,
+        EXPENSE: 9800,
     },
     {
         XAxis: "5/5",
-        Income: 2780,
-        Expense: 3908,
-        amt: 2000
+        INCOME: 2780,
+        EXPENSE: 3908,
     },
     {
         XAxis: "5/5",
-        Income: 1890,
-        Expense: 4800,
-        amt: 2181
+        INCOME: 1890,
+        EXPENSE: 4800,
     },
     {
         XAxis: "5/5",
-        Income: 2390,
-        Expense: 3800,
-        amt: 2500
+        INCOME: 2390,
+        EXPENSE: 3800,
     },
     {
         XAxis: "5/5",
-        Income: 3490,
+        INCOME: 3490,
         Expense: 4300,
-        amt: 2100
     },
 ];
 export const dataPieChartExpense = [
