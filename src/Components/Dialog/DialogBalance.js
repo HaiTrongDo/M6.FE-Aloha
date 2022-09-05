@@ -3,7 +3,7 @@ import Transition from "../Transition";
 import {useDispatch, useSelector} from "react-redux";
 import {closeDialogBalance} from "../../Features/DiaLogSlice/openDialogBalanceSlice";
 import {openDialogSelectWallet} from "../../Features/DiaLogSlice/openDialogWallet";
-import React, {useState} from "react";
+import React, {useEffect, useState} from "react";
 import DialogSelectWallet from "./DialogSelectWallet";
 import axios from "axios";
 import swal from "sweetalert";
@@ -11,6 +11,7 @@ import swal from "sweetalert";
 export default function DialogBalance(props) {
     const [walletObj, setWalletObj] = useState(props.walletObj || {});
     const [initialInput, setInitialInput] = useState(props.walletObj.initial);
+    const [isFull,setIsFull] = useState(false)
     const dispatch = useDispatch();
     const userId = JSON.parse(localStorage.getItem('alohaUser'))._id
 
@@ -75,6 +76,16 @@ export default function DialogBalance(props) {
 
     const dialogWalletState = useSelector(state => state.dialogWallet.value);
 
+    useEffect(()=>{
+        if (data.initial === walletObj.initial) {
+            setIsFull(true)
+        }else if (!data.initial){
+            setIsFull(true)
+        }else {
+            setIsFull(false)
+        }
+    })
+
     return (
 
         <Dialog
@@ -103,7 +114,7 @@ export default function DialogBalance(props) {
                         <div className="modal-body relative  flex-auto p-4 pb-0">
                             <div className="relative w-full pl-2 pr-2">
                                 <button id="button" onClick={() => dispatch(openDialogSelectWallet())}
-                                        className="w-full col-span-2 flex relative  border border-gray-300 p-2 h-[60px]  rounded-[10px] hover:border-black">
+                                        className="w-full col-span-2 flex relative bg-gray-50 border border-gray-300 p-2 h-[60px]  rounded-[10px] hover:border-black">
                                     <div className="">
                                         <img data-v-6bc9d4d3=""
                                              src={walletObj?.icon?.url}
@@ -124,13 +135,12 @@ export default function DialogBalance(props) {
                                         </svg>
                                     </div>
                                 </button>
-                                <div className={"relative mt-5 w-full"}>
+                                <div className={"relative mt-5 w-full "}>
                                     <input type="number" id="floating_filled"
                                            name={"name"}
                                            onChange={(e)=>{setInitialInput(Number(e.target.value))}}
                                            defaultValue={walletObj?.initial}
-
-                                           className="block  rounded-[10px] p-2 pl-4 pt-7 w-full h-[64px] text-[20px] text-gray-900  border border-gray-300  appearance-none dark:text-black  focus:outline-none focus:ring-0 hover:border-black peer"
+                                           className="block bg-gray-50 rounded-[10px] p-2 pl-4 pt-7 w-full h-[64px] text-[20px] text-gray-900  border border-gray-300  appearance-none dark:text-black  focus:outline-none focus:ring-0 hover:border-black peer"
                                            placeholder="$ 0"/>
                                     <label htmlFor="floating_filled"
                                            className="absolute text-[16px] p-2 text-gray-500 dark:text-gray-400 duration-300 transform -translate-y-4 scale-75 top-4 z-10 origin-[0] left-2.5   ">
@@ -161,20 +171,29 @@ export default function DialogBalance(props) {
                         <div
                             className="flex items-center m-5 mt-0 justify-end  border-slate-200 rounded-b">
                             <button
-                                className="text-[#F15A59] rounded-[5px] hover:bg-[#FEECEB] w-[96px] h-[36px] background-transparent rounded-[5px] bg-[#F0F0F0] font-bold uppercase mr-4 text-sm outline-none focus:outline-none mr-1 mb-1 ease-linear transition-all duration-150"
+                                className="text-[#F15A59] rounded-[5px] hover:bg-[#FEECEB] w-[96px] h-[36px] background-transparent rounded-[5px] font-bold uppercase mr-4 text-sm outline-none focus:outline-none mr-1 mb-1 ease-linear transition-all duration-150"
                                 type="button"
                                 onClick={handleCloseDialogBalance}
                             >
                                 CLOSE
                             </button>
-                            <button
+                            {isFull ? <button
+                                className="bg-[#E0E0E0] text-[#ACACAC] text-white active:bg-emerald-600 w-[96px] h-[36px] font-bold uppercase text-sm mr-4 rounded shadow hover:shadow-lg outline-none focus:outline-none mr-1 mb-1 ease-linear transition-all duration-150"
+                                type="button"
+                                onClick={handleUpdateBalance}
+                                id="btn-create"
+                                disabled={true}
+                            >
+                                DONE
+                            </button> : <button
+
                                 className="bg-[#2EB74B] text-white active:bg-emerald-600 w-[96px] h-[36px] font-bold uppercase text-sm mr-4 rounded shadow hover:shadow-lg outline-none focus:outline-none mr-1 mb-1 ease-linear transition-all duration-150"
                                 type="button"
                                 onClick={handleUpdateBalance}
                                 id="btn-create"
                             >
                                 DONE
-                            </button>
+                            </button>}
 
                         </div>
                     </div>
@@ -182,7 +201,5 @@ export default function DialogBalance(props) {
                 {dialogWalletState && <DialogSelectWallet onHandleWallet={handleWallet}/>}
             </div>
         </Dialog>
-
-
     )
 }

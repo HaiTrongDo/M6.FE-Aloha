@@ -17,6 +17,7 @@ export default function DialogDetailWallet({walletId}) {
     const [userObj, setUserObj] = useState(JSON.parse(localStorage.getItem('alohaUser')))
 
 
+
     const handleCloseDialogDetailWallet = () => {
         dispatch(closeDialogDetail(false))
     }
@@ -76,11 +77,12 @@ export default function DialogDetailWallet({walletId}) {
 
     return (
         <Slide direction="left" in={detailState} container={containerRef.current}>
+
             <div className={" w-1/2 "}>
                 <div className=" border mt-[100px] w-[90%] rounded-[5px] bg-white  text-xs text-gray-900 border ">
                     <div
                         className={"text-left  flex justify-between py-4 px-6 py-2 border-b border-gray-200 w-full h-[63px]"}>
-                        <div className={"flex"}>
+                        <div className={"flex mb-4"}>
                             <button onClick={handleCloseDialogDetailWallet}>
                                 <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24"
                                      strokeWidth={1.5}
@@ -92,10 +94,10 @@ export default function DialogDetailWallet({walletId}) {
                         </div>
                         <div className={"flex text-center text-[14px]"}>
                             <button onClick={handleOpenDialogEditWallet}
-                                    className={"text-[#2EB74B] w-[80px] h-[36px] mx-[20px] hover:bg-[#E9F6EB]"}>EDIT
+                                    className={"text-[#2EB74B] w-[80px] rounded-[5px] h-[36px] mx-[20px] hover:bg-[#E9F6EB]"}>EDIT
                             </button>
                             <button onClick={handleDeleteWallet}
-                                    className={"text-[#F15A59] w-[80px] h-[36px] hover:bg-[#FEECEB]"}>DELETE
+                                    className={"text-[#F15A59] w-[80px] h-[36px] rounded-[5px] hover:bg-[#FEECEB]"}>DELETE
                             </button>
                         </div>
                     </div>

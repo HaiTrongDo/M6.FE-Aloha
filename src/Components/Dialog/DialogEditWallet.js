@@ -162,7 +162,7 @@ export default function DialogWallet(props) {
                                 <div className="grid grid-cols-3 gap-3">
                                     <button
                                         onClick={handleOpenDialogIcons}
-                                        className=" flex  justify-center border border-gray-300 p-2 h-[60px] rounded-[10px] hover:border-black">
+                                        className=" flex bg-gray-50 justify-center border border-gray-300 p-2 h-[60px] rounded-[10px] hover:border-black">
                                         <img className="w-10 h-10 rounded-full my-0.5" src={iconObj?.url}
                                              alt="..."/>
                                         <svg xmlns="http://www.w3.org/2000/svg"
@@ -186,7 +186,7 @@ export default function DialogWallet(props) {
                                     <button
                                         onClick={handleOpenDialogCurrency}
                                         id="button"
-                                        className="col-span-2 flex relative  border border-gray-300 p-2 h-[60px]  rounded-[10px] hover:border-black">
+                                        className="col-span-2 flex relative bg-gray-50 border border-gray-300 p-2 h-[60px]  rounded-[10px] hover:border-black">
                                         <img className="w-[24px] h-[24px] rounded-full my-3"
                                              src={currencyObj?.url}
                                              alt="..."/>
