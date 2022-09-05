@@ -41,6 +41,7 @@ const DialogTransaction = () => {
     const handleWallet = (walletObj) => {
         console.log(walletObj)
     }
+
     const handleChangeAmount = (e) => {
         setAmount(e.target.value)
     }
@@ -123,7 +124,7 @@ const DialogTransaction = () => {
 
                                 <div className="relative w-full pl-2 pr-2">
                                     <button id="button" onClick={() => dispatch(openDialogSelectWallet())}
-                                            className="w-full col-span-2 flex relative  border border-gray-300 p-2 h-[60px]  rounded-[10px] hover:border-black">
+                                            className="w-full col-span-2 flex bg-gray-50 relative  border border-gray-300 p-2 h-[60px]  rounded-[10px] hover:border-black">
                                         <div className="">
 
                                             <img data-v-6bc9d4d3=""
@@ -144,7 +145,7 @@ const DialogTransaction = () => {
 
                                 <div className="relative w-full pl-2 pr-2">
                                     <button id="button" onClick={() => dispatch(openDialogCategory())}
-                                            className=" w-full col-span-2 flex border border-gray-300 p-2 h-[60px]  rounded-[10px] hover:border-black">
+                                            className=" w-full col-span-2 flex border border-gray-300 p-2 h-[60px] bg-gray-50  rounded-[10px] hover:border-black">
                                         <img data-v-6bc9d4d3=""
                                              src={selectCategoryState?.value?.name ? selectCategoryState?.value?.icon : 'https://static.moneylover.me/img/icon/icon_not_selected.png'}
                                              alt=""
@@ -182,7 +183,7 @@ const DialogTransaction = () => {
                             <div className="grid grid-cols-3 gap-1 p-3 pt-0 px-6 pb-6">
                                 <div className="w-full pl-2 pr-2">
                                     <input type="date" value={date} onChange={handleChangeDate}
-                                           className="block p-4 pl-2 h-full w-full text-sm text-gray-900 bg-gray-50 rounded-lg border border-gray-300 focus:ring-blue-500 focus:border-blue-500 "
+                                           className="block p-4 pl-2 h-full w-full text-sm text-gray-900 bg-gray-50 rounded-lg border border-gray-300 focus:outline-none focus:ring-0  hover:border-black"
                                            placeholder=""/>
                                 </div>
                                 <div className="relative w-full col-span-2 pl-2 pr-2">
@@ -203,7 +204,7 @@ const DialogTransaction = () => {
                             <div
                                 className="flex items-center justify-end p-6  border-solid border-slate-200 rounded-b">
                                 <button
-                                    className="text-red-500 background-transparent font-bold uppercase px-6 py-2 text-sm outline-none focus:outline-none mr-1 mb-1 ease-linear transition-all duration-150"
+                                    className="text-[#F15A59] hover:bg-[#FEECEB] rounded-[5px] background-transparent font-bold uppercase px-6 py-2 text-sm outline-none focus:outline-none mr-1 mb-1 ease-linear transition-all duration-150"
                                     type="button"
                                     onClick={handleCloseDialogTransaction}
                                 >

@@ -34,10 +34,10 @@ const SearchInputSlice = createSlice({
     initialState: {
         SearchInput: initialState,
         AllTransactions: {
-            loading:false,
-            data:{}
+            loading: false,
+            data: {}
         },
-        searchResult:[]
+        searchResult: []
 
     },
     reducers: {
@@ -50,8 +50,12 @@ const SearchInputSlice = createSlice({
         setSearchInputForNote: (state, action) => {
             state.SearchInput = action.payload
         },
-        setSearchInputForDate:(state, action)=>{
-            state.SearchInput.date =  action.payload.startDate + "->" + action.payload.endDate
+        setSearchInputForDate: (state, action) => {
+            state.SearchInput.date = action.payload.startDate + "->" + action.payload.endDate
+        },
+        updateSearchResult: (state, action) => {
+            state.searchResult = action.payload
+            console.log(action.payload)
         }
     },
     // extraReducers:{
@@ -68,6 +72,12 @@ const SearchInputSlice = createSlice({
     // }
 })
 
-export const {setCategoryInSearchPage, setSearchInputForNote, setWalletInSearchPage,setSearchInputForDate} = SearchInputSlice.actions
+export const {
+    setCategoryInSearchPage,
+    setSearchInputForNote,
+    setWalletInSearchPage,
+    setSearchInputForDate,
+    updateSearchResult
+} = SearchInputSlice.actions
 
 export default SearchInputSlice.reducer
