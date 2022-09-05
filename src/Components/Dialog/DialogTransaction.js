@@ -20,18 +20,13 @@ const DialogTransaction = () => {
     const [note, setNote] = useState('');
     const [date, setDate] = useState(new Date().getFullYear()
         + ((new Date().getMonth() < 9) ? `-0${new Date().getMonth() + 1}` : `-${new Date().getMonth() + 1}`)
-        + "-" + new Date().getDate());
+        + (new Date().getDate() < 9 ? `-0${new Date().getDate()}` : `-${new Date().getDate()}`));
     const selectCategoryState = useSelector(state => state.selectCategory)
     const selectWalletState = useSelector(state => state.selectWallet);
     const dialogCategoryState = useSelector(state => state.DialogCategory.value)
     const dialogWalletState = useSelector(state => state.dialogWallet.value);
     const [activeSave,setActiveSave]=useState(false)
 
-    const transactionObj={
-        wallet:'',
-        category:'',
-        amount:'',
-    }
 
     useEffect(()=>{
         if(selectWalletState.value && selectCategoryState && amount ){

@@ -38,52 +38,16 @@ const UserSearchTransactionPage = () => {
             userId: user._id,
             wallet: searchInput.wallet,
             category: searchInput.category,
-            // date: searchInput.date,
-            startDate:new Date(searchInput.startDate).toLocaleDateString(),
-            endDate:new Date(searchInput.endDate).toLocaleDateString(),
+            date: searchInput.date,
             note: searchInput.note
         })
             .then(res => {
-                // let inflow = res?.data?.data?.filter(value => {
-                //     return value.category.type === 'INCOME'
-                // })
-                // let sumInflow = 0
-                // inflow?.forEach(value => sumInflow += value.amount)
-                console.log(res.data.data)
-                if (searchInput.startDate && searchInput.endDate) {
-                    const result = res.data.data.filter((item) => {
-                        return (searchInput.startDate <= new Date(item?.date).getTime()
-                            && searchInput.endDate >= new Date(item?.date).getTime())
-                    })
-                    let inflow = result.filter(value => {
-                        return value?.category?.type === 'INCOME'
-                    })
-                    let sumInflow = 0
-                    inflow?.forEach(value => sumInflow += value.amount)
-
-                    let outFlow = result.filter(value => {
-                        return value?.category?.type === 'EXPENSE'
-                    })
-                    let sumOutFlow = 0
-                    outFlow?.forEach((value) => sumOutFlow += value.amount)
-
-                    setTotalOutflow(sumOutFlow)
-                    setTotalInflow(sumInflow)
-                    setTotal(sumInflow - sumOutFlow)
-                    setListTransaction(result)
-                    setToggleDetail(false)
-                } else {
                     let inflow = res?.data?.data?.filter(value => {
                         return value?.category?.type === 'INCOME'
                     })
                     let sumInflow = 0
                     inflow?.forEach(value => sumInflow += value?.amount)
 
-                    // let outFlow = res?.data?.data?.filter(value => {
-                    //     return value.category.type === 'EXPENSE'
-                    // })
-                    // let sumOutFlow = 0
-                    // outFlow?.forEach((value) => sumOutFlow += value.amount)
                     let outFlow = res?.data?.data?.filter(value => {
                         return value?.category?.type === 'EXPENSE'
                     })
@@ -95,7 +59,6 @@ const UserSearchTransactionPage = () => {
                     setTotal(sumInflow - sumOutFlow)
                     setListTransaction(res.data.data)
                     setToggleDetail(false)
-                }
             })
     }, [searchInput])
 
@@ -103,47 +66,6 @@ const UserSearchTransactionPage = () => {
         dispatch(isLoadingAPIScreen())
         dispatch(afterLoadingAPIScreen())
     }, [])
-
-    // useEffect(() => {
-    //     axios.post('transaction/list/wallet', {user: user._id, wallet: currentWalletState._id})
-    //         .then(res => {
-    //             // const b={}
-    //             // res.data.data.forEach((item,index)=>{
-    //             //     if(listByCategory[item.category.name]){
-    //             //         b[item.category._id].push({
-    //             //             ...item,
-    //             //             _id:item.category._id,
-    //             //             name:item.category.name
-    //             //         })
-    //             //     }
-    //             //     else{
-    //             //         b[item.category._id]=[{
-    //             //             _id:item.category._id,
-    //             //             name:item.category.name
-    //             //         }]
-    //             //     }
-    //             // })
-    //             // console.log(b,'test')
-    //             let inflow = res.data.data.filter(value => {
-    //                 return value.category.type === 'INCOME'
-    //             })
-    //             let sumInflow = 0
-    //             inflow.forEach(value => sumInflow += value.amount)
-    //
-    //
-    //             let outFlow = res.data.data.filter(value => {
-    //                 return value.category.type === 'EXPENSE'
-    //             })
-    //             let sumOutFlow = 0
-    //             outFlow.forEach((value) => sumOutFlow += value.amount)
-    //
-    //             setTotalOutflow(sumOutFlow)
-    //             setTotalInflow(sumInflow)
-    //             setTotal(sumInflow - sumOutFlow)
-    //             setListTransaction(res.data.data)
-    //
-    //         })
-    // }, [dialogTransactionState, dialogEditState, currentWalletState])
 
     useEffect(() => {
         axios.post('wallet/updateBalance', {walletId: currentWalletState._id, initial: total})
@@ -179,15 +101,11 @@ const UserSearchTransactionPage = () => {
                 if (willDelete) {
                     axios.post('transaction/delete', {id: detailTransactionState._id})
                         .then(() => {
-                            // main
-                            // axios.post('transaction/list', {user: user._id})
                             axios.post('transaction/search', {
                                 userId: user._id,
                                 wallet: searchInput.wallet,
                                 category: searchInput.category,
                                 date: searchInput.date,
-                                // startDate:new Date(searchInput.startDate.$d.toLocaleDateString('en-US')).getTime(),
-                                // endDate:new Date(searchInput.endDate.$d.toLocaleDateString('en-US')).getTime(),
                                 note: searchInput.note
                             })
                                 .then(res => {

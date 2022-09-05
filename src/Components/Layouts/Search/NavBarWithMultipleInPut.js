@@ -79,11 +79,9 @@ const NavBarWithMultipleInPut = () => {
 
     const handleStartDateChange = (newValue) => {
         setSelectedDate({...selectedDate, startDate: newValue});
-        dispatch(setSearchInputForNote({...SearchInput,startDate:new Date(newValue.$d.toLocaleDateString('en-US')).getTime()}))
     };
     const handleEndDateChange = (newValue) => {
         setSelectedDate({...selectedDate, endDate: newValue});
-        dispatch(setSearchInputForNote({...SearchInput,endDate:new Date(newValue.$d.toLocaleDateString('en-US')).getTime()}))
     };
 
     const handleUpdateDateIntoRedux = () => {
