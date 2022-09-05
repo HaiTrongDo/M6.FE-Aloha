@@ -9,10 +9,6 @@ import {useDispatch} from 'react-redux'
 import {UserLoginWithFireBase, UserLoginWithPassword} from '../../Features/CurrentUser/UserSlice'
 import {motion} from "framer-motion"
 import Variants from "../../Components/Variants";
-import DialogWallet from "../../Components/Dialog/DialogWallet";
-import {usePasswordToggle} from "../../Components/usePasswordToggle";
-import {selectCurrentWallet} from "../../Features/Transaction/currentWalletSlice";
-
 
 const DEFAULT_USER_URL = "https://firebasestorage.googleapis.com/v0/b/aloha-money.appspot.com/o/DefaultUser.jpg?alt=media&token=58615f07-c33a-42f7-aa11-43b9d8170593"
 

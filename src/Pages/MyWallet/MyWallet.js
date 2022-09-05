@@ -74,7 +74,6 @@ export default function MyWallet() {
 
     }
 
-
     return (
 
         <motion.div className="relative bg-[#E4E4E4] h-[100vh]"
@@ -103,14 +102,14 @@ export default function MyWallet() {
                             </div>
                             <div className="hidden justify-between items-center w-full md:flex md:w-auto md:order-1"
                                  id="navbar-sticky">
-                                <button className="flex" onClick={handleOpenDialogWallet}>
+                                {wallets.length < 3 ? <button className="flex" onClick={handleOpenDialogWallet}>
                                     <svg xmlns="http://www.w3.org/2000/svg" className="h-6 w-6" fill="none"
                                          viewBox="0 0 24 24" stroke="currentColor" strokeWidth="2">
                                         <path strokeLinecap="round" strokeLinejoin="round"
                                               d="M12 6v6m0 0v6m0-6h6m-6 0H6"/>
                                     </svg>
                                     Create Wallet
-                                </button>
+                                </button> : null}
                             </div>
                         </div>
                     </nav>
@@ -130,7 +129,7 @@ export default function MyWallet() {
                                 <div onClick={(e) => {
                                     handleOpenDialogDetail(e, wallet)
                                 }} key={index}
-                                     className="text-left border-r hover:bg-[#E6EFE7] flex px-6 py-2 round-[10px]  w-full h-[72px] bg-[#FFFFFF] text-black cursor-pointer">
+                                     className="text-left border-r border-b hover:bg-[#E6EFE7] flex px-6 py-2 round-[10px]  w-full h-[72px] bg-[#FFFFFF] text-black cursor-pointer">
                                     <img src={wallet.name ? wallet?.icon?.url : ""}
                                          className="w-10 h-10 rounded-full my-2"
                                          alt=""/>
@@ -144,20 +143,9 @@ export default function MyWallet() {
                         })}
                     </div>
                 </div>
-
-
-                {detailState ? (
-                    <>
-                        <DialogDetailWallet walletId={walletId}/>
-                    </>
-                ) : null
-                }
+                {detailState ? (<><DialogDetailWallet walletId={walletId}/></>) : null}
             </div>
-            {walletState ? (
-                <>
-                    <DialogWallet/>
-                </>
-            ) : null}
+            {walletState ? (<><DialogWallet/></>) : null}
         </motion.div>
     )
 }
