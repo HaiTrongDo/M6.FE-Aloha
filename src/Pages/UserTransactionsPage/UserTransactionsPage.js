@@ -35,12 +35,6 @@ const UserTransactionsPage = () => {
 
     // console.log(user, 'user')
     // console.log(currentWalletState, 'wallet')
-    // useEffect(() => {
-    //     axios.post('transaction/sort', {user: user._id, wallet: currentWalletState._id})
-    //         .then(res => {
-    //             console.log(res.data.data, 'sort')
-    //         })
-    // }, [currentWalletState])
 
     dispatch(setSearchInputForNote({
         wallet: {
@@ -56,8 +50,6 @@ const UserTransactionsPage = () => {
             type: ''
         },
         date: '',
-        startDate: '',
-        endDate: '',
         note: ''
     }));
 

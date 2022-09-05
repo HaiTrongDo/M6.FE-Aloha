@@ -28,6 +28,7 @@ import {openDialogCategory, closeDialogCategory} from "../../../Features/DialogC
 import {openDialogSelectWallet} from "../../../Features/DiaLogSlice/openDialogWallet";
 import {setSearchInputForNote, setSearchInputForDate} from "../../../Features/SearchInput/SearchInputSlice";
 import {afterLoadingAPIScreen, isLoadingAPIScreen} from "../../../Features/isLoadingScreen/isLoadingScreen";
+import {calculateNewValue} from "@testing-library/user-event/dist/utils";
 
 
 const NavBarWithMultipleInPut = () => {
@@ -121,7 +122,7 @@ const NavBarWithMultipleInPut = () => {
                                         onChange={() => {
                                         }}
                                         id="walletSearch"
-                                        value={SearchInput.wallet.name}
+                                        value={SearchInput?.wallet?.name}
 
                                         startAdornment={
                                             <InputAdornment position="start">
@@ -145,12 +146,12 @@ const NavBarWithMultipleInPut = () => {
                                         onChange={() => {
                                         }}
                                         id="walletSearch"
-                                        value={SearchInput.category.name}
+                                        value={SearchInput?.category?.name}
 
                                         startAdornment={
                                             <InputAdornment position="start">
                                                 <img className="h-7 object-cover"
-                                                     src={SearchInput.category.icon}
+                                                     src={SearchInput?.category?.icon}
                                                      alt=""/>
                                             </InputAdornment>
                                         }

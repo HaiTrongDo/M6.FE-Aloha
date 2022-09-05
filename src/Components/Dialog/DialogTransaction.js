@@ -20,11 +20,23 @@ const DialogTransaction = () => {
     const [note, setNote] = useState('');
     const [date, setDate] = useState(new Date().getFullYear()
         + ((new Date().getMonth() < 9) ? `-0${new Date().getMonth() + 1}` : `-${new Date().getMonth() + 1}`)
-        + "-" + new Date().getDate());
+        + (new Date().getDate() < 9 ? `-0${new Date().getDate()}` : `-${new Date().getDate()}`));
     const selectCategoryState = useSelector(state => state.selectCategory)
     const selectWalletState = useSelector(state => state.selectWallet);
     const dialogCategoryState = useSelector(state => state.DialogCategory.value)
     const dialogWalletState = useSelector(state => state.dialogWallet.value);
+    const [activeSave,setActiveSave]=useState(false)
+
+
+    useEffect(()=>{
+        if(selectWalletState?.value?._id && selectCategoryState?.value?._id && amount ){
+            setActiveSave(true)
+        }
+        else{
+            setActiveSave(false)
+        }
+    },[selectWalletState,selectCategoryState,amount,date,note])
+
 
     const handleWallet = (walletObj) => {
         console.log(walletObj)
@@ -43,7 +55,7 @@ const DialogTransaction = () => {
         const transaction = {
             wallet: selectWalletState?.value?._id,
             amount: amount * 1,
-            category: selectCategoryState?.value,
+            category: selectCategoryState?.value?._id,
             date: new Date(date),
             note: note,
             user: user
@@ -110,9 +122,9 @@ const DialogTransaction = () => {
                             {/*body*/}
                             <div className="grid grid-cols-3 gap-1 py-6 px-6">
 
-                                <div className="relative w-full pl-2 pr-2 ">
+                                <div className="relative w-full pl-2 pr-2">
                                     <button id="button" onClick={() => dispatch(openDialogSelectWallet())}
-                                            className="w-full col-span-2 flex bg-gray-50 relative  border border-gray-300 p-2 h-[60px]  rounded-[10px] hover:border-blackhover:border-black">
+                                            className="w-full col-span-2 flex bg-gray-50 relative  border border-gray-300 p-2 h-[60px]  rounded-[10px] hover:border-black">
                                         <div className="">
 
                                             <img data-v-6bc9d4d3=""
@@ -198,13 +210,21 @@ const DialogTransaction = () => {
                                 >
                                     Close
                                 </button>
-                                <button
-                                    className="bg-[#2EB74B] text-white active:bg-emerald-600 font-bold uppercase text-sm px-6 py-3 rounded shadow hover:shadow-lg outline-none focus:outline-none mr-1 mb-1 ease-linear transition-all duration-150"
-                                    type="button"
-                                    onClick={handleSaveTransaction}
-                                >
-                                    Save Changes
-                                </button>
+                                {activeSave
+                                ? <button
+                                        className="bg-emerald-500 text-white active:bg-emerald-600 font-bold uppercase text-sm px-6 py-3 rounded shadow hover:shadow-lg outline-none focus:outline-none mr-1 mb-1 ease-linear transition-all duration-150"
+                                        type="button"
+                                        onClick={handleSaveTransaction}
+                                    >
+                                        Save Changes
+                                    </button>
+                                : <button
+                                        className="bg-gray-300 text-white font-bold uppercase text-sm px-6 py-3 rounded shadow hover:shadow-lg outline-none focus:outline-none mr-1 mb-1 ease-linear transition-all duration-150"
+                                        type="button" disabled={true}
+                                    >
+                                        Save Changes
+                                    </button>}
+
                             </div>
                         </div>
                     </div>
