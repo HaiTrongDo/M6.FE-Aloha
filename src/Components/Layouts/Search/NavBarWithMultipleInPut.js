@@ -27,6 +27,8 @@ import {useNavigate} from "react-router-dom";
 import {openDialogCategory, closeDialogCategory} from "../../../Features/DialogCategorySlice/openDialogCategorySlice";
 import {openDialogSelectWallet} from "../../../Features/DiaLogSlice/openDialogWallet";
 import {setSearchInputForNote, setSearchInputForDate} from "../../../Features/SearchInput/SearchInputSlice";
+import {afterLoadingAPIScreen, isLoadingAPIScreen} from "../../../Features/isLoadingScreen/isLoadingScreen";
+import {calculateNewValue} from "@testing-library/user-event/dist/utils";
 
 
 const NavBarWithMultipleInPut = () => {
@@ -55,8 +57,6 @@ const NavBarWithMultipleInPut = () => {
                 type: ''
             },
             date: '',
-            startDate:'',
-            endDate:'',
             note: ''
         }));
     };
@@ -80,20 +80,23 @@ const NavBarWithMultipleInPut = () => {
 
     const handleStartDateChange = (newValue) => {
         setSelectedDate({...selectedDate, startDate: newValue});
-        dispatch(setSearchInputForNote({...SearchInput,startDate:new Date(newValue.$d.toLocaleDateString('en-US')).getTime()}))
     };
     const handleEndDateChange = (newValue) => {
         setSelectedDate({...selectedDate, endDate: newValue});
-        dispatch(setSearchInputForNote({...SearchInput,endDate:new Date(newValue.$d.toLocaleDateString('en-US')).getTime()}))
     };
 
     const handleUpdateDateIntoRedux = () => {
         dispatch(setSearchInputForDate({
-                    startDate: selectedDate.startDate.$d.toLocaleDateString('en-US'),
-                    endDate: selectedDate.endDate.$d.toLocaleDateString('en-US')}))
+            startDate: selectedDate.startDate.$d.toLocaleDateString('en-US'),
+            endDate: selectedDate.endDate.$d.toLocaleDateString('en-US')
+        }))
     }
 
-
+    useEffect(() => {
+        // console.log(SearchInput);
+        dispatch(isLoadingAPIScreen())
+        dispatch(afterLoadingAPIScreen())
+    })
     return (
         <div>
             <NavBar>
@@ -119,7 +122,7 @@ const NavBarWithMultipleInPut = () => {
                                         onChange={() => {
                                         }}
                                         id="walletSearch"
-                                        value={SearchInput.wallet.name}
+                                        value={SearchInput?.wallet?.name}
 
                                         startAdornment={
                                             <InputAdornment position="start">
@@ -143,12 +146,12 @@ const NavBarWithMultipleInPut = () => {
                                         onChange={() => {
                                         }}
                                         id="walletSearch"
-                                        value={SearchInput.category.name}
+                                        value={SearchInput?.category?.name}
 
                                         startAdornment={
                                             <InputAdornment position="start">
                                                 <img className="h-7 object-cover"
-                                                     src={SearchInput.category.icon}
+                                                     src={SearchInput?.category?.icon}
                                                      alt=""/>
                                             </InputAdornment>
                                         }

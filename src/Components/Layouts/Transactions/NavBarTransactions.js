@@ -21,16 +21,12 @@ const navigate = useNavigate();
                 <IconButton >
                     <CalendarMonthIcon/>
                 </IconButton>
-
-                <IconButton>
-                    <RemoveRedEyeIcon/>
-                </IconButton>
                 <IconButton onClick={()=>{navigate('/search')}}>
                     <SearchIcon />
                 </IconButton>
-                <Button color="success" variant="contained"
+                <button className={" text-white hover:bg-[#1AA332]  font-medium rounded-lg text-sm px-5 py-2.5 mr-2 mb-2 focus:outline-none  bg-[#2EB74B]"}
                 onClick={()=>dispatch(openDialogTransaction(true))}
-                >ADD TRANSACTION</Button>
+                >ADD TRANSACTION</button>
             </NavBar>
         </div>
     );

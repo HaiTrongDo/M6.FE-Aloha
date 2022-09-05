@@ -20,8 +20,8 @@ function TransactionBarChart({transactionData}) {
         <YAxis/>
         <Tooltip/>
         <Legend/>
-        <Bar dataKey="Expense" fill="#be123c"/>
-        <Bar dataKey="Income" fill="#1d4ed8"/>
+        <Bar dataKey="EXPENSE" fill="#be123c"/>
+        <Bar dataKey="INCOME" fill="#1d4ed8"/>
     </BarChart>;
 }
 

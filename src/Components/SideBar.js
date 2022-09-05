@@ -8,7 +8,7 @@ import {styled} from "@mui/material/styles";
 import MuiDrawer from "@mui/material/Drawer";
 import {useDispatch, useSelector} from "react-redux";
 import {addClick} from "../Features/SidebarOpenSlice/clickSlice";
-
+import logo from "../images/hi-removebg-preview.png"
 
 const Drawer = styled(MuiDrawer, {shouldForwardProp: (prop) => prop !== 'open'})(
     ({theme, open}) => ({
@@ -49,6 +49,11 @@ function SideBar() {
                 px: [1],
             }}
         >
+            <div className={"h-[63px] mr-7 flex"}>
+                <img src={logo} alt="" className={"object-cover  w-[60px] "}/>
+                <span className={"mt-5 text-xl text-zinc-500"}>Alo</span>
+                <span className={"mt-5 text-xl font-black text-[#2EB74B]"}>ha</span>
+            </div>
             <IconButton onClick={() => {
                 dispatch(addClick(!open))
             }}>

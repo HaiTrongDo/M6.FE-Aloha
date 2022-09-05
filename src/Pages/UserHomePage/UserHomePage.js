@@ -3,7 +3,7 @@
 import './UserHomePage.css'
 import {motion} from "framer-motion"
 import Variants from "../../Components/Variants";
-
+import Link from "@mui/material/Link";
 
 
 const UserHomePage = () => {
@@ -34,7 +34,8 @@ const UserHomePage = () => {
                                 <li className="border-t border-monochrome-medium-tint md:border-none"><a
                                     style={{textDecoration: 'none'}}
                                     className="inline-flex text-16 font-medium text-dark-brown leading-24 py-4 w-full h-full gap-x-2"
-                                    href="/vi"><img className="w-6 inline-block" src="http://moneylover.me/img/vi.svg" alt="Vietnam"/>Vietnamese</a>
+                                    href="/vi"><img className="w-6 inline-block" src="http://moneylover.me/img/vi.svg"
+                                                    alt="Vietnam"/>Vietnamese</a>
                                 </li>
                             </ul>
                             <button aria-label="menu button" style={{backgroundPosition: 'center'}}
@@ -57,11 +58,13 @@ const UserHomePage = () => {
                                 finances</h1><p/>
                             <div
                                 className="grid grid-cols-2 gap-x-2 lg:gap-x-4 md:flex md:justify-center mt-9 lg:mt-12">
-                                <a href="https://web.moneylover.me" target="_blank" rel="noopener noreferrer"
-                                   className="button-ml text-16 md:w-full" style={{textDecoration: 'none'}}>Try on
-                                    browser</a><a href="#cta"
-                                                  className="button-ml-primary bg-green-ml text-16 md:w-full"
-                                                  style={{textDecoration: 'none'}}>Download for free</a></div>
+                                <Link href="/login" rel="noopener noreferrer"
+                                      className="button-ml text-16 md:w-full" style={{textDecoration: 'none'}}>
+                                    Try on browser
+                                </Link><Link to="/login"
+                                             className="button-ml-primary bg-green-ml text-16 md:w-full"
+                                             style={{textDecoration: 'none'}}>Download for free</Link>
+                            </div>
                             <div
                                 className="lg:invisible fixed bg-monochrome-white bottom-0 inset-x-0 z-10 flex justify-around invisible"
                                 style={{boxShadow: 'rgba(0, 0, 0, 0.04) 0px -4px 16px'}}>
@@ -126,7 +129,8 @@ const UserHomePage = () => {
                             <div
                                 className="col-span-full md:col-span-5 md:col-start-7 md:place-self-center md:self-center">
                                 <div className="imgWrapper_H04T md:w-11/12 mx-auto"><img
-                                    src="http://moneylover.me/img/details/budget@4x.png" alt="risks and tests to run"/></div>
+                                    src="http://moneylover.me/img/details/budget@4x.png" alt="risks and tests to run"/>
+                                </div>
                             </div>
                         </figure>
                         <figure
@@ -148,38 +152,44 @@ const UserHomePage = () => {
                         className="text-26 tracking-tight lg:text-40 lg:leading-52 text-dark-tiny leading-32 font-medium text-center">Features
                         our users love</h2>
                         <div className="grid mt-6 lg:mt-12 gap-y-8 lg:gap-x-10 lg:gap-y-12 grid-cols-1 lg:grid-cols-3">
-                            <div className="flex flex-col items-center"><img src="http://moneylover.me/img/features/1.svg"
-                                                                             alt="Multiple devices"/><h3
+                            <div className="flex flex-col items-center"><img
+                                src="http://moneylover.me/img/features/1.svg"
+                                alt="Multiple devices"/><h3
                                 className="text-16 lg:text-20 lg:leading-28 font-bold lg:mt-6 leading-24 text-center mt-3 text-dark-tiny">Multiple
                                 devices</h3><p
                                 className="pt-1 px-4 lg:pt-2 text-16 leading-24 text-dark-brown text-center">Safely
                                 synchronize across devices with Bank standard security.</p></div>
-                            <div className="flex flex-col items-center"><img src="http://moneylover.me/img/features/2.svg"
-                                                                             alt="Recurring transaction"/><h3
+                            <div className="flex flex-col items-center"><img
+                                src="http://moneylover.me/img/features/2.svg"
+                                alt="Recurring transaction"/><h3
                                 className="text-16 lg:text-20 lg:leading-28 font-bold lg:mt-6 leading-24 text-center mt-3 text-dark-tiny">Recurring
                                 transaction</h3><p
                                 className="pt-1 px-4 lg:pt-2 text-16 leading-24 text-dark-brown text-center">Get
                                 notified of recurring bills and transactions before due date.</p></div>
-                            <div className="flex flex-col items-center"><img src="http://moneylover.me/img/features/3.svg"
-                                                                             alt="Travel mode"/><h3
+                            <div className="flex flex-col items-center"><img
+                                src="http://moneylover.me/img/features/3.svg"
+                                alt="Travel mode"/><h3
                                 className="text-16 lg:text-20 lg:leading-28 font-bold lg:mt-6 leading-24 text-center mt-3 text-dark-tiny">Travel
                                 mode</h3><p
                                 className="pt-1 px-4 lg:pt-2 text-16 leading-24 text-dark-brown text-center">All
                                 currencies supported with up-to-date exchange rate.</p></div>
-                            <div className="flex flex-col items-center"><img src="http://moneylover.me/img/features/4.svg"
-                                                                             alt="Saving plan"/><h3
+                            <div className="flex flex-col items-center"><img
+                                src="http://moneylover.me/img/features/4.svg"
+                                alt="Saving plan"/><h3
                                 className="text-16 lg:text-20 lg:leading-28 font-bold lg:mt-6 leading-24 text-center mt-3 text-dark-tiny">Saving
                                 plan</h3><p
                                 className="pt-1 px-4 lg:pt-2 text-16 leading-24 text-dark-brown text-center">Keep track
                                 on savings process to meet your financial goals.</p></div>
-                            <div className="flex flex-col items-center"><img src="http://moneylover.me/img/features/5.svg"
-                                                                             alt="Debt and loan"/><h3
+                            <div className="flex flex-col items-center"><img
+                                src="http://moneylover.me/img/features/5.svg"
+                                alt="Debt and loan"/><h3
                                 className="text-16 lg:text-20 lg:leading-28 font-bold lg:mt-6 leading-24 text-center mt-3 text-dark-tiny">Debt
                                 and loan</h3><p
                                 className="pt-1 px-4 lg:pt-2 text-16 leading-24 text-dark-brown text-center">Manage your
                                 debts, loans and payment process in one place.</p></div>
-                            <div className="flex flex-col items-center"><img src="http://moneylover.me/img/features/6.svg"
-                                                                             alt="Scan receipt"/><h3
+                            <div className="flex flex-col items-center"><img
+                                src="http://moneylover.me/img/features/6.svg"
+                                alt="Scan receipt"/><h3
                                 className="text-16 lg:text-20 lg:leading-28 font-bold lg:mt-6 leading-24 text-center mt-3 text-dark-tiny">Scan
                                 receipt</h3><p
                                 className="pt-1 px-4 lg:pt-2 text-16 leading-24 text-dark-brown text-center">Take
@@ -191,7 +201,8 @@ const UserHomePage = () => {
                             dangerouslySetInnerHTML={{__html: " \n  @media screen and (min-width: 1024px) {\n      .slick-slide > div {\n        margin: 0 15px;\n      }\n  }\n  .review-slide p {\n    max-height: 240px;\n  }\n  .review-slide {\n    max-width: 370px;\n    max-height: 324px;\n    margin-top: 24px;\n    border: 1px solid #f0f0f0 !important;\n    border-radius: 8px;\n    box-sizing: border-box;\n  }\n"}}/>
                         <h2 className="text-dark-tiny tracking-tight text-26 lg:text-40 lg:leading-52 font-medium leading-32 text-center">See
                             what others have to say</h2><p className="flex justify-center mt-4 lg:mb-8"><img
-                        src="http://moneylover.me/img/Stars.svg" alt=""/></p><p className="pl-1"><span className="font-bold pr-1">4.9</span><span
+                        src="http://moneylover.me/img/Stars.svg" alt=""/></p><p className="pl-1"><span
+                        className="font-bold pr-1">4.9</span><span
                         className="text-14" style={{color: 'rgb(126, 126, 126)'}}> Based on user reviews</span></p><p/>
                         <div className="slick-slider slick-initialized">
                             <div className="slick-list">

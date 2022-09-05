@@ -137,12 +137,12 @@ export default function DialogAccount() {
                                     </Typography>
 
                                     <Typography>
-                                        <Button variant="outlined" color="success" align='right' size="small"
+                                        <Button variant="outlined" color="success" disabled={!!currentUser?.uid} align='right' size="small"
                                                 onClick={handleChangePass}>Change Password</Button>
                                     </Typography>
 
                                     <Typography>
-                                        <Button autoFocus onClick={handleSignOut}>
+                                        <Button autoFocus variant={"outlined"} color={"error"} onClick={handleSignOut}>
                                             SIGN OUT
                                         </Button>
                                     </Typography>

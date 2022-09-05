@@ -1,24 +1,39 @@
 import store from './store';
 import {Provider} from 'react-redux';
-import {Routes, Route, Router} from 'react-router-dom';
-import LoginPage from "./Pages/LoginPage/LoginPage";
-import UserHomePage from "./Pages/UserHomePage/UserHomePage";
-import UserReportPage from "./Pages/UserReportPage/UserReportPage";
-import UserBudgetPage from "./Pages/UserBudgetPage/UserBudgetPage";
-import UserTransactionsPage from "./Pages/UserTransactionsPage/UserTransactionsPage";
-import MyWalletPage from "./Pages/MyWallet/MyWallet";
-import PrivateRoute from './utils/PrivateRoute'
-import UserChangeProfile from "./Pages/UserChangeProfile/UserChangeProfile";
-import MyAccountPage from "./Pages/MyAccountPage/MyAccountPage";
-import Category from "./Pages/Category/Category";
-import UserSearchTransactionPage from "./Pages/UserSearchTransactionPage/UserSearchTransactionPage";
+import {useState} from 'react'
+
 import AnimatedRoutes from "./Components/AnimatedRoutes";
+import {BeatLoader} from "react-spinners";
+import logo from "../src/images/hi-removebg-preview.png"
 
 function App() {
+    let [loading, setLoading] = useState(false);
+
     return (
         <Provider store={store}>
             <div className="App">
-                <AnimatedRoutes/>
+                {loading &&
+                    <div
+                        className="flex justify-center m-auto absolute h-[100vh] w-full loadingScreen bg-gray-500 opacity-75 z-[3000]">
+                        <div className="h-[15%] w-[15%] block  my-[100px] items-center opacity-100 ">
+                            <img className=''
+                                // src={'./images/aloha-loading-screen.png'}
+                                 src={logo}
+                                 alt="Aloha Loading"/>
+
+                                <BeatLoader
+                                    color="#2EB74B"
+                                    cssOverride={{
+                                        marginLeft: "130px",
+                                        marginTop: "50px"
+                                    }}
+                                    size={20}
+                                    speedMultiplier={1}
+                                />
+                        </div>
+                    </div>
+                }
+                <AnimatedRoutes setLoading={setLoading}/>
             </div>
         </Provider>
     );

@@ -15,6 +15,8 @@ import DialogAccount from "../Dialog/DialogAccount";
 import {useDispatch, useSelector} from "react-redux";
 import {openDialog} from "../../Features/DiaLogSlice/openDialogAccountSlide";
 import DialogChangePassword from "../Dialog/DialogChangePassword";
+import {Typography} from "@mui/material";
+import {sx} from "@mui/joy/styles/styleFunctionSx";
 
 const MainListItems = () => {
     let navigate = useNavigate();
@@ -26,65 +28,56 @@ const MainListItems = () => {
         dispatch(openDialog(true))
     }
 
+    const pathname = window.location.pathname;
+
     return (
         <>
             <React.Fragment>
                 <ListItemButton
                     onClick={() => navigate('/Transactions')}>
                     <ListItemIcon>
-                        <AccountBalanceWalletIcon/>
+                        <AccountBalanceWalletIcon sx={pathname==="/Transactions" ? {color:'green'} :''} />
                     </ListItemIcon>
-                    <ListItemText primary="Transactions"/>
+                    <ListItemText primary={<Typography sx={pathname==="/Transactions" ? {color:'green'} :''} >Transaction</Typography>}/>
                 </ListItemButton>
 
                 <ListItemButton
                     onClick={() => navigate('/report')}
                 >
                     <ListItemIcon>
-                        <CollectionsBookmarkIcon/>
+                        <CollectionsBookmarkIcon sx={pathname==="/report" ? {color:'green'} :''}/>
                     </ListItemIcon>
-                    <ListItemText primary="Report"/>
+                    <ListItemText primary={<Typography sx={pathname==="/report" ? {color:'green'} :''} >Report</Typography>}/>
                 </ListItemButton>
 
-                <ListItemButton
-                    onClick={() => navigate('/budget')}>
-                    <ListItemIcon>
-                        <PeopleIcon/>
-                    </ListItemIcon>
-                    <ListItemText primary="Budget"/>
-                </ListItemButton>
 
-                <ListItemButton
-                    onClick={() => navigate('/store')}
-                >
-                    <ListItemIcon>
-                        <LocalGroceryStoreIcon/>
-                    </ListItemIcon>
-                    <ListItemText primary="Store"/>
-                </ListItemButton>
+                {/*<ListItemButton*/}
+                {/*    onClick={() => navigate('/store')}*/}
+                {/*>*/}
+                {/*    <ListItemIcon>*/}
+                {/*        <LocalGroceryStoreIcon/>*/}
+                {/*    </ListItemIcon>*/}
+                {/*    <ListItemText primary="Store"/>*/}
+                {/*</ListItemButton>*/}
 
-                <ListItemButton
-                    onClick={() => navigate('/help')}
-                >
-                    <ListItemIcon>
-                        <HelpIcon/>
-                    </ListItemIcon>
-                    <ListItemText primary="Help"/>
-                </ListItemButton>
+                {/*<ListItemButton*/}
+                {/*    onClick={() => navigate('/help')}*/}
+                {/*>*/}
+                {/*    <ListItemIcon>*/}
+                {/*        <HelpIcon/>*/}
+                {/*    </ListItemIcon>*/}
+                {/*    <ListItemText primary="Help"/>*/}
+                {/*</ListItemButton>*/}
             </React.Fragment>
             <hr/>
             <React.Fragment>
-                <ListSubheader component="div" inset>
-                    Account
-                </ListSubheader>
-
                 <ListItemButton
                     onClick={handleOpenAccountDialog}
                 >
                     <ListItemIcon>
                         <PersonIcon/>
                     </ListItemIcon>
-                    <ListItemText primary="My Account"/>
+                    <ListItemText primary={<Typography sx={open ? {color:'green'} :''} >My Account</Typography>}/>
                 </ListItemButton>
 
                 <ListItemButton
