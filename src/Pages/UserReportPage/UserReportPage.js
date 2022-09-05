@@ -6,76 +6,49 @@ import Variants from "../../Components/Variants";
 import TransactionBarChart from "../../Components/Layouts/Report/TransactionBarChart";
 import PieChartInReport from "../../Components/Layouts/Report/PieChartInReport";
 import {isLoadingAPIScreen, afterLoadingAPIScreen} from '../../Features/isLoadingScreen/isLoadingScreen'
-import {useDispatch} from "react-redux";
-//do not change this below data
-const DEFAULT_DATA = [
-    {name: "None", value: 0.001, type: "EXPENSES"}
-];
-//do not change this above data
-
-
-const transactionData = [
-    {
-        XAxis: "2/5",
-        Income: 4000,
-        Expense: 2400,
-        amt: 2400
-    },
-    {
-        XAxis: "5/5",
-        Income: 3000,
-        Expense: 1398,
-        amt: 2210
-    },
-    {
-        XAxis: "5/5",
-        Income: 2000,
-        Expense: 9800,
-        amt: 2290
-    },
-    {
-        XAxis: "5/5",
-        Income: 2780,
-        Expense: 3908,
-        amt: 2000
-    },
-    {
-        XAxis: "5/5",
-        Income: 1890,
-        Expense: 4800,
-        amt: 2181
-    },
-    {
-        XAxis: "5/5",
-        Income: 2390,
-        Expense: 3800,
-        amt: 2500
-    },
-    {
-        XAxis: "5/5",
-        Income: 3490,
-        Expense: 4300,
-        amt: 2100
-    },
-];
-const dataPieChartExpense = [
-    {name: "Transportation", value: 400, type: "EXPENSES"},
-    {name: "Group B", value: 300, type: "EXPENSES"},
-    {name: "Group C", value: 300, type: "EXPENSES"},
-    {name: "Group D", value: 100, type: "INCOME"}
-];
-const dataPieChartIncome = [
-    {name: "Interest", value: 600, type: "EXPENSES"},
-    {name: "Investment", value: 300, type: "EXPENSES"},
-]
+import {useDispatch, useSelector} from "react-redux";
+import {
+    DEFAULT_DATA,
+    // transactionData,
+    dataPieChartExpense, dataPieChartIncome
+} from './dummyData'
 
 
 const UserReportPage = () => {
     const dispatch = useDispatch()
+    const searchResult = useSelector(state => state.SearchInput.searchResult)
+    const transactionData = searchResult.map((trans, index) => ({
+        XAxis: new Date(trans?.date).toLocaleDateString(),
+        Income: trans?.category?.type === "INCOME" ? trans?.amount : 0,
+        Expense: trans?.category?.type === "EXPENSE" ? trans?.amount : 0,
+        amt: 2400
+    }))
+
+    // const dataPieChartExpense = []
+    // const dataPieChartIncome = []
+
+    searchResult.forEach(trans => {
+        if (trans.category.type === "INCOME") {
+            if (dataPieChartExpense.includes(trans.category.name)) {
+
+            }
+        }
+    })
+
+
+    // const arrayUniqueByKey = [...new Map(searchResult.map(item =>
+    //     [item.category.name, item.category.type]))];
+
+
     useEffect(() => {
         dispatch(isLoadingAPIScreen())
+        console.log(searchResult);
+
+        // console.log(arrayUniqueByKey);
         dispatch(afterLoadingAPIScreen())
-    }, [])
+    }, [searchResult])
+
+
     return (
         <motion.div
             initial="exit"
