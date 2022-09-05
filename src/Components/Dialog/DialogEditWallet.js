@@ -52,14 +52,12 @@ export default function DialogWallet(props) {
             props?.walletObj?.icon._id === iconObj?._id &&
             props?.walletObj?.currency._id === currencyObj._id
         ) {
-            console.log('fuck1')
             setIsFull(false)
         } else if (dataUpdateWallet.name === "" ||
             dataUpdateWallet.initial === 0 ||
             dataUpdateWallet.icon === "" ||
             dataUpdateWallet.currency === "")
         {
-            console.log('fuck2')
             setIsFull(false)
         } else if (props?.walletObj?.name !== dataUpdateWallet?.name ||
             props?.walletObj?.initial !== dataUpdateWallet?.initial ||
@@ -72,11 +70,41 @@ export default function DialogWallet(props) {
         }
     }, [newWallet,iconObj._id,currencyObj._id])
 
+    const userId = JSON.parse(localStorage.getItem('alohaUser'))._id
 
-    const handleUpdateWallet = () => {
+    const handleUpdateWallet = (e) => {
         axios.post('http://localhost:8080/wallet/update', {dataUpdateWallet}).then(r => {
             handleCloseDialogEditWallet()
         })
+        if (dataUpdateWallet.initial > props.walletObj.initial){
+            const dataTransaction = {
+                wallet:props.walletObj._id,
+                category:'6304a3470f0a39e5923a672a',
+                amount:Number(dataUpdateWallet.initial)-Number(props.walletObj.initial),
+                date:new Date(new Date().getFullYear()
+                    + ((new Date().getMonth() < 9) ? `-0${new Date().getMonth()+1}` : `-${new Date().getMonth()+1}`)
+                    + "-" + new Date().getDate()),
+                user: userId
+            }
+            e.preventDefault()
+            axios.post('http://localhost:8080/transaction/add', dataTransaction).then(r => {
+                console.log(r)
+            })
+        }else {
+            const dataTransaction = {
+                wallet:props.walletObj._id,
+                category:'6304a22b0f0a39e5923a6727',
+                amount:Number(props.walletObj.initial)-Number(dataUpdateWallet.initial),
+                date:new Date(new Date().getFullYear()
+                    + ((new Date().getMonth() < 9) ? `-0${new Date().getMonth()+1}` : `-${new Date().getMonth()+1}`)
+                    + "-" + new Date().getDate()),
+                user: userId
+            }
+            e.preventDefault()
+            axios.post('http://localhost:8080/transaction/add', dataTransaction).then(r => {
+                console.log(r)
+            })
+        }
     }
 
     const handleCloseDialogEditWallet = () => {
@@ -105,6 +133,8 @@ export default function DialogWallet(props) {
         state.DialogEditWallet.value
     )
 
+
+
     return (
         <Dialog
             open={editState}
@@ -124,7 +154,7 @@ export default function DialogWallet(props) {
                             <div
                                 className="flex items-start justify-between p-5 border-b border-solid border-slate-200 rounded-t">
                                 <h3 className="text-3xl font-semibold">
-                                    Update wallet
+                                    Edit wallet
                                 </h3>
                             </div>
                             {/*body*/}
@@ -132,7 +162,7 @@ export default function DialogWallet(props) {
                                 <div className="grid grid-cols-3 gap-3">
                                     <button
                                         onClick={handleOpenDialogIcons}
-                                        className=" flex  justify-center border border-gray-300 p-2 h-[60px] rounded-[10px] hover:border-black">
+                                        className=" flex bg-gray-50 justify-center border border-gray-300 p-2 h-[60px] rounded-[10px] hover:border-black">
                                         <img className="w-10 h-10 rounded-full my-0.5" src={iconObj?.url}
                                              alt="..."/>
                                         <svg xmlns="http://www.w3.org/2000/svg"
@@ -156,7 +186,7 @@ export default function DialogWallet(props) {
                                     <button
                                         onClick={handleOpenDialogCurrency}
                                         id="button"
-                                        className="col-span-2 flex relative  border border-gray-300 p-2 h-[60px]  rounded-[10px] hover:border-black">
+                                        className="col-span-2 flex relative bg-gray-50 border border-gray-300 p-2 h-[60px]  rounded-[10px] hover:border-black">
                                         <img className="w-[24px] h-[24px] rounded-full my-3"
                                              src={currencyObj?.url}
                                              alt="..."/>
@@ -191,25 +221,25 @@ export default function DialogWallet(props) {
                             <div
                                 className="flex items-center justify-end p-6 border-t border-solid border-slate-200 rounded-b">
                                 <button
-                                    className="text-red-500 background-transparent font-bold uppercase px-6 py-2 text-sm outline-none focus:outline-none mr-1 mb-1 ease-linear transition-all duration-150"
+                                    className="text-[#F15A59] rounded-[5px] hover:bg-[#FEECEB] background-transparent font-bold uppercase px-6 py-2 text-sm outline-none focus:outline-none mr-1 mb-1 ease-linear transition-all duration-150"
                                     type="button"
                                     onClick={handleCloseDialogEditWallet}
                                 >
-                                    Close
+                                    CLOSE
                                 </button>
                                 {isFull ? <button
                                     className="bg-[#2EB74B] text-white active:bg-emerald-600 font-bold uppercase text-sm px-6 py-3 rounded shadow hover:shadow-lg outline-none focus:outline-none mr-1 mb-1 ease-linear transition-all duration-150"
                                     type="button"
                                     onClick={handleUpdateWallet}
                                 >
-                                    Update wallet
+                                    SAVE CHANGE
                                 </button> : <button
                                     className="bg-[#E0E0E0] text-[#ACACAC]  font-bold uppercase text-sm px-6 py-3 rounded shadow hover:shadow-lg outline-none focus:outline-none mr-1 mb-1 ease-linear transition-all duration-150"
                                     type="button"
                                     disabled={true}
                                     onClick={handleUpdateWallet}
                                 >
-                                    Update wallet
+                                    SAVE CHANGE
                                 </button>}
 
                             </div>

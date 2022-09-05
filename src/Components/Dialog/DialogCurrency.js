@@ -5,26 +5,30 @@ import {closeDialogCurrency} from "../../Features/DiaLogSlice/openDialogCurrency
 import {setCurrencyObj} from "../../Features/SelectWallet/selectWallet";
 import {Dialog, Zoom} from "@mui/material";
 import Transition from "../Transition"
+import {afterLoadingAPIScreen, isLoadingAPIScreen} from "../../Features/isLoadingScreen/isLoadingScreen";
+import LoadingScreen from "react-loading-screen";
 
 
 export default function DialogIcons(props) {
     const [currencies, setCurrencies] = useState([]);
     const [filteredName, setFilteredName] = useState([]);
     const [inputSearch, setInputSearch] = useState('');
-
+    const [isLoading, setIsLoading] = useState(false)
 
     const dispatch = useDispatch();
 
     useEffect(() => {
-
+        setIsLoading(true)
         axios.get('http://localhost:8080/currency/').then(result => {
             setCurrencies(result.data.data);
+            setIsLoading(false)
         })
     }, [])
 
     const handleCloseDialogCurrencies = () => {
         dispatch(closeDialogCurrency(false))
     }
+
 
 
     useEffect(() => {
@@ -95,6 +99,16 @@ export default function DialogIcons(props) {
                                     </form>
                                 </div>
                                 {/*body*/}
+                                {isLoading &&
+                                    <LoadingScreen
+                                        loading={isLoading}
+                                        bgColor="rgba(255,255,255,0.8)"
+                                        spinnerColor="#2EB74B"
+                                        textColor="#676767"
+                                        logoSrc=""
+                                        text=""
+                                    />
+                                }
                                 <div className="modal-body relative w-[496px] h-[600px] flex-auto p-4">
                                     <ul className="grid grid-cols-2 gap-2">
                                         {filteredName.map((currency, index) => {

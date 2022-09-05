@@ -44,77 +44,31 @@ const UserSearchTransactionPage = () => {
             note: searchInput.note
         })
             .then(res => {
-
                 dispatch(updateSearchResult(res.data.data))
-                console.log(res.data.data)
                 let inflow = res?.data?.data?.filter(value => {
-                    return value.category.type === 'INCOME'
+                    return value?.category?.type === 'INCOME'
                 })
                 let sumInflow = 0
-                inflow?.forEach(value => sumInflow += value.amount)
+                inflow?.forEach(value => sumInflow += value?.amount)
 
                 let outFlow = res?.data?.data?.filter(value => {
-                    return value.category.type === 'EXPENSE'
+                    return value?.category?.type === 'EXPENSE'
                 })
                 let sumOutFlow = 0
-                outFlow?.forEach((value) => sumOutFlow += value.amount)
+                outFlow?.forEach((value) => sumOutFlow += value?.amount)
 
                 setTotalOutflow(sumOutFlow)
                 setTotalInflow(sumInflow)
                 setTotal(sumInflow - sumOutFlow)
                 setListTransaction(res.data.data)
                 setToggleDetail(false)
-
             })
-
-
     }, [searchInput])
 
     useEffect(() => {
         dispatch(isLoadingAPIScreen())
         dispatch(afterLoadingAPIScreen())
     }, [])
-
-    // useEffect(() => {
-    //     axios.post('transaction/list/wallet', {user: user._id, wallet: currentWalletState._id})
-    //         .then(res => {
-    //             // const b={}
-    //             // res.data.data.forEach((item,index)=>{
-    //             //     if(listByCategory[item.category.name]){
-    //             //         b[item.category._id].push({
-    //             //             ...item,
-    //             //             _id:item.category._id,
-    //             //             name:item.category.name
-    //             //         })
-    //             //     }
-    //             //     else{
-    //             //         b[item.category._id]=[{
-    //             //             _id:item.category._id,
-    //             //             name:item.category.name
-    //             //         }]
-    //             //     }
-    //             // })
-    //             // console.log(b,'test')
-    //             let inflow = res.data.data.filter(value => {
-    //                 return value.category.type === 'INCOME'
-    //             })
-    //             let sumInflow = 0
-    //             inflow.forEach(value => sumInflow += value.amount)
-    //
-    //
-    //             let outFlow = res.data.data.filter(value => {
-    //                 return value.category.type === 'EXPENSE'
-    //             })
-    //             let sumOutFlow = 0
-    //             outFlow.forEach((value) => sumOutFlow += value.amount)
-    //
-    //             setTotalOutflow(sumOutFlow)
-    //             setTotalInflow(sumInflow)
-    //             setTotal(sumInflow - sumOutFlow)
-    //             setListTransaction(res.data.data)
-    //
-    //         })
-    // }, [dialogTransactionState, dialogEditState, currentWalletState])
 
     useEffect(() => {
         axios.post('wallet/updateBalance', {walletId: currentWalletState._id, initial: total})
@@ -124,7 +78,6 @@ const UserSearchTransactionPage = () => {
                     .then(res => {
                         dispatch(UserLoginWithPassword({...user, wallet: res.data.data}))
                     })
-                console.log(res.msg)
             })
     }, [total])
 
@@ -151,19 +104,25 @@ const UserSearchTransactionPage = () => {
                 if (willDelete) {
                     axios.post('transaction/delete', {id: detailTransactionState._id})
                         .then(() => {
-                            axios.post('transaction/list', {user: user._id})
+                            axios.post('transaction/search', {
+                                userId: user._id,
+                                wallet: searchInput.wallet,
+                                category: searchInput.category,
+                                date: searchInput.date,
+                                note: searchInput.note
+                            })
                                 .then(res => {
                                     let inflow = res.data.data.filter(value => {
-                                        return value.category.type === 'INCOME'
+                                        return value?.category?.type === 'INCOME'
                                     })
                                     let sumInflow = 0
-                                    inflow.forEach(value => sumInflow += value.amount)
+                                    inflow.forEach(value => sumInflow += value?.amount)
 
                                     let outFlow = res.data.data.filter(value => {
-                                        return value.category.type === 'EXPENSE'
+                                        return value?.category?.type === 'EXPENSE'
                                     })
                                     let sumOutFlow = 0
-                                    outFlow.forEach((value) => sumOutFlow += value.amount)
+                                    outFlow.forEach((value) => sumOutFlow += value?.amount)
 
                                     setTotalOutflow(sumOutFlow)
                                     setTotalInflow(sumInflow)
@@ -230,12 +189,12 @@ const UserSearchTransactionPage = () => {
                                                     <div className="flex items-center space-x-4">
                                                         <div className="flex-shrink-0">
                                                             <img className="w-8 h-8 rounded-full"
-                                                                 src={transaction.category.icon ? transaction.category.icon : "https://static.moneylover.me/img/icon/icon_136.png"}
+                                                                 src={transaction?.category?.icon ? transaction?.category?.icon : "https://static.moneylover.me/img/icon/icon_136.png"}
                                                                  alt="Neil image"/>
                                                         </div>
                                                         <div className="flex-1 min-w-0">
                                                             <p className="text-sm font-medium text-gray-900 truncate ">
-                                                                {transaction.category.name}
+                                                                {transaction?.category?.name}
                                                             </p>
                                                             <p className="text-sm text-gray-500 truncate ">
                                                                 1 Transactions
@@ -243,12 +202,12 @@ const UserSearchTransactionPage = () => {
                                                         </div>
                                                         <div
                                                             className="inline-flex items-center text-base  text-gray-900 ">
-                                                            {transaction.category.type === 'EXPENSE' ? "-$" + transaction.amount : "+$" + transaction.amount}
+                                                            {transaction?.category?.type === 'EXPENSE' ? "-$" + transaction?.amount : "+$" + transaction?.amount}
                                                         </div>
                                                     </div>
                                                 </li>
 
-                                                <li className={!toggleDetail ? active : (detailTransactionState._id === transaction._id ? active + " " + "bg-emerald-50" : active)}
+                                                <li className={!toggleDetail ? active : (detailTransactionState?._id === transaction?._id ? active + " " + "bg-emerald-50" : active)}
                                                     onClick={() => {
                                                         dispatch(selectDetailTransaction(transaction));
                                                         handleOpenDetail()
@@ -256,18 +215,18 @@ const UserSearchTransactionPage = () => {
                                                     <div className="flex items-center space-x-4">
                                                         <div className="flex-shrink-0">
                                                             <div className="text-2xl"
-                                                            >{new Date(transaction.date).getDate()}
+                                                            >{new Date(transaction?.date).getDate()}
                                                             </div>
                                                         </div>
                                                         <div className="flex-1 min-w-0">
                                                             <p className="text-sm text-gray-500 truncate ">
-                                                                {new Date(transaction.date).toDateString()}
+                                                                {new Date(transaction?.date).toDateString()}
                                                             </p>
                                                         </div>
                                                         <div
-                                                            className={transaction.category.type === 'EXPENSE' ? 'inline-flex items-center text-base text-red-500' : 'inline-flex items-center text-base text-blue-500 '}
+                                                            className={transaction?.category?.type === 'EXPENSE' ? 'inline-flex items-center text-base text-red-500' : 'inline-flex items-center text-base text-blue-500 '}
                                                         >
-                                                            {transaction.category.type === 'EXPENSE' ? "-$" + transaction.amount : "+$" + transaction.amount}
+                                                            {transaction?.category?.type === 'EXPENSE' ? "-$" + transaction?.amount : "+$" + transaction?.amount}
                                                         </div>
                                                     </div>
                                                 </li>
@@ -310,17 +269,17 @@ const UserSearchTransactionPage = () => {
                                         <div className="grid grid-cols-6 mt-3">
                                             <div className="flex justify-center">
                                                 <img
-                                                    src={detailTransactionState.category.icon
-                                                        ? detailTransactionState.category.icon
+                                                    src={detailTransactionState?.category?.icon
+                                                        ? detailTransactionState?.category?.icon
                                                         : "https://static.moneylover.me/img/icon/ic_category_foodndrink.png"}
                                                     alt=""
                                                     className="w-[60px] h-[60px] m-auto"/>
                                             </div>
                                             <div className="col-span-5">
-                                                <div className="text-3xl">{detailTransactionState.category.name}</div>
-                                                <div className="mt-1 ">{detailTransactionState.category.type}</div>
+                                                <div className="text-3xl">{detailTransactionState?.category?.name}</div>
+                                                <div className="mt-1 ">{detailTransactionState?.category?.type}</div>
                                                 <div
-                                                    className="mt-1 text-gray-500">{new Date(detailTransactionState.date).toDateString()}</div>
+                                                    className="mt-1 text-gray-500">{new Date(detailTransactionState?.date).toDateString()}</div>
                                                 <hr className="mt-2 w-[200px]"/>
                                             </div>
                                         </div>
@@ -328,9 +287,9 @@ const UserSearchTransactionPage = () => {
                                         <div className="grid grid-cols-6">
                                             <div></div>
                                             <div
-                                                className={detailTransactionState.category.type === 'EXPENSE' ? 'text-3xl text-red-600 mt-4 col-span-5' : 'text-3xl text-blue-600 mt-4 col-span-5'}
+                                                className={detailTransactionState?.category?.type === 'EXPENSE' ? 'text-3xl text-red-600 mt-4 col-span-5' : 'text-3xl text-blue-600 mt-4 col-span-5'}
                                             >
-                                                {detailTransactionState.category.type === 'EXPENSE' ? '-$' + detailTransactionState.amount : '+$' + detailTransactionState.amount}
+                                                {detailTransactionState?.category?.type === 'EXPENSE' ? '-$' + detailTransactionState?.amount : '+$' + detailTransactionState?.amount}
                                             </div>
                                         </div>
                                     </div>

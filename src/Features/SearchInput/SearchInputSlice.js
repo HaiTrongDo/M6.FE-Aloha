@@ -55,7 +55,6 @@ const SearchInputSlice = createSlice({
         },
         updateSearchResult: (state, action) => {
             state.searchResult = action.payload
-            console.log(action.payload)
         }
     },
     // extraReducers:{
