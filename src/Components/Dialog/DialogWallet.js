@@ -19,6 +19,9 @@ export default function DialogWallet({className}) {
         nameWallet: '',
         initial: ''
     })
+
+    const userId = JSON.parse(localStorage.getItem('alohaUser'))._id
+
     const [isFull,setIsFull] = useState(false)
 
     const [iconObj, setIconObj] = useState({
@@ -96,6 +99,36 @@ export default function DialogWallet({className}) {
         }).then(() => {
             e.preventDefault()
             axios.post('/wallet/add', walletData).then(response => {
+                console.log(response)
+                if (walletData.initial > 0){
+                    const dataTransaction = {
+                        wallet:response.data.walletId,
+                        category:'6304a3470f0a39e5923a672a',
+                        amount:Number(walletData.initial),
+                        date:new Date(new Date().getFullYear()
+                            + ((new Date().getMonth() < 9) ? `-0${new Date().getMonth()+1}` : `-${new Date().getMonth()+1}`)
+                            + "-" + new Date().getDate()),
+                        user: userId
+                    }
+                    e.preventDefault()
+                    axios.post('http://localhost:8080/transaction/add', dataTransaction).then(r => {
+                        console.log(r)
+                    })
+                }else {
+                    const dataTransaction = {
+                        wallet:response.data.walletId,
+                        category:'6304a22b0f0a39e5923a6727',
+                        amount:Number(walletData.initial),
+                        date:new Date(new Date().getFullYear()
+                            + ((new Date().getMonth() < 9) ? `-0${new Date().getMonth()+1}` : `-${new Date().getMonth()+1}`)
+                            + "-" + new Date().getDate()),
+                        user: userId
+                    }
+                    e.preventDefault()
+                    axios.post('http://localhost:8080/transaction/add', dataTransaction).then(r => {
+                        console.log(r)
+                    })
+                }
                 handleCloseDialogWallet()
                 let token = JSON.parse(localStorage.getItem('JWT')) //lay token o trong localra
                 axios.post('/category/add-category-default',
@@ -104,9 +137,11 @@ export default function DialogWallet({className}) {
                             Authorization: `Bearer ${token}`
                         }
                     }
-                )
-
+                ).then(r => {
+                    console.log(r)
+                })
             })
+
         });
         setTimeout(() => {
             swal.close()
@@ -206,7 +241,7 @@ export default function DialogWallet({className}) {
                                 <div
                                     className="flex items-center justify-end p-6 border-t border-solid border-slate-200 rounded-b">
                                     <button
-                                        className="text-red-500 background-transparent font-bold uppercase px-6 py-2 text-sm outline-none focus:outline-none mr-1 mb-1 ease-linear transition-all duration-150"
+                                        className="text-[#F15A59] rounded-[5px] hover:bg-[#FEECEB] background-transparent font-bold uppercase px-6 py-2 text-sm outline-none focus:outline-none mr-1 mb-1 ease-linear transition-all duration-150"
                                         type="button"
                                         onClick={handleCloseDialogWallet}
                                     >
