@@ -29,7 +29,7 @@ const DialogTransaction = () => {
 
 
     useEffect(()=>{
-        if(selectWalletState.value && selectCategoryState && amount ){
+        if(selectWalletState?.value?._id && selectCategoryState?.value?._id && amount ){
             setActiveSave(true)
         }
         else{
