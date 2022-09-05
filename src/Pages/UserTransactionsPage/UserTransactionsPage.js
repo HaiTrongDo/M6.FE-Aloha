@@ -287,10 +287,14 @@ const UserTransactionsPage = () => {
                                         </div>
                                     </div>
                                     <div className="">
-                                        <Button sx={{color: 'red'}} onClick={handleDeleteTransaction}>DELETE</Button>
-                                        <Button sx={{color: '#2EB74B'}} onClick={handleOpenEditTransaction}
+                                        <button
+                                            className={"text-[#F15A59] w-[80px] h-[36px] rounded-[5px] hover:bg-[#FEECEB]"}
+                                            onClick={handleDeleteTransaction}>DELETE</button>
+                                        <button
+                                            className={"text-[#2EB74B] w-[80px] rounded-[5px] h-[36px] mx-[20px] hover:bg-[#E9F6EB]"}
+                                            onClick={handleOpenEditTransaction}
                                         >EDIT
-                                        </Button>
+                                        </button>
                                     </div>
                                 </div>
 

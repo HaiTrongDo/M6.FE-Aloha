@@ -154,7 +154,7 @@ export default function DialogWallet(props) {
                             <div
                                 className="flex items-start justify-between p-5 border-b border-solid border-slate-200 rounded-t">
                                 <h3 className="text-3xl font-semibold">
-                                    Update wallet
+                                    Edit wallet
                                 </h3>
                             </div>
                             {/*body*/}
@@ -225,21 +225,21 @@ export default function DialogWallet(props) {
                                     type="button"
                                     onClick={handleCloseDialogEditWallet}
                                 >
-                                    Close
+                                    CLOSE
                                 </button>
                                 {isFull ? <button
                                     className="bg-[#2EB74B] text-white active:bg-emerald-600 font-bold uppercase text-sm px-6 py-3 rounded shadow hover:shadow-lg outline-none focus:outline-none mr-1 mb-1 ease-linear transition-all duration-150"
                                     type="button"
                                     onClick={handleUpdateWallet}
                                 >
-                                    Update wallet
+                                    SAVE CHANGE
                                 </button> : <button
                                     className="bg-[#E0E0E0] text-[#ACACAC]  font-bold uppercase text-sm px-6 py-3 rounded shadow hover:shadow-lg outline-none focus:outline-none mr-1 mb-1 ease-linear transition-all duration-150"
                                     type="button"
                                     disabled={true}
                                     onClick={handleUpdateWallet}
                                 >
-                                    Update wallet
+                                    SAVE CHANGE
                                 </button>}
 
                             </div>

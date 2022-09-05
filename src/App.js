@@ -14,7 +14,7 @@ function App() {
             <div className="App">
                 {loading &&
                     <div
-                        className="flex justify-center m-auto h-[100vh] w-full  loadingScreen bg-gray-900 opacity-75 z-[2000]">
+                        className="flex justify-center m-auto absolute h-[100vh] w-full loadingScreen bg-gray-500 opacity-75 z-[3000]">
                         <div className="h-[15%] w-[15%] block  my-[100px] items-center opacity-100 ">
                             <img className=''
                                 // src={'./images/aloha-loading-screen.png'}
