@@ -8,6 +8,7 @@ import axios from '../../axios'
 import {selectCategory} from "../../Features/Transaction/categorySlice";
 import Transition from "../Transition";
 import {Dialog} from "@mui/material";
+import LoadingScreen from "react-loading-screen";
 
 
 const DialogTransactionCategory = (props) => {
@@ -19,6 +20,7 @@ const DialogTransactionCategory = (props) => {
     const [typeCategory, setTypeCategory] = useState(true);
     const [searchIncome, setSearchIncome] = useState();
     const [searchExpense, setSearchExpense] = useState();
+    const [isLoading, setIsLoading] = useState(false)
     const currentWalletState = useSelector(state => state.currentWallet.value)
 
     const handleCloseCategory = () => {
@@ -26,6 +28,7 @@ const DialogTransactionCategory = (props) => {
     }
 
     useEffect(() => {
+        setIsLoading(true)
         axios.get('transaction/category')
             .then(res => {
                 setListCategory(res.data.data)
@@ -34,20 +37,28 @@ const DialogTransactionCategory = (props) => {
             axios.post('category/expense', {wallet: currentWalletState._id})
                 .then(res => {
                     setListExpense(res.data.data)
+                    setIsLoading(false)
+
                 })
             axios.post('category/income', {wallet: currentWalletState._id})
                 .then(res => {
                     setListIncome(res.data.data)
+                    setIsLoading(false)
+
                 })
         }
         else{
             axios.get('transaction/category/expense')
                 .then(res=>{
                     setListExpense(res.data.data)
+                    setIsLoading(false)
+
                 })
             axios.get('transaction/category/income')
                 .then(res=>{
                     setListIncome(res.data.data)
+                    setIsLoading(false)
+
                 })
         }
     }, [currentWalletState])
@@ -136,6 +147,16 @@ const DialogTransactionCategory = (props) => {
                                 <div></div>
                             </div>
                             {/*body*/}
+                            {isLoading &&
+                                <LoadingScreen
+                                    loading={isLoading}
+                                    bgColor="rgba(255,255,255,0.8)"
+                                    spinnerColor="#2EB74B"
+                                    textColor="#676767"
+                                    logoSrc=""
+                                    text=""
+                                />
+                            }
                             <div className="modal-body relative w-[500px] h-[490px] border flex-auto">
                                 <ul className='m-auto'>
                                     {typeCategory
