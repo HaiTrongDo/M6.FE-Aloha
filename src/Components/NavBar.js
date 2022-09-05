@@ -162,9 +162,9 @@ function NavBar({children}) {
                             textAlign: 'left'
                         }}>
                             {/*total current wallet*/}
-                            {currentWalletState?.initial
-                                ? currentWalletState?.initial
-                                : "$ 0"}
+                            {currentWalletState?.currency
+                                ? currentWalletState?.initial + " " + currentWalletState?.currency?.code.split("-")[1]
+                                : "0"}
                         </Typography>
                     </Box>
 

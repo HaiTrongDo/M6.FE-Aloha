@@ -20,19 +20,18 @@ import {isLoadingAPIScreen, afterLoadingAPIScreen} from '../../Features/isLoadin
 
 const UserTransactionsPage = () => {
     const dispatch = useDispatch()
+    const user = JSON.parse(localStorage.getItem('alohaUser'))
     const currentWalletState = useSelector(state => state.currentWallet.value)
 
     const dialogTransactionState = useSelector(state => state.dialogTransaction.value);
     const [toggleDetail, setToggleDetail] = useState(false)
     const [active] = useState("py-3 sm:py-4 hover:bg-emerald-50 hover:cursor-pointer")
     const [listTransaction, setListTransaction] = useState([])
-    const user = JSON.parse(localStorage.getItem('alohaUser'))
     const detailTransactionState = useSelector(state => state.selectDetailTransaction.value)
     const dialogEditState = useSelector(state => state.dialogEditTransaction.value);
     const [totalInflow, setTotalInflow] = useState()
     const [totalOutflow, setTotalOutflow] = useState()
     const [total, setTotal] = useState()
-
 
 
     dispatch(setSearchInputForNote({
@@ -53,10 +52,9 @@ const UserTransactionsPage = () => {
     }));
 
     useEffect(() => {
-        if (currentWalletState._id) {
+        // if (currentWalletState?._id) {
             axios.post('transaction/list/wallet', {user: user?._id, wallet: currentWalletState?._id})
                 .then(res => {
-
                     let inflow = res.data.data.filter(value => {
                         return value?.category?.type === 'INCOME'
                     })
@@ -75,28 +73,29 @@ const UserTransactionsPage = () => {
                     setTotal(sumInflow - sumOutFlow)
                     setListTransaction(res.data.data)
                 })
-        } else {
-            axios.post('transaction/list', {user: user?._id})
-                .then(res => {
-                    let inflow = res?.data?.data?.filter(value => {
-                        return value?.category?.type === 'INCOME'
-                    })
-                    let sumInflow = 0
-                    inflow.forEach(value => sumInflow += value.amount)
-
-
-                    let outFlow = res?.data?.data?.filter(value => {
-                        return value?.category?.type === 'EXPENSE'
-                    })
-                    let sumOutFlow = 0
-                    outFlow.forEach((value) => sumOutFlow += value.amount)
-
-                    setTotalOutflow(sumOutFlow)
-                    setTotalInflow(sumInflow)
-                    setTotal(sumInflow - sumOutFlow)
-                    setListTransaction(res.data.data)
-                })
-        }
+        // }
+        // else {
+        //     axios.post('transaction/list', {user: user?._id})
+        //         .then(res => {
+        //             let inflow = res?.data?.data?.filter(value => {
+        //                 return value?.category?.type === 'INCOME'
+        //             })
+        //             let sumInflow = 0
+        //             inflow.forEach(value => sumInflow += value.amount)
+        //
+        //
+        //             let outFlow = res?.data?.data?.filter(value => {
+        //                 return value?.category?.type === 'EXPENSE'
+        //             })
+        //             let sumOutFlow = 0
+        //             outFlow.forEach((value) => sumOutFlow += value.amount)
+        //
+        //             setTotalOutflow(sumOutFlow)
+        //             setTotalInflow(sumInflow)
+        //             setTotal(sumInflow - sumOutFlow)
+        //             setListTransaction(res.data.data)
+        //         })
+        // }
     }, [dialogTransactionState, dialogEditState, currentWalletState])
 
     useEffect(() => {
@@ -160,29 +159,31 @@ const UserTransactionsPage = () => {
                                         setTotalInflow(sumInflow)
                                         setTotal(sumInflow - sumOutFlow)
                                         setListTransaction(res.data.data)
-                                    })
-                            } else {
-                                axios.post('transaction/list', {user: user?._id})
-                                    .then(res => {
-                                        let inflow = res.data.data.filter(value => {
-                                            return value?.category?.type === 'INCOME'
-                                        })
-                                        let sumInflow = 0
-                                        inflow.forEach(value => sumInflow += value?.amount)
-
-                                        let outFlow = res.data.data.filter(value => {
-                                            return value?.category?.type === 'EXPENSE'
-                                        })
-                                        let sumOutFlow = 0
-                                        outFlow.forEach((value) => sumOutFlow += value?.amount)
-
-                                        setTotalOutflow(sumOutFlow)
-                                        setTotalInflow(sumInflow)
-                                        setTotal(sumInflow - sumOutFlow)
-                                        setListTransaction(res.data.data)
                                         setToggleDetail(false)
                                     })
                             }
+                            // else {
+                            //     axios.post('transaction/list', {user: user?._id})
+                            //         .then(res => {
+                            //             let inflow = res.data.data.filter(value => {
+                            //                 return value?.category?.type === 'INCOME'
+                            //             })
+                            //             let sumInflow = 0
+                            //             inflow.forEach(value => sumInflow += value?.amount)
+                            //
+                            //             let outFlow = res.data.data.filter(value => {
+                            //                 return value?.category?.type === 'EXPENSE'
+                            //             })
+                            //             let sumOutFlow = 0
+                            //             outFlow.forEach((value) => sumOutFlow += value?.amount)
+                            //
+                            //             setTotalOutflow(sumOutFlow)
+                            //             setTotalInflow(sumInflow)
+                            //             setTotal(sumInflow - sumOutFlow)
+                            //             setListTransaction(res.data.data)
+                            //             setToggleDetail(false)
+                            //         })
+                            // }
                         })
                     swal("Poof! Your record has been deleted!", {
                         icon: "success",
