@@ -84,47 +84,50 @@ export default function DialogWallet(props) {
         setTimeout(() => {
             swal.close()
         }, 1000)
-        if (dataUpdateWallet.initial > props.walletObj.initial) {
-            const dataTransaction = {
-                wallet: props.walletObj._id,
-                category: {
-                    _id: '6316a5497058758749d1ec28',
+        if(dataUpdateWallet.initial !== props.walletObj.initial){
+            if (dataUpdateWallet.initial > props.walletObj.initial) {
+                const dataTransaction = {
                     wallet: props.walletObj._id,
-                    icon: 'https://static.moneylover.me/img/icon/ic_category_other_income.png',
-                    name: 'Other Income',
-                    type: 'INCOME'
-                },
-                amount: Number(dataUpdateWallet.initial) - Number(props.walletObj.initial),
-                date: new Date(new Date().getFullYear()
-                    + ((new Date().getMonth() < 9) ? `-0${new Date().getMonth() + 1}` : `-${new Date().getMonth() + 1}`)
-                    + "-" + new Date().getDate()),
-                user: userId
-            }
-            e.preventDefault()
-            axios.post('http://localhost:8080/transaction/add', dataTransaction).then(r => {
-                console.log(r)
-            })
-        } else {
-            const dataTransaction = {
-                wallet: props.walletObj._id,
-                category: {
-                    _id: '6316a5487058758749d1ec1b',
+                    category: {
+                        _id: '6316a5497058758749d1ec28',
+                        wallet: props.walletObj._id,
+                        icon: 'https://static.moneylover.me/img/icon/ic_category_other_income.png',
+                        name: 'Other Income',
+                        type: 'INCOME'
+                    },
+                    amount: Number(dataUpdateWallet.initial) - Number(props.walletObj.initial),
+                    date: new Date(new Date().getFullYear()
+                        + ((new Date().getMonth() < 9) ? `-0${new Date().getMonth() + 1}` : `-${new Date().getMonth() + 1}`)
+                        + "-" + new Date().getDate()),
+                    user: userId
+                }
+                e.preventDefault()
+                axios.post('http://localhost:8080/transaction/add', dataTransaction).then(r => {
+                    console.log(r)
+                })
+            } else {
+                const dataTransaction = {
                     wallet: props.walletObj._id,
-                    icon: 'https://static.moneylover.me/img/icon/icon_138.png',
-                    name: 'Other Utility Bills',
-                    type: 'EXPENSE'
-                },
-                amount: Number(props.walletObj.initial) - Number(dataUpdateWallet.initial),
-                date: new Date(new Date().getFullYear()
-                    + ((new Date().getMonth() < 9) ? `-0${new Date().getMonth() + 1}` : `-${new Date().getMonth() + 1}`)
-                    + "-" + new Date().getDate()),
-                user: userId
+                    category: {
+                        _id: '6316a5487058758749d1ec1b',
+                        wallet: props.walletObj._id,
+                        icon: 'https://static.moneylover.me/img/icon/icon_138.png',
+                        name: 'Other Utility Bills',
+                        type: 'EXPENSE'
+                    },
+                    amount: Number(props.walletObj.initial) - Number(dataUpdateWallet.initial),
+                    date: new Date(new Date().getFullYear()
+                        + ((new Date().getMonth() < 9) ? `-0${new Date().getMonth() + 1}` : `-${new Date().getMonth() + 1}`)
+                        + "-" + new Date().getDate()),
+                    user: userId
+                }
+                e.preventDefault()
+                axios.post('http://localhost:8080/transaction/add', dataTransaction).then(r => {
+                    console.log(r)
+                })
             }
-            e.preventDefault()
-            axios.post('http://localhost:8080/transaction/add', dataTransaction).then(r => {
-                console.log(r)
-            })
         }
+
     }
 
     const handleCloseDialogEditWallet = () => {
