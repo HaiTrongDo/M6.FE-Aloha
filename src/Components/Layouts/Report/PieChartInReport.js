@@ -51,7 +51,7 @@ const renderActiveShape = (props) => {
                 startAngle={startAngle}
                 endAngle={endAngle}
                 innerRadius={outerRadius + 6}
-                outerRadius={outerRadius + 10}
+                outerRadius={outerRadius + 8}
                 fill={fill}
             />
             <path
@@ -61,13 +61,13 @@ const renderActiveShape = (props) => {
             />
             <circle cx={ex} cy={ey} r={2} fill={fill} stroke="none"/>
             <text
-                x={ex + (cos >= 0 ? 1 : -1) * 12}
+                x={ex + (cos >= 0 ? 1 : -1) * 5}
                 y={ey}
                 textAnchor={textAnchor}
                 fill="#333"
             >{`${value.toFixed(1)}`}</text>
             <text
-                x={ex + (cos >= 0 ? 1 : -1) * 12}
+                x={ex + (cos >= 0 ? 1 : -1) * 5}
                 y={ey}
                 dy={18}
                 textAnchor={textAnchor}
@@ -90,13 +90,13 @@ export default function PieChartInReport({color, data, ...props}) {
     );
 
     return (
-        
-        <PieChart width={400} height={400}>
+
+        <PieChart width={370} height={300}>
             <Pie
                 activeIndex={activeIndex}
                 activeShape={renderActiveShape}
                 data={data}
-                cx={190}
+                cx={180}
                 cy={150}
                 innerRadius={60}
                 outerRadius={80}
