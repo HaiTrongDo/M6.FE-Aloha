@@ -61,7 +61,7 @@ export default function DialogAccount() {
     const dispatch = useDispatch()
     const openDialogAccount = useSelector((state) => state.Dialog.value)
     const currentUser = useSelector((state) => state.currentUser.currentUser)
-    const userId = JSON.parse(localStorage.getItem('alohaUser'))._id
+    const userId = JSON.parse(localStorage.getItem('alohaUser'))?._id
 
 
     const handleSignOut = () => {
