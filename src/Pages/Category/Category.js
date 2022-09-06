@@ -166,6 +166,8 @@ function Category() {
         dispatch(setIdWallet(idWallet))
         return await axios.post('/category', {idWallet: idWallet},
             {headers: {Authorization: `Bearer ${token}`}},
+
+
         )
     }
 
@@ -175,6 +177,9 @@ function Category() {
                 await axios.post('/wallet/render', {userId: tokenUser._id},
                     {headers: {Authorization: `Bearer ${token}`}})
                     .then((r) => {
+                        const defaultWalletId = r.data.data[0]._id || null;
+                        const iconUrl = r.data.data[0].icon.url;
+                        dispatch(selectDataWallet({defaultWalletId, iconUrl}))
                         setWallets(r.data.data)
                     })
             }

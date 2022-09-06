@@ -14,6 +14,8 @@ import {userSignOut} from "../../Features/CurrentUser/UserSlice";
 import {useNavigate} from "react-router-dom";
 import swal from "sweetalert";
 import {selectCurrentWallet} from "../../Features/Transaction/currentWalletSlice";
+import axios from "axios";
+
 const BootstrapDialog = styled(Dialog)(({theme}) => ({
     '& .MuiDialogContent-root': {
         padding: theme.spacing(2),
@@ -59,6 +61,8 @@ export default function DialogAccount() {
     const dispatch = useDispatch()
     const openDialogAccount = useSelector((state) => state.Dialog.value)
     const currentUser = useSelector((state) => state.currentUser.currentUser)
+    const userId = JSON.parse(localStorage.getItem('alohaUser'))?._id
+
 
     const handleSignOut = () => {
         dispatch(closeDialog(false))
@@ -66,7 +70,7 @@ export default function DialogAccount() {
         swal("See you again and Have a nice day!", {
             buttons: false,
             timer: 3000,
-        }).then(()=>{
+        }).then(() => {
             dispatch(selectCurrentWallet({}))
             navigate('/login')
         })
@@ -78,6 +82,30 @@ export default function DialogAccount() {
     const handleChangePass = () => {
         dispatch(openDialogChangePass(true))
         dispatch(closeDialog(false))
+    }
+
+    const handleOpenConfirmDeleteAccount = () => {
+        swal({
+            title: `Do you want to delete account ?`,
+            text: "Once deleted, you will not be able to recover this record!",
+            icon: "warning",
+            buttons: true,
+            dangerMode: true,
+        }).then((willDelete) => {
+            if (willDelete) {
+                swal("Poof! Your account has been deleted!", {
+                    icon: "success",
+                }).then(() => {
+                    axios.post('http://localhost:8080/user',{userId:userId}).then((r)=>{
+                        handleClose();
+                        navigate('/login');
+                    })
+                });
+            } else {
+                swal("Your record is safe!");
+            }
+        });
+
     }
 
     return (
@@ -92,26 +120,33 @@ export default function DialogAccount() {
                     My Account
                 </BootstrapDialogTitle>
 
-                <div className="relative max-w-md mx-auto md:max-w-2xl mt-6 min-w-0 break-words bg-white w-full shadow-lg rounded-xl mt-16 h-full">
+                <div
+                    className="relative max-w-md mx-auto md:max-w-2xl mt-6 min-w-0 break-words bg-white w-full shadow-lg rounded-xl mt-16 h-full">
                     <div className="px-6 h-full ">
                         <div className="flex flex-wrap justify-center">
                             <div className="w-full flex justify-center">
                                 <div className="relative">
-                                    <img src={currentUser.avatarUrl ? currentUser.avatarUrl: "https://icon-library.com/images/default-profile-icon/default-profile-icon-24.jpg" } className="shadow-xl object-cover w-[150px] h-[150px] rounded-full align-middle border-none absolute -m-16 -ml-20 lg:-ml-16 max-w-[150px]"  alt=""/>
+                                    <img
+                                        src={currentUser.avatarUrl ? currentUser.avatarUrl : "https://icon-library.com/images/default-profile-icon/default-profile-icon-24.jpg"}
+                                        className="shadow-xl object-cover w-[150px] h-[150px] rounded-full align-middle border-none absolute -m-16 -ml-20 lg:-ml-16 max-w-[150px]"
+                                        alt=""/>
                                 </div>
                             </div>
                             <div className="w-full text-center mt-20">
                                 <div className="flex justify-center lg:pt-4 pt-8 pb-0">
                                     <div className="p-3 text-center">
-                                        <span className="text-xl font-bold block uppercase tracking-wide text-slate-700">3,360</span>
+                                        <span
+                                            className="text-xl font-bold block uppercase tracking-wide text-slate-700">3,360</span>
                                         <span className="text-sm text-slate-400">Balance</span>
                                     </div>
                                     <div className="p-3 text-center">
-                                        <span className="text-xl font-bold block uppercase tracking-wide text-slate-700">2,454</span>
+                                        <span
+                                            className="text-xl font-bold block uppercase tracking-wide text-slate-700">2,454</span>
                                         <span className="text-sm text-slate-400">Expenses</span>
                                     </div>
                                     <div className="p-3 text-center">
-                                        <span className="text-xl font-bold block uppercase tracking-wide text-slate-700">564</span>
+                                        <span
+                                            className="text-xl font-bold block uppercase tracking-wide text-slate-700">564</span>
                                         <span className="text-sm text-slate-400">Income</span>
                                     </div>
                                 </div>
@@ -121,23 +156,27 @@ export default function DialogAccount() {
                             <h3 className="text-2xl text-slate-700 font-bold leading-normal mb-1 capitalize">{currentUser?.username ? currentUser?.username : 'User Name'}</h3>
                             <div className="text-xs mt-0 mb-2 text-slate-400 font-bold uppercase">
                                 {currentUser?.company ? `Company,  ${currentUser.company}` : ""}
-                            </div><div className="text-xs mt-0 mb-2 text-slate-400 font-bold uppercase">
-                            {currentUser?.email ? currentUser.email : ""}
                             </div>
+                            <div className="text-xs mt-0 mb-2 text-slate-400 font-bold uppercase">
+                                {currentUser?.email ? currentUser.email : ""}
+                            </div>
+                            <span onClick={handleOpenConfirmDeleteAccount}
+                                  className={"text-gray-200 hover:text-zinc-500 cursor-pointer"}>Delete account</span>
                         </div>
                         <div className="mt-6 py-6 border-t border-slate-200 text-center">
                             <div className="flex flex-wrap justify-center">
                                 <div className="w-full px-4 flex justify-between">
                                     <Typography>
                                         <Button variant="outlined" color="success" align='right' size="small"
-                                                onClick={()=> {
+                                                onClick={() => {
                                                     dispatch(closeDialog(false))
                                                     navigate('/my-account/change-profile')
                                                 }}>Change Profile</Button>
                                     </Typography>
 
                                     <Typography>
-                                        <Button variant="outlined" color="success" disabled={!!currentUser?.uid} align='right' size="small"
+                                        <Button variant="outlined" color="success" disabled={!!currentUser?.uid}
+                                                align='right' size="small"
                                                 onClick={handleChangePass}>Change Password</Button>
                                     </Typography>
 

@@ -9,11 +9,7 @@ import {isLoadingAPIScreen, afterLoadingAPIScreen} from '../../Features/isLoadin
 import {useDispatch, useSelector} from "react-redux";
 import axios from '../../axios/index'
 import {DEFAULT_DATA} from './dummyData'
-import SelectPrior from "../../Components/Layouts/Report/modalMonthSelection";
-import ModalMonthSelection from "../../Components/Layouts/Report/modalMonthSelection";
 
-
-const emails = ['username@gmail.com', 'user02@gmail.com'];
 
 const UserReportPage = () => {
     const dispatch = useDispatch()
@@ -62,7 +58,7 @@ const UserReportPage = () => {
             exit="exit"
             variants={Variants.variant1}>
             <ReportLayout>
-                <SelectPrior/>
+
                 <div className="flex justify-center p-[30px] text-center">
                     <div
                         className=" w-[21cm] bg-white shadow-md flex-block justify-center min-h-[29.7cm] {/*p-[2cm]*/}">
@@ -81,7 +77,7 @@ const UserReportPage = () => {
                         <div className="block justify-center w-full py-3">
                             <h1 className=" flex justify-center text-xl text-gray-500">Financial Analyzes</h1>
                             <h1 className="flex justify-center text-2xl"
-                                style={{color: `${totalIncome > totalExpense ? "#1d4ed8" : "#be123c"}`}}> {totalExpense ? financialAnalyzes : ""}</h1>
+                                style={{color: `${totalIncome > totalExpense ? "#1d4ed8" : "#be123c"}`}}> {financialAnalyzes}</h1>
                         </div>
                         <div className="flex justify-center w-full">
                             <TransactionBarChart transactionData={transactionData}/>
@@ -90,7 +86,7 @@ const UserReportPage = () => {
                             <div className="block w-1/2 ">
                                 <span className="flex justify-center mt-[22px]">Income</span>
                                 <span
-                                    className="flex justify-center text-blue-500">${totalIncome.toFixed(2)}</span>
+                                    className="flex justify-center text-blue-500">${totalIncome}</span>
                                 <div className="w-full flex px-[15px] mb-[16px] text-sm">
                                     <PieChartInReport
                                         color={dataPieChartIncome[0]?.name !== "None" ? "#1d4ed8" : "#71717a"}
@@ -100,7 +96,7 @@ const UserReportPage = () => {
                             <div className="block w-1/2 relative ">
                                 <span className="flex justify-center mt-[22px]">Expenses</span>
                                 <span
-                                    className="flex justify-center text-red-600">-$ {totalExpense.toFixed(2)}</span>
+                                    className="flex justify-center text-red-600">-$ {totalExpense}</span>
                                 <div className="w-full flex px-[15px] mb-[16px] text-sm absolute">
                                     <PieChartInReport
                                         color={dataPieChartExpense[0]?.name !== "None" ? "#be123c" : "#71717a"}

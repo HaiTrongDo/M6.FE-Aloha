@@ -151,7 +151,7 @@ function NavBar({children}) {
                             color: 'black',
                             textAlign: 'left'
                         }}>
-                            {currentWalletState?.name ? currentWalletState?.name : 'Total'}
+                            {currentWalletState?.name ? currentWalletState?.name : 'Select Wallet'}
                             <KeyboardArrowDownIcon/>
                         </Typography>
 
@@ -164,7 +164,7 @@ function NavBar({children}) {
                             {/*total current wallet*/}
                             {currentWalletState?.currency
                                 ? currentWalletState?.initial + " " + currentWalletState?.currency?.code.split("-")[1]
-                                : "0"}
+                                : ""}
                         </Typography>
                     </Box>
 
