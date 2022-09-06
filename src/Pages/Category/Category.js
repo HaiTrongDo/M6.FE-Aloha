@@ -289,14 +289,14 @@ function Category() {
                                             }}>
                                                 {item.name}
                                             </Typography>
-                                            <Typography sx={{
-                                                fontWeight: 'light',
-                                                fontSize: 12,
-                                                color: 'black',
-                                                textAlign: 'left'
-                                            }}>
-                                                +95.000
-                                            </Typography>
+                                            {/*<Typography sx={{*/}
+                                            {/*    fontWeight: 'light',*/}
+                                            {/*    fontSize: 12,*/}
+                                            {/*    color: 'black',*/}
+                                            {/*    textAlign: 'left'*/}
+                                            {/*}}>*/}
+                                            {/*    +95.000*/}
+                                            {/*</Typography>*/}
                                         </Box>
 
                                     </MenuItem>
@@ -323,10 +323,10 @@ function Category() {
                     <div className='w-1/2 flex justify-center pt-6 '>
                         {/*<Grid xs={6} md={4}>*/}
                         <Box
-                            sx={{width: "80%", backgroundColor: 'white', borderRadius: '0.5rem'}}
+                            sx={{width: "80%", backgroundColor: 'white', borderRadius: '0.5rem', boxShadow: 3}}
                         >
                             <Typography>
-                                <Typography sx={{bgcolor: '#eeeeee'}}>
+                                <Typography sx={{bgcolor: '#eeeeee', fontSize: 22}}>
                                     Expense
                                 </Typography>
                                 <Divider/>
@@ -349,7 +349,7 @@ function Category() {
                                     </div>
                                 ))}
 
-                                <Typography sx={{bgcolor: '#eeeeee'}}>
+                                <Typography sx={{bgcolor: '#eeeeee', fontSize: 22}}>
                                     Income
                                 </Typography>
                                 <Divider/>
