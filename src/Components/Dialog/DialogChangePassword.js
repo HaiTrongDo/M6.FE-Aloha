@@ -20,7 +20,10 @@ export default function DialogChangePassword() {
         oldPassword: '',
         newPassword: '',
         confirmPassword: '',
-        showPassword: false
+        showOldPassword: false,
+        showNewPassword: false,
+        showConfirmPassword: false,
+
     })
     const [isFull, setIsFull] = useState(false)
     const dispatch = useDispatch()
@@ -35,10 +38,24 @@ export default function DialogChangePassword() {
         setData({...data})
     }
 
-    const handleClickShowPassword = () => {
+    const handleClickShowOldPassword = () => {
         setData({
             ...data,
-            showPassword: !data.showPassword,
+            showOldPassword: !data.showOldPassword,
+        });
+    }
+
+    const handleClickShowNewPassword = () => {
+        setData({
+            ...data,
+            showNewPassword: !data.showNewPassword,
+        });
+    }
+
+    const handleClickShowConfirmPassword = () => {
+        setData({
+            ...data,
+            showConfirmPassword: !data.showConfirmPassword,
         });
     }
 
@@ -86,18 +103,18 @@ export default function DialogChangePassword() {
                             <OutlinedInput
                                 sx={{width: "100%"}}
                                 id="floating_filled1"
-                                type={data.showPassword ? 'text' : 'password'}
+                                type={data.showOldPassword ? 'text' : 'password'}
                                 value={data.password}
                                 onChange={(e) => handleChange(e, 'oldPassword')}
                                 endAdornment={
                                     <InputAdornment position="end">
                                         <IconButton
                                             aria-label="toggle password visibility"
-                                            onClick={handleClickShowPassword}
+                                            onClick={handleClickShowOldPassword}
                                             onMouseDown={handleMouseDownPassword}
                                             edge="end"
                                         >
-                                            {data.showPassword ? <VisibilityOff/> : <Visibility/>}
+                                            {data.showOldPassword ? <VisibilityOff/> : <Visibility/>}
                                         </IconButton>
                                     </InputAdornment>
                                 }
@@ -111,18 +128,18 @@ export default function DialogChangePassword() {
                             <OutlinedInput
                                 sx={{width: "100%",}}
                                 id="floating_filled"
-                                type={data.showPassword ? 'text' : 'password'}
+                                type={data.showNewPassword ? 'text' : 'password'}
                                 value={data.password}
                                 onChange={(e) => handleChange(e, 'newPassword')}
                                 endAdornment={
                                     <InputAdornment position="end">
                                         <IconButton
                                             aria-label="toggle password visibility"
-                                            onClick={handleClickShowPassword}
+                                            onClick={handleClickShowNewPassword}
                                             onMouseDown={handleMouseDownPassword}
                                             edge="end"
                                         >
-                                            {data.showPassword ? <VisibilityOff/> : <Visibility/>}
+                                            {data.showNewPassword ? <VisibilityOff/> : <Visibility/>}
                                         </IconButton>
                                     </InputAdornment>
                                 }
@@ -136,18 +153,18 @@ export default function DialogChangePassword() {
                             <OutlinedInput
                                 sx={{width: "100%",}}
                                 id="floating_filled"
-                                type={data.showPassword ? 'text' : 'password'}
+                                type={data.showConfirmPassword ? 'text' : 'password'}
                                 value={data.password}
                                 onChange={(e) => handleChange(e, 'confirmPassword')}
                                 endAdornment={
                                     <InputAdornment position="end">
                                         <IconButton
                                             aria-label="toggle password visibility"
-                                            onClick={handleClickShowPassword}
+                                            onClick={handleClickShowConfirmPassword}
                                             onMouseDown={handleMouseDownPassword}
                                             edge="end"
                                         >
-                                            {data.showPassword ? <VisibilityOff/> : <Visibility/>}
+                                            {data.showConfirmPassword ? <VisibilityOff/> : <Visibility/>}
                                         </IconButton>
                                     </InputAdornment>
                                 }
