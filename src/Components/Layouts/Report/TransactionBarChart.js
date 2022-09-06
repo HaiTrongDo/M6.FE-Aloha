@@ -6,7 +6,7 @@ function TransactionBarChart({transactionData}) {
 
     return <BarChart
         width={700}
-        height={400}
+        height={300}
         data={transactionData}
         margin={{
             top: 5,

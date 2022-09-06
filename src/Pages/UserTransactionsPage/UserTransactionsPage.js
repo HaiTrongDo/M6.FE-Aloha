@@ -55,20 +55,20 @@ const UserTransactionsPage = () => {
 
     useEffect(() => {
         // if (currentWalletState?._id) {
-            axios.post('transaction/list/wallet', {user: user?._id, wallet: currentWalletState?._id})
-                .then(res => {
-                    let inflow = res.data.data.filter(value => {
-                        return value?.category?.type === 'INCOME'
-                    })
-                    let sumInflow = 0
-                    inflow.forEach(value => sumInflow += value.amount)
+        axios.post('transaction/list/wallet', {user: user?._id, wallet: currentWalletState?._id})
+            .then(res => {
+                let inflow = res.data.data.filter(value => {
+                    return value?.category?.type === 'INCOME'
+                })
+                let sumInflow = 0
+                inflow.forEach(value => sumInflow += value.amount)
 
 
-                    let outFlow = res.data.data.filter(value => {
-                        return value?.category?.type === 'EXPENSE'
-                    })
-                    let sumOutFlow = 0
-                    outFlow.forEach((value) => sumOutFlow += value?.amount)
+                let outFlow = res.data.data.filter(value => {
+                    return value?.category?.type === 'EXPENSE'
+                })
+                let sumOutFlow = 0
+                outFlow.forEach((value) => sumOutFlow += value?.amount)
 
                 setTotalOutflow(sumOutFlow)
                 setTotalInflow(sumInflow)
@@ -87,8 +87,8 @@ const UserTransactionsPage = () => {
                     .then(res => {
                         dispatch(UserLoginWithPassword({...user, wallet: res.data.data}))
                         dispatch(afterLoadingAPIScreen())
-                    })
-            })
+                    }).catch(error => console.log(error.message))
+            }).catch(error => console.log(error.message))
     }, [total])
 
 
@@ -194,9 +194,9 @@ const UserTransactionsPage = () => {
                                 </span>
                                 </div>
                                 <div className=" flex text-[#2db84c] font-medium cursor-pointer"
-                                    onClick={()=>{
-                                        navigate('/report')
-                                    }}
+                                     onClick={() => {
+                                         navigate('/report')
+                                     }}
                                 >
                                     <div className="w-full flex justify-center my-3">VIEW REPORT FOR THIS PERIOD</div>
                                 </div>

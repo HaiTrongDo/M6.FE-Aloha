@@ -1,4 +1,4 @@
-import React, {useCallback, useEffect, useState} from "react";
+import React, {useEffect, useState, useRef} from "react";
 import './UserReportPage.css'
 import ReportLayout from "../../Components/Layouts/Report/ReportLayout";
 import {motion} from "framer-motion"
@@ -9,10 +9,13 @@ import {isLoadingAPIScreen, afterLoadingAPIScreen} from '../../Features/isLoadin
 import {useDispatch, useSelector} from "react-redux";
 import axios from '../../axios/index'
 import {DEFAULT_DATA} from './dummyData'
+import {useReactToPrint} from 'react-to-print';
 
 
 const UserReportPage = () => {
     const dispatch = useDispatch()
+    const currentWalletState = useSelector(state => state.currentWallet.value)
+    const currencyIcon = currentWalletState?.currency?.code.split("-")[1] || "$";
     const currentUser = useSelector(store => store.currentUser.currentUser)
     const [transactionData, setTransactionData] = useState([])
     const [dataPieChartIncome, setDataPieChartIncome] = useState(DEFAULT_DATA)
@@ -34,21 +37,33 @@ const UserReportPage = () => {
     }, [])
 
     useEffect(() => {
-
         dispatch(isLoadingAPIScreen())
-        axios.post('transaction/search/get-report-data', {userId: currentUser?._id, date: selectedDate})
-            .then(resultFromBEAloha => {
-                resultFromBEAloha?.data?.transactionData && setTransactionData([...resultFromBEAloha.data.transactionData])
-                resultFromBEAloha?.data?.dataPieChartIncome.length ? setDataPieChartIncome([...resultFromBEAloha.data.dataPieChartIncome]) : setDataPieChartIncome([...DEFAULT_DATA])
-                resultFromBEAloha?.data?.dataPieChartExpense.length ? setDataPieChartExpense([...resultFromBEAloha.data.dataPieChartExpense]) : setDataPieChartExpense([...DEFAULT_DATA])
-                dispatch(afterLoadingAPIScreen())
-            }).catch(error => console.error(error.message))
-    }, [selectedDate])
+        if (currentWalletState._id) {
+            axios.post('transaction/search/get-report-data', {
+                currentWallet: currentWalletState?._id,
+                date: selectedDate
+            })
+                .then(resultFromBEAloha => {
+                    resultFromBEAloha?.data?.transactionData && setTransactionData([...resultFromBEAloha.data.transactionData])
+                    resultFromBEAloha?.data?.dataPieChartIncome.length ? setDataPieChartIncome([...resultFromBEAloha.data.dataPieChartIncome]) : setDataPieChartIncome([...DEFAULT_DATA])
+                    resultFromBEAloha?.data?.dataPieChartExpense.length ? setDataPieChartExpense([...resultFromBEAloha.data.dataPieChartExpense]) : setDataPieChartExpense([...DEFAULT_DATA])
+                    dispatch(afterLoadingAPIScreen())
+                }).catch(error => console.error(error.message))
+        } else {
+            dispatch(afterLoadingAPIScreen())
+        }
+
+    }, [selectedDate, currentWalletState])
 
 
     const selectPrior = (e) => {
         setSelectedDate(e.target.value)
     }
+
+    const componentRef = useRef();
+    const handlePrint = useReactToPrint({
+        content: () => componentRef.current,
+    });
 
 
     return (
@@ -58,26 +73,27 @@ const UserReportPage = () => {
             exit="exit"
             variants={Variants.variant1}>
             <ReportLayout>
-
                 <div className="flex justify-center p-[30px] text-center">
                     <div
-                        className=" w-[21cm] bg-white shadow-md flex-block justify-center min-h-[29.7cm] {/*p-[2cm]*/}">
+                        className=" w-[21cm] bg-white shadow-md flex-block justify-center min-h-[29.7cm] py-[1cm]"
+                        ref={componentRef}>
+
                         <div className="flex justify-center gap-5 my-5">
                             <div className="w-1/3 justify-center text-center text-gray-500">
                                 <h1 className="text-xl">Opening Balance</h1>
-                                <span>$ 0</span>
+                                <span style={{color: "#1d4ed8"}}>$ {currentWalletState.initial}</span>
                             </div>
                             <div className="w-1/3 justify-center text-center text-gray-500">
                                 <h1 className="text-xl">Ending Balance</h1>
                                 <span
-                                    style={{color: `${totalIncome > totalExpense ? "#1d4ed8" : "#be123c"}`}}> {totalIncome > totalExpense ? "" : "- "} $ {endingBalance}</span>
+                                    style={{color: `${totalIncome > totalExpense ? "#1d4ed8" : "#be123c"}`}}> {totalIncome > totalExpense ? "" : "- "} {currencyIcon} {Math.ceil(endingBalance)}</span>
                             </div>
                         </div>
                         <hr/>
                         <div className="block justify-center w-full py-3">
                             <h1 className=" flex justify-center text-xl text-gray-500">Financial Analyzes</h1>
                             <h1 className="flex justify-center text-2xl"
-                                style={{color: `${totalIncome > totalExpense ? "#1d4ed8" : "#be123c"}`}}> {financialAnalyzes}</h1>
+                                style={{color: `${totalIncome > totalExpense ? "#1d4ed8" : "#be123c"}`}}> {financialAnalyzes < 100 ? financialAnalyzes : 100}</h1>
                         </div>
                         <div className="flex justify-center w-full">
                             <TransactionBarChart transactionData={transactionData}/>
@@ -86,7 +102,7 @@ const UserReportPage = () => {
                             <div className="block w-1/2 ">
                                 <span className="flex justify-center mt-[22px]">Income</span>
                                 <span
-                                    className="flex justify-center text-blue-500">${totalIncome}</span>
+                                    className="flex justify-center text-blue-500">{currencyIcon} {totalIncome.toFixed(1)}</span>
                                 <div className="w-full flex px-[15px] mb-[16px] text-sm">
                                     <PieChartInReport
                                         color={dataPieChartIncome[0]?.name !== "None" ? "#1d4ed8" : "#71717a"}
@@ -96,7 +112,7 @@ const UserReportPage = () => {
                             <div className="block w-1/2 relative ">
                                 <span className="flex justify-center mt-[22px]">Expenses</span>
                                 <span
-                                    className="flex justify-center text-red-600">-$ {totalExpense}</span>
+                                    className="flex justify-center text-red-600">-{currencyIcon}{totalExpense.toFixed(1)}</span>
                                 <div className="w-full flex px-[15px] mb-[16px] text-sm absolute">
                                     <PieChartInReport
                                         color={dataPieChartExpense[0]?.name !== "None" ? "#be123c" : "#71717a"}
@@ -120,6 +136,7 @@ const UserReportPage = () => {
                                 </div>
                             </div>
                             <button
+                                onClick={handlePrint}
                                 className="bg-gray-200 hover:bg-gray-400 text-gray-800 font-bold py-1.5 px-3 rounded inline-flex items-center">
                                 <svg className="fill-current w-4 h-4 mr-2" xmlns="http://www.w3.org/2000/svg"
                                      viewBox="0 0 20 20">
