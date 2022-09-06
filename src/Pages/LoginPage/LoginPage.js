@@ -56,17 +56,19 @@ const currentWalletState=useSelector(state=>state.currentWallet.value)
             await axios
                 .post('auth/signin', userSignIn)
                 .then(async (resultFromBEAloha) => {
-                    await axios.post('wallet/render', {userId: resultFromBEAloha.data.currentUser._id})
-                        .then(res => {
-                            dispatch(UserLoginWithPassword({
-                                ...resultFromBEAloha.data.currentUser,
-                                wallet: res.data.data
-                            }))
-                            const [key, value] = resultFromBEAloha.data.token.split(' ')
-                            localStorage.setItem(key, JSON.stringify(value));
-                            dispatch(selectCurrentWallet(res.data.data[0]))
-                            navigate('/transactions')
-                        })
+                    if (resultFromBEAloha.data.currentUser.isActive){
+                        await axios.post('wallet/render', {userId: resultFromBEAloha.data.currentUser._id})
+                            .then(res => {
+                                dispatch(UserLoginWithPassword({
+                                    ...resultFromBEAloha.data.currentUser,
+                                    wallet: res.data.data
+                                }))
+                                const [key, value] = resultFromBEAloha.data.token.split(' ')
+                                localStorage.setItem(key, JSON.stringify(value));
+                                dispatch(selectCurrentWallet(res.data.data[0]))
+                                navigate('/transactions')
+                            })
+                    }
                 })
                 .catch(() => {
                     setValidateSignInMsg({password: '* Wrong email or password *'})
