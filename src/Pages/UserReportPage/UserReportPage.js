@@ -9,7 +9,11 @@ import {isLoadingAPIScreen, afterLoadingAPIScreen} from '../../Features/isLoadin
 import {useDispatch, useSelector} from "react-redux";
 import axios from '../../axios/index'
 import {DEFAULT_DATA} from './dummyData'
+import SelectPrior from "../../Components/Layouts/Report/modalMonthSelection";
+import ModalMonthSelection from "../../Components/Layouts/Report/modalMonthSelection";
 
+
+const emails = ['username@gmail.com', 'user02@gmail.com'];
 
 const UserReportPage = () => {
     const dispatch = useDispatch()
@@ -21,17 +25,34 @@ const UserReportPage = () => {
     const totalExpense = dataPieChartExpense.reduce((partialSum, a) => partialSum + a.value, 0);
     const endingBalance = Math.abs(totalIncome - totalExpense)
     const financialAnalyzes = (totalIncome / totalExpense).toFixed(2)
+
+
+    const [selectedDate, setSelectedDate] = useState("2022/09")
+
     useEffect(() => {
-        dispatch(isLoadingAPIScreen())
-        axios.post('transaction/search/get-report-data', {userId: currentUser?._id})
-            .then(resultFromBEAloha => {
-                console.log(resultFromBEAloha.data);
-                resultFromBEAloha?.data?.transactionData && setTransactionData([...resultFromBEAloha.data.transactionData])
-                resultFromBEAloha?.data?.dataPieChartIncome.length && setDataPieChartIncome([...resultFromBEAloha.data.dataPieChartIncome])
-                resultFromBEAloha?.data?.dataPieChartExpense.length && setDataPieChartExpense([...resultFromBEAloha.data.dataPieChartExpense])
-                dispatch(afterLoadingAPIScreen())
-            })
+        let today = new Date();
+        let mm = String(today.getMonth() + 1).padStart(2, '0'); //January is 0!
+        let yyyy = today.getFullYear();
+        today = yyyy + '-' + mm
+        setSelectedDate(String(today))
     }, [])
+
+    useEffect(() => {
+
+        dispatch(isLoadingAPIScreen())
+        axios.post('transaction/search/get-report-data', {userId: currentUser?._id, date: selectedDate})
+            .then(resultFromBEAloha => {
+                resultFromBEAloha?.data?.transactionData && setTransactionData([...resultFromBEAloha.data.transactionData])
+                resultFromBEAloha?.data?.dataPieChartIncome.length ? setDataPieChartIncome([...resultFromBEAloha.data.dataPieChartIncome]) : setDataPieChartIncome([...DEFAULT_DATA])
+                resultFromBEAloha?.data?.dataPieChartExpense.length ? setDataPieChartExpense([...resultFromBEAloha.data.dataPieChartExpense]) : setDataPieChartExpense([...DEFAULT_DATA])
+                dispatch(afterLoadingAPIScreen())
+            }).catch(error => console.error(error.message))
+    }, [selectedDate])
+
+
+    const selectPrior = (e) => {
+        setSelectedDate(e.target.value)
+    }
 
 
     return (
@@ -41,6 +62,7 @@ const UserReportPage = () => {
             exit="exit"
             variants={Variants.variant1}>
             <ReportLayout>
+                <SelectPrior/>
                 <div className="flex justify-center p-[30px] text-center">
                     <div
                         className=" w-[21cm] bg-white shadow-md flex-block justify-center min-h-[29.7cm] {/*p-[2cm]*/}">
@@ -59,7 +81,7 @@ const UserReportPage = () => {
                         <div className="block justify-center w-full py-3">
                             <h1 className=" flex justify-center text-xl text-gray-500">Financial Analyzes</h1>
                             <h1 className="flex justify-center text-2xl"
-                                style={{color: `${totalIncome > totalExpense ? "#1d4ed8" : "#be123c"}`}}> {financialAnalyzes}</h1>
+                                style={{color: `${totalIncome > totalExpense ? "#1d4ed8" : "#be123c"}`}}> {totalExpense ? financialAnalyzes : ""}</h1>
                         </div>
                         <div className="flex justify-center w-full">
                             <TransactionBarChart transactionData={transactionData}/>
@@ -72,7 +94,7 @@ const UserReportPage = () => {
                                 <div className="w-full flex px-[15px] mb-[16px] text-sm">
                                     <PieChartInReport
                                         color={dataPieChartIncome[0]?.name !== "None" ? "#1d4ed8" : "#71717a"}
-                                        data={dataPieChartIncome}/>
+                                        data={dataPieChartIncome || DEFAULT_DATA}/>
                                 </div>
                             </div>
                             <div className="block w-1/2 relative ">
@@ -81,15 +103,41 @@ const UserReportPage = () => {
                                     className="flex justify-center text-red-600">-$ {totalExpense.toFixed(2)}</span>
                                 <div className="w-full flex px-[15px] mb-[16px] text-sm absolute">
                                     <PieChartInReport
-                                        color={dataPieChartExpense[0].name !== "None" ? "#be123c" : "#71717a"}
-                                        data={dataPieChartExpense}/>
+                                        color={dataPieChartExpense[0]?.name !== "None" ? "#be123c" : "#71717a"}
+                                        data={dataPieChartExpense || DEFAULT_DATA}/>
                                 </div>
                             </div>
 
                         </div>
+                        <div className="flex justify-center gap-5 my-5">
+                            <div>
+                                <div className="flex justify-center">
+                                    <div className="m-auto xl:w-60">
+                                        <input type="month"
+                                               onChange={selectPrior}
+                                               maxDate={new Date()}
+                                               value={selectedDate}
+                                               className="form-select hover:bg-gray-400 appearance-none block  w-full px-3 py-1.5 text-base font-normal text-gray-700 bg-gray-200 bg-clip-padding bg-no-repeat border border-solid border-gray-300 rounded transition ease-in-out m-0 focus:text-gray-700 focus:bg-white focus:border-gray-600 focus:outline-none"
+                                               aria-label="Default select example">
+                                        </input>
+                                    </div>
+                                </div>
+                            </div>
+                            <button
+                                className="bg-gray-200 hover:bg-gray-400 text-gray-800 font-bold py-1.5 px-3 rounded inline-flex items-center">
+                                <svg className="fill-current w-4 h-4 mr-2" xmlns="http://www.w3.org/2000/svg"
+                                     viewBox="0 0 20 20">
+                                    <path d="M13 8V2H7v6H2l8 8 8-8h-5zM0 18h20v2H0v-2z"/>
+                                </svg>
+                                <span>Download</span>
+                            </button>
+
+                        </div>
                     </div>
                 </div>
+
             </ReportLayout>
+
         </motion.div>
     );
 };
