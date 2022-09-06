@@ -138,7 +138,7 @@ export default function DialogUpdateCategory() {
                                 >
                                     {iconButton === '' ?
                                         <HelpOutlineIcon sx={{width: 60, height: 60, color: '#9e9e9e'}}/> :
-                                        <img style={{width: '60px'}} src={iconButton}/>}
+                                        <img style={{width: '60px'}} src={iconButton} alt={""}/>}
                                 </Button>
                                 <Typography align='center' variant='h6'>Select Icon</Typography>
 
@@ -154,7 +154,6 @@ export default function DialogUpdateCategory() {
                                     placeholder="Name"
                                     sx={{color: '#9e9e9e'}}
                                     onChange={handleChangeName}
-                                    focused
                                 />
 
                                 <FormControl sx={{width: '100%'}}>
@@ -166,7 +165,7 @@ export default function DialogUpdateCategory() {
                                         value={dataUpdateCategory.type ? dataUpdateCategory.type : " "}
                                         label="Type"
                                         onChange={(e) => handleChangeType(e)}
-                                        sx={{color: '#9e9e9e', ml: 1}}
+                                        sx={{color: '#9e9e9e', ml: 1,width: '100%'}}
                                         focused
                                     >
                                         <MenuItem value={'EXPENSE'}>Expense</MenuItem>
@@ -179,8 +178,8 @@ export default function DialogUpdateCategory() {
 
                     </DialogContent>
                     <DialogActions>
-                        <Button sx={{color: '#388e3c'}} type='submit'>UPDATE</Button>
-                        <Button sx={{color: 'red'}} onClick={handleClose}>Close</Button>
+                        <button className={"text-[#F15A59] rounded-[5px] hover:bg-[#FEECEB] background-transparent font-bold uppercase px-6 py-2 text-sm outline-none focus:outline-none mr-1 mb-1 ease-linear transition-all duration-150"} onClick={handleClose}>Close</button>
+                        <button onClick={handleSubmit} className={"bg-[#2EB74B] text-white  font-bold uppercase text-sm px-6 py-3 rounded shadow hover:shadow-lg outline-none focus:outline-none mr-1 mb-1 ease-linear transition-all duration-150"} type='submit'>UPDATE</button>
                     </DialogActions>
                 </Box>
             </Dialog>

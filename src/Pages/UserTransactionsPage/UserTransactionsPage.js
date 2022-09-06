@@ -16,10 +16,12 @@ import {setSearchInputForNote} from "../../Features/SearchInput/SearchInputSlice
 import Transition from "../../Components/Transition";
 import {Dialog} from "@mui/material";
 import {isLoadingAPIScreen, afterLoadingAPIScreen} from '../../Features/isLoadingScreen/isLoadingScreen'
+import {useNavigate} from "react-router-dom";
 
 
 const UserTransactionsPage = () => {
     const dispatch = useDispatch()
+    const navigate = useNavigate();
     const user = JSON.parse(localStorage.getItem('alohaUser'))
     const currentWalletState = useSelector(state => state.currentWallet.value)
 
@@ -68,34 +70,12 @@ const UserTransactionsPage = () => {
                     let sumOutFlow = 0
                     outFlow.forEach((value) => sumOutFlow += value?.amount)
 
-                    setTotalOutflow(sumOutFlow)
-                    setTotalInflow(sumInflow)
-                    setTotal(sumInflow - sumOutFlow)
-                    setListTransaction(res.data.data)
-                })
-        // }
-        // else {
-        //     axios.post('transaction/list', {user: user?._id})
-        //         .then(res => {
-        //             let inflow = res?.data?.data?.filter(value => {
-        //                 return value?.category?.type === 'INCOME'
-        //             })
-        //             let sumInflow = 0
-        //             inflow.forEach(value => sumInflow += value.amount)
-        //
-        //
-        //             let outFlow = res?.data?.data?.filter(value => {
-        //                 return value?.category?.type === 'EXPENSE'
-        //             })
-        //             let sumOutFlow = 0
-        //             outFlow.forEach((value) => sumOutFlow += value.amount)
-        //
-        //             setTotalOutflow(sumOutFlow)
-        //             setTotalInflow(sumInflow)
-        //             setTotal(sumInflow - sumOutFlow)
-        //             setListTransaction(res.data.data)
-        //         })
-        // }
+                setTotalOutflow(sumOutFlow)
+                setTotalInflow(sumInflow)
+                setTotal(sumInflow - sumOutFlow)
+                setListTransaction(res.data.data)
+            })
+
     }, [dialogTransactionState, dialogEditState, currentWalletState])
 
     useEffect(() => {
@@ -162,28 +142,7 @@ const UserTransactionsPage = () => {
                                         setToggleDetail(false)
                                     })
                             }
-                            // else {
-                            //     axios.post('transaction/list', {user: user?._id})
-                            //         .then(res => {
-                            //             let inflow = res.data.data.filter(value => {
-                            //                 return value?.category?.type === 'INCOME'
-                            //             })
-                            //             let sumInflow = 0
-                            //             inflow.forEach(value => sumInflow += value?.amount)
-                            //
-                            //             let outFlow = res.data.data.filter(value => {
-                            //                 return value?.category?.type === 'EXPENSE'
-                            //             })
-                            //             let sumOutFlow = 0
-                            //             outFlow.forEach((value) => sumOutFlow += value?.amount)
-                            //
-                            //             setTotalOutflow(sumOutFlow)
-                            //             setTotalInflow(sumInflow)
-                            //             setTotal(sumInflow - sumOutFlow)
-                            //             setListTransaction(res.data.data)
-                            //             setToggleDetail(false)
-                            //         })
-                            // }
+
                         })
                     swal("Poof! Your record has been deleted!", {
                         icon: "success",
@@ -217,20 +176,28 @@ const UserTransactionsPage = () => {
                             <hr/>
                             <div className="report block bg-white">
                                 <div className=" flex justify-between pt-6 px-8">
-                                    <div>Inflow</div>
-                                    <div className="text-blue-500">${totalInflow}</div>
+                                    <div className={"text-lg"}>Inflow</div>
+                                    <div className="text-blue-500 text-lg"
+                                    >+{totalInflow} {currentWalletState?.currency?.code?.split("-")[1]}
+                                    </div>
                                 </div>
                                 <div className=" flex justify-between px-8 py-1">
-                                    <div>Outflow</div>
-                                    <div className="text-red-500">-${totalOutflow}</div>
+                                    <div className={"text-lg"}>Outflow</div>
+                                    <div className="text-red-500 text-lg"
+                                    >-{totalOutflow} {currentWalletState?.currency?.code?.split("-")[1]}
+                                    </div>
                                 </div>
                                 <div className=" flex justify-between px-8 py-1">
                                     <span> </span>
-                                    <span className='border-t-2'
-                                    >{total}
+                                    <span className='border-t-2 text-xl'
+                                    >{total} {currentWalletState?.currency?.code?.split("-")[1]}
                                 </span>
                                 </div>
-                                <div className=" flex text-[#2db84c] font-medium cursor-pointer">
+                                <div className=" flex text-[#2db84c] font-medium cursor-pointer"
+                                    onClick={()=>{
+                                        navigate('/report')
+                                    }}
+                                >
                                     <div className="w-full flex justify-center my-3">VIEW REPORT FOR THIS PERIOD</div>
                                 </div>
                             </div>
@@ -318,7 +285,8 @@ const UserTransactionsPage = () => {
                                     <div className="">
                                         <button
                                             className={"text-[#F15A59] w-[80px] h-[36px] rounded-[5px] hover:bg-[#FEECEB]"}
-                                            onClick={handleDeleteTransaction}>DELETE</button>
+                                            onClick={handleDeleteTransaction}>DELETE
+                                        </button>
                                         <button
                                             className={"text-[#2EB74B] w-[80px] rounded-[5px] h-[36px] mx-[20px] hover:bg-[#E9F6EB]"}
                                             onClick={handleOpenEditTransaction}

@@ -70,7 +70,7 @@ const UserReportPage = () => {
                                     className="flex justify-center text-blue-500">${totalIncome}</span>
                                 <div className="w-full flex px-[15px] mb-[16px] text-sm">
                                     <PieChartInReport
-                                        color={dataPieChartIncome[0].name !== "None" ? "#1d4ed8" : "#71717a"}
+                                        color={dataPieChartIncome[0]?.name !== "None" ? "#1d4ed8" : "#71717a"}
                                         data={dataPieChartIncome}/>
                                 </div>
                             </div>
@@ -80,7 +80,7 @@ const UserReportPage = () => {
                                     className="flex justify-center text-red-600">-$ {totalExpense}</span>
                                 <div className="w-full flex px-[15px] mb-[16px] text-sm absolute">
                                     <PieChartInReport
-                                        color={dataPieChartExpense[0].name !== "None" ? "#be123c" : "#71717a"}
+                                        color={dataPieChartExpense[0]?.name !== "None" ? "#be123c" : "#71717a"}
                                         data={dataPieChartExpense}/>
                                 </div>
                             </div>

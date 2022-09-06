@@ -100,9 +100,9 @@ export default function MyWallet() {
                                 </button>
                                 <h2 className="text-[#000000DE] ml-4 font-sans text-xl">My Wallets</h2>
                             </div>
-                            <div className="hidden justify-between items-center w-full md:flex md:w-auto md:order-1"
+                            <div className=" justify-between items-center w-full md:flex md:w-auto md:order-1"
                                  id="navbar-sticky">
-                                {wallets.length < 3 ? <button className="flex" onClick={handleOpenDialogWallet}>
+                                {wallets.length < 3 ? <button className="flex absolute right-8" onClick={handleOpenDialogWallet}>
                                     <svg xmlns="http://www.w3.org/2000/svg" className="h-6 w-6" fill="none"
                                          viewBox="0 0 24 24" stroke="currentColor" strokeWidth="2">
                                         <path strokeLinecap="round" strokeLinejoin="round"

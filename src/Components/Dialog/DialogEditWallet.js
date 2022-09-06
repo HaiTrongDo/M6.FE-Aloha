@@ -9,6 +9,7 @@ import {openDialogCurrency} from "../../Features/DiaLogSlice/openDialogCurrencyS
 import {closeDialogEditWallet} from "../../Features/DiaLogSlice/openDialogEditWalletSlice";
 import Transition from "../Transition";
 import {Dialog} from "@mui/material";
+import swal from "sweetalert";
 
 export default function DialogWallet(props) {
     const [isFull, setIsFull] = useState(false)
@@ -56,8 +57,7 @@ export default function DialogWallet(props) {
         } else if (dataUpdateWallet.name === "" ||
             dataUpdateWallet.initial === 0 ||
             dataUpdateWallet.icon === "" ||
-            dataUpdateWallet.currency === "")
-        {
+            dataUpdateWallet.currency === "") {
             setIsFull(false)
         } else if (props?.walletObj?.name !== dataUpdateWallet?.name ||
             props?.walletObj?.initial !== dataUpdateWallet?.initial ||
@@ -68,43 +68,66 @@ export default function DialogWallet(props) {
         } else {
             setIsFull(true)
         }
-    }, [newWallet,iconObj._id,currencyObj._id])
+    }, [newWallet, iconObj._id, currencyObj._id])
 
     const userId = JSON.parse(localStorage.getItem('alohaUser'))._id
 
     const handleUpdateWallet = (e) => {
-        axios.post('http://localhost:8080/wallet/update', {dataUpdateWallet}).then(r => {
-            handleCloseDialogEditWallet()
+        swal({
+            icon: "success",
+            button: null,
+        }).then(() => {
+            axios.post('http://localhost:8080/wallet/update', {dataUpdateWallet}).then(r => {
+                handleCloseDialogEditWallet()
+            })
         })
-        if (dataUpdateWallet.initial > props.walletObj.initial){
-            const dataTransaction = {
-                wallet:props.walletObj._id,
-                category:'6304a3470f0a39e5923a672a',
-                amount:Number(dataUpdateWallet.initial)-Number(props.walletObj.initial),
-                date:new Date(new Date().getFullYear()
-                    + ((new Date().getMonth() < 9) ? `-0${new Date().getMonth()+1}` : `-${new Date().getMonth()+1}`)
-                    + "-" + new Date().getDate()),
-                user: userId
+        setTimeout(() => {
+            swal.close()
+        }, 1000)
+        if(dataUpdateWallet.initial !== props.walletObj.initial){
+            if (dataUpdateWallet.initial > props.walletObj.initial) {
+                const dataTransaction = {
+                    wallet: props.walletObj._id,
+                    category: {
+                        _id: '6316a5497058758749d1ec28',
+                        wallet: props.walletObj._id,
+                        icon: 'https://static.moneylover.me/img/icon/ic_category_other_income.png',
+                        name: 'Other Income',
+                        type: 'INCOME'
+                    },
+                    amount: Number(dataUpdateWallet.initial) - Number(props.walletObj.initial),
+                    date: new Date(new Date().getFullYear()
+                        + ((new Date().getMonth() < 9) ? `-0${new Date().getMonth() + 1}` : `-${new Date().getMonth() + 1}`)
+                        + "-" + new Date().getDate()),
+                    user: userId
+                }
+                e.preventDefault()
+                axios.post('http://localhost:8080/transaction/add', dataTransaction).then(r => {
+                    console.log(r)
+                })
+            } else {
+                const dataTransaction = {
+                    wallet: props.walletObj._id,
+                    category: {
+                        _id: '6316a5487058758749d1ec1b',
+                        wallet: props.walletObj._id,
+                        icon: 'https://static.moneylover.me/img/icon/icon_138.png',
+                        name: 'Other Utility Bills',
+                        type: 'EXPENSE'
+                    },
+                    amount: Number(props.walletObj.initial) - Number(dataUpdateWallet.initial),
+                    date: new Date(new Date().getFullYear()
+                        + ((new Date().getMonth() < 9) ? `-0${new Date().getMonth() + 1}` : `-${new Date().getMonth() + 1}`)
+                        + "-" + new Date().getDate()),
+                    user: userId
+                }
+                e.preventDefault()
+                axios.post('http://localhost:8080/transaction/add', dataTransaction).then(r => {
+                    console.log(r)
+                })
             }
-            e.preventDefault()
-            axios.post('http://localhost:8080/transaction/add', dataTransaction).then(r => {
-                console.log(r)
-            })
-        }else {
-            const dataTransaction = {
-                wallet:props.walletObj._id,
-                category:'6304a22b0f0a39e5923a6727',
-                amount:Number(props.walletObj.initial)-Number(dataUpdateWallet.initial),
-                date:new Date(new Date().getFullYear()
-                    + ((new Date().getMonth() < 9) ? `-0${new Date().getMonth()+1}` : `-${new Date().getMonth()+1}`)
-                    + "-" + new Date().getDate()),
-                user: userId
-            }
-            e.preventDefault()
-            axios.post('http://localhost:8080/transaction/add', dataTransaction).then(r => {
-                console.log(r)
-            })
         }
+
     }
 
     const handleCloseDialogEditWallet = () => {
@@ -134,7 +157,6 @@ export default function DialogWallet(props) {
     )
 
 
-
     return (
         <Dialog
             open={editState}
@@ -162,7 +184,7 @@ export default function DialogWallet(props) {
                                 <div className="grid grid-cols-3 gap-3">
                                     <button
                                         onClick={handleOpenDialogIcons}
-                                        className=" flex bg-gray-50 justify-center border border-gray-300 p-2 h-[60px] rounded-[10px] hover:border-black">
+                                        className=" flex  justify-center border border-gray-300 p-2 h-[60px] rounded-[10px] hover:border-black">
                                         <img className="w-10 h-10 rounded-full my-0.5" src={iconObj?.url}
                                              alt="..."/>
                                         <svg xmlns="http://www.w3.org/2000/svg"
@@ -176,7 +198,7 @@ export default function DialogWallet(props) {
                                                name={"name"}
                                                onChange={handleChangeInput}
                                                defaultValue={props?.walletObj?.name}
-                                               className="block rounded-[10px] p-2 pt-5 w-[296px] h-[60px] text-sm text-gray-900 bg-gray-50  border border-gray-300  appearance-none dark:text-black  focus:outline-none focus:ring-0 hover:border-black peer"
+                                               className="block rounded-[10px] p-2 pt-5 w-[296px] h-[60px] text-sm text-gray-900   border border-gray-300  appearance-none dark:text-black  focus:outline-none focus:ring-0 hover:border-black peer"
                                                placeholder=" "/>
                                         <label htmlFor="floating_filled"
                                                className="absolute text-sm text-gray-500 dark:text-gray-400 duration-300 transform -translate-y-4 scale-75 top-4 z-10 origin-[0] left-2.5   peer-placeholder-shown:scale-100 peer-placeholder-shown:translate-y-0 peer-focus:scale-75 peer-focus:-translate-y-4">Wallet
@@ -186,7 +208,7 @@ export default function DialogWallet(props) {
                                     <button
                                         onClick={handleOpenDialogCurrency}
                                         id="button"
-                                        className="col-span-2 flex relative bg-gray-50 border border-gray-300 p-2 h-[60px]  rounded-[10px] hover:border-black">
+                                        className="col-span-2 flex relative  border border-gray-300 p-2 h-[60px]  rounded-[10px] hover:border-black">
                                         <img className="w-[24px] h-[24px] rounded-full my-3"
                                              src={currencyObj?.url}
                                              alt="..."/>
@@ -206,7 +228,7 @@ export default function DialogWallet(props) {
                                                name={"initial"}
                                                onChange={handleChangeInput}
                                                defaultValue={props?.walletObj?.initial}
-                                               className="block   rounded-[10px] p-2 pt-5 w-[140px] h-[60px] text-sm text-gray-900 bg-gray-50  border border-gray-300  appearance-none dark:text-black  focus:outline-none focus:ring-0 hover:border-black peer appearance-none"
+                                               className="block   rounded-[10px] p-2 pt-5 w-[140px] h-[60px] text-sm text-gray-900   border border-gray-300  appearance-none dark:text-black  focus:outline-none focus:ring-0 hover:border-black peer appearance-none"
                                                placeholder=" "/>
                                         <label htmlFor="floating_filled_init"
                                                className="absolute text-sm text-gray-500 dark:text-gray-400 duration-300 transform -translate-y-4 scale-75 top-4 z-10 origin-[0] left-2.5   peer-placeholder-shown:scale-100 peer-placeholder-shown:translate-y-0 peer-focus:scale-75 peer-focus:-translate-y-4">Initial
