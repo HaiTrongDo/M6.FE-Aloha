@@ -35,6 +35,7 @@ import {useNavigate} from "react-router-dom";
 import {selectDataWallet, setIdWallet} from "../../Features/DialogCategorySlice/selectDataWalletOnCategory";
 import {motion} from "framer-motion"
 import Variants from "../../Components/Variants";
+import {afterLoadingAPIScreen, isLoadingAPIScreen} from "../../Features/isLoadingScreen/isLoadingScreen";
 
 
 //o dropDow
@@ -160,12 +161,13 @@ function Category() {
     }
 
     async function getAllProduct() {
-
         let token = JSON.parse(localStorage.getItem('JWT'))
         let idWallet = dataWallet.idWallet == '' ? wallets[0]._id : dataWallet.idWallet;
         dispatch(setIdWallet(idWallet))
         return await axios.post('/category', {idWallet: idWallet},
             {headers: {Authorization: `Bearer ${token}`}},
+
+
         )
     }
 
@@ -175,6 +177,9 @@ function Category() {
                 await axios.post('/wallet/render', {userId: tokenUser._id},
                     {headers: {Authorization: `Bearer ${token}`}})
                     .then((r) => {
+                        const defaultWalletId = r.data.data[0]._id || null;
+                        const iconUrl = r.data.data[0].icon.url;
+                        dispatch(selectDataWallet({defaultWalletId, iconUrl}))
                         setWallets(r.data.data)
                     })
             }
@@ -186,9 +191,11 @@ function Category() {
     )
 
     useEffect(() => {
+            dispatch(isLoadingAPIScreen())
             getAllProduct()
                 .then((r) => {
                     dispatch(setDataCategory(r.data.data))
+                    dispatch(afterLoadingAPIScreen())
                 })
         }, [dataWallet.idWallet || wallets]
     )
@@ -221,7 +228,7 @@ function Category() {
                                 navigate(-1)
                             }}
                         >
-                            <ArrowBackIcon sx={{color:'black'}}/>
+                            <ArrowBackIcon sx={{color: 'black'}}/>
                         </IconButton>
                         <Typography variant="h6" color='black' component="div" sx={{flexGrow: 1}}>
                             <span></span>
@@ -313,12 +320,12 @@ function Category() {
                       style={{minHeight: '100vh'}}
                       sx={{bgcolor: '#e0e0e0'}}
                 >
-                    <div className='w-1/2 flex justify-center'>
+                    <div className='w-1/2 flex justify-center pt-6 '>
                         {/*<Grid xs={6} md={4}>*/}
                         <Box
-                            sx={{width: 500, backgroundColor: 'white'}}
+                            sx={{width: "80%", backgroundColor: 'white', borderRadius: '0.5rem'}}
                         >
-                            <Typography sx={{mt: 2}}>
+                            <Typography>
                                 <Typography sx={{bgcolor: '#eeeeee'}}>
                                     Expense
                                 </Typography>
@@ -371,86 +378,85 @@ function Category() {
                         {/*</Grid>*/}
 
                     </div>
-                    {
-                        checked && <div className='w-1/2 flex static '>
+                    {checked && <div className='w-1/2 flex '>
 
-                            {/*<Grid xs={6} md={4}>*/}
-                            <Box sx={{height: 300}}>
-                                <Box
-                                    sx={{
-                                        '& > :not(style)': {
-                                            display: 'flex',
-                                            justifyContent: 'space-around',
-                                            height: 120,
-                                            width: 250,
-                                        },
-                                    }}
-                                >
+                        {/*<Grid xs={6} md={4}>*/}
+                        <Box sx={{height: 1250}}>
+                            <Box
+                                sx={{
+                                    '& > :not(style)': {
+                                        display: 'flex',
+                                        justifyContent: 'space-around',
+                                        height: 120,
+                                        width: 50,
+                                    },
+                                }}
+                            >
 
-                                    <Box>
-                                        <Box sx={{width: '50%'}}>
-                                            <Collapse orientation="horizontal" in={checked}>
-                                                <Card position="fixed" sx={{minWidth: 500, bgcolor: 'white'}}>
-                                                    <CardHeader sx={{height: '50px'}}
-                                                                avatar={
-                                                                    <Button onClick={handleClose}>
-                                                                        <CloseIcon/>
+                                <Box>
+                                    <Box sx={{width: '100%',}}>
+                                        <Collapse orientation="horizontal" in={checked}>
+                                            <Card position="fixed" sx={{minWidth: 700, bgcolor: 'white'}}>
+                                                <CardHeader sx={{height: '50px'}}
+                                                            avatar={
+                                                                <Button onClick={handleClose}>
+                                                                    <CloseIcon/>
+                                                                </Button>
+                                                            }
+
+                                                            action={
+                                                                <>
+                                                                    <Button
+                                                                        onClick={handleDeleteCategory}
+                                                                        variant="text" sx={{
+                                                                        fontWeight: 'light',
+                                                                        fontSize: 14,
+                                                                        color: 'red',
+                                                                        mb: 4
+                                                                    }}>
+                                                                        DELETE
                                                                     </Button>
-                                                                }
-
-                                                                action={
-                                                                    <>
-                                                                        <Button onClick={handleUpdateCategory}
-                                                                                variant="text" sx={{
-                                                                            fontWeight: 'medium',
-                                                                            fontSize: 16,
-                                                                            mb: 4,
-                                                                            color: 'success',
-                                                                        }}>
-                                                                            EDIT
-                                                                        </Button>
-                                                                        <Button
-                                                                            onClick={handleDeleteCategory}
+                                                                    <Button onClick={handleUpdateCategory}
                                                                             variant="text" sx={{
-                                                                            fontWeight: 'medium',
-                                                                            fontSize: 16,
-                                                                            color: 'red',
-                                                                            mb: 4
-                                                                        }}>
-                                                                            DELETE
-                                                                        </Button>
-                                                                    </>
-                                                                }
-                                                                title={<Typography component="span"
-                                                                                   sx={{fontWeight: 'bold', fontSize: 23}}>Category
-                                                                    details</Typography>
-                                                                }
+                                                                        fontWeight: 'light',
+                                                                        fontSize: 14,
+                                                                        mb: 4,
+                                                                        color: '#2EB74B',
+                                                                    }}>
+                                                                        EDIT
+                                                                    </Button>
+                                                                </>
+                                                            }
+                                                            title={<Typography component="span"
+                                                                               sx={{fontWeight: 'bold', fontSize: 23}}>Category
+                                                                details</Typography>
+                                                            }
 
-                                                    />
-                                                    <DialogUpdateCategory/>
+                                                />
+                                                <DialogUpdateCategory/>
 
 
-                                                    <Divider/>
-                                                    <CardContent>
-                                                        <img style={{height: 65, float: "left", marginRight: '30px'}}
-                                                             src={category.icon}/>
-                                                        <Box>
-                                                            <Typography sx={{fontWeight: 'medium', fontSize: 20}}
-                                                                        color='black'>
-                                                                {category.name}
-                                                            </Typography>
-                                                            <Box sx={{fontSize: 12}}>{category.type}</Box>
-                                                        </Box>
-                                                    </CardContent>
-                                                </Card>
-                                            </Collapse>
-                                        </Box>
-
+                                                <Divider/>
+                                                <CardContent>
+                                                    <img style={{height: 65, float: "left", marginRight: '30px'}}
+                                                         src={category.icon}/>
+                                                    <Box>
+                                                        <Typography sx={{fontWeight: 'medium', fontSize: 20}}
+                                                                    color='black'>
+                                                            {category.name}
+                                                        </Typography>
+                                                        <Box sx={{fontSize: 12}}>{category.type}</Box>
+                                                    </Box>
+                                                </CardContent>
+                                            </Card>
+                                        </Collapse>
                                     </Box>
+
                                 </Box>
                             </Box>
-                            {/*</Grid>*/}
-                        </div>
+                        </Box>
+                        {/*</Grid>*/}
+                    </div>
                     }
                 </Grid>
             </div>

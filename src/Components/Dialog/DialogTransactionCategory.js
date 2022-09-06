@@ -8,6 +8,7 @@ import axios from '../../axios'
 import {selectCategory} from "../../Features/Transaction/categorySlice";
 import Transition from "../Transition";
 import {Dialog} from "@mui/material";
+import LoadingScreen from "react-loading-screen";
 
 
 const DialogTransactionCategory = (props) => {
@@ -19,6 +20,7 @@ const DialogTransactionCategory = (props) => {
     const [typeCategory, setTypeCategory] = useState(true);
     const [searchIncome, setSearchIncome] = useState();
     const [searchExpense, setSearchExpense] = useState();
+    const [isLoading, setIsLoading] = useState(false)
     const currentWalletState = useSelector(state => state.currentWallet.value)
 
     const handleCloseCategory = () => {
@@ -26,6 +28,7 @@ const DialogTransactionCategory = (props) => {
     }
 
     useEffect(() => {
+        setIsLoading(true)
         axios.get('transaction/category')
             .then(res => {
                 setListCategory(res.data.data)
@@ -34,20 +37,28 @@ const DialogTransactionCategory = (props) => {
             axios.post('category/expense', {wallet: currentWalletState._id})
                 .then(res => {
                     setListExpense(res.data.data)
+                    setIsLoading(false)
+
                 })
             axios.post('category/income', {wallet: currentWalletState._id})
                 .then(res => {
                     setListIncome(res.data.data)
+                    setIsLoading(false)
+
                 })
         }
         else{
             axios.get('transaction/category/expense')
                 .then(res=>{
                     setListExpense(res.data.data)
+                    setIsLoading(false)
+
                 })
             axios.get('transaction/category/income')
                 .then(res=>{
                     setListIncome(res.data.data)
+                    setIsLoading(false)
+
                 })
         }
     }, [currentWalletState])
@@ -104,7 +115,6 @@ const DialogTransactionCategory = (props) => {
                             </div>
                             <div className="grid grid-cols-5 flex flex-col justify-center items-center border-0">
                                 <div></div>
-
                                 <div className="relative bg-gray-200 rounded-full col-span-3">
                                     <div className="absolute left-0 my-2.5 pl-5">
                                         <SearchIcon/>
@@ -137,14 +147,24 @@ const DialogTransactionCategory = (props) => {
                                 <div></div>
                             </div>
                             {/*body*/}
-                            <div className="modal-body relative w-[500px] h-[490px] border-t-2 flex-auto">
+                            {isLoading &&
+                                <LoadingScreen
+                                    loading={isLoading}
+                                    bgColor="rgba(255,255,255,0.8)"
+                                    spinnerColor="#2EB74B"
+                                    textColor="#676767"
+                                    logoSrc=""
+                                    text=""
+                                />
+                            }
+                            <div className="modal-body relative w-[500px] h-[490px] border flex-auto">
                                 <ul className='m-auto'>
                                     {typeCategory
                                         ? (searchExpense ? searchExpense.map((value, index) => {
                                                 return (
                                                     <div key={index}
-                                                         className="relative pl-8 pr-8 border-b hover:cursor-pointer">
-                                                        <li className='m-auto grid grid-cols-3 p-2' onClick={() => {
+                                                         className="relative hover:bg-[#E6EFE7] pl-8 pr-8  hover:cursor-pointer">
+                                                        <li className='m-auto grid grid-cols-3 border-b p-2' onClick={() => {
                                                             dispatch(selectCategory(value))
                                                             dispatch(setCategoryInSearchPage(value))
                                                             dispatch(closeDialogCategory())
@@ -163,8 +183,8 @@ const DialogTransactionCategory = (props) => {
                                             : listExpense.map((value, index) => {
                                                 return (
                                                     <div key={index}
-                                                         className="relative pl-8 pr-8 border-b hover:cursor-pointer">
-                                                        <li className='m-auto grid grid-cols-3 p-2' onClick={() => {
+                                                         className="relative pl-8 pr-8 hover:bg-[#E6EFE7] hover:cursor-pointer">
+                                                        <li className='m-auto grid grid-cols-3 p-2 border-b' onClick={() => {
                                                             dispatch(selectCategory(value))
                                                             dispatch(setCategoryInSearchPage(value))
                                                             dispatch(closeDialogCategory())
@@ -183,8 +203,8 @@ const DialogTransactionCategory = (props) => {
                                                 ? searchIncome.map((value, index) => {
                                                     return (
                                                         <div key={index}
-                                                             className="relative pl-8 pr-8 border-b hover:cursor-pointer">
-                                                            <li className='m-auto grid grid-cols-3 p-2' onClick={() => {
+                                                             className="relative pl-8 pr-8 hover:bg-[#E6EFE7] hover:cursor-pointer">
+                                                            <li className='m-auto grid grid-cols-3 border-b p-2' onClick={() => {
                                                                 dispatch(selectCategory(value))
                                                                 dispatch(setCategoryInSearchPage(value))
                                                                 dispatch(closeDialogCategory())
@@ -204,8 +224,8 @@ const DialogTransactionCategory = (props) => {
                                                 : listIncome.map((value, index) => {
                                                     return (
                                                         <div key={index}
-                                                             className="relative pl-8 pr-8 border-b hover:cursor-pointer">
-                                                            <li className='m-auto grid grid-cols-3 p-2' onClick={() => {
+                                                             className="relative pl-8 pr-8 hover:bg-[#E6EFE7] hover:cursor-pointer">
+                                                            <li className='m-auto grid grid-cols-3 border-b p-2' onClick={() => {
                                                                 dispatch(selectCategory(value))
                                                                 dispatch(setCategoryInSearchPage(value))
                                                                 dispatch(closeDialogCategory())

@@ -12,14 +12,24 @@ import UserSearchTransactionPage from "../Pages/UserSearchTransactionPage/UserSe
 import LoginPage from "../Pages/LoginPage/LoginPage";
 import {AnimatePresence} from "framer-motion"
 
-export default function AnimatedRoutes() {
+import {useEffect} from 'react'
+import {useSelector} from "react-redux";
+
+
+export default function AnimatedRoutes({setLoading}) {
     const location = useLocation();
+    const isLoadingScreen = useSelector(store => store.isLoadingScreenSlice.isLoadingScreen)
+
+    useEffect(() => {
+        setLoading(isLoadingScreen)
+    })
     return (
+
+
         <AnimatePresence>
             <Routes location={location} key={location.pathname}>
                 <Route element={<PrivateRoute/>}>
                     <Route path="/" element={<UserHomePage/>}/>
-
                     <Route path="/transactions" element={<UserTransactionsPage/>}/>
                     <Route path="/report" element={<UserReportPage/>}/>
                     <Route path="/budget" element={<UserBudgetPage/>}/>
@@ -34,5 +44,6 @@ export default function AnimatedRoutes() {
                 <Route path="/login" element={<LoginPage/>}/>
             </Routes>
         </AnimatePresence>
+
     )
 }

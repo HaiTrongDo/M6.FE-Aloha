@@ -110,7 +110,7 @@ const DialogEditTransaction = () => {
                                 <div className="relative w-full pl-2 pr-2">
                                     <button id="button" onClick={() => dispatch(openDialogSelectWallet())}
                                             disabled={true}
-                                            className="w-full col-span-2 flex relative  border border-gray-300 p-2 h-[60px]  rounded-[10px] ">
+                                            className="w-full bg-gray-50 col-span-2 flex relative  border border-gray-300 p-2 h-[60px] hover:border-black rounded-[10px] ">
                                         <div className="">
 
                                             <img data-v-6bc9d4d3=""
@@ -132,7 +132,7 @@ const DialogEditTransaction = () => {
 
                                 <div className="relative w-full pl-2 pr-2">
                                     <button id="button" onClick={() => dispatch(openDialogCategory())}
-                                            className=" w-full col-span-2 flex border border-gray-300 p-2 h-[60px]  rounded-[10px] hover:border-black">
+                                            className=" w-full bg-gray-50 col-span-2 flex border border-gray-300 p-2 h-[60px]  rounded-[10px] hover:border-black">
                                         <img data-v-6bc9d4d3=""
                                              src={selectCategoryState?.icon
                                                  ? selectCategoryState?.icon
@@ -173,7 +173,7 @@ const DialogEditTransaction = () => {
                                 <div className="w-full pl-2 pr-2">
                                     <input type="date" value={date ? date : detailTransactionState?.date?.split("T")[0]}
                                            onChange={handleChangeDate}
-                                           className="block p-4 pl-4 h-full w-full text-sm text-gray-900 bg-gray-50 rounded-lg border border-gray-300 focus:ring-blue-500 focus:border-blue-500 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
+                                           className="block p-4 pl-4 h-full w-full text-sm text-gray-900 bg-gray-50 rounded-lg border border-gray-300 focus:ring-blue-500 focus:border-blue-500 "
                                            placeholder=""/>
                                 </div>
                                 <div className="relative w-full col-span-2 pl-2 pr-2">
@@ -194,14 +194,14 @@ const DialogEditTransaction = () => {
                             <div
                                 className="flex items-center justify-end p-6  border-solid border-slate-200 rounded-b">
                                 <button
-                                    className="text-red-500 background-transparent font-bold uppercase px-6 py-2 text-sm outline-none focus:outline-none mr-1 mb-1 ease-linear transition-all duration-150"
+                                    className="text-[#F15A59] rounded-[5px] hover:bg-[#FEECEB] background-transparent font-bold uppercase px-6 py-2 text-sm outline-none focus:outline-none mr-1 mb-1 ease-linear transition-all duration-150"
                                     type="button"
                                     onClick={handleCloseDialogEditTransaction}
                                 >
-                                    Close
+                                    CLOSE
                                 </button>
                                 <button
-                                    className="bg-emerald-500 text-white active:bg-emerald-600 font-bold uppercase text-sm px-6 py-3 rounded shadow hover:shadow-lg outline-none focus:outline-none mr-1 mb-1 ease-linear transition-all duration-150"
+                                    className="bg-[#2EB74B] text-white active:bg-emerald-600 font-bold uppercase text-sm px-6 py-3 rounded shadow hover:shadow-lg outline-none focus:outline-none mr-1 mb-1 ease-linear transition-all duration-150"
                                     type="button"
                                     onClick={handleSaveEditTransaction}
                                 >

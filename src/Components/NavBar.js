@@ -142,7 +142,7 @@ function NavBar({children}) {
                 >
                     <img
                         className='rounded-full w-[35px] h-[35px] object-cover'
-                        src={currentWalletState?.icon?.url ? currentWalletState.icon.url : 'https://static.moneylover.me/img/icon/ic_category_all.png'}
+                        src={currentWalletState?.icon?.url ? currentWalletState?.icon?.url : 'https://static.moneylover.me/img/icon/ic_category_all.png'}
                     />
                     <Box sx={{ml: 1}}>
                         <Typography sx={{
@@ -162,7 +162,9 @@ function NavBar({children}) {
                             textAlign: 'left'
                         }}>
                             {/*total current wallet*/}
-                            {currentWalletState?.initial ? currentWalletState?.initial : "$ 0"}
+                            {currentWalletState?.currency
+                                ? currentWalletState?.initial + " " + currentWalletState?.currency?.code.split("-")[1]
+                                : "0"}
                         </Typography>
                     </Box>
 
@@ -178,52 +180,14 @@ function NavBar({children}) {
                 >
                     <Typography sx={{
                         fontWeight: 'light',
-                        fontSize: 13,
+                        fontSize: 16,
                         color: 'black',
                         textAlign: 'center',
                         m: 1
                     }}>
                         Select Wallet
                     </Typography>
-                    <Divider/>
-                    <MenuItem disableRipple onClick={() => {
-                        dispatch(selectCurrentWallet({initial:total}))
-                    }}>
-                        <img src="https://static.moneylover.me/img/icon/ic_category_all.png"
-                             className='rounded-full w-[35px] h-[35px] object-cover'
-                        />
-                        <Box sx={{ml: 2}}>
-                            <Typography sx={{
-                                fontWeight: 'bold',
-                                fontSize: 14,
-                                color: 'black',
-                                textAlign: 'left'
-                            }}>
-                                Total
-                            </Typography>
-                            <Typography sx={{
-                                fontWeight: 'light',
-                                fontSize: 12,
-                                color: 'black',
-                                textAlign: 'left'
-                            }}>
-                                {/*Total all wallet*/}
-                                {total}
-                            </Typography>
-                        </Box>
-                    </MenuItem>
-                    <Divider sx={{my: 0.5}}/>
-                    <Typography sx={{
-                        fontWeight: 'light',
-                        fontSize: 13,
-                        color: 'black',
-                        textAlign: 'center',
-                        m: 1
-                    }}>
-                        Included in Total
-                    </Typography>
 
-                    {/*Each wallet*/}
                     {user?.wallet?.map((wallet, index) => (
                         <div key={index}>
                             <Divider/>
