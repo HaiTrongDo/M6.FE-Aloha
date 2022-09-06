@@ -110,7 +110,7 @@ const DialogEditTransaction = () => {
                                 <div className="relative w-full pl-2 pr-2">
                                     <button id="button" onClick={() => dispatch(openDialogSelectWallet())}
                                             disabled={true}
-                                            className="w-full bg-gray-50 col-span-2 flex relative  border border-gray-300 p-2 h-[60px] hover:border-black rounded-[10px] ">
+                                            className="w-full  col-span-2 flex relative  border border-gray-300 p-2 h-[60px] hover:border-black rounded-[10px] ">
                                         <div className="">
 
                                             <img data-v-6bc9d4d3=""
@@ -132,7 +132,7 @@ const DialogEditTransaction = () => {
 
                                 <div className="relative w-full pl-2 pr-2">
                                     <button id="button" onClick={() => dispatch(openDialogCategory())}
-                                            className=" w-full bg-gray-50 col-span-2 flex border border-gray-300 p-2 h-[60px]  rounded-[10px] hover:border-black">
+                                            className=" w-full  col-span-2 flex border border-gray-300 p-2 h-[60px]  rounded-[10px] hover:border-black">
                                         <img data-v-6bc9d4d3=""
                                              src={selectCategoryState?.icon
                                                  ? selectCategoryState?.icon
@@ -160,7 +160,7 @@ const DialogEditTransaction = () => {
                                 <div className="relative w-full pl-2 pr-2">
                                     <input type="number" id="floating_filled" onChange={handleChangeAmount}
                                            value={amount}
-                                           className="block rounded-[10px] p-2 pl-5 pt-5 w-full h-full text-sm text-gray-900 bg-gray-50  border border-gray-300  appearance-none dark:text-black  focus:outline-none focus:ring-0 hover:border-black peer"
+                                           className="block rounded-[10px] p-2 pl-5 pt-5 w-full h-full text-sm text-gray-900   border border-gray-300  appearance-none dark:text-black  focus:outline-none focus:ring-0 hover:border-black peer"
                                            placeholder=" "/>
                                     <label htmlFor="floating_filled"
                                            className="absolute pl-4 text-sm text-gray-500 dark:text-gray-400 duration-300 transform -translate-y-4 scale-75 top-4 z-10 origin-[0] left-2.5   peer-placeholder-shown:scale-100 peer-placeholder-shown:translate-y-0 peer-focus:scale-75 peer-focus:-translate-y-4"
@@ -173,12 +173,12 @@ const DialogEditTransaction = () => {
                                 <div className="w-full pl-2 pr-2">
                                     <input type="date" value={date ? date : detailTransactionState?.date?.split("T")[0]}
                                            onChange={handleChangeDate}
-                                           className="block p-4 pl-4 h-full w-full text-sm text-gray-900 bg-gray-50 rounded-lg border border-gray-300 focus:ring-blue-500 focus:border-blue-500 "
+                                           className="block p-4 pl-4 h-full w-full text-sm text-gray-900  rounded-lg border border-gray-300 focus:ring-blue-500 focus:border-blue-500 "
                                            placeholder=""/>
                                 </div>
                                 <div className="relative w-full col-span-2 pl-2 pr-2">
                                     <input type="text" id="floating_filled" onChange={handleChangeNote} value={note}
-                                           className="block rounded-[10px] p-2 pl-6 pt-5 w-full h-full text-sm text-gray-900 bg-gray-50  border border-gray-300  appearance-none dark:text-black  focus:outline-none focus:ring-0 hover:border-black peer"
+                                           className="block rounded-[10px] p-2 pl-6 pt-5 w-full h-full text-sm text-gray-900   border border-gray-300  appearance-none dark:text-black  focus:outline-none focus:ring-0 hover:border-black peer"
                                            placeholder=" "/>
                                     <label htmlFor="floating_filled"
                                            className="absolute pl-3 text-sm text-gray-500 dark:text-gray-400 duration-300 transform -translate-y-4 scale-75 top-4 z-10 origin-[0] left-2.5   peer-placeholder-shown:scale-100 peer-placeholder-shown:translate-y-0 peer-focus:scale-75 peer-focus:-translate-y-4"

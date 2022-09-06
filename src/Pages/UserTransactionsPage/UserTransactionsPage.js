@@ -16,10 +16,12 @@ import {setSearchInputForNote} from "../../Features/SearchInput/SearchInputSlice
 import Transition from "../../Components/Transition";
 import {Dialog} from "@mui/material";
 import {isLoadingAPIScreen, afterLoadingAPIScreen} from '../../Features/isLoadingScreen/isLoadingScreen'
+import {useNavigate} from "react-router-dom";
 
 
 const UserTransactionsPage = () => {
     const dispatch = useDispatch()
+    const navigate = useNavigate();
     const user = JSON.parse(localStorage.getItem('alohaUser'))
     const currentWalletState = useSelector(state => state.currentWallet.value)
 
@@ -53,20 +55,20 @@ const UserTransactionsPage = () => {
 
     useEffect(() => {
         // if (currentWalletState?._id) {
-        axios.post('transaction/list/wallet', {user: user?._id, wallet: currentWalletState?._id})
-            .then(res => {
-                let inflow = res.data.data.filter(value => {
-                    return value?.category?.type === 'INCOME'
-                })
-                let sumInflow = 0
-                inflow.forEach(value => sumInflow += value.amount)
+            axios.post('transaction/list/wallet', {user: user?._id, wallet: currentWalletState?._id})
+                .then(res => {
+                    let inflow = res.data.data.filter(value => {
+                        return value?.category?.type === 'INCOME'
+                    })
+                    let sumInflow = 0
+                    inflow.forEach(value => sumInflow += value.amount)
 
 
-                let outFlow = res.data.data.filter(value => {
-                    return value?.category?.type === 'EXPENSE'
-                })
-                let sumOutFlow = 0
-                outFlow.forEach((value) => sumOutFlow += value?.amount)
+                    let outFlow = res.data.data.filter(value => {
+                        return value?.category?.type === 'EXPENSE'
+                    })
+                    let sumOutFlow = 0
+                    outFlow.forEach((value) => sumOutFlow += value?.amount)
 
                 setTotalOutflow(sumOutFlow)
                 setTotalInflow(sumInflow)
@@ -191,7 +193,11 @@ const UserTransactionsPage = () => {
                                     >{total} {currentWalletState?.currency?.code?.split("-")[1]}
                                 </span>
                                 </div>
-                                <div className=" flex text-[#2db84c] font-medium cursor-pointer">
+                                <div className=" flex text-[#2db84c] font-medium cursor-pointer"
+                                    onClick={()=>{
+                                        navigate('/report')
+                                    }}
+                                >
                                     <div className="w-full flex justify-center my-3">VIEW REPORT FOR THIS PERIOD</div>
                                 </div>
                             </div>

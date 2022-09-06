@@ -52,6 +52,7 @@ const DialogTransaction = () => {
         setDate(e.target.value)
     }
     const handleSaveTransaction = () => {
+        console.log({selectCategoryState})
         const transaction = {
             wallet: selectWalletState?.value,
             amount: amount * 1,
@@ -124,7 +125,7 @@ const DialogTransaction = () => {
 
                                 <div className="relative w-full pl-2 pr-2">
                                     <button id="button" onClick={() => dispatch(openDialogSelectWallet())}
-                                            className="w-full col-span-2 flex bg-gray-50 relative  border border-gray-300 p-2 h-[60px]  rounded-[10px] hover:border-black">
+                                            className="w-full col-span-2 flex  relative  border border-gray-300 p-2 h-[60px]  rounded-[10px] hover:border-black">
                                         <div className="">
 
                                             <img data-v-6bc9d4d3=""
@@ -145,7 +146,7 @@ const DialogTransaction = () => {
 
                                 <div className="relative w-full pl-2 pr-2">
                                     <button id="button" onClick={() => dispatch(openDialogCategory())}
-                                            className=" w-full col-span-2 flex border border-gray-300 p-2 h-[60px] bg-gray-50  rounded-[10px] hover:border-black">
+                                            className=" w-full col-span-2 flex border border-gray-300 p-2 h-[60px]   rounded-[10px] hover:border-black">
                                         <img data-v-6bc9d4d3=""
                                              src={selectCategoryState?.value?.name ? selectCategoryState?.value?.icon : 'https://static.moneylover.me/img/icon/icon_not_selected.png'}
                                              alt=""
@@ -171,7 +172,7 @@ const DialogTransaction = () => {
                                 <div className="relative w-full pl-2 pr-2">
                                     <input type="number" id="floating_filled" onChange={handleChangeAmount}
                                            value={amount}
-                                           className="block rounded-[10px] p-2 pl-5 pt-5 w-full h-full text-sm text-gray-900 bg-gray-50  border border-gray-300  appearance-none focus:outline-none focus:ring-0 hover:border-black peer"
+                                           className="block rounded-[10px] p-2 pl-5 pt-5 w-full h-full text-sm text-gray-900   border border-gray-300  appearance-none focus:outline-none focus:ring-0 hover:border-black peer"
                                            placeholder=" "/>
                                     <label htmlFor="floating_filled"
                                            className="absolute pl-4 text-sm text-gray-500 duration-300 transform -translate-y-4 scale-75 top-4 z-10 origin-[0] left-2.5   peer-placeholder-shown:scale-100 peer-placeholder-shown:translate-y-0 peer-focus:scale-75 peer-focus:-translate-y-4"
@@ -183,12 +184,12 @@ const DialogTransaction = () => {
                             <div className="grid grid-cols-3 gap-1 p-3 pt-0 px-6 pb-6">
                                 <div className="w-full pl-2 pr-2">
                                     <input type="date" value={date} onChange={handleChangeDate}
-                                           className="block p-4 pl-2 h-full w-full text-sm text-gray-900 bg-gray-50 rounded-lg border border-gray-300 focus:outline-none focus:ring-0  hover:border-black"
+                                           className="block p-4 pl-2 h-full w-full text-sm text-gray-900  rounded-lg border border-gray-300 focus:outline-none focus:ring-0  hover:border-black"
                                            placeholder=""/>
                                 </div>
                                 <div className="relative w-full col-span-2 pl-2 pr-2">
                                     <input type="text" id="floating_filled" onChange={handleChangeNote} value={note}
-                                           className="block rounded-[10px] p-2 pl-6 pt-5 w-full h-full text-sm text-gray-900 bg-gray-50  border border-gray-300  appearance-none focus:outline-none focus:ring-0 hover:border-black peer"
+                                           className="block rounded-[10px] p-2 pl-6 pt-5 w-full h-full text-sm text-gray-900   border border-gray-300  appearance-none focus:outline-none focus:ring-0 hover:border-black peer"
                                            placeholder=" "/>
                                     <label htmlFor="floating_filled"
                                            className="absolute pl-3 text-sm text-gray-500 duration-300 transform -translate-y-4 scale-75 top-4 z-10 origin-[0] left-2.5 peer-placeholder-shown:scale-100 peer-placeholder-shown:translate-y-0 peer-focus:scale-75 peer-focus:-translate-y-4"
@@ -212,14 +213,14 @@ const DialogTransaction = () => {
                                 </button>
                                 {activeSave
                                 ? <button
-                                        className="bg-emerald-500 text-white active:bg-emerald-600 font-bold uppercase text-sm px-6 py-3 rounded shadow hover:shadow-lg outline-none focus:outline-none mr-1 mb-1 ease-linear transition-all duration-150"
+                                        className="bg-[#2EB74B] text-white font-bold uppercase text-sm px-6 py-3 rounded shadow hover:shadow-lg outline-none focus:outline-none mr-1 mb-1 ease-linear transition-all duration-150"
                                         type="button"
                                         onClick={handleSaveTransaction}
                                     >
                                         Save Changes
                                     </button>
                                 : <button
-                                        className="bg-gray-300 text-white font-bold uppercase text-sm px-6 py-3 rounded shadow hover:shadow-lg outline-none focus:outline-none mr-1 mb-1 ease-linear transition-all duration-150"
+                                        className="bg-[#E0E0E0] text-[#ACACAC] font-bold uppercase text-sm px-6 py-3 rounded shadow hover:shadow-lg outline-none focus:outline-none mr-1 mb-1 ease-linear transition-all duration-150"
                                         type="button" disabled={true}
                                     >
                                         Save Changes

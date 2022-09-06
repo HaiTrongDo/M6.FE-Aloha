@@ -103,7 +103,13 @@ export default function DialogWallet({className}) {
                 if (walletData.initial > 0){
                     const dataTransaction = {
                         wallet:response.data.walletId,
-                        category:'6304a3470f0a39e5923a672a',
+                        category: {
+                            _id:'6316a5497058758749d1ec28',
+                            wallet:response.data.walletId,
+                            icon:'https://static.moneylover.me/img/icon/ic_category_other_income.png',
+                            name:'Other Income',
+                            type:'INCOME'
+                        },
                         amount:Number(walletData.initial),
                         date:new Date(new Date().getFullYear()
                             + ((new Date().getMonth() < 9) ? `-0${new Date().getMonth()+1}` : `-${new Date().getMonth()+1}`)
@@ -117,7 +123,13 @@ export default function DialogWallet({className}) {
                 }else {
                     const dataTransaction = {
                         wallet:response.data.walletId,
-                        category:'6304a22b0f0a39e5923a6727',
+                        category: {
+                            _id:'6316a5487058758749d1ec1b',
+                            wallet:response.data.walletId,
+                            icon:'https://static.moneylover.me/img/icon/icon_138.png',
+                            name:'Other Utility Bills',
+                            type:'EXPENSE'
+                        },
                         amount:Number(walletData.initial),
                         date:new Date(new Date().getFullYear()
                             + ((new Date().getMonth() < 9) ? `-0${new Date().getMonth()+1}` : `-${new Date().getMonth()+1}`)
@@ -183,7 +195,7 @@ export default function DialogWallet({className}) {
                                 <div className="grid grid-cols-3 gap-3">
                                     <button
                                         onClick={handleOpenDialogIcons}
-                                        className=" flex bg-gray-50  justify-center border border-gray-300 p-2 h-[60px] rounded-[10px] hover:border-black">
+                                        className=" flex   justify-center border border-gray-300 p-2 h-[60px] rounded-[10px] hover:border-black">
                                         <img className="w-10 h-10 rounded-full my-0.5" src={iconObj?.url}
                                              alt="..."/>
                                         <svg xmlns="http://www.w3.org/2000/svg"
@@ -197,7 +209,7 @@ export default function DialogWallet({className}) {
                                         <input type="text" id="floating_filled"
                                                onChange={handleChangeInput}
                                                name={"nameWallet"}
-                                               className="block rounded-[10px] p-2 pt-5 w-[296px] h-[60px] text-sm text-gray-900 bg-gray-50  border border-gray-300  appearance-none dark:text-black  focus:outline-none focus:ring-0 hover:border-black peer"
+                                               className="block rounded-[10px] p-2 pt-5 w-[296px] h-[60px] text-sm text-gray-900   border border-gray-300  appearance-none dark:text-black  focus:outline-none focus:ring-0 hover:border-black peer"
                                                placeholder=" "/>
                                         <label htmlFor="floating_filled"
                                                className="absolute text-sm text-gray-500 dark:text-gray-400 duration-300 transform -translate-y-4 scale-75 top-4 z-10 origin-[0] left-2.5   peer-placeholder-shown:scale-100 peer-placeholder-shown:translate-y-0 peer-focus:scale-75 peer-focus:-translate-y-4">Wallet
@@ -207,7 +219,7 @@ export default function DialogWallet({className}) {
                                     <button
                                         onClick={handleOpenDialogCurrency}
                                         id="button"
-                                        className="col-span-2 flex bg-gray-50 relative  border border-gray-300 p-2 h-[60px]  rounded-[10px] hover:border-black">
+                                        className="col-span-2 flex  relative  border border-gray-300 p-2 h-[60px]  rounded-[10px] hover:border-black">
                                         <img className="w-[24px] h-[24px] rounded-full my-3"
                                              src={currencyObj?.url}
                                              alt="..."/>
@@ -226,7 +238,7 @@ export default function DialogWallet({className}) {
                                             <input type="number" id="floating_filled_init"
                                                    onChange={handleChangeInput}
                                                    name={"initial"}
-                                                   className="block   rounded-[10px] p-2 pt-5 w-[140px] h-[60px] text-sm text-gray-900 bg-gray-50  border border-gray-300  appearance-none dark:text-black  focus:outline-none focus:ring-0 hover:border-black peer appearance-none"
+                                                   className="block   rounded-[10px] p-2 pt-5 w-[140px] h-[60px] text-sm text-gray-900   border border-gray-300  appearance-none dark:text-black  focus:outline-none focus:ring-0 hover:border-black peer appearance-none"
                                                    placeholder=" "/>
                                             <label htmlFor="floating_filled_init"
                                                    className="absolute text-sm text-gray-500 dark:text-gray-400 duration-300 transform -translate-y-4 scale-75 top-4 z-10 origin-[0] left-2.5   peer-placeholder-shown:scale-100 peer-placeholder-shown:translate-y-0 peer-focus:scale-75 peer-focus:-translate-y-4">Initial
@@ -248,7 +260,7 @@ export default function DialogWallet({className}) {
                                         Close
                                     </button>
                                     {isFull ? <button
-                                        className="bg-[#2EB74B] text-white active:bg-emerald-600 font-bold uppercase text-sm px-6 py-3 rounded shadow hover:shadow-lg outline-none focus:outline-none mr-1 mb-1 ease-linear transition-all duration-150"
+                                        className="bg-[#2EB74B] text-white  font-bold uppercase text-sm px-6 py-3 rounded shadow hover:shadow-lg outline-none focus:outline-none mr-1 mb-1 ease-linear transition-all duration-150"
                                         type="button"
                                         onClick={handleAddWallet}
                                         id="btn-create"
