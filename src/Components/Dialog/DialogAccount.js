@@ -15,6 +15,7 @@ import {useNavigate} from "react-router-dom";
 import swal from "sweetalert";
 import {selectCurrentWallet} from "../../Features/Transaction/currentWalletSlice";
 import axios from "axios";
+import {useEffect, useState} from "react";
 
 const BootstrapDialog = styled(Dialog)(({theme}) => ({
     '& .MuiDialogContent-root': {
@@ -56,13 +57,40 @@ BootstrapDialogTitle.propTypes = {
 };
 
 export default function DialogAccount() {
-
+    const user=JSON.parse(localStorage.getItem('alohaUser'))
     const navigate = useNavigate()
     const dispatch = useDispatch()
     const openDialogAccount = useSelector((state) => state.Dialog.value)
     const currentUser = useSelector((state) => state.currentUser.currentUser)
-    const userId = JSON.parse(localStorage.getItem('alohaUser'))?._id
+    const userId = JSON.parse(localStorage.getItem('alohaUser'))?._id;
+    const currentWalletState=useSelector(state=>state.currentWallet.value)
+    const[inflow,setInflow]=useState()
+    const[outflow,setOutflow]=useState()
 
+    useEffect(()=>{
+        axios.post('transaction/list/wallet', {
+            user: user?._id,
+            wallet: currentWalletState?._id
+        })
+            .then(res => {
+
+                let inflow = res.data.data.filter(value => {
+                    return value?.category?.type === 'INCOME'
+                })
+                let sumInflow = 0
+                inflow.forEach(value => sumInflow += value.amount)
+
+
+                let outFlow = res.data.data.filter(value => {
+                    return value?.category?.type === 'EXPENSE'
+                })
+                let sumOutFlow = 0
+                outFlow.forEach((value) => sumOutFlow += value?.amount)
+
+                setOutflow(sumOutFlow)
+                setInflow(sumInflow)
+            })
+    },[currentWalletState])
 
     const handleSignOut = () => {
         dispatch(closeDialog(false))
@@ -108,6 +136,10 @@ export default function DialogAccount() {
 
     }
 
+    function currencyFormat(num) {
+        return num?.toFixed(0)?.replace(/(\d)(?=(\d{3})+(?!\d))/g, '$1,')
+    }
+
     return (
         <>
             <BootstrapDialog
@@ -127,7 +159,7 @@ export default function DialogAccount() {
                             <div className="w-full flex justify-center">
                                 <div className="relative">
                                     <img
-                                        src={currentUser.avatarUrl ? currentUser.avatarUrl : "https://icon-library.com/images/default-profile-icon/default-profile-icon-24.jpg"}
+                                        src={currentUser?.avatarUrl ? currentUser?.avatarUrl : "https://icon-library.com/images/default-profile-icon/default-profile-icon-24.jpg"}
                                         className="shadow-xl object-cover w-[150px] h-[150px] rounded-full align-middle border-none absolute -m-16 -ml-20 lg:-ml-16 max-w-[150px]"
                                         alt=""/>
                                 </div>
@@ -136,17 +168,23 @@ export default function DialogAccount() {
                                 <div className="flex justify-center lg:pt-4 pt-8 pb-0">
                                     <div className="p-3 text-center">
                                         <span
-                                            className="text-xl font-bold block uppercase tracking-wide text-slate-700">3,360</span>
+                                            className="text-xl font-bold block uppercase tracking-wide text-slate-700"
+                                        >{currencyFormat(currentWalletState?.initial)}{currentWalletState?.currency?.code?.split('-')[1]}
+                                        </span>
                                         <span className="text-sm text-slate-400">Balance</span>
                                     </div>
                                     <div className="p-3 text-center">
                                         <span
-                                            className="text-xl font-bold block uppercase tracking-wide text-slate-700">2,454</span>
+                                            className="text-xl font-bold block uppercase tracking-wide text-slate-700"
+                                        >{currencyFormat(outflow)}{currentWalletState?.currency?.code?.split('-')[1]}
+                                        </span>
                                         <span className="text-sm text-slate-400">Expenses</span>
                                     </div>
                                     <div className="p-3 text-center">
                                         <span
-                                            className="text-xl font-bold block uppercase tracking-wide text-slate-700">564</span>
+                                            className="text-xl font-bold block uppercase tracking-wide text-slate-700"
+                                        >{currencyFormat(inflow)}{currentWalletState?.currency?.code?.split('-')[1]}
+                                        </span>
                                         <span className="text-sm text-slate-400">Income</span>
                                     </div>
                                 </div>
