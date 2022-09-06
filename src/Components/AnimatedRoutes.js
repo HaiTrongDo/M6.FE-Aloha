@@ -14,6 +14,7 @@ import {AnimatePresence} from "framer-motion"
 
 import {useEffect} from 'react'
 import {useSelector} from "react-redux";
+import {ResetPassword} from "../Pages/ResetPassword/ResetPassword";
 
 
 export default function AnimatedRoutes({setLoading}) {
@@ -40,6 +41,7 @@ export default function AnimatedRoutes({setLoading}) {
                     <Route path="/search" element={<UserSearchTransactionPage/>}/>
                     <Route path="/store" element={<UserTransactionsPage/>}/>
                     <Route path="/help" element={<UserTransactionsPage/>}/>
+                    <Route path="/reset-password" element={<ResetPassword/>}/>
                 </Route>
                 <Route path="/login" element={<LoginPage/>}/>
             </Routes>
