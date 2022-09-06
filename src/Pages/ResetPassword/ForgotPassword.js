@@ -2,39 +2,33 @@ import "./style.css"
 import {useState} from "react";
 import axios from "../../axios";
 import {useNavigate} from "react-router-dom";
-import { useParams } from "react-router-dom";
 
-export const ResetPassword = () => {
+export const ForgotPassword = () => {
     const navigate = useNavigate()
-    const [form, setForm] = useState({})
-    const [errMessage,setErrMessage] = useState('')
+
+    const [email, setEmail] = useState('');
+    const [message,setMessage] = useState("")
+    const [success,setSuccess] = useState('')
 
     const handleChange = (e) => {
-        setForm({
-            ...form,
-            [e.target.name]: e.target.value
-        })
+        setEmail(e.target.value)
     }
-    // console.log(form)
-    let {token} = useParams()
-    // console.log(token)
+
     const handleConfirm = async (e) => {
         e.preventDefault();
         let body = {
-            token : token,
-            password : form.password,
-            confirmPassword: form.confirmPassword
+            email: email
         }
         try {
-            await axios.post ('/auth/reset-password',body)
-                .then((r)=>{
-                    console.log(r)
-                    navigate('/login')
-                }).catch(err=>{
-                    console.log(err.response.data.message)
-                    setErrMessage(err.response.data.message)
+            await axios.post('/auth/forgot-password', body)
+                .then((r) => {
+                    console.log(r.data.message)
+                    setSuccess(r.data.success)
+                    setMessage(r.data.message)
+                }).catch(err => {
+                    console.log(err)
                 })
-        } catch (err){
+        } catch (err) {
             console.log(err)
         }
     }
@@ -49,22 +43,25 @@ export const ResetPassword = () => {
                                  className="object-cover  w-[100px] "/>
                             <p>Aloha</p>
                         </div>
+
                     </div>
                     <div className="wrapper">
                         <div className="content">
+                            <div className="forgot-psw-text font-weight-bold">
+                                <span>Forgot Password</span>
+                            </div>
+                            <div className="description">
+                                <span>Enter the email address you used to register, and we will send you an email to recover your password in no time.</span>
+                            </div>
                             <form>
                                 <div className="form">
                                     <div className="v-input">
-                                        <input name='password' onChange={handleChange} autoFocus="autofocus"
-                                               id="input-14"
-                                               placeholder="Password" type="password"/>
+                                        <input onChange={handleChange} autoFocus="autofocus" id="input-14"
+                                               placeholder="Email" type="text"/>
                                     </div>
-                                    <div className="v-input">
-                                        <input name='confirmPassword' onChange={handleChange} autoFocus="autofocus"
-                                               id="input-14"
-                                               placeholder="Confirm Password" type="password"/>
-                                    </div>
-                                    {errMessage && <p style={{color:'red'}}>{errMessage}</p>}
+                                    {
+                                        success ? <p style={{color: '#3ac330', marginBottom:'12px'}}>{message}</p> : <p style={{color: 'red',marginBottom:'12px'}}>{message}</p>
+                                    }
                                     <button onClick={handleConfirm} type="button" className="btn-submit-ml">
                                         <span className="v-btn__content">Confirm</span>
                                     </button>

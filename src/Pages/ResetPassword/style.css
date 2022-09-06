@@ -4,7 +4,8 @@
 /*    box-sizing: border-box;*/
 /*}*/
 .reset-password  {
-	background: linear-gradient(#00710f 314px,#ebebeb -100%);
+	/*background: linear-gradient(#2f4f4f 314px,#ebebeb -100%);*/
+    background: linear-gradient(to bottom, seagreen, darkcyan);
     min-height: 100vh;
     margin: 0;
     padding: 0;
@@ -72,7 +73,7 @@
     font-weight: bold;
 }
 .reset-password .wrapper .content .v-input {
-    margin: 24px auto 34px;
+    margin: 24px auto 30px;
     max-width: 280px;
     -webkit-box-align: start;
     -ms-flex-align: start;
@@ -98,7 +99,7 @@
 }
 .reset-password .wrapper .content .v-input input:hover,
 .reset-password .wrapper .content .v-input input:focus {
-    border: 2px solid #00bc2a;
+    border: 2px solid #008b8b;
     outline: none;
 }
 .reset-password .wrapper .content button.btn-submit-ml {
@@ -108,14 +109,12 @@
     width: 280px;
     margin-bottom: 16px;
     border-radius: 10px;
-    background-color: #00bc2a;
+    background-color: #008b8b;
     color: #fff;
     font-size: 16px;
     border: 0;
 }
-.reset-password .wrapper .content button.btn-submit-ml:hover{
-	background-color: #0c710f;
-}
+
 .reset-password .wrapper .navication {
     display: -webkit-box;
     display: -ms-flexbox;
@@ -126,5 +125,18 @@
     max-width: 240px;
 }
 .reset-password .wrapper .navication p.color {
-	color: #13ba36;
+	color: #008b8b;
+}
+.reset-password .content-icon {
+    text-align: center;
+    margin-top: 35px;
+}
+.reset-password .content-icon img {
+    display: inline-block;
+}
+.reset-password .content-icon p {
+    color: #DDDDDD;
+    font-size: 38px;
+    font-weight: bold;
+    margin: 0 0 20px;
 }

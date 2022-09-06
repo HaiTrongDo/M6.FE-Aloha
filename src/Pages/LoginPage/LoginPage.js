@@ -245,7 +245,7 @@ const currentWalletState=useSelector(state=>state.currentWallet.value)
                             {validateSignInMsg.password &&
                                 <p className='text-red-500 text-xs italic'>{validateSignInMsg.password}</p>}
                         </div>
-                        <Link to="" style={{color: 'darkcyan', margin: '20px'}}>Forgot your password?</Link>
+                        <Link to="/forgot-password" style={{color: 'darkcyan', margin: '20px'}}>Forgot your password?</Link>
                         <button onClick={handleSignIn}>Sign In</button>
                     </form>
                 </div>

@@ -35,6 +35,7 @@ import {useNavigate} from "react-router-dom";
 import {selectDataWallet, setIdWallet} from "../../Features/DialogCategorySlice/selectDataWalletOnCategory";
 import {motion} from "framer-motion"
 import Variants from "../../Components/Variants";
+import './Category.css'
 import {afterLoadingAPIScreen, isLoadingAPIScreen} from "../../Features/isLoadingScreen/isLoadingScreen";
 
 
@@ -378,7 +379,7 @@ function Category() {
                         {/*</Grid>*/}
 
                     </div>
-                    {checked && <div className='w-1/2 flex '>
+                    {checked && <div className='w-1/2 flex category-right'>
 
                         {/*<Grid xs={6} md={4}>*/}
                         <Box sx={{height: 1250}}>
@@ -396,7 +397,7 @@ function Category() {
                                 <Box>
                                     <Box sx={{width: '100%',}}>
                                         <Collapse orientation="horizontal" in={checked}>
-                                            <Card position="fixed" sx={{minWidth: 700, bgcolor: 'white'}}>
+                                            <Card position="fixed" sx={{bgcolor: 'white'}}>
                                                 <CardHeader sx={{height: '50px'}}
                                                             avatar={
                                                                 <Button onClick={handleClose}>
