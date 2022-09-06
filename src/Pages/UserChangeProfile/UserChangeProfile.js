@@ -133,7 +133,7 @@ const UserChangeProfile = () => {
                                     </label>
                                     <input type="text" id="name" name='username' value={formData.username}
                                            onChange={(e) => handleChange(e)}
-                                           className="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 "
+                                           className=" border hover:border-black border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 "
                                            placeholder="John" required={true}/>
                                     <span className="nameErrorMessage">It cannot be empty</span>
                                 </div>
@@ -144,7 +144,7 @@ const UserChangeProfile = () => {
                                     <input type="text" id="company" name="company"
                                            value={formData.company}
                                            onChange={(e) => handleChange(e)}
-                                           className="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 "
+                                           className=" border hover:border-black border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 "
                                            placeholder="CodeGym" required=""/>
                                 </div>
                                 <div>
@@ -156,7 +156,7 @@ const UserChangeProfile = () => {
                                     <input type="telNo" id="phone" name='phone'
                                            value={formData.phone}
                                            onChange={(e) => handleChange(e)}
-                                           className=" userPhoneInput bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 "
+                                           className=" userPhoneInput hover:border-black border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 "
                                            placeholder="123-45-6789" pattern="\d{10,}" required=""
                                     />
                                     <span
@@ -171,7 +171,7 @@ const UserChangeProfile = () => {
 
                                            max={new Date().toISOString().split("T")[0]}
                                            onChange={(e) => handleChange(e)}
-                                           className="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 "
+                                           className=" border hover:border-black border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 "
                                            placeholder="" required=""/>
                                 </div>
                             </div>
@@ -182,7 +182,7 @@ const UserChangeProfile = () => {
                                 <input type="email" id="email" name='email'
                                        value={formData.email}
                                        onChange={(e) => handleChange(e)}
-                                       className="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 "
+                                       className=" border hover:border-black border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 "
                                        placeholder="john.doe@codegym.com.vn" required={true}/>
                                 <span
                                     className="emailErrorMessage font-medium">Invalid Email</span>
@@ -195,7 +195,7 @@ const UserChangeProfile = () => {
                                     <input onChange={(e) => {
                                         setFormData((prev) => ({...prev, imageUpload: e.target.files[0]}))
                                     }}
-                                           className="form-control block w-full px-3 py-1.5 text-base font-normal text-gray-900 bg-white bg-clip-padding border border-solid border rounded-lg border-gray-300  transition ease-in-out m-0 focus:text-gray-700 focus:bg-white focus:border-blue-600 focus:outline-none"
+                                           className="form-control hover:border-black block w-full px-3 py-1.5 text-base font-normal text-gray-900 bg-white bg-clip-padding border border-solid border rounded-lg border-gray-300  transition ease-in-out m-0 focus:text-gray-700 focus:bg-white focus:border-blue-600 focus:outline-none"
                                            type="file" id="formFile"/>
                                 </div>
                             </div>
@@ -203,7 +203,7 @@ const UserChangeProfile = () => {
                                 {progress ? <h2>Uploading done {progress}%</h2> : ""}
                                 <button type="submit"
 
-                                        className="btnUpdateProfile disabled:bg-amber-500 text-white bg-blue-700 hover:bg-blue-800 focus:ring-4 focus:outline-none focus:ring-blue-300 font-medium rounded-lg text-sm w-full sm:w-auto px-5 mt-2.5 py-2.5 text-center dark:bg-blue-600 ">Submit
+                                        className="btnUpdateProfile bg-[#2EB74B] text-white focus:ring-4 focus:outline-none focus:ring-blue-300 font-medium rounded-lg text-sm w-full sm:w-auto px-5 mt-2.5 py-2.5 text-center  ">SAVE CHANGE
                                 </button>
                             </div>
                         </form>

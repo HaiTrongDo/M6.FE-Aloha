@@ -11,7 +11,7 @@ import swal from "sweetalert";
 export default function DialogBalance(props) {
     const [walletObj, setWalletObj] = useState(props.walletObj || {});
     const [initialInput, setInitialInput] = useState(props.walletObj.initial);
-    const [isFull,setIsFull] = useState(false)
+    const [isFull, setIsFull] = useState(false)
     const dispatch = useDispatch();
     const userId = JSON.parse(localStorage.getItem('alohaUser'))._id
 
@@ -43,13 +43,19 @@ export default function DialogBalance(props) {
         setTimeout(() => {
             swal.close()
         }, 1000)
-        if (data.initial > walletObj.initial){
+        if (data.initial > walletObj.initial) {
             const dataTransaction = {
-                wallet:walletObj._id,
-                category:'6304a3470f0a39e5923a672a',
-                amount:Number(data.initial)-Number(walletObj.initial),
-                date:new Date(new Date().getFullYear()
-                    + ((new Date().getMonth() < 9) ? `-0${new Date().getMonth()+1}` : `-${new Date().getMonth()+1}`)
+                wallet: walletObj._id,
+                category: {
+                    _id: '6316a5497058758749d1ec28',
+                    wallet: walletObj._id,
+                    icon: 'https://static.moneylover.me/img/icon/ic_category_other_income.png',
+                    name: 'Other Income',
+                    type: 'INCOME'
+                },
+                amount: Number(data.initial) - Number(walletObj.initial),
+                date: new Date(new Date().getFullYear()
+                    + ((new Date().getMonth() < 9) ? `-0${new Date().getMonth() + 1}` : `-${new Date().getMonth() + 1}`)
                     + "-" + new Date().getDate()),
                 user: userId
             }
@@ -57,13 +63,19 @@ export default function DialogBalance(props) {
             axios.post('http://localhost:8080/transaction/add', dataTransaction).then(r => {
                 console.log(r)
             })
-        }else {
+        } else {
             const dataTransaction = {
-                wallet:walletObj._id,
-                category:'6304a22b0f0a39e5923a6727',
-                amount:Number(walletObj.initial)-Number(data.initial),
-                date:new Date(new Date().getFullYear()
-                    + ((new Date().getMonth() < 9) ? `-0${new Date().getMonth()+1}` : `-${new Date().getMonth()+1}`)
+                wallet: walletObj._id,
+                category: {
+                    _id: '6316a5487058758749d1ec1b',
+                    wallet: walletObj._id,
+                    icon: 'https://static.moneylover.me/img/icon/icon_138.png',
+                    name: 'Other Utility Bills',
+                    type: 'EXPENSE'
+                },
+                amount: Number(walletObj.initial) - Number(data.initial),
+                date: new Date(new Date().getFullYear()
+                    + ((new Date().getMonth() < 9) ? `-0${new Date().getMonth() + 1}` : `-${new Date().getMonth() + 1}`)
                     + "-" + new Date().getDate()),
                 user: userId
             }
@@ -76,12 +88,12 @@ export default function DialogBalance(props) {
 
     const dialogWalletState = useSelector(state => state.dialogWallet.value);
 
-    useEffect(()=>{
+    useEffect(() => {
         if (data.initial === walletObj.initial) {
             setIsFull(true)
-        }else if (!data.initial){
+        } else if (!data.initial) {
             setIsFull(true)
-        }else {
+        } else {
             setIsFull(false)
         }
     })
@@ -112,9 +124,9 @@ export default function DialogBalance(props) {
                         </div>
                         {/*body*/}
                         <div className="modal-body relative  flex-auto p-4 pb-0">
-                            <div className="relative w-full pl-2 pr-2">
+                            <div className="relative w-full  pl-2 pr-2">
                                 <button id="button" onClick={() => dispatch(openDialogSelectWallet())}
-                                        className="w-full col-span-2 flex relative bg-gray-50 border border-gray-300 p-2 h-[60px]  rounded-[10px] hover:border-black">
+                                        className="w-full col-span-2 flex relative  border border-gray-300 p-2 h-[60px]  rounded-[10px] hover:border-black">
                                     <div className="">
                                         <img data-v-6bc9d4d3=""
                                              src={walletObj?.icon?.url}
@@ -124,7 +136,7 @@ export default function DialogBalance(props) {
                                     <div className={"flex"}>
                                         <span className="my-3 mx-2 absolute ">{walletObj?.name}</span>
                                         <label htmlFor="button"
-                                               className="absolute text-sm text-gray-500 dark:text-gray-400 duration-300 transform -translate-y-4 scale-75 top-4 z-10 origin-[0] left-2.5   peer-placeholder-shown:scale-100 peer-placeholder-shown:translate-y-0 peer-focus:scale-75 peer-focus:-translate-y-4"
+                                               className="absolute text-sm text-gray-500  duration-300 transform -translate-y-4 scale-75 top-4 z-10 origin-[0] left-2.5   peer-placeholder-shown:scale-100 peer-placeholder-shown:translate-y-0 peer-focus:scale-75 peer-focus:-translate-y-4"
                                         >Wallet
                                         </label>
                                         <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24"
@@ -138,9 +150,11 @@ export default function DialogBalance(props) {
                                 <div className={"relative mt-5 w-full "}>
                                     <input type="number" id="floating_filled"
                                            name={"name"}
-                                           onChange={(e)=>{setInitialInput(Number(e.target.value))}}
+                                           onChange={(e) => {
+                                               setInitialInput(Number(e.target.value))
+                                           }}
                                            defaultValue={walletObj?.initial}
-                                           className="block bg-gray-50 rounded-[10px] p-2 pl-4 pt-7 w-full h-[64px] text-[20px] text-gray-900  border border-gray-300  appearance-none dark:text-black  focus:outline-none focus:ring-0 hover:border-black peer"
+                                           className="block  rounded-[10px] p-2 pl-4 pt-7 w-full h-[64px] text-[20px] text-gray-900  border border-gray-300  appearance-none dark:text-black  focus:outline-none focus:ring-0 hover:border-black peer"
                                            placeholder="$ 0"/>
                                     <label htmlFor="floating_filled"
                                            className="absolute text-[16px] p-2 text-gray-500 dark:text-gray-400 duration-300 transform -translate-y-4 scale-75 top-4 z-10 origin-[0] left-2.5   ">
