@@ -6,7 +6,6 @@ import {openDialogWallet} from "../../Features/DiaLogSlice/openDialogMyWalletSli
 import {useNavigate} from "react-router-dom";
 import {openDialogDetail} from "../../Features/DiaLogSlice/openDialogDetailSlice";
 import DialogDetailWallet from "../../Components/Dialog/DialogDetailWallet";
-import {setWalletId} from "../../Features/SelectWallet/walletIdSlice";
 import {motion} from "framer-motion"
 import Variants from "../../Components/Variants"
 import {afterLoadingAPIScreen, isLoadingAPIScreen} from "../../Features/isLoadingScreen/isLoadingScreen";
@@ -17,6 +16,10 @@ export default function MyWallet() {
     const [wallets, setWallets] = useState([])
     const [walletId, setWalletId] = useState('')
 
+    const navigate = useNavigate();
+    const dispatch = useDispatch();
+    const currentUser = JSON.parse(localStorage.getItem('alohaUser'));
+
     const walletState = useSelector((state) =>
         state.DialogWallet.value
     )
@@ -25,21 +28,12 @@ export default function MyWallet() {
         state.DialogDetail.value
     )
 
-    const navigate = useNavigate();
-
-    const wallet = useSelector((state) =>
-        state.DialogWallet.value
-    )
-    const dispatch = useDispatch();
-
-    const currentUser = JSON.parse(localStorage.getItem('alohaUser'));
 
     useEffect(() => {
         dispatch(openDialogDetail(false))
     }, [])
 
     useEffect(() => {
-
         const qs = require('qs');
         const data = qs.stringify({
             'userId': currentUser._id
@@ -71,7 +65,6 @@ export default function MyWallet() {
     const handleOpenDialogDetail = (e, wallet) => {
         dispatch(openDialogDetail(true))
         setWalletId(wallet._id)
-
     }
 
     return (

@@ -170,7 +170,7 @@ const currentWalletState=useSelector(state=>state.currentWallet.value)
                                 className="fab fa-google-plus-g"/></Link>
                             <Link to="" onClick={() => signInWithFireBase(auth, githubAuthProvider)}
                                   className="social hover:text-black-700"><i
-                                className="fab fa-linkedin-in"/></Link>
+                                className="fab fa-github"/></Link>
                         </div>
                         <span style={{margin: '10px'}}>or use your email for registration</span>
                         <input type="text" name='username' placeholder="Name" onChange={handleChangeSignUp}/>
