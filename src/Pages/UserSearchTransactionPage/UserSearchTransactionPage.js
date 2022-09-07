@@ -6,7 +6,7 @@ import {motion} from "framer-motion"
 import Variants from "../../Components/Variants";
 
 import {useDispatch, useSelector} from "react-redux";
-import {selectDetailTransaction} from "../../Features/Transaction/detailTransactionSlice";
+import {detailTransactionSlice, selectDetailTransaction} from "../../Features/Transaction/detailTransactionSlice";
 import Button from "@mui/material/Button";
 import axios from "../../axios";
 import {selectCurrentWallet} from "../../Features/Transaction/currentWalletSlice";
@@ -72,14 +72,16 @@ const UserSearchTransactionPage = () => {
     }, [])
 
     useEffect(() => {
-        axios.post('wallet/updateBalance', {walletId: currentWalletState._id, initial: total})
-            .then(res => {
-                dispatch(selectCurrentWallet({...currentWalletState, initial: total}))
-                axios.post('wallet/render', {userId: user._id})
-                    .then(res => {
-                        dispatch(UserLoginWithPassword({...user, wallet: res.data.data}))
-                    })
-            })
+        if (currentWalletState?._id) {
+            axios.post('wallet/updateBalance', {walletId: currentWalletState._id, initial: total})
+                .then(res => {
+                    dispatch(selectCurrentWallet({...currentWalletState, initial: total}))
+                    axios.post('wallet/render', {userId: user._id})
+                        .then(res => {
+                            dispatch(UserLoginWithPassword({...user, wallet: res.data.data}))
+                        })
+                })
+        }
     }, [total])
 
     const handleCLoseDetail = () => {
@@ -93,7 +95,6 @@ const UserSearchTransactionPage = () => {
         dispatch(openDialogEditTransaction());
     }
     const handleDeleteTransaction = () => {
-
         swal({
             title: "Are you sure?",
             text: "Once deleted, you will not be able to recover this record!",
@@ -103,35 +104,39 @@ const UserSearchTransactionPage = () => {
         })
             .then((willDelete) => {
                 if (willDelete) {
-                    axios.post('transaction/delete', {id: detailTransactionState._id})
+
+                    axios.post('transaction/delete', {id: detailTransactionState?._id})
                         .then(() => {
-                            axios.post('transaction/search', {
-                                userId: user._id,
-                                wallet: searchInput.wallet,
-                                category: searchInput.category,
-                                date: searchInput.date,
-                                note: searchInput.note
-                            })
-                                .then(res => {
-                                    let inflow = res.data.data.filter(value => {
-                                        return value?.category?.type === 'INCOME'
-                                    })
-                                    let sumInflow = 0
-                                    inflow.forEach(value => sumInflow += value?.amount)
+                            if (detailTransactionState?._id){
+                                axios.post('transaction/search', {
+                                    userId: user._id,
+                                    wallet: searchInput.wallet,
+                                    category: searchInput.category,
+                                    date: searchInput.date,
+                                    note: searchInput.note
+                                })
+                                    .then(res => {
+                                        let inflow = res.data.data.filter(value => {
+                                            return value?.category?.type === 'INCOME'
+                                        })
+                                        let sumInflow = 0
+                                        inflow.forEach(value => sumInflow += value?.amount)
 
-                                    let outFlow = res.data.data.filter(value => {
-                                        return value?.category?.type === 'EXPENSE'
-                                    })
-                                    let sumOutFlow = 0
-                                    outFlow.forEach((value) => sumOutFlow += value?.amount)
+                                        let outFlow = res.data.data.filter(value => {
+                                            return value?.category?.type === 'EXPENSE'
+                                        })
+                                        let sumOutFlow = 0
+                                        outFlow.forEach((value) => sumOutFlow += value?.amount)
 
-                                    setTotalOutflow(sumOutFlow)
-                                    setTotalInflow(sumInflow)
-                                    setTotal(sumInflow - sumOutFlow)
-                                    setListTransaction(res.data.data)
-                                    setToggleDetail(false)
-                                }).catch(error => console.log(error.message))
-                        }).catch(error => console.log(error.message))
+                                        setTotalOutflow(sumOutFlow)
+                                        setTotalInflow(sumInflow)
+                                        setTotal(sumInflow - sumOutFlow)
+                                        setListTransaction(res.data.data)
+                                        setToggleDetail(false)
+                                    }).catch(error => console.log(error.message))
+                            }
+
+                           }).catch(error => console.log(error.message))
                     swal("Poof! Your record has been deleted!", {
                         icon: "success",
                     });
@@ -261,7 +266,7 @@ const UserSearchTransactionPage = () => {
                                                      viewBox="0 0 24 24"
                                                      stroke="currentColor" strokeWidth="2">
                                                     <path strokeLinecap="round" strokeLinejoin="round"
-                                                          d="M6 18L18 6M6 6l12 12"></path>
+                                                          d="M6 18L18 6M6 6l12 12"/>
                                                 </svg>
                                             </button>
                                             <div className="pl-[15px] text-[20px] h-6 font-sans ml-2 font-semibold">

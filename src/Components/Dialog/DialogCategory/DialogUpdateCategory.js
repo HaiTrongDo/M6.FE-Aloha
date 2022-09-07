@@ -26,7 +26,6 @@ import {setDataCategory} from "../../../Features/DialogCategorySlice/dataCategor
 import Stack from '@mui/material/Stack';
 import MuiAlert from '@mui/material/Alert';
 import {closeDialogUpdateCategory} from "../../../Features/DialogCategorySlice/openDialogUpdateCategorySlice";
-import {setSelectIcon} from "../../../Features/DiaLogSlice/selectIconSlice";
 import {
     setUpdateDataNameCategory,
     setUpdateDataTypeCategory
@@ -39,12 +38,9 @@ const alert = React.forwardRef(function Alert(props, ref) {
     return <MuiAlert elevation={6} ref={ref} variant="filled" {...props} />;
 });
 export default function DialogUpdateCategory() {
-    let navigate = useNavigate();
     const [open, setOpen] = React.useState(false); //bat tat alert thong bao
     const [messageSucsess, setMessageSucsess] = useState('')
     const [messageErr, setMessageErr] = useState('')
-    // const [name, setName] = useState('')
-    // const [type, setType] = useState('EXPENSE')
     const dispatch = useDispatch()
     const openDialogUpdateCategory = useSelector((state) => state.UpdateCategory.value)
     const dataWallet = useSelector((state) => state.SelectDataWalletOnCategory.value)

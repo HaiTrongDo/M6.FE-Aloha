@@ -127,7 +127,6 @@ const UserReportPage = () => {
                                     <div className="m-auto xl:w-60">
                                         <input type="month"
                                                onChange={selectPrior}
-                                               maxDate={new Date()}
                                                value={selectedDate}
                                                className="form-select hover:bg-gray-400 appearance-none block  w-full px-3 py-1.5 text-base font-normal text-gray-700 bg-gray-200 bg-clip-padding bg-no-repeat border border-solid border-gray-300 rounded transition ease-in-out m-0 focus:text-gray-700 focus:bg-white focus:border-gray-600 focus:outline-none"
                                                aria-label="Default select example">
