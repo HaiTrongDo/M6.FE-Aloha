@@ -2,12 +2,12 @@ import "./style.css"
 import {useState} from "react";
 import axios from "../../axios";
 import {useNavigate} from "react-router-dom";
-import { useParams } from "react-router-dom";
+import {useParams} from "react-router-dom";
 
 export const ResetPassword = () => {
     const navigate = useNavigate()
-    const [form, setForm] = useState({password:'',confirmPassword:''})
-    const [errMessage,setErrMessage] = useState('')
+    const [form, setForm] = useState({password: '', confirmPassword: ''})
+    const [errMessage, setErrMessage] = useState('')
 
     const handleChange = (e) => {
         setForm({
@@ -21,20 +21,20 @@ export const ResetPassword = () => {
     const handleConfirm = async (e) => {
         e.preventDefault();
         let body = {
-            token : token,
-            password : form.password,
+            token: token,
+            password: form.password,
             confirmPassword: form.confirmPassword
         }
         try {
-            await axios.post ('/auth/reset-password',body)
-                .then((r)=>{
+            await axios.post('/auth/reset-password', body)
+                .then((r) => {
                     console.log(r)
                     navigate('/login')
-                }).catch(err=>{
+                }).catch(err => {
                     console.log(err.response.data.message)
                     setErrMessage(err.response.data.message)
                 })
-        } catch (err){
+        } catch (err) {
             console.log(err)
         }
     }
@@ -59,7 +59,7 @@ export const ResetPassword = () => {
                                                id="input-14"
                                                value={form.password}
                                                placeholder="Password" type="password"
-                                               pattern="\w{10,}"/>
+                                               pattern="\w{6,}"/>
 
                                     </div>
                                     <div className="v-input">
@@ -70,8 +70,8 @@ export const ResetPassword = () => {
                                                pattern={form.password}
                                         />
                                     </div>
-                                    {errMessage && <p style={{color:'red'}}>{errMessage}</p>}
-                                    <button  type="submit" className="btn-submit-ml">
+                                    {errMessage && <p style={{color: 'red'}}>{errMessage}</p>}
+                                    <button type="submit" className="btn-submit-ml">
                                         <span className="v-btn__content">Confirm</span>
                                     </button>
                                 </div>

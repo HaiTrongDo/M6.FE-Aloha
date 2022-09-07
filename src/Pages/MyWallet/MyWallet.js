@@ -86,7 +86,7 @@ export default function MyWallet() {
                         <div className="container flex flex-wrap justify-between items-center ">
                             <div className="flex p-2 ">
                                 <button onClick={() => {
-                                    navigate(-1)
+                                    navigate('/Transactions')
                                 }}>
                                     <svg xmlns="http://www.w3.org/2000/svg"
                                          className="h-6 w-6 text-[#ccc] text-xl  hover:text-black ml-16" fill="none"
@@ -116,9 +116,9 @@ export default function MyWallet() {
                 <div
                     className={detailState ? "flex justify-center w-1/2 top-0 left-20 transition-transform " : "flex justify-center w-1/2"}
                     id={"wallet"}>
-                    <div className=" border mt-[100px] w-[80%]  text-xs text-gray-900 drop-shadow-2xl">
+                    <div className=" border mt-[100px] w-[80%]  text-sm text-gray-900 drop-shadow-2xl">
                         <div
-                            className={"text-left text-[#707070] px-6 py-2 border-b border-r border-gray-200 w-full h-[40px] bg-[#F4F4F4]  cursor-pointer"}>
+                            className={"text-left text-[#707070] px-6 py-2 border-b border-r border-gray-200 w-full h-[40px] bg-[#F4F4F4] "}>
                             Included in Total
                         </div>
                         {wallets.map((wallet, index) => {
