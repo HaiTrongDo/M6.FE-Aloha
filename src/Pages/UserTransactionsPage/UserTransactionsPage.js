@@ -23,6 +23,7 @@ const UserTransactionsPage = () => {
     const navigate = useNavigate();
     const user = JSON.parse(localStorage.getItem('alohaUser'))
     const currentWalletState = useSelector(state => state.currentWallet.value)
+    const listWallet = useSelector(state => state.currentWallet.value)
     const dialogTransactionState = useSelector(state => state.dialogTransaction.value);
     const [toggleDetail, setToggleDetail] = useState(false)
     const [active, setActive] = useState("py-3 sm:py-4 hover:bg-emerald-50 hover:cursor-pointer")
@@ -50,6 +51,22 @@ const UserTransactionsPage = () => {
         date: '',
         note: ''
     }));
+
+    useEffect(()=>{
+        dispatch(isLoadingAPIScreen())
+        axios.post('wallet/render', {userId: user._id})
+            .then(res => {
+                dispatch(UserLoginWithPassword({
+                    ...user,
+                    wallet: res.data.data
+                }))
+                dispatch(afterLoadingAPIScreen())
+            })
+            .catch(err=>{
+                dispatch(afterLoadingAPIScreen())
+                console.log(err.message)
+            })
+    },[])
 
     useEffect(() => {
         axios.post('transaction/list/wallet', {user: user?._id, wallet: currentWalletState?._id})
@@ -85,8 +102,14 @@ const UserTransactionsPage = () => {
                         .then(res => {
                             dispatch(UserLoginWithPassword({...user, wallet: res.data.data}))
                             dispatch(afterLoadingAPIScreen())
-                        }).catch(error => console.log(error.message))
-                }).catch(error => console.log(error.message))
+                        }).catch(error => {
+                        dispatch(afterLoadingAPIScreen())
+                        console.log(error.message)
+                    })
+                }).catch(error => {
+                dispatch(afterLoadingAPIScreen())
+                console.log(error.message)
+            })
         } else {
             dispatch(afterLoadingAPIScreen())
         }

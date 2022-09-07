@@ -11,6 +11,7 @@ import {openDialogCurrency} from "../../Features/DiaLogSlice/openDialogCurrencyS
 import {Dialog, DialogActions, Zoom} from "@mui/material";
 import Transition from "../Transition"
 import swal from "sweetalert";
+import {UserLoginWithPassword} from "../../Features/CurrentUser/UserSlice";
 
 
 export default function DialogWallet() {
@@ -20,6 +21,7 @@ export default function DialogWallet() {
     })
 
     const userId = JSON.parse(localStorage.getItem('alohaUser'))._id
+    const user=JSON.parse(localStorage.getItem('alohaUser'))
 
     const [isFull,setIsFull] = useState(false)
 
@@ -115,6 +117,13 @@ export default function DialogWallet() {
                         user: userId
                     }
                     e.preventDefault()
+                    axios.post('wallet/render', {userId: userId})
+                        .then(res => {
+                            dispatch(UserLoginWithPassword({
+                                ...user,
+                                wallet: res.data.data
+                            }))
+                        })
                     axios.post('transaction/add', dataTransaction).then(r => {
                     })
                 }else {

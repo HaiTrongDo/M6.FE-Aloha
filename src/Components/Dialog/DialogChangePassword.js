@@ -9,12 +9,11 @@ import DialogTitle from '@mui/material/DialogTitle';
 import {closeDialogChangePass} from "../../Features/DiaLogSlice/openDialogChangePassSlice";
 import Box from "@mui/material/Box";
 import {useEffect, useState} from "react";
-import axios from "axios";
+import axios from '../../axios/index'
 import {FilledInput, IconButton, InputAdornment, InputLabel, OutlinedInput} from "@mui/material";
 import {Visibility, VisibilityOff} from "@mui/icons-material";
-import {Validation, fieldValidatorCore} from "react-validation-framework";
-import validator from "validator";
-
+import swal from "sweetalert";
+import {useNavigate} from "react-router-dom";
 
 
 export default function DialogChangePassword() {
@@ -30,6 +29,7 @@ export default function DialogChangePassword() {
     const [isFull, setIsFull] = useState(false)
     const dispatch = useDispatch()
     const openDialogChangePass = useSelector((state) => state.DialogPass.value)
+    const navigate = useNavigate()
 
     const handleCloseChangePass = () => {
         dispatch(closeDialogChangePass(false))
@@ -73,21 +73,44 @@ export default function DialogChangePassword() {
             newPassword: data.newPassword,
             confirmPassword: data.confirmPassword
         }
-        console.log(body)
         let token = JSON.parse(localStorage.getItem('JWT'))
-        console.log(token)
-        await axios.put('http://localhost:8080/auth/change-password',
+
+        axios.put('auth/change-password',
             body, {
                 headers: {
                     Authorization: `Bearer ${token}`
                 }
+            })
+            .then(() => {
+                swal({
+                    icon: "success",
+                    button: null,
+                })
+                    .then(() => {
+                        navigate('/login')
+                    })
+                setTimeout(() => {
+                    swal.close()
+                }, 1000)
+            })
+            .catch((err) => {
+                swal({
+                    icon: "error",
+                    button: null,
+                })
+                    .then(() => {
+                        console.log(err.message)
+                    })
+                setTimeout(() => {
+                    swal.close()
+                }, 1000)
             })
 
     }
     useEffect(() => {
         if (!data.oldPassword || !data.newPassword || !data.confirmPassword) {
             setIsFull(false)
-        }else {
+        } else {
             setIsFull(true)
         }
     })
