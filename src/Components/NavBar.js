@@ -192,6 +192,7 @@ function NavBar({children}) {
                         <div key={index}>
                             <Divider/>
                             <MenuItem disableRipple onClick={() => {
+                                setAnchorEl(null);
                                 dispatch(selectCurrentWallet(wallet));
 
                             }}>
