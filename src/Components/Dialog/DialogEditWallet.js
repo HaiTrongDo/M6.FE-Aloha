@@ -10,6 +10,7 @@ import {closeDialogEditWallet} from "../../Features/DiaLogSlice/openDialogEditWa
 import Transition from "../Transition";
 import {Dialog} from "@mui/material";
 import swal from "sweetalert";
+import NumberFormat from 'react-number-format';
 
 export default function DialogWallet(props) {
     const [isFull, setIsFull] = useState(false)
@@ -224,7 +225,7 @@ export default function DialogWallet(props) {
                                     </button>
 
                                     <div className="relative">
-                                        <input type="number" id="floating_filled_init"
+                                        <input type={"number"} id="floating_filled_init"
                                                name={"initial"}
                                                onChange={handleChangeInput}
                                                defaultValue={props?.walletObj?.initial}

@@ -25,14 +25,15 @@ const LoginPage = () => {
     const [userSignUp, setUserSignUp] = useState({
         username: '',
         email: '',
-        password: ''
+        password: '',
+        confirmPassword: ''
     })
     const [validateSignInMsg, setValidateSignInMsg] = useState({});
     const [validateSignUpMsg, setValidateSignUpMsg] = useState('');
     const [listWallet, setListWallet] = useState([]);
     const [isHaveWallet, setIsHaveWallet] = useState(false);
     const [togglePassword, setTogglePassword] = useState(true)
-const currentWalletState=useSelector(state=>state.currentWallet.value)
+    const currentWalletState = useSelector(state => state.currentWallet.value)
     const handleClickSignIn = () => {
         setActive('container')
     }
@@ -56,7 +57,7 @@ const currentWalletState=useSelector(state=>state.currentWallet.value)
             await axios
                 .post('auth/signin', userSignIn)
                 .then(async (resultFromBEAloha) => {
-                    if (resultFromBEAloha.data.currentUser.isActive){
+                    if (resultFromBEAloha.data.currentUser.isActive) {
                         await axios.post('wallet/render', {userId: resultFromBEAloha.data.currentUser._id})
                             .then(res => {
                                 dispatch(UserLoginWithPassword({
@@ -70,8 +71,9 @@ const currentWalletState=useSelector(state=>state.currentWallet.value)
                             })
                     }
                 })
-                .catch(() => {
-                    setValidateSignInMsg({password: '* Wrong email or password *'})
+                .catch((err) => {
+                    const {message} = err.response.data;
+                    setValidateSignInMsg({password: message})
                 })
         }
     }
@@ -85,10 +87,12 @@ const currentWalletState=useSelector(state=>state.currentWallet.value)
                     setUserSignUp({
                         username: '',
                         email: '',
-                        password: ''
+                        password: '',
+                        confirmPassword: ''
                     })
                     setActive('container')
                     setUserSignIn({email: userSignUp.email, password: userSignUp.password})
+                    setValidateSignUpMsg('')
                 })
                 .catch((err) => {
                     setActive('container right-panel-active')
@@ -112,7 +116,7 @@ const currentWalletState=useSelector(state=>state.currentWallet.value)
                     msg.password = '* Wrong email or password *'
                 })
         }
-        setValidateSignInMsg(msg)
+        // setValidateSignInMsg(msg)
         return Object.keys(msg).length <= 0;
     }
 
@@ -124,7 +128,10 @@ const currentWalletState=useSelector(state=>state.currentWallet.value)
         if (isEmpty(userSignUp.password)) {
             msg.password = '* Please input your password *'
         }
-        // setValidateSignUpMsg(msg)
+        if (isEmpty(userSignUp.confirmPassword)) {
+            msg.password = '* Please input your confirm password *'
+        }
+        // // setValidateSignUpMsg(msg)
         return Object.keys(msg).length <= 0;
     }
 
@@ -173,15 +180,15 @@ const currentWalletState=useSelector(state=>state.currentWallet.value)
                                 className="fab fa-github"/></Link>
                         </div>
                         <span style={{margin: '10px'}}>or use your email for registration</span>
-                        <input type="text" name='username' placeholder="Name" onChange={handleChangeSignUp}/>
+                        <input type="text" name='username' value={userSignUp.username} placeholder="Name" onChange={handleChangeSignUp}/>
                         {validateSignUpMsg.username &&
                             <p className='text-red-500 text-xs italic'>{validateSignUpMsg.username}</p>}
-                        <input type="email" name='email' placeholder="Email" onChange={handleChangeSignUp}/>
+                        <input type="email" name='email' value={userSignUp.email} placeholder="Email" onChange={handleChangeSignUp}/>
                         {validateSignUpMsg.email &&
                             <p className='text-red-500 text-xs italic'>{validateSignUpMsg.email}</p>}
                         <div className={"relative w-full"}>
                             <input type={togglePassword ? "password" : "text"} name='password' placeholder="Password"
-                                   onChange={handleChangeSignUp}/>
+                                   onChange={handleChangeSignUp} value={userSignUp.password}/>
                             <div onClick={handleChangeTypePassword}
                                  className={"absolute cursor-pointer inset-y-0 right-0 pr-3 flex items-center text-sm leading-5"}>
                                 {togglePassword ?
@@ -199,6 +206,9 @@ const currentWalletState=useSelector(state=>state.currentWallet.value)
                                 }
                             </div>
                         </div>
+                        <input type={togglePassword ? "password" : "text"} name='confirmPassword'
+                               placeholder="Confirm Password" value={userSignUp.confirmPassword}
+                               onChange={handleChangeSignUp}/>
                         {validateSignUpMsg.password &&
                             <p className='text-red-500 text-xs italic'>{validateSignUpMsg.password}</p>}
                         <button style={{marginTop: '10px'}} onClick={handleSignUp}>Sign Up</button>
@@ -242,10 +252,10 @@ const currentWalletState=useSelector(state=>state.currentWallet.value)
                                     </svg>
                                 }
                             </div>
-                            {validateSignInMsg.password &&
-                                <p className='text-red-500 text-xs italic'>{validateSignInMsg.password}</p>}
                         </div>
-                        <Link to="" style={{color: 'darkcyan', margin: '20px'}}>Forgot your password?</Link>
+                        {validateSignInMsg.password &&
+                            <p className='text-red-500 text-xs italic'>{validateSignInMsg.password}</p>}
+                        <Link to="/forgot-password" style={{color: 'darkcyan', margin: '20px'}}>Forgot your password?</Link>
                         <button onClick={handleSignIn}>Sign In</button>
                     </form>
                 </div>

@@ -111,6 +111,9 @@ function NavBar({children}) {
             })
     }, [dialogTransactionState, dialogEditState, currentWalletState])
 
+    function currencyFormat(num) {
+        return num?.toFixed(0)?.replace(/(\d)(?=(\d{3})+(?!\d))/g, '$1,')
+    }
 
     return (
         <AppBar position="absolute" open={open}>
@@ -151,7 +154,9 @@ function NavBar({children}) {
                             color: 'black',
                             textAlign: 'left'
                         }}>
-                            {currentWalletState?.name ? currentWalletState?.name : 'Select Wallet'}
+                            {currentWalletState?.name
+                                ? currentWalletState?.name
+                                : 'Select Wallet'}
                             <KeyboardArrowDownIcon/>
                         </Typography>
 
@@ -163,7 +168,7 @@ function NavBar({children}) {
                         }}>
                             {/*total current wallet*/}
                             {currentWalletState?.currency
-                                ? currentWalletState?.initial + " " + currentWalletState?.currency?.code.split("-")[1]
+                                ? currencyFormat(currentWalletState?.initial) + " " + currentWalletState?.currency?.code?.split("-")[1]
                                 : ""}
                         </Typography>
                     </Box>

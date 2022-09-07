@@ -67,6 +67,10 @@ export default function MyWallet() {
         setWalletId(wallet._id)
     }
 
+    function currencyFormat(num) {
+        return num?.toFixed(0)?.replace(/(\d)(?=(\d{3})+(?!\d))/g, '$1,')
+    }
+
     return (
 
         <motion.div className="relative bg-[#E4E4E4] h-[100vh]"
@@ -129,7 +133,7 @@ export default function MyWallet() {
                                     <div className="px-3">
                                         <h3 className="font-sans my-1 text-[14px]">{wallet?.name}</h3>
                                         <span
-                                            className="text-[#949494]">+ {wallet?.initial} {wallet?.currency?.code}</span>
+                                            className="text-[#949494]">+ {currencyFormat(wallet?.initial)} {wallet?.currency?.code}</span>
                                     </div>
                                 </div>
                             )

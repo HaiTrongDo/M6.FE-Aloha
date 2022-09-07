@@ -130,8 +130,8 @@ const UserSearchTransactionPage = () => {
                                     setTotal(sumInflow - sumOutFlow)
                                     setListTransaction(res.data.data)
                                     setToggleDetail(false)
-                                })
-                        })
+                                }).catch(error => console.log(error.message))
+                        }).catch(error => console.log(error.message))
                     swal("Poof! Your record has been deleted!", {
                         icon: "success",
                     });
@@ -142,6 +142,9 @@ const UserSearchTransactionPage = () => {
 
     }
 
+    function currencyFormat(num) {
+        return num?.toFixed(0)?.replace(/(\d)(?=(\d{3})+(?!\d))/g, '$1,')
+    }
 
     return (
         <div>
@@ -160,18 +163,22 @@ const UserSearchTransactionPage = () => {
                                 className=" bg-white master-container shadow-md flex-cols w-[40%] h-1/3 rounded rounded-lg pt-2">
                                 <div className='pb-5'>
                                     <div className="report block bg-white">
-                                        <div className=" flex justify-between pt-3 px-8">
+                                        <div className=" flex justify-between pt-3 px-8 text-lg">
                                             <div>Inflow</div>
-                                            <div className="text-blue-500">${totalInflow}</div>
+                                            <div className="text-blue-500"
+                                            >+{currencyFormat(totalInflow)} {searchInput?.wallet?.currency?.code?.split('-')[1]}
+                                            </div>
                                         </div>
-                                        <div className=" flex justify-between px-8 py-1">
+                                        <div className=" flex justify-between px-8 py-1 text-lg">
                                             <div>Outflow</div>
-                                            <div className="text-red-500">-${totalOutflow}</div>
+                                            <div className="text-red-500"
+                                            >-{currencyFormat(totalOutflow)} {searchInput?.wallet?.currency?.code?.split('-')[1]}
+                                            </div>
                                         </div>
                                         <div className=" flex justify-between px-8 py-1">
                                             <span> </span>
-                                            <span className='border-t-2'
-                                            >{total}
+                                            <span className='border-t-2 text-xl'
+                                            >{currencyFormat(total)} {searchInput?.wallet?.currency?.code?.split('-')[1]}
                                 </span>
                                         </div>
                                         <div className=" flex text-[#2db84c] font-medium cursor-pointer">
@@ -204,7 +211,9 @@ const UserSearchTransactionPage = () => {
                                                         </div>
                                                         <div
                                                             className="inline-flex items-center text-base  text-gray-900 ">
-                                                            {transaction?.category?.type === 'EXPENSE' ? "-$" + transaction?.amount : "+$" + transaction?.amount}
+                                                            {transaction?.category?.type === 'EXPENSE'
+                                                                ? "-" + currencyFormat(transaction?.amount) + " " + searchInput?.wallet?.currency?.code?.split('-')[1]
+                                                                : "+" + currencyFormat(transaction?.amount) + " " + searchInput?.wallet?.currency?.code?.split('-')[1]}
                                                         </div>
                                                     </div>
                                                 </li>
@@ -228,7 +237,9 @@ const UserSearchTransactionPage = () => {
                                                         <div
                                                             className={transaction?.category?.type === 'EXPENSE' ? 'inline-flex items-center text-base text-red-500' : 'inline-flex items-center text-base text-blue-500 '}
                                                         >
-                                                            {transaction?.category?.type === 'EXPENSE' ? "-$" + transaction?.amount : "+$" + transaction?.amount}
+                                                            {transaction?.category?.type === 'EXPENSE'
+                                                                ? "-" + currencyFormat(transaction?.amount) + " " + searchInput?.wallet?.currency?.code?.split('-')[1]
+                                                                : "+" + currencyFormat(transaction?.amount) + " " + searchInput?.wallet?.currency?.code?.split('-')[1]}
                                                         </div>
                                                     </div>
                                                 </li>

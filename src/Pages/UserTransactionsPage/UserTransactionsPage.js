@@ -55,20 +55,20 @@ const UserTransactionsPage = () => {
 
     useEffect(() => {
         // if (currentWalletState?._id) {
-            axios.post('transaction/list/wallet', {user: user?._id, wallet: currentWalletState?._id})
-                .then(res => {
-                    let inflow = res.data.data.filter(value => {
-                        return value?.category?.type === 'INCOME'
-                    })
-                    let sumInflow = 0
-                    inflow.forEach(value => sumInflow += value.amount)
+        axios.post('transaction/list/wallet', {user: user?._id, wallet: currentWalletState?._id})
+            .then(res => {
+                let inflow = res.data.data.filter(value => {
+                    return value?.category?.type === 'INCOME'
+                })
+                let sumInflow = 0
+                inflow.forEach(value => sumInflow += value.amount)
 
 
-                    let outFlow = res.data.data.filter(value => {
-                        return value?.category?.type === 'EXPENSE'
-                    })
-                    let sumOutFlow = 0
-                    outFlow.forEach((value) => sumOutFlow += value?.amount)
+                let outFlow = res.data.data.filter(value => {
+                    return value?.category?.type === 'EXPENSE'
+                })
+                let sumOutFlow = 0
+                outFlow.forEach((value) => sumOutFlow += value?.amount)
 
                 setTotalOutflow(sumOutFlow)
                 setTotalInflow(sumInflow)
@@ -87,8 +87,8 @@ const UserTransactionsPage = () => {
                     .then(res => {
                         dispatch(UserLoginWithPassword({...user, wallet: res.data.data}))
                         dispatch(afterLoadingAPIScreen())
-                    })
-            })
+                    }).catch(error => console.log(error.message))
+            }).catch(error => console.log(error.message))
     }, [total])
 
 
@@ -152,6 +152,10 @@ const UserTransactionsPage = () => {
 
     }
 
+    function currencyFormat(num) {
+        return num?.toFixed(0)?.replace(/(\d)(?=(\d{3})+(?!\d))/g, '$1,')
+    }
+
     return (
         <motion.div
             initial="exit"
@@ -167,36 +171,29 @@ const UserTransactionsPage = () => {
                     <div
                         className=" bg-white master-container shadow-md flex-cols w-[40%] h-1/3 rounded rounded-lg pt-2">
                         <div className='pb-5'>
-                            <div
-                                className="containHeader bg-white flex flex-grow w-full justify-center gap-10 m-auto p-2">
-                                <span className="cursor-pointer">LAST MONTH</span>
-                                <span className="cursor-pointer">THIS MONTH</span>
-                                <span className="cursor-pointer">FUTURE</span>
-                            </div>
-                            <hr/>
                             <div className="report block bg-white">
                                 <div className=" flex justify-between pt-6 px-8">
                                     <div className={"text-lg"}>Inflow</div>
                                     <div className="text-blue-500 text-lg"
-                                    >+{totalInflow} {currentWalletState?.currency?.code?.split("-")[1]}
+                                    >+{currencyFormat(totalInflow)} {currentWalletState?.currency?.code?.split("-")[1]}
                                     </div>
                                 </div>
                                 <div className=" flex justify-between px-8 py-1">
                                     <div className={"text-lg"}>Outflow</div>
                                     <div className="text-red-500 text-lg"
-                                    >-{totalOutflow} {currentWalletState?.currency?.code?.split("-")[1]}
+                                    >-{currencyFormat(totalOutflow)} {currentWalletState?.currency?.code?.split("-")[1]}
                                     </div>
                                 </div>
                                 <div className=" flex justify-between px-8 py-1">
                                     <span> </span>
                                     <span className='border-t-2 text-xl'
-                                    >{total} {currentWalletState?.currency?.code?.split("-")[1]}
+                                    >{currencyFormat(total)} {currentWalletState?.currency?.code?.split("-")[1]}
                                 </span>
                                 </div>
                                 <div className=" flex text-[#2db84c] font-medium cursor-pointer"
-                                    onClick={()=>{
-                                        navigate('/report')
-                                    }}
+                                     onClick={() => {
+                                         navigate('/report')
+                                     }}
                                 >
                                     <div className="w-full flex justify-center my-3">VIEW REPORT FOR THIS PERIOD</div>
                                 </div>
@@ -226,8 +223,8 @@ const UserTransactionsPage = () => {
                                                 <div
                                                     className="inline-flex items-center text-base  text-gray-900 ">
                                                     {transaction?.category?.type === 'EXPENSE'
-                                                        ? "-" + transaction?.amount + " " + transaction?.wallet?.currency?.code?.split("-")[1]
-                                                        : "+" + transaction?.amount + " " + transaction?.wallet?.currency?.code?.split("-")[1]}
+                                                        ? "-" + currencyFormat(transaction?.amount) + " " + transaction?.wallet?.currency?.code?.split("-")[1]
+                                                        : "+" + currencyFormat(transaction?.amount) + " " + transaction?.wallet?.currency?.code?.split("-")[1]}
                                                 </div>
                                             </div>
                                         </li>
@@ -252,8 +249,8 @@ const UserTransactionsPage = () => {
                                                     className={transaction?.category?.type === 'EXPENSE' ? 'inline-flex items-center text-base text-red-500' : 'inline-flex items-center text-base text-blue-500 '}
                                                 >
                                                     {transaction?.category?.type === 'EXPENSE'
-                                                        ? "-" + transaction?.amount + " " + transaction?.wallet?.currency?.code?.split("-")[1]
-                                                        : "+" + transaction?.amount + " " + transaction?.wallet?.currency?.code?.split("-")[1]}
+                                                        ? "-" + currencyFormat(transaction?.amount) + " " + transaction?.wallet?.currency?.code?.split("-")[1]
+                                                        : "+" + currencyFormat(transaction?.amount) + " " + transaction?.wallet?.currency?.code?.split("-")[1]}
                                                 </div>
                                             </div>
                                         </li>
@@ -321,8 +318,8 @@ const UserTransactionsPage = () => {
                                             className={detailTransactionState?.category?.type === 'EXPENSE' ? 'text-3xl text-red-500 mt-4 col-span-5' : 'text-3xl text-blue-600 mt-4 col-span-5'}
                                         >
                                             {detailTransactionState?.category?.type === 'EXPENSE'
-                                                ? '-' + detailTransactionState?.amount + " " + detailTransactionState?.wallet?.currency?.code?.split("-")[1]
-                                                : '+' + detailTransactionState?.amount + " " + detailTransactionState?.wallet?.currency?.code?.split("-")[1]}
+                                                ? '-' + currencyFormat(detailTransactionState?.amount) + " " + detailTransactionState?.wallet?.currency?.code?.split("-")[1]
+                                                : '+' + currencyFormat(detailTransactionState?.amount) + " " + detailTransactionState?.wallet?.currency?.code?.split("-")[1]}
                                         </div>
                                     </div>
                                 </div>
