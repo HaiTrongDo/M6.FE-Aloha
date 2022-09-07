@@ -7,7 +7,7 @@ import React, {useEffect, useState} from "react";
 import DialogSelectWallet from "./DialogSelectWallet";
 import axios from "axios";
 import swal from "sweetalert";
-import NumberFormat from "react-number-format";
+
 
 export default function DialogBalance(props) {
     const [walletObj, setWalletObj] = useState(props.walletObj || {});
@@ -153,7 +153,7 @@ export default function DialogBalance(props) {
                                     </div>
                                 </button>
                                 <div className={"relative mt-5 w-full "}>
-                                    <NumberFormat id="floating_filled"
+                                    <input type={"number"} id="floating_filled"
                                                   name={"name"}
                                                   onChange={(e)=>{
                                                       setInitialInput(Number(e.target.value))
