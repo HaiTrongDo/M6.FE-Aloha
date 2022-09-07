@@ -10,6 +10,7 @@ import {Slide} from "@mui/material";
 import swal from "sweetalert";
 import DialogBalance from "./DialogBalance";
 import {openDialogBalance} from "../../Features/DiaLogSlice/openDialogBalanceSlice";
+import {selectCurrentWallet} from "../../Features/Transaction/currentWalletSlice";
 
 export default function DialogDetailWallet({walletId}) {
     const dispatch = useDispatch();
@@ -33,8 +34,9 @@ export default function DialogDetailWallet({walletId}) {
     useEffect(() => {
         axios.post('http://localhost:8080/wallet/detail', {walletId}).then(r => {
             setWalletObj(r.data.data)
+            dispatch(selectCurrentWallet(r.data.data))
         })
-    }, [walletObj._id,walletObj.currency,walletObj.icon])
+    }, [walletObj?._id,walletObj?.currency,walletObj?.icon])
 
     const handleDeleteWallet = () => {
         swal({

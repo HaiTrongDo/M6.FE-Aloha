@@ -7,6 +7,7 @@ import React, {useEffect, useState} from "react";
 import DialogSelectWallet from "./DialogSelectWallet";
 import axios from "axios";
 import swal from "sweetalert";
+import NumberFormat from "react-number-format";
 
 export default function DialogBalance(props) {
     const [walletObj, setWalletObj] = useState(props.walletObj || {});
@@ -98,6 +99,10 @@ export default function DialogBalance(props) {
         }
     })
 
+    const handleChangeInitial = (e) => {
+
+    }
+
     return (
 
         <Dialog
@@ -148,14 +153,14 @@ export default function DialogBalance(props) {
                                     </div>
                                 </button>
                                 <div className={"relative mt-5 w-full "}>
-                                    <input type="number" id="floating_filled"
-                                           name={"name"}
-                                           onChange={(e) => {
-                                               setInitialInput(Number(e.target.value))
-                                           }}
-                                           defaultValue={walletObj?.initial}
-                                           className="block  rounded-[10px] p-2 pl-4 pt-7 w-full h-[64px] text-[20px] text-gray-900  border border-gray-300  appearance-none dark:text-black  focus:outline-none focus:ring-0 hover:border-black peer"
-                                           placeholder="$ 0"/>
+                                    <NumberFormat id="floating_filled"
+                                                  name={"name"}
+                                                  onChange={(e)=>{
+                                                      setInitialInput(Number(e.target.value))
+                                                  }}
+                                                  defaultValue={walletObj?.initial}
+                                                  className="block  rounded-[10px] p-2 pl-4 pt-7 w-full h-[64px] text-[20px] text-gray-900  border border-gray-300  appearance-none dark:text-black  focus:outline-none focus:ring-0 hover:border-black peer"
+                                                  placeholder="$ 0"/>
                                     <label htmlFor="floating_filled"
                                            className="absolute text-[16px] p-2 text-gray-500 dark:text-gray-400 duration-300 transform -translate-y-4 scale-75 top-4 z-10 origin-[0] left-2.5   ">
                                         Enter current balance of this wallet
