@@ -237,12 +237,17 @@ const UserTransactionsPage = () => {
                                             <div className="flex items-center space-x-4">
                                                 <div className="flex-shrink-0">
                                                     <div className="text-2xl"
-                                                    >{new Date(transaction.date).getDate()}
+                                                    >{new Date(transaction?.date).getDate()}
                                                     </div>
                                                 </div>
                                                 <div className="flex-1 min-w-0">
                                                     <p className="text-sm text-gray-500 truncate ">
-                                                        {new Date(transaction.date).toDateString()}
+                                                        {new Date(transaction?.date).toDateString()}
+                                                    </p>
+                                                </div>
+                                                <div className="flex-1 min-w-0">
+                                                    <p className="text-sm text-gray-500 truncate ">
+                                                        {transaction?.note}
                                                     </p>
                                                 </div>
                                                 <div
@@ -262,7 +267,7 @@ const UserTransactionsPage = () => {
 
                     {/*detail transaction*/}
                     {toggleDetail &&
-                        <div className="pt-7 flex h-[300px] w-[50%] rounded-lg sticky top-[40px]">
+                        <div className="pt-7 flex h-1/4 w-[50%] rounded-lg sticky top-[40px]">
                             <div className=" bg-white shadow-md w-full rounded-lg">
                                 <div className=" flex justify-between items-start p-5 border-0 rounded-t border-b-2">
                                     <div className="inline flex ml-4">
@@ -307,11 +312,12 @@ const UserTransactionsPage = () => {
                                             <div className="text-3xl">{detailTransactionState?.category?.name}</div>
                                             <div className="mt-1 ">{detailTransactionState?.category?.type}</div>
                                             <div className="mt-1 text-gray-500">{new Date(detailTransactionState?.date).toDateString()}</div>
+                                            <div className="mt-1 pr-8">{detailTransactionState?.note}</div>
                                             <hr className="mt-2 w-[200px]"/>
                                         </div>
                                     </div>
 
-                                    <div className="grid grid-cols-6">
+                                    <div className="grid grid-cols-6 pb-4">
                                         <div/>
                                         <div
                                             className={detailTransactionState?.category?.type === 'EXPENSE' ? 'text-3xl text-red-500 mt-4 col-span-5' : 'text-3xl text-blue-600 mt-4 col-span-5'}
