@@ -12,7 +12,6 @@ import {Dialog, DialogActions, Zoom} from "@mui/material";
 import Transition from "../Transition"
 import swal from "sweetalert";
 import LoadingScreen from "react-loading-screen";
-import NumberFormat from "react-number-format";
 
 
 export default function DialogWallet({className}) {
@@ -236,9 +235,9 @@ export default function DialogWallet({className}) {
                                     </button>
 
                                         <div className="relative">
-                                            <NumberFormat id="floating_filled_init"
+                                            <input type={"number"} id="floating_filled_init"
                                                    onChange={handleChangeInput}
-                                                   name={"initial"} thousandSeparator={true}
+                                                   name={"initial"}
                                                    className="block   rounded-[10px] p-2 pt-5 w-[140px] h-[60px] text-sm text-gray-900   border border-gray-300  appearance-none dark:text-black  focus:outline-none focus:ring-0 hover:border-black peer appearance-none"
                                                    placeholder=" "/>
                                             <label htmlFor="floating_filled_init"
