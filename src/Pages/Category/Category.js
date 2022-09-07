@@ -178,9 +178,9 @@ function Category() {
                 await axios.post('/wallet/render', {userId: tokenUser._id},
                     {headers: {Authorization: `Bearer ${token}`}})
                     .then((r) => {
-                        const defaultWalletId = r.data.data[0]._id || null;
+                        const idWallet  = r.data.data[0]._id || null;
                         const iconUrl = r.data.data[0].icon.url;
-                        dispatch(selectDataWallet({defaultWalletId, iconUrl}))
+                        dispatch(selectDataWallet({idWallet, iconUrl}))
                         setWallets(r.data.data)
                     })
             }

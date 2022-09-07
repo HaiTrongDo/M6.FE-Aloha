@@ -3,7 +3,7 @@ import {useDispatch, useSelector} from "react-redux";
 import {closeDialogIcons} from "../../Features/DiaLogSlice/openDialogIconsSlice";
 import {closeDialogDetail} from "../../Features/DiaLogSlice/openDialogDetailSlice";
 import {useEffect, useRef, useState} from "react";
-import axios from "axios"
+import axios from "../../axios/index";
 import {openDialogEditWallet} from "../../Features/DiaLogSlice/openDialogEditWalletSlice";
 import DialogEditWallet from "../Dialog/DialogEditWallet"
 import {Slide} from "@mui/material";
@@ -32,7 +32,7 @@ export default function DialogDetailWallet({walletId}) {
     )
 
     useEffect(() => {
-        axios.post('http://localhost:8080/wallet/detail', {walletId}).then(r => {
+        axios.post('wallet/detail', {walletId}).then(r => {
             setWalletObj(r.data.data)
             dispatch(selectCurrentWallet(r.data.data))
         })
@@ -51,7 +51,7 @@ export default function DialogDetailWallet({walletId}) {
                     swal("Poof! Your imaginary file has been deleted!", {
                         icon: "success",
                     }).then(() => {
-                        axios.post('http://localhost:8080/wallet/delete', {walletId}).then(r => {
+                        axios.post('wallet/delete', {walletId}).then(r => {
                             handleCloseDialogDetailWallet()
                         })
                     });

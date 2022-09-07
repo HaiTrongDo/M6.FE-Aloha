@@ -65,6 +65,9 @@ const UserReportPage = () => {
         content: () => componentRef.current,
     });
 
+    function currencyFormat(num) {
+        return num?.toFixed(0)?.replace(/(\d)(?=(\d{3})+(?!\d))/g, '$1,')
+    }
 
     return (
         <motion.div
@@ -81,12 +84,12 @@ const UserReportPage = () => {
                         <div className="flex justify-center gap-5 my-5">
                             <div className="w-1/3 justify-center text-center text-gray-500">
                                 <h1 className="text-xl">Opening Balance</h1>
-                                <span style={{color: "#1d4ed8"}}>{currencyIcon} {currentWalletState.initial}</span>
+                                <span style={{color: "#1d4ed8"}}>{currencyIcon} {currencyFormat(currentWalletState?.initial)}</span>
                             </div>
                             <div className="w-1/3 justify-center text-center text-gray-500">
                                 <h1 className="text-xl">Ending Balance</h1>
                                 <span
-                                    style={{color: `${totalIncome > totalExpense ? "#1d4ed8" : "#be123c"}`}}> {totalIncome > totalExpense ? "" : "- "} {currencyIcon} {Math.ceil(endingBalance)}</span>
+                                    style={{color: `${totalIncome > totalExpense ? "#1d4ed8" : "#be123c"}`}}> {totalIncome > totalExpense ? "" : "- "} {currencyIcon} {currencyFormat(Math.ceil(endingBalance))}</span>
                             </div>
                         </div>
                         <hr/>
@@ -102,7 +105,7 @@ const UserReportPage = () => {
                             <div className="block w-1/2 ">
                                 <span className="flex justify-center mt-[22px]">Income</span>
                                 <span
-                                    className="flex justify-center text-blue-500">{currencyIcon} {totalIncome.toFixed(1)}</span>
+                                    className="flex justify-center text-blue-500">{currencyIcon} {currencyFormat(totalIncome)}</span>
                                 <div className="w-full flex px-[15px] mb-[16px] text-sm">
                                     <PieChartInReport
                                         color={dataPieChartIncome[0]?.name !== "None" ? "#1d4ed8" : "#71717a"}
@@ -112,7 +115,7 @@ const UserReportPage = () => {
                             <div className="block w-1/2 relative ">
                                 <span className="flex justify-center mt-[22px]">Expenses</span>
                                 <span
-                                    className="flex justify-center text-red-600">-{currencyIcon}{totalExpense.toFixed(1)}</span>
+                                    className="flex justify-center text-red-600">-{currencyIcon}{currencyFormat(totalExpense)}</span>
                                 <div className="w-full flex px-[15px] mb-[16px] text-sm absolute">
                                     <PieChartInReport
                                         color={dataPieChartExpense[0]?.name !== "None" ? "#be123c" : "#71717a"}
@@ -127,7 +130,6 @@ const UserReportPage = () => {
                                     <div className="m-auto xl:w-60">
                                         <input type="month"
                                                onChange={selectPrior}
-                                               maxDate={new Date()}
                                                value={selectedDate}
                                                className="form-select hover:bg-gray-400 appearance-none block  w-full px-3 py-1.5 text-base font-normal text-gray-700 bg-gray-200 bg-clip-padding bg-no-repeat border border-solid border-gray-300 rounded transition ease-in-out m-0 focus:text-gray-700 focus:bg-white focus:border-gray-600 focus:outline-none"
                                                aria-label="Default select example">

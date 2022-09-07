@@ -1,6 +1,6 @@
 import {useDispatch, useSelector} from "react-redux";
 import {useEffect, useState} from "react";
-import axios from "axios";
+import axios from "../../axios/index";
 import '../../Pages/MyWallet/MyWallet.css';
 import DialogIcons from "../Dialog/DialogIcons";
 import DialogCurrency from "../Dialog/DialogCurrency";
@@ -10,7 +10,7 @@ import {closeDialogEditWallet} from "../../Features/DiaLogSlice/openDialogEditWa
 import Transition from "../Transition";
 import {Dialog} from "@mui/material";
 import swal from "sweetalert";
-import NumberFormat from 'react-number-format';
+
 
 export default function DialogWallet(props) {
     const [isFull, setIsFull] = useState(false)
@@ -78,7 +78,7 @@ export default function DialogWallet(props) {
             icon: "success",
             button: null,
         }).then(() => {
-            axios.post('http://localhost:8080/wallet/update', {dataUpdateWallet}).then(r => {
+            axios.post('wallet/update', {dataUpdateWallet}).then(r => {
                 handleCloseDialogEditWallet()
             })
         })
@@ -103,7 +103,7 @@ export default function DialogWallet(props) {
                     user: userId
                 }
                 e.preventDefault()
-                axios.post('http://localhost:8080/transaction/add', dataTransaction).then(r => {
+                axios.post('transaction/add', dataTransaction).then(r => {
                     console.log(r)
                 })
             } else {
@@ -123,7 +123,7 @@ export default function DialogWallet(props) {
                     user: userId
                 }
                 e.preventDefault()
-                axios.post('http://localhost:8080/transaction/add', dataTransaction).then(r => {
+                axios.post('transaction/add', dataTransaction).then(r => {
                     console.log(r)
                 })
             }

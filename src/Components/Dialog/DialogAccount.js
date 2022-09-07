@@ -68,6 +68,7 @@ export default function DialogAccount() {
     const[outflow,setOutflow]=useState()
 
     useEffect(()=>{
+        if (user?._id && currentWalletState?._id){
         axios.post('transaction/list/wallet', {
             user: user?._id,
             wallet: currentWalletState?._id
@@ -89,7 +90,9 @@ export default function DialogAccount() {
 
                 setOutflow(sumOutFlow)
                 setInflow(sumInflow)
-            })
+            }).catch(err =>{
+            console.log(err.message)
+        })}
     },[currentWalletState])
 
     const handleSignOut = () => {

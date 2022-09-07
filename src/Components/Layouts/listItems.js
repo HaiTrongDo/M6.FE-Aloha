@@ -36,18 +36,18 @@ const MainListItems = () => {
                 <ListItemButton
                     onClick={() => navigate('/Transactions')}>
                     <ListItemIcon>
-                        <AccountBalanceWalletIcon sx={pathname==="/Transactions" ? {color:'green'} :''} />
+                        <AccountBalanceWalletIcon sx={pathname==="/Transactions" ? {color:'green'} :{}} />
                     </ListItemIcon>
-                    <ListItemText primary={<Typography sx={pathname==="/Transactions" ? {color:'green'} :''} >Transaction</Typography>}/>
+                    <ListItemText primary={<Typography sx={pathname==="/Transactions" ? {color:'green'} :{}} >Transaction</Typography>}/>
                 </ListItemButton>
 
                 <ListItemButton
                     onClick={() => navigate('/report')}
                 >
                     <ListItemIcon>
-                        <CollectionsBookmarkIcon sx={pathname==="/report" ? {color:'green'} :''}/>
+                        <CollectionsBookmarkIcon sx={pathname==="/report" ? {color:'green'} :{}}/>
                     </ListItemIcon>
-                    <ListItemText primary={<Typography sx={pathname==="/report" ? {color:'green'} :''} >Report</Typography>}/>
+                    <ListItemText primary={<Typography sx={pathname==="/report" ? {color:'green'} :{}} >Report</Typography>}/>
                 </ListItemButton>
 
 
@@ -77,7 +77,7 @@ const MainListItems = () => {
                     <ListItemIcon>
                         <PersonIcon/>
                     </ListItemIcon>
-                    <ListItemText primary={<Typography sx={open ? {color:'green'} :''} >My Account</Typography>}/>
+                    <ListItemText primary={<Typography sx={open ? {color:'green'} :{}} >My Account</Typography>}/>
                 </ListItemButton>
 
                 <ListItemButton
