@@ -86,7 +86,7 @@ export default function MyWallet() {
                         <div className="container flex flex-wrap justify-between items-center ">
                             <div className="flex p-2 ">
                                 <button onClick={() => {
-                                    navigate(-1)
+                                    navigate('/Transactions')
                                 }}>
                                     <svg xmlns="http://www.w3.org/2000/svg"
                                          className="h-6 w-6 text-[#ccc] text-xl  hover:text-black ml-16" fill="none"
