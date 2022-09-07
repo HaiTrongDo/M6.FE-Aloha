@@ -1,11 +1,10 @@
 import {forwardRef, useEffect, useState} from "react";
-import axios from "axios";
+import axios from "../../axios/index";
 import {useDispatch, useSelector} from "react-redux";
 import {closeDialogCurrency} from "../../Features/DiaLogSlice/openDialogCurrencySlice";
 import {setCurrencyObj} from "../../Features/SelectWallet/selectWallet";
 import {Dialog, Zoom} from "@mui/material";
 import Transition from "../Transition"
-import {afterLoadingAPIScreen, isLoadingAPIScreen} from "../../Features/isLoadingScreen/isLoadingScreen";
 import LoadingScreen from "react-loading-screen";
 
 
@@ -19,7 +18,7 @@ export default function DialogIcons(props) {
 
     useEffect(() => {
         setIsLoading(true)
-        axios.get('http://localhost:8080/currency/').then(result => {
+        axios.get('currency').then(result => {
             setCurrencies(result.data.data);
             setIsLoading(false)
         })

@@ -2,7 +2,6 @@ import React, {useEffect, useState} from 'react'
 import TransactionsLayout from "../../Components/Layouts/Transactions/TransactionsLayout";
 import {useDispatch, useSelector} from "react-redux";
 import DialogTransaction from "../../Components/Dialog/DialogTransaction";
-import Button from '@mui/material/Button';
 import axios from "../../axios";
 import DialogEditTransaction from "../../Components/Dialog/DialogEditTransaction";
 import {openDialogEditTransaction} from "../../Features/DiaLogSlice/openEditTransactionSlice";
@@ -13,8 +12,6 @@ import Variants from "../../Components/Variants";
 import {selectCurrentWallet} from "../../Features/Transaction/currentWalletSlice";
 import {UserLoginWithPassword} from "../../Features/CurrentUser/UserSlice";
 import {setSearchInputForNote} from "../../Features/SearchInput/SearchInputSlice";
-import Transition from "../../Components/Transition";
-import {Dialog} from "@mui/material";
 import {isLoadingAPIScreen, afterLoadingAPIScreen} from '../../Features/isLoadingScreen/isLoadingScreen'
 import {useNavigate} from "react-router-dom";
 
@@ -24,10 +21,9 @@ const UserTransactionsPage = () => {
     const navigate = useNavigate();
     const user = JSON.parse(localStorage.getItem('alohaUser'))
     const currentWalletState = useSelector(state => state.currentWallet.value)
-
     const dialogTransactionState = useSelector(state => state.dialogTransaction.value);
     const [toggleDetail, setToggleDetail] = useState(false)
-    const [active] = useState("py-3 sm:py-4 hover:bg-emerald-50 hover:cursor-pointer")
+    const [active, setActive] = useState("py-3 sm:py-4 hover:bg-emerald-50 hover:cursor-pointer")
     const [listTransaction, setListTransaction] = useState([])
     const detailTransactionState = useSelector(state => state.selectDetailTransaction.value)
     const dialogEditState = useSelector(state => state.dialogEditTransaction.value);
@@ -54,21 +50,20 @@ const UserTransactionsPage = () => {
     }));
 
     useEffect(() => {
-        // if (currentWalletState?._id) {
-            axios.post('transaction/list/wallet', {user: user?._id, wallet: currentWalletState?._id})
-                .then(res => {
-                    let inflow = res.data.data.filter(value => {
-                        return value?.category?.type === 'INCOME'
-                    })
-                    let sumInflow = 0
-                    inflow.forEach(value => sumInflow += value.amount)
+        axios.post('transaction/list/wallet', {user: user?._id, wallet: currentWalletState?._id})
+            .then(res => {
+                let inflow = res.data.data.filter(value => {
+                    return value?.category?.type === 'INCOME'
+                })
+                let sumInflow = 0
+                inflow.forEach(value => sumInflow += value.amount)
 
 
-                    let outFlow = res.data.data.filter(value => {
-                        return value?.category?.type === 'EXPENSE'
-                    })
-                    let sumOutFlow = 0
-                    outFlow.forEach((value) => sumOutFlow += value?.amount)
+                let outFlow = res.data.data.filter(value => {
+                    return value?.category?.type === 'EXPENSE'
+                })
+                let sumOutFlow = 0
+                outFlow.forEach((value) => sumOutFlow += value?.amount)
 
                 setTotalOutflow(sumOutFlow)
                 setTotalInflow(sumInflow)
@@ -79,16 +74,21 @@ const UserTransactionsPage = () => {
     }, [dialogTransactionState, dialogEditState, currentWalletState])
 
     useEffect(() => {
-        dispatch(isLoadingAPIScreen())
-        axios.post('wallet/updateBalance', {walletId: currentWalletState?._id, initial: total})
-            .then(res => {
-                dispatch(selectCurrentWallet({...currentWalletState, initial: total}))
-                axios.post('wallet/render', {userId: user?._id})
-                    .then(res => {
-                        dispatch(UserLoginWithPassword({...user, wallet: res.data.data}))
-                        dispatch(afterLoadingAPIScreen())
-                    })
-            })
+        if (currentWalletState?._id) {
+            dispatch(isLoadingAPIScreen())
+            axios.post('wallet/updateBalance', {walletId: currentWalletState?._id, initial: total})
+                .then(res => {
+                    dispatch(selectCurrentWallet({...currentWalletState, initial: total}))
+                    axios.post('wallet/render', {userId: user?._id})
+                        .then(res => {
+                            dispatch(UserLoginWithPassword({...user, wallet: res.data.data}))
+                            dispatch(afterLoadingAPIScreen())
+                        }).catch(error => console.log(error.message))
+                }).catch(error => console.log(error.message))
+        } else {
+            dispatch(afterLoadingAPIScreen())
+        }
+
     }, [total])
 
 
@@ -191,9 +191,9 @@ const UserTransactionsPage = () => {
                                 </span>
                                 </div>
                                 <div className=" flex text-[#2db84c] font-medium cursor-pointer"
-                                    onClick={()=>{
-                                        navigate('/report')
-                                    }}
+                                     onClick={() => {
+                                         navigate('/report')
+                                     }}
                                 >
                                     <div className="w-full flex justify-center my-3">VIEW REPORT FOR THIS PERIOD</div>
                                 </div>
@@ -306,14 +306,13 @@ const UserTransactionsPage = () => {
                                         <div className="col-span-5">
                                             <div className="text-3xl">{detailTransactionState?.category?.name}</div>
                                             <div className="mt-1 ">{detailTransactionState?.category?.type}</div>
-                                            <div
-                                                className="mt-1 text-gray-500">{new Date(detailTransactionState?.date).toDateString()}</div>
+                                            <div className="mt-1 text-gray-500">{new Date(detailTransactionState?.date).toDateString()}</div>
                                             <hr className="mt-2 w-[200px]"/>
                                         </div>
                                     </div>
 
                                     <div className="grid grid-cols-6">
-                                        <div></div>
+                                        <div/>
                                         <div
                                             className={detailTransactionState?.category?.type === 'EXPENSE' ? 'text-3xl text-red-500 mt-4 col-span-5' : 'text-3xl text-blue-600 mt-4 col-span-5'}
                                         >
