@@ -72,7 +72,7 @@ const LoginPage = () => {
                     }
                 })
                 .catch((err) => {
-                    const {message} = err.response.data;
+                    const {message} = err?.response?.data;
                     setValidateSignInMsg({password: message})
                 })
         }
