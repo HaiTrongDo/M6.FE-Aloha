@@ -31,7 +31,6 @@ export default function AnimatedRoutes({setLoading}) {
         <AnimatePresence>
             <Routes location={location} key={location.pathname}>
                 <Route element={<PrivateRoute/>}>
-                    <Route path="/" element={<UserHomePage/>}/>
                     <Route path="/transactions" element={<UserTransactionsPage/>}/>
                     <Route path="/report" element={<UserReportPage/>}/>
                     <Route path="/budget" element={<UserBudgetPage/>}/>
@@ -42,10 +41,12 @@ export default function AnimatedRoutes({setLoading}) {
                     <Route path="/search" element={<UserSearchTransactionPage/>}/>
                     <Route path="/store" element={<UserTransactionsPage/>}/>
                     <Route path="/help" element={<UserTransactionsPage/>}/>
-                    <Route path="/forgot-password" element={<ForgotPassword/>}/>
-                    <Route path="/reset-password/:token" element={<ResetPassword/>}/>
                 </Route>
                 <Route path="/login" element={<LoginPage/>}/>
+                <Route path="/forgot-password" element={<ForgotPassword/>}/>
+                <Route path="/reset-password/:token" element={<ResetPassword/>}/>
+                <Route path="/" element={<UserHomePage/>}/>
+
             </Routes>
         </AnimatePresence>
 
