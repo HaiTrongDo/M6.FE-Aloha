@@ -67,7 +67,12 @@ const LoginPage = () => {
                                 const [key, value] = resultFromBEAloha.data.token.split(' ')
                                 localStorage.setItem(key, JSON.stringify(value));
                                 dispatch(selectCurrentWallet(res.data.data[0]))
-                                navigate('/transactions')
+                                if (res.data.data.length > 0) {
+                                    navigate('/transactions')
+                                }else {
+                                    navigate('/my-wallets')
+                                }
+
                             })
                     }
                 })
