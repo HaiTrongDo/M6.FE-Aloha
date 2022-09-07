@@ -16,6 +16,8 @@ import swal from "sweetalert";
 import {afterLoadingAPIScreen, isLoadingAPIScreen} from "../../Features/isLoadingScreen/isLoadingScreen";
 import {updateSearchResult} from "../../Features/SearchInput/SearchInputSlice"
 import DialogEditTransaction from "../../Components/Dialog/DialogEditTransaction";
+import {useRef} from "react";
+import {Slide} from "@mui/material";
 
 
 const UserSearchTransactionPage = () => {
@@ -107,7 +109,7 @@ const UserSearchTransactionPage = () => {
 
                     axios.post('transaction/delete', {id: detailTransactionState?._id})
                         .then(() => {
-                            if (detailTransactionState?._id){
+                            if (detailTransactionState?._id) {
                                 axios.post('transaction/search', {
                                     userId: user._id,
                                     wallet: searchInput.wallet,
@@ -136,7 +138,7 @@ const UserSearchTransactionPage = () => {
                                     }).catch(error => console.log(error.message))
                             }
 
-                           }).catch(error => console.log(error.message))
+                        }).catch(error => console.log(error.message))
                     swal("Poof! Your record has been deleted!", {
                         icon: "success",
                     });
@@ -151,6 +153,7 @@ const UserSearchTransactionPage = () => {
         return num?.toFixed(0)?.replace(/(\d)(?=(\d{3})+(?!\d))/g, '$1,')
     }
 
+    const containerRef = useRef(null);
     return (
         <div>
             <motion.div initial="exit"
@@ -261,67 +264,75 @@ const UserSearchTransactionPage = () => {
 
 
                             {/*detail transaction*/}
-                            {toggleDetail && <div className="pt-7 flex h-1/4 w-[50%] rounded-lg sticky top-[160px]">
-                                <div className=" bg-white shadow-md w-full rounded-lg">
-                                    <div className="flex justify-between items-start p-5 border-0 rounded-t border-b-2">
-                                        <div className="inline flex ml-4">
-                                            <button className="pt-1 text-[#757575] my-auto"
-                                                    onClick={handleCLoseDetail}>
-                                                <svg xmlns="http://www.w3.org/2000/svg" className="h-6 w-6" fill="none"
-                                                     viewBox="0 0 24 24"
-                                                     stroke="currentColor" strokeWidth="2">
-                                                    <path strokeLinecap="round" strokeLinejoin="round"
-                                                          d="M6 18L18 6M6 6l12 12"/>
-                                                </svg>
-                                            </button>
-                                            <div className="pl-[15px] text-[20px] h-6 font-sans ml-2 font-semibold">
-                                                Transaction Details
-                                            </div>
-                                        </div>
-                                        <div className="">
-                                            <Button sx={{color: 'red'}}
-                                                    onClick={handleDeleteTransaction}>DELETE</Button>
-                                            <Button sx={{color: '#2EB74B'}} onClick={handleOpenEditTransaction}
-                                            >EDIT
-                                            </Button>
-                                        </div>
-                                    </div>
-
-
-                                    <div>
-                                        <div className="grid grid-cols-6 mt-3">
-                                            <div className="flex justify-center py-3">
-                                                <img
-                                                    src={detailTransactionState?.category?.icon
-                                                        ? detailTransactionState?.category?.icon
-                                                        : "https://static.moneylover.me/img/icon/ic_category_foodndrink.png"}
-                                                    alt=""
-                                                    className="w-[60px] h-[60px] m-auto"/>
-                                            </div>
-                                            <div className="col-span-5">
-                                                <div className="text-3xl">{detailTransactionState?.category?.name}</div>
-                                                <div className="mt-1 ">{detailTransactionState?.category?.type}</div>
-                                                <div className="mt-1 text-gray-500">{new Date(detailTransactionState?.date).toDateString()}</div>
-                                                <div className="mt-1 pr-8">{detailTransactionState?.note}</div>
-                                                <hr className="mt-2 w-[200px]"/>
-                                            </div>
-                                        </div>
-
-                                        <div className="grid grid-cols-6 pb-4">
-                                            <div></div>
+                            {toggleDetail &&
+                                <Slide direction="left" in={toggleDetail} container={containerRef.current}>
+                                    <div className="pt-7 flex h-1/4 w-[50%] rounded-lg sticky top-[160px]">
+                                        <div className=" bg-white shadow-md w-full rounded-lg">
                                             <div
-                                                className={detailTransactionState?.category?.type === 'EXPENSE' ? 'text-3xl text-red-600 mt-4 col-span-5' : 'text-3xl text-blue-600 mt-4 col-span-5'}
-                                            >
-                                                {detailTransactionState?.category?.type === 'EXPENSE' ? '-$' + detailTransactionState?.amount : '+$' + detailTransactionState?.amount}
+                                                className="flex justify-between items-start p-5 border-0 rounded-t border-b-2">
+                                                <div className="inline flex ml-4">
+                                                    <button className="pt-1 text-[#757575] my-auto"
+                                                            onClick={handleCLoseDetail}>
+                                                        <svg xmlns="http://www.w3.org/2000/svg" className="h-6 w-6"
+                                                             fill="none"
+                                                             viewBox="0 0 24 24"
+                                                             stroke="currentColor" strokeWidth="2">
+                                                            <path strokeLinecap="round" strokeLinejoin="round"
+                                                                  d="M6 18L18 6M6 6l12 12"/>
+                                                        </svg>
+                                                    </button>
+                                                    <div
+                                                        className="pl-[15px] text-[20px] h-6 font-sans ml-2 font-semibold">
+                                                        Transaction Details
+                                                    </div>
+                                                </div>
+                                                <div className="">
+                                                    <Button sx={{color: 'red'}}
+                                                            onClick={handleDeleteTransaction}>DELETE</Button>
+                                                    <Button sx={{color: '#2EB74B'}} onClick={handleOpenEditTransaction}
+                                                    >EDIT
+                                                    </Button>
+                                                </div>
+                                            </div>
+
+
+                                            <div>
+                                                <div className="grid grid-cols-6 mt-3">
+                                                    <div className="flex justify-center py-3">
+                                                        <img
+                                                            src={detailTransactionState?.category?.icon
+                                                                ? detailTransactionState?.category?.icon
+                                                                : "https://static.moneylover.me/img/icon/ic_category_foodndrink.png"}
+                                                            alt=""
+                                                            className="w-[60px] h-[60px] m-auto"/>
+                                                    </div>
+                                                    <div className="col-span-5">
+                                                        <div
+                                                            className="text-3xl">{detailTransactionState?.category?.name}</div>
+                                                        <div
+                                                            className="mt-1 ">{detailTransactionState?.category?.type}</div>
+                                                        <div
+                                                            className="mt-1 text-gray-500">{new Date(detailTransactionState?.date).toDateString()}</div>
+                                                        <div className="mt-1 pr-8">{detailTransactionState?.note}</div>
+                                                        <hr className="mt-2 w-[200px]"/>
+                                                    </div>
+                                                </div>
+
+                                                <div className="grid grid-cols-6 pb-4">
+                                                    <div></div>
+                                                    <div
+                                                        className={detailTransactionState?.category?.type === 'EXPENSE' ? 'text-3xl text-red-600 mt-4 col-span-5' : 'text-3xl text-blue-600 mt-4 col-span-5'}
+                                                    >
+                                                        {detailTransactionState?.category?.type === 'EXPENSE' ? '-$' + detailTransactionState?.amount : '+$' + detailTransactionState?.amount}
+                                                    </div>
+                                                </div>
                                             </div>
                                         </div>
                                     </div>
-                                </div>
-                            </div>}
+                                </Slide>}
 
                         </div>
 
-                        {/*<div className="bg-white w-1/2 shadow-md rounded">sadas</div>*/}
                     </div>
                 </SearchPageLayout>
             </motion.div>
