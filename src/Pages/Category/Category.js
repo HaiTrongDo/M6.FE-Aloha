@@ -35,6 +35,7 @@ import {useNavigate} from "react-router-dom";
 import {selectDataWallet, setIdWallet} from "../../Features/DialogCategorySlice/selectDataWalletOnCategory";
 import {motion} from "framer-motion"
 import Variants from "../../Components/Variants";
+import './Category.css'
 import {afterLoadingAPIScreen, isLoadingAPIScreen} from "../../Features/isLoadingScreen/isLoadingScreen";
 
 
@@ -214,6 +215,7 @@ function Category() {
             variants={Variants.variant1}
         >
             // navbar
+
             <Box sx={{flexGrow: 1}}>
                 <AppBar position="fixed" sx={{bgcolor: 'white'}}>
                     <Toolbar>
@@ -288,14 +290,14 @@ function Category() {
                                             }}>
                                                 {item.name}
                                             </Typography>
-                                            <Typography sx={{
-                                                fontWeight: 'light',
-                                                fontSize: 12,
-                                                color: 'black',
-                                                textAlign: 'left'
-                                            }}>
-                                                +95.000
-                                            </Typography>
+                                            {/*<Typography sx={{*/}
+                                            {/*    fontWeight: 'light',*/}
+                                            {/*    fontSize: 12,*/}
+                                            {/*    color: 'black',*/}
+                                            {/*    textAlign: 'left'*/}
+                                            {/*}}>*/}
+                                            {/*    +95.000*/}
+                                            {/*</Typography>*/}
                                         </Box>
 
                                     </MenuItem>
@@ -309,6 +311,7 @@ function Category() {
                 </AppBar>
             </Box>
 
+
             //2 the grid danh sach
             <div className='flex inline relative'>
                 <Grid container
@@ -321,10 +324,10 @@ function Category() {
                     <div className='w-1/2 flex justify-center pt-6 '>
                         {/*<Grid xs={6} md={4}>*/}
                         <Box
-                            sx={{width: "80%", backgroundColor: 'white', borderRadius: '0.5rem'}}
+                            sx={{width: "80%", backgroundColor: 'white', borderRadius: '0.5rem', boxShadow: 3}}
                         >
                             <Typography>
-                                <Typography sx={{bgcolor: '#eeeeee'}}>
+                                <Typography sx={{bgcolor: '#eeeeee', fontSize: 22}}>
                                     Expense
                                 </Typography>
                                 <Divider/>
@@ -347,7 +350,7 @@ function Category() {
                                     </div>
                                 ))}
 
-                                <Typography sx={{bgcolor: '#eeeeee'}}>
+                                <Typography sx={{bgcolor: '#eeeeee', fontSize: 22}}>
                                     Income
                                 </Typography>
                                 <Divider/>
@@ -376,17 +379,17 @@ function Category() {
                         {/*</Grid>*/}
 
                     </div>
-                    {checked && <div className='w-1/2 flex '>
+                    {checked && <div className='w-1/2 flex category-right'>
 
                         {/*<Grid xs={6} md={4}>*/}
-                        <Box sx={{height: 1000}}>
+                        <Box sx={{height: 1250}}>
                             <Box
                                 sx={{
                                     '& > :not(style)': {
                                         display: 'flex',
                                         justifyContent: 'space-around',
                                         height: 120,
-                                        width: 1000,
+                                        width: 50,
                                     },
                                 }}
                             >
@@ -394,7 +397,7 @@ function Category() {
                                 <Box>
                                     <Box sx={{width: '100%',}}>
                                         <Collapse orientation="horizontal" in={checked}>
-                                            <Card position="fixed" sx={{minWidth: 700, bgcolor: 'white'}}>
+                                            <Card position="fixed" sx={{bgcolor: 'white'}}>
                                                 <CardHeader sx={{height: '50px'}}
                                                             avatar={
                                                                 <Button onClick={handleClose}>

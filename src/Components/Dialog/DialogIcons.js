@@ -1,10 +1,10 @@
 import {useEffect, useState} from "react";
-import axios from "axios";
+import axios from "../../axios/index";
 import {useDispatch, useSelector} from "react-redux";
 import {closeDialogIcons, openDialogIcons} from "../../Features/DiaLogSlice/openDialogIconsSlice";
 import {setIconObj} from "../../Features/SelectWallet/selectWallet";
 import Transition from "../Transition";
-import {Dialog, DialogActions} from "@mui/material";
+import {Dialog} from "@mui/material";
 import LoadingScreen from "react-loading-screen";
 
 
@@ -16,7 +16,7 @@ export default function DialogIcons(props) {
     useEffect(() => {
         setIsLoading(true)
         const time = setTimeout(()=>{
-         axios.get('http://localhost:8080/icon/').then(result => {
+         axios.get('icon/').then(result => {
                 setIcons(result.data.data);
                 setIsLoading(false)
 
@@ -84,6 +84,7 @@ export default function DialogIcons(props) {
                                     textColor="#676767"
                                     logoSrc=""
                                     text=""
+                                    value={""}
                                 />
                             }
                             <ul className="grid grid-cols-8 grid-rows-4 gap-2 grid-flow-row">
