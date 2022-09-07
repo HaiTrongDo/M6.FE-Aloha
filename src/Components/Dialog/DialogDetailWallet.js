@@ -1,6 +1,4 @@
-import {setIconObj} from "../../Features/SelectWallet/selectWallet";
 import {useDispatch, useSelector} from "react-redux";
-import {closeDialogIcons} from "../../Features/DiaLogSlice/openDialogIconsSlice";
 import {closeDialogDetail} from "../../Features/DiaLogSlice/openDialogDetailSlice";
 import {useEffect, useRef, useState} from "react";
 import axios from "../../axios/index";
@@ -79,7 +77,7 @@ export default function DialogDetailWallet({walletId}) {
     return (
         <Slide direction="left" in={detailState} container={containerRef.current}>
 
-            <div className={" w-1/2 "}>
+            <div className={" w-1/2 drop-shadow-2xl"}>
                 <div className=" border mt-[100px] w-[90%] rounded-[5px] bg-white  text-xs text-gray-900 border ">
                     <div
                         className={"text-left  flex justify-between py-4 px-6 py-2 border-b border-gray-200 w-full h-[63px]"}>

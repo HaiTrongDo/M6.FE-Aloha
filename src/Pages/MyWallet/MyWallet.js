@@ -116,9 +116,9 @@ export default function MyWallet() {
                 <div
                     className={detailState ? "flex justify-center w-1/2 top-0 left-20 transition-transform " : "flex justify-center w-1/2"}
                     id={"wallet"}>
-                    <div className=" border mt-[100px] w-[80%]  text-xs text-gray-900 drop-shadow-2xl">
+                    <div className=" border mt-[100px] w-[80%]  text-sm text-gray-900 drop-shadow-2xl">
                         <div
-                            className={"text-left text-[#707070] px-6 py-2 border-b border-r border-gray-200 w-full h-[40px] bg-[#F4F4F4]  cursor-pointer"}>
+                            className={"text-left text-[#707070] px-6 py-2 border-b border-r border-gray-200 w-full h-[40px] bg-[#F4F4F4] "}>
                             Included in Total
                         </div>
                         {wallets.map((wallet, index) => {
