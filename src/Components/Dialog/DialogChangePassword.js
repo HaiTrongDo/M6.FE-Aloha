@@ -12,8 +12,10 @@ import {useEffect, useState} from "react";
 import axios from "axios";
 import {FilledInput, IconButton, InputAdornment, InputLabel, OutlinedInput} from "@mui/material";
 import {Visibility, VisibilityOff} from "@mui/icons-material";
+import {Validation, fieldValidatorCore} from "react-validation-framework";
+import validator from "validator";
 
-;
+
 
 export default function DialogChangePassword() {
     const [data, setData] = useState({

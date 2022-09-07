@@ -5,7 +5,7 @@ import {closeDialogBalance} from "../../Features/DiaLogSlice/openDialogBalanceSl
 import {openDialogSelectWallet} from "../../Features/DiaLogSlice/openDialogWallet";
 import React, {useEffect, useState} from "react";
 import DialogSelectWallet from "./DialogSelectWallet";
-import axios from "axios";
+import axios from "../../axios/index";
 import swal from "sweetalert";
 
 export default function DialogBalance(props) {
@@ -36,7 +36,7 @@ export default function DialogBalance(props) {
             button: null,
         }).then(() => {
             e.preventDefault()
-            axios.post('http://localhost:8080/wallet/updateBalance', data).then(r => {
+            axios.post('wallet/updateBalance', data).then(r => {
                 handleCloseDialogBalance()
             })
         });
@@ -60,7 +60,7 @@ export default function DialogBalance(props) {
                 user: userId
             }
             e.preventDefault()
-            axios.post('http://localhost:8080/transaction/add', dataTransaction).then(r => {
+            axios.post('transaction/add', dataTransaction).then(r => {
                 console.log(r)
             })
         } else {
@@ -80,7 +80,7 @@ export default function DialogBalance(props) {
                 user: userId
             }
             e.preventDefault()
-            axios.post('http://localhost:8080/transaction/add', dataTransaction).then(r => {
+            axios.post('transaction/add', dataTransaction).then(r => {
                 console.log(r)
             })
         }

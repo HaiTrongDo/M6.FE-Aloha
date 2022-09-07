@@ -1,6 +1,6 @@
 import DialogWallet from "../../Components/Dialog/DialogWallet";
 import {useEffect, useState} from "react";
-import axios from 'axios'
+import axios from "../../axios/index";
 import {useDispatch, useSelector} from "react-redux";
 import {openDialogWallet} from "../../Features/DiaLogSlice/openDialogMyWalletSlice";
 import {useNavigate} from "react-router-dom";

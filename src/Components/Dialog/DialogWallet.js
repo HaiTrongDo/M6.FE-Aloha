@@ -2,7 +2,7 @@ import {useDispatch, useSelector} from "react-redux";
 import {closeDialogWallet, openDialogWallet} from "../../Features/DiaLogSlice/openDialogMyWalletSlice";
 import {useEffect, useState} from "react";
 import * as React from 'react';
-import axios from "../../axios";
+import axios from "../../axios/index";
 import '../../Pages/MyWallet/MyWallet.css';
 import DialogIcons from "../Dialog/DialogIcons";
 import DialogCurrency from "../Dialog/DialogCurrency";
@@ -11,10 +11,9 @@ import {openDialogCurrency} from "../../Features/DiaLogSlice/openDialogCurrencyS
 import {Dialog, DialogActions, Zoom} from "@mui/material";
 import Transition from "../Transition"
 import swal from "sweetalert";
-import LoadingScreen from "react-loading-screen";
 
 
-export default function DialogWallet({className}) {
+export default function DialogWallet() {
     const [walletObj, setWalletObj] = useState({
         nameWallet: '',
         initial: ''
@@ -98,8 +97,7 @@ export default function DialogWallet({className}) {
             button: null
         }).then(() => {
             e.preventDefault()
-            axios.post('/wallet/add', walletData).then(response => {
-                console.log(response)
+            axios.post('wallet/add', walletData).then(response => {
                 if (walletData.initial > 0){
                     const dataTransaction = {
                         wallet:response.data.walletId,
@@ -117,8 +115,7 @@ export default function DialogWallet({className}) {
                         user: userId
                     }
                     e.preventDefault()
-                    axios.post('http://localhost:8080/transaction/add', dataTransaction).then(r => {
-                        console.log(r)
+                    axios.post('transaction/add', dataTransaction).then(r => {
                     })
                 }else {
                     const dataTransaction = {
@@ -137,8 +134,7 @@ export default function DialogWallet({className}) {
                         user: userId
                     }
                     e.preventDefault()
-                    axios.post('http://localhost:8080/transaction/add', dataTransaction).then(r => {
-                        console.log(r)
+                    axios.post('transaction/add', dataTransaction).then(r => {
                     })
                 }
                 handleCloseDialogWallet()
@@ -150,7 +146,6 @@ export default function DialogWallet({className}) {
                         }
                     }
                 ).then(r => {
-                    console.log(r)
                 })
             })
 
