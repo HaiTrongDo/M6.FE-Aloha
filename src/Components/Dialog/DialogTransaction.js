@@ -52,7 +52,6 @@ const DialogTransaction = () => {
         setDate(e.target.value)
     }
     const handleSaveTransaction = () => {
-        console.log({selectCategoryState})
         const transaction = {
             wallet: selectWalletState?.value,
             amount: amount * 1,
