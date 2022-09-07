@@ -25,17 +25,16 @@ const DialogTransaction = () => {
     const selectWalletState = useSelector(state => state.selectWallet);
     const dialogCategoryState = useSelector(state => state.DialogCategory.value)
     const dialogWalletState = useSelector(state => state.dialogWallet.value);
-    const [activeSave,setActiveSave]=useState(false)
+    const [activeSave, setActiveSave] = useState(false)
 
 
-    useEffect(()=>{
-        if(selectWalletState?.value?._id && selectCategoryState?.value?._id && amount ){
+    useEffect(() => {
+        if (selectWalletState?.value?._id && selectCategoryState?.value?._id && amount) {
             setActiveSave(true)
-        }
-        else{
+        } else {
             setActiveSave(false)
         }
-    },[selectWalletState,selectCategoryState,amount,date,note])
+    }, [selectWalletState, selectCategoryState, amount, date, note])
 
 
     const handleWallet = (walletObj) => {
@@ -52,7 +51,6 @@ const DialogTransaction = () => {
         setDate(e.target.value)
     }
     const handleSaveTransaction = () => {
-        console.log({selectCategoryState})
         const transaction = {
             wallet: selectWalletState?.value,
             amount: amount * 1,
@@ -212,14 +210,14 @@ const DialogTransaction = () => {
                                     Close
                                 </button>
                                 {activeSave
-                                ? <button
+                                    ? <button
                                         className="bg-[#2EB74B] text-white font-bold uppercase text-sm px-6 py-3 rounded shadow hover:shadow-lg outline-none focus:outline-none mr-1 mb-1 ease-linear transition-all duration-150"
                                         type="button"
                                         onClick={handleSaveTransaction}
                                     >
                                         Save Changes
                                     </button>
-                                : <button
+                                    : <button
                                         className="bg-[#E0E0E0] text-[#ACACAC] font-bold uppercase text-sm px-6 py-3 rounded shadow hover:shadow-lg outline-none focus:outline-none mr-1 mb-1 ease-linear transition-all duration-150"
                                         type="button" disabled={true}
                                     >
