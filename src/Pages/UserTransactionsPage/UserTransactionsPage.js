@@ -14,6 +14,8 @@ import {UserLoginWithPassword} from "../../Features/CurrentUser/UserSlice";
 import {setSearchInputForNote} from "../../Features/SearchInput/SearchInputSlice";
 import {isLoadingAPIScreen, afterLoadingAPIScreen} from '../../Features/isLoadingScreen/isLoadingScreen'
 import {useNavigate} from "react-router-dom";
+import {useRef} from "react";
+import {Slide} from "@mui/material";
 
 
 const UserTransactionsPage = () => {
@@ -267,71 +269,75 @@ const UserTransactionsPage = () => {
 
                     {/*detail transaction*/}
                     {toggleDetail &&
-                        <div className="pt-7 flex h-1/4 w-[50%] rounded-lg sticky top-[40px]">
-                            <div className=" bg-white shadow-md w-full rounded-lg">
-                                <div className=" flex justify-between items-start p-5 border-0 rounded-t border-b-2">
-                                    <div className="inline flex ml-4">
-                                        <button className="pt-1 text-[#757575] my-auto"
-                                                onClick={handleCLoseDetail}>
-                                            <svg xmlns="http://www.w3.org/2000/svg" className="h-6 w-6" fill="none"
-                                                 viewBox="0 0 24 24"
-                                                 stroke="currentColor" strokeWidth="2">
-                                                <path strokeLinecap="round" strokeLinejoin="round"
-                                                      d="M6 18L18 6M6 6l12 12"/>
-                                            </svg>
-                                        </button>
-                                        <div className="pl-[15px] text-[20px] h-6 font-sans ml-2 font-semibold">
-                                            Transaction Details
+                        <Slide direction="left" in={toggleDetail} container={containerRef.current}>
+                            <div className="pt-7 flex h-[300px] w-[50%] rounded-lg sticky top-[40px]">
+                                <div className=" bg-white shadow-md w-full rounded-lg">
+                                    <div
+                                        className=" flex justify-between items-start p-5 border-0 rounded-t border-b-2">
+                                        <div className="inline flex ml-4">
+                                            <button className="pt-1 text-[#757575] my-auto"
+                                                    onClick={handleCLoseDetail}>
+                                                <svg xmlns="http://www.w3.org/2000/svg" className="h-6 w-6" fill="none"
+                                                     viewBox="0 0 24 24"
+                                                     stroke="currentColor" strokeWidth="2">
+                                                    <path strokeLinecap="round" strokeLinejoin="round"
+                                                          d="M6 18L18 6M6 6l12 12"/>
+                                                </svg>
+                                            </button>
+                                            <div className="pl-[15px] text-[20px] h-6 font-sans ml-2 font-semibold">
+                                                Transaction Details
+                                            </div>
                                         </div>
-                                    </div>
-                                    <div className="">
-                                        <button
-                                            className={"text-[#F15A59] w-[80px] h-[36px] rounded-[5px] hover:bg-[#FEECEB]"}
-                                            onClick={handleDeleteTransaction}>DELETE
-                                        </button>
-                                        <button
-                                            className={"text-[#2EB74B] w-[80px] rounded-[5px] h-[36px] mx-[20px] hover:bg-[#E9F6EB]"}
-                                            onClick={handleOpenEditTransaction}
-                                        >EDIT
-                                        </button>
-                                    </div>
-                                </div>
-
-
-                                <div>
-                                    <div className="grid grid-cols-6 mt-3">
-                                        <div className="flex justify-center py-3 ">
-                                            <img
-                                                src={detailTransactionState?.category?.icon
-                                                    ? detailTransactionState?.category?.icon
-                                                    : "https://static.moneylover.me/img/icon/ic_category_foodndrink.png"}
-                                                alt=""
-                                                className="w-[60px] h-[60px] p-1  object-cover"/>
-                                        </div>
-                                        <div className="col-span-5">
-                                            <div className="text-3xl">{detailTransactionState?.category?.name}</div>
-                                            <div className="mt-1 ">{detailTransactionState?.category?.type}</div>
-                                            <div className="mt-1 text-gray-500">{new Date(detailTransactionState?.date).toDateString()}</div>
-                                            <div className="mt-1 pr-8">{detailTransactionState?.note}</div>
-                                            <hr className="mt-2 w-[200px]"/>
+                                        <div className="">
+                                            <button
+                                                className={"text-[#F15A59] w-[80px] h-[36px] rounded-[5px] hover:bg-[#FEECEB]"}
+                                                onClick={handleDeleteTransaction}>DELETE
+                                            </button>
+                                            <button
+                                                className={"text-[#2EB74B] w-[80px] rounded-[5px] h-[36px] mx-[20px] hover:bg-[#E9F6EB]"}
+                                                onClick={handleOpenEditTransaction}
+                                            >EDIT
+                                            </button>
                                         </div>
                                     </div>
 
-                                    <div className="grid grid-cols-6 pb-4">
-                                        <div/>
-                                        <div
-                                            className={detailTransactionState?.category?.type === 'EXPENSE' ? 'text-3xl text-red-500 mt-4 col-span-5' : 'text-3xl text-blue-600 mt-4 col-span-5'}
-                                        >
-                                            {detailTransactionState?.category?.type === 'EXPENSE'
-                                                ? '-' + currencyFormat(detailTransactionState?.amount) + " " + detailTransactionState?.wallet?.currency?.code?.split("-")[1]
-                                                : '+' + currencyFormat(detailTransactionState?.amount) + " " + detailTransactionState?.wallet?.currency?.code?.split("-")[1]}
+
+                                    <div>
+                                        <div className="grid grid-cols-6 mt-3">
+                                            <div className="flex justify-center py-3 ">
+                                                <img
+                                                    src={detailTransactionState?.category?.icon
+                                                        ? detailTransactionState?.category?.icon
+                                                        : "https://static.moneylover.me/img/icon/ic_category_foodndrink.png"}
+                                                    alt=""
+                                                    className="w-[60px] h-[60px] p-1  object-cover"/>
+                                            </div>
+                                            <div className="col-span-5">
+                                                <div className="text-3xl">{detailTransactionState?.category?.name}</div>
+                                                <div className="mt-1 ">{detailTransactionState?.category?.type}</div>
+                                                <div
+                                                    className="mt-1 text-gray-500">{new Date(detailTransactionState?.date).toDateString()}</div>
+                                                <hr className="mt-2 w-[200px]"/>
+                                            </div>
+                                        </div>
+
+                                        <div className="grid grid-cols-6">
+                                            <div/>
+                                            <div
+                                                className={detailTransactionState?.category?.type === 'EXPENSE' ? 'text-3xl text-red-500 mt-4 col-span-5' : 'text-3xl text-blue-600 mt-4 col-span-5'}
+                                            >
+                                                {detailTransactionState?.category?.type === 'EXPENSE'
+                                                    ? '-' + currencyFormat(detailTransactionState?.amount) + " " + detailTransactionState?.wallet?.currency?.code?.split("-")[1]
+                                                    : '+' + currencyFormat(detailTransactionState?.amount) + " " + detailTransactionState?.wallet?.currency?.code?.split("-")[1]}
+                                            </div>
                                         </div>
                                     </div>
                                 </div>
                             </div>
-                        </div>}
+                        </Slide>}
 
                 </div>
+
             </TransactionsLayout>
         </motion.div>);
 };
