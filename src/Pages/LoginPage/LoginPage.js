@@ -71,8 +71,9 @@ const LoginPage = () => {
                             })
                     }
                 })
-                .catch(() => {
-                    setValidateSignInMsg({password: '* Wrong email or password *'})
+                .catch((err) => {
+                    const {message} = err.response.data;
+                    setValidateSignInMsg({password: message})
                 })
         }
     }
@@ -91,6 +92,7 @@ const LoginPage = () => {
                     })
                     setActive('container')
                     setUserSignIn({email: userSignUp.email, password: userSignUp.password})
+                    setValidateSignUpMsg('')
                 })
                 .catch((err) => {
                     setActive('container right-panel-active')
@@ -178,15 +180,15 @@ const LoginPage = () => {
                                 className="fab fa-github"/></Link>
                         </div>
                         <span style={{margin: '10px'}}>or use your email for registration</span>
-                        <input type="text" name='username' placeholder="Name" onChange={handleChangeSignUp}/>
+                        <input type="text" name='username' value={userSignUp.username} placeholder="Name" onChange={handleChangeSignUp}/>
                         {validateSignUpMsg.username &&
                             <p className='text-red-500 text-xs italic'>{validateSignUpMsg.username}</p>}
-                        <input type="email" name='email' placeholder="Email" onChange={handleChangeSignUp}/>
+                        <input type="email" name='email' value={userSignUp.email} placeholder="Email" onChange={handleChangeSignUp}/>
                         {validateSignUpMsg.email &&
                             <p className='text-red-500 text-xs italic'>{validateSignUpMsg.email}</p>}
                         <div className={"relative w-full"}>
                             <input type={togglePassword ? "password" : "text"} name='password' placeholder="Password"
-                                   onChange={handleChangeSignUp}/>
+                                   onChange={handleChangeSignUp} value={userSignUp.password}/>
                             <div onClick={handleChangeTypePassword}
                                  className={"absolute cursor-pointer inset-y-0 right-0 pr-3 flex items-center text-sm leading-5"}>
                                 {togglePassword ?
@@ -205,7 +207,7 @@ const LoginPage = () => {
                             </div>
                         </div>
                         <input type={togglePassword ? "password" : "text"} name='confirmPassword'
-                               placeholder="Confirm Password"
+                               placeholder="Confirm Password" value={userSignUp.confirmPassword}
                                onChange={handleChangeSignUp}/>
                         {validateSignUpMsg.password &&
                             <p className='text-red-500 text-xs italic'>{validateSignUpMsg.password}</p>}

@@ -225,8 +225,8 @@ export default function DialogWallet(props) {
                                     </button>
 
                                     <div className="relative">
-                                        <NumberFormat id="floating_filled_init"
-                                               name={"initial"} thousandSeparator={true}
+                                        <input type={"number"} id="floating_filled_init"
+                                               name={"initial"}
                                                onChange={handleChangeInput}
                                                defaultValue={props?.walletObj?.initial}
                                                className="block   rounded-[10px] p-2 pt-5 w-[140px] h-[60px] text-sm text-gray-900   border border-gray-300  appearance-none dark:text-black  focus:outline-none focus:ring-0 hover:border-black peer appearance-none"
