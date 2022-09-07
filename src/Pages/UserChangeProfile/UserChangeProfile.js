@@ -20,20 +20,31 @@ const UserChangeProfile = () => {
     const dispatch = useDispatch()
     const currentUser = useSelector((store) => store.currentUser.currentUser)
     const [progress, setProgress] = useState(0);
-    const [imageUrls, setImageUrls] = useState(currentUser?.avatarUrl ? currentUser.avatarUrl : '');
+    const [imageUrls, setImageUrls] = useState(currentUser?.avatarUrl ? currentUser?.avatarUrl : '');
     const [formData, setFormData] = useState({
         username: '',
         company: '',
         phone: '',
         birthday: '',
         email: '',
-        imageUpload: null
+        imageUpload: ''
     })
+    useEffect(()=>{
+        console.log(formData)
+    })
+
+
+    const handleChange = (e) => {
+        setFormData({
+            ...formData,
+            [e.target.name]: e.target.value
+        })
+    }
 
 
     const setImageUploaded = (e) => {
         e.preventDefault()
-        if (formData.imageUpload == null) {
+        if (formData.imageUpload === '') {
             return axios
                 .put('/my-account/change-profile', {
                     ...formData, userId: currentUser._id
@@ -92,10 +103,6 @@ const UserChangeProfile = () => {
         );
     }, [formData.imageUpload])
 
-
-    const handleChange = (e) => {
-        setFormData({...formData, [e.target.name]: e.target.value})
-    }
 
     return (
         <motion.div initial="exit"
@@ -202,8 +209,8 @@ const UserChangeProfile = () => {
                             <div className=" text-center ">
                                 {progress ? <h2>Uploading done {progress}%</h2> : ""}
                                 <button type="submit"
-
-                                        className="btnUpdateProfile bg-[#2EB74B] text-white focus:ring-4 focus:outline-none focus:ring-blue-300 font-medium rounded-lg text-sm w-full sm:w-auto px-5 mt-2.5 py-2.5 text-center  ">SAVE CHANGE
+                                        className="btnUpdateProfile bg-[#2EB74B] text-white focus:ring-4 focus:outline-none focus:ring-blue-300 font-medium rounded-lg text-sm w-full sm:w-auto px-5 mt-2.5 py-2.5 text-center  ">SAVE
+                                    CHANGE
                                 </button>
                             </div>
                         </form>

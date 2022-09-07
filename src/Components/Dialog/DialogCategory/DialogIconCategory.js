@@ -9,7 +9,6 @@ import {ImageList, ImageListItem} from "@mui/material";
 import {setSelectIcon} from "../../../Features/DiaLogSlice/selectIconSlice";
 import {
     setUpdateDataIconCategory,
-    setUpdateDataTypeCategory
 } from "../../../Features/DialogCategorySlice/updataDataCategorySlice";
 
 export default function DialogIconCategory() {

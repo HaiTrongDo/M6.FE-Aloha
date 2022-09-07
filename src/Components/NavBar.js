@@ -9,8 +9,6 @@ import Menu from '@mui/material/Menu';
 import MenuItem from '@mui/material/MenuItem';
 import Divider from '@mui/material/Divider';
 import KeyboardArrowDownIcon from '@mui/icons-material/KeyboardArrowDown';
-import LanguageIcon from '@mui/icons-material/Language';
-import AccountBalanceWalletIcon from '@mui/icons-material/AccountBalanceWallet';
 import MenuTwoToneIcon from '@mui/icons-material/MenuTwoTone';
 import {useDispatch, useSelector} from "react-redux";
 import {addClick} from "../Features/SidebarOpenSlice/clickSlice";
@@ -82,11 +80,9 @@ const StyledMenu = styled((props) => (
 
 function NavBar({children}) {
     const user = JSON.parse(localStorage.getItem('alohaUser'))
-    let tokenUser = JSON.parse(localStorage.getItem('alohaUser'))
     const dispatch = useDispatch()
     const open = useSelector((state) => state.Layout.value)
     const currentWalletState = useSelector(state => state.currentWallet.value)
-    const [total, setTotal] = useState()
     const dialogTransactionState = useSelector(state => state.dialogTransaction.value);
     const dialogEditState = useSelector(state => state.dialogEditTransaction.value);
 
@@ -107,7 +103,6 @@ function NavBar({children}) {
                 res.data.data.forEach((item) => {
                     result += item.initial
                 })
-                setTotal(result)
             })
     }, [dialogTransactionState, dialogEditState, currentWalletState])
 
