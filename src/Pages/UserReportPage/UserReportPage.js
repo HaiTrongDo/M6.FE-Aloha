@@ -81,7 +81,7 @@ const UserReportPage = () => {
                         <div className="flex justify-center gap-5 my-5">
                             <div className="w-1/3 justify-center text-center text-gray-500">
                                 <h1 className="text-xl">Opening Balance</h1>
-                                <span style={{color: "#1d4ed8"}}>$ {currentWalletState.initial}</span>
+                                <span style={{color: "#1d4ed8"}}>{currencyIcon} {currentWalletState.initial}</span>
                             </div>
                             <div className="w-1/3 justify-center text-center text-gray-500">
                                 <h1 className="text-xl">Ending Balance</h1>
