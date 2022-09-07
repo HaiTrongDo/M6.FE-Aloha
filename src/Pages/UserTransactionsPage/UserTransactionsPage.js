@@ -1,4 +1,4 @@
-import {useEffect, useState} from 'react'
+import React, {useEffect, useState} from 'react'
 import TransactionsLayout from "../../Components/Layouts/Transactions/TransactionsLayout";
 import {useDispatch, useSelector} from "react-redux";
 import DialogTransaction from "../../Components/Dialog/DialogTransaction";
@@ -154,8 +154,6 @@ const UserTransactionsPage = () => {
 
     }
 
-    const containerRef = useRef(null);
-
     function currencyFormat(num) {
         return num?.toFixed(0)?.replace(/(\d)(?=(\d{3})+(?!\d))/g, '$1,')
     }
@@ -241,12 +239,17 @@ const UserTransactionsPage = () => {
                                             <div className="flex items-center space-x-4">
                                                 <div className="flex-shrink-0">
                                                     <div className="text-2xl"
-                                                    >{new Date(transaction.date).getDate()}
+                                                    >{new Date(transaction?.date).getDate()}
                                                     </div>
                                                 </div>
                                                 <div className="flex-1 min-w-0">
                                                     <p className="text-sm text-gray-500 truncate ">
-                                                        {new Date(transaction.date).toDateString()}
+                                                        {new Date(transaction?.date).toDateString()}
+                                                    </p>
+                                                </div>
+                                                <div className="flex-1 min-w-0">
+                                                    <p className="text-sm text-gray-500 truncate ">
+                                                        {transaction?.note}
                                                     </p>
                                                 </div>
                                                 <div

@@ -6,7 +6,7 @@ import { useParams } from "react-router-dom";
 
 export const ResetPassword = () => {
     const navigate = useNavigate()
-    const [form, setForm] = useState({})
+    const [form, setForm] = useState({password:'',confirmPassword:''})
     const [errMessage,setErrMessage] = useState('')
 
     const handleChange = (e) => {
@@ -17,7 +17,7 @@ export const ResetPassword = () => {
     }
     // console.log(form)
     let {token} = useParams()
-    // console.log(token)
+    console.log(token)
     const handleConfirm = async (e) => {
         e.preventDefault();
         let body = {
@@ -52,20 +52,26 @@ export const ResetPassword = () => {
                     </div>
                     <div className="wrapper">
                         <div className="content">
-                            <form>
+                            <form onSubmit={handleConfirm}>
                                 <div className="form">
                                     <div className="v-input">
                                         <input name='password' onChange={handleChange} autoFocus="autofocus"
                                                id="input-14"
-                                               placeholder="Password" type="password"/>
+                                               value={form.password}
+                                               placeholder="Password" type="password"
+                                               pattern="\w{10,}"/>
+
                                     </div>
                                     <div className="v-input">
                                         <input name='confirmPassword' onChange={handleChange} autoFocus="autofocus"
                                                id="input-14"
-                                               placeholder="Confirm Password" type="password"/>
+                                               value={form.confirmPassword}
+                                               placeholder="Confirm Password" type="password"
+                                               pattern={form.password}
+                                        />
                                     </div>
                                     {errMessage && <p style={{color:'red'}}>{errMessage}</p>}
-                                    <button onClick={handleConfirm} type="button" className="btn-submit-ml">
+                                    <button  type="submit" className="btn-submit-ml">
                                         <span className="v-btn__content">Confirm</span>
                                     </button>
                                 </div>

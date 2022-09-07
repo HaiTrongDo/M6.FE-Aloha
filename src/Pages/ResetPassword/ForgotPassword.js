@@ -53,7 +53,7 @@ export const ForgotPassword = () => {
                             <div className="description">
                                 <span>Enter the email address you used to register, and we will send you an email to recover your password in no time.</span>
                             </div>
-                            <form>
+                            <form onSubmit={handleConfirm}>
                                 <div className="form">
                                     <div className="v-input">
                                         <input onChange={handleChange} autoFocus="autofocus" id="input-14"
@@ -62,7 +62,7 @@ export const ForgotPassword = () => {
                                     {
                                         success ? <p style={{color: '#3ac330', marginBottom:'12px'}}>{message}</p> : <p style={{color: 'red',marginBottom:'12px'}}>{message}</p>
                                     }
-                                    <button onClick={handleConfirm} type="button" className="btn-submit-ml">
+                                    <button type="submit" className="btn-submit-ml">
                                         <span className="v-btn__content">Confirm</span>
                                     </button>
                                 </div>
