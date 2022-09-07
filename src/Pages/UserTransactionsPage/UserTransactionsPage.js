@@ -142,10 +142,13 @@ const UserTransactionsPage = () => {
                                         setTotal(sumInflow - sumOutFlow)
                                         setListTransaction(res.data.data)
                                         setToggleDetail(false)
-                                    })
+                                    }).catch(err => {
+                                    console.log(err.message)
+                                });
                             }
-
-                        })
+                        }).catch(err => {
+                        console.log(err.message)
+                    });
                     swal("Poof! Your record has been deleted!", {
                         icon: "success",
                     });
