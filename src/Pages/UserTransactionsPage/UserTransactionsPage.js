@@ -306,8 +306,7 @@ const UserTransactionsPage = () => {
                                         <div className="col-span-5">
                                             <div className="text-3xl">{detailTransactionState?.category?.name}</div>
                                             <div className="mt-1 ">{detailTransactionState?.category?.type}</div>
-                                            <div
-                                                className="mt-1 text-gray-500">{new Date(detailTransactionState?.date).toDateString()}</div>
+                                            <div className="mt-1 text-gray-500">{new Date(detailTransactionState?.date).toDateString()}</div>
                                             <hr className="mt-2 w-[200px]"/>
                                         </div>
                                     </div>

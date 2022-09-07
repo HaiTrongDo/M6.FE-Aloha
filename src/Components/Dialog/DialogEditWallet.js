@@ -10,7 +10,7 @@ import {closeDialogEditWallet} from "../../Features/DiaLogSlice/openDialogEditWa
 import Transition from "../Transition";
 import {Dialog} from "@mui/material";
 import swal from "sweetalert";
-import NumberFormat from 'react-number-format';
+
 
 export default function DialogWallet(props) {
     const [isFull, setIsFull] = useState(false)
