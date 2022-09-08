@@ -1,6 +1,6 @@
 import axios from "axios";
 
 export default axios.create({
-    baseURL: "https://aloha-back-end.herokuapp.com/"
     // baseURL: "http://localhost:8080/"
+    baseURL: "https://aloha-back-end.herokuapp.com/"
 })

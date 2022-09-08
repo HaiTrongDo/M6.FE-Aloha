@@ -14,7 +14,7 @@ import {userSignOut} from "../../Features/CurrentUser/UserSlice";
 import {useNavigate} from "react-router-dom";
 import swal from "sweetalert";
 import {selectCurrentWallet} from "../../Features/Transaction/currentWalletSlice";
-import axios from "axios";
+import axios from "../../axios/index";
 import {useEffect, useState} from "react";
 
 const BootstrapDialog = styled(Dialog)(({theme}) => ({
@@ -57,43 +57,44 @@ BootstrapDialogTitle.propTypes = {
 };
 
 export default function DialogAccount() {
-    const user=JSON.parse(localStorage.getItem('alohaUser'))
+    const user = JSON.parse(localStorage.getItem('alohaUser'))
     const navigate = useNavigate()
     const dispatch = useDispatch()
     const openDialogAccount = useSelector((state) => state.Dialog.value)
     const currentUser = useSelector((state) => state.currentUser.currentUser)
     const userId = JSON.parse(localStorage.getItem('alohaUser'))?._id;
-    const currentWalletState=useSelector(state=>state.currentWallet.value)
-    const[inflow,setInflow]=useState()
-    const[outflow,setOutflow]=useState()
+    const currentWalletState = useSelector(state => state.currentWallet.value)
+    const [inflow, setInflow] = useState()
+    const [outflow, setOutflow] = useState()
 
-    useEffect(()=>{
-        if (user?._id && currentWalletState?._id){
-        axios.post('transaction/list/wallet', {
-            user: user?._id,
-            wallet: currentWalletState?._id
-        })
-            .then(res => {
+    useEffect(() => {
+        if (user?._id && currentWalletState?._id) {
+            axios.post('transaction/list/wallet', {
+                user: user?._id,
+                wallet: currentWalletState?._id
+            })
+                .then(res => {
 
-                let inflow = res.data.data.filter(value => {
-                    return value?.category?.type === 'INCOME'
-                })
-                let sumInflow = 0
-                inflow.forEach(value => sumInflow += value.amount)
+                    let inflow = res.data.data.filter(value => {
+                        return value?.category?.type === 'INCOME'
+                    })
+                    let sumInflow = 0
+                    inflow.forEach(value => sumInflow += value.amount)
 
 
-                let outFlow = res.data.data.filter(value => {
-                    return value?.category?.type === 'EXPENSE'
-                })
-                let sumOutFlow = 0
-                outFlow.forEach((value) => sumOutFlow += value?.amount)
+                    let outFlow = res.data.data.filter(value => {
+                        return value?.category?.type === 'EXPENSE'
+                    })
+                    let sumOutFlow = 0
+                    outFlow.forEach((value) => sumOutFlow += value?.amount)
 
-                setOutflow(sumOutFlow)
-                setInflow(sumInflow)
-            }).catch(err =>{
-            console.log(err.message)
-        })}
-    },[currentWalletState])
+                    setOutflow(sumOutFlow)
+                    setInflow(sumInflow)
+                }).catch(err => {
+                console.log(err.message)
+            })
+        }
+    }, [currentWalletState])
 
     const handleSignOut = () => {
         dispatch(closeDialog(false))
@@ -127,7 +128,7 @@ export default function DialogAccount() {
                 swal("Poof! Your account has been deleted!", {
                     icon: "success",
                 }).then(() => {
-                    axios.post('http://localhost:8080/user',{userId:userId}).then((r)=>{
+                    axios.post('user', {userId: userId}).then((r) => {
                         handleClose();
                         navigate('/login');
                     })

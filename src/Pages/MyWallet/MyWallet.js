@@ -40,7 +40,7 @@ export default function MyWallet() {
         });
         const config = {
             method: 'post',
-            url: 'http://localhost:8080/wallet/render',
+            url: 'wallet/render',
             headers: {
                 'Content-Type': 'application/x-www-form-urlencoded'
             },
@@ -99,14 +99,15 @@ export default function MyWallet() {
                             </div>
                             <div className=" justify-between items-center w-full md:flex md:w-auto md:order-1"
                                  id="navbar-sticky">
-                                {wallets.length < 3 ? <button className="flex absolute right-8" onClick={handleOpenDialogWallet}>
-                                    <svg xmlns="http://www.w3.org/2000/svg" className="h-6 w-6" fill="none"
-                                         viewBox="0 0 24 24" stroke="currentColor" strokeWidth="2">
-                                        <path strokeLinecap="round" strokeLinejoin="round"
-                                              d="M12 6v6m0 0v6m0-6h6m-6 0H6"/>
-                                    </svg>
-                                    Create Wallet
-                                </button> : null}
+                                {wallets.length < 3 ?
+                                    <button className="flex absolute right-8" onClick={handleOpenDialogWallet}>
+                                        <svg xmlns="http://www.w3.org/2000/svg" className="h-6 w-6" fill="none"
+                                             viewBox="0 0 24 24" stroke="currentColor" strokeWidth="2">
+                                            <path strokeLinecap="round" strokeLinejoin="round"
+                                                  d="M12 6v6m0 0v6m0-6h6m-6 0H6"/>
+                                        </svg>
+                                        Create Wallet
+                                    </button> : null}
                             </div>
                         </div>
                     </nav>
